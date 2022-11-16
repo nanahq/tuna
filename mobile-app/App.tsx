@@ -11,7 +11,7 @@ export default function App() {
 
 
    // delay splashscreen till cached resources are loaded
-  if(!isLoaded) {
+  if (!isLoaded) {
     SplashScreen.preventAutoHideAsync().catch(logger.error);
     return null;
   }

@@ -2,7 +2,7 @@ import {TouchableOpacityProps, StyleProp, TouchableOpacity, Text, TextProps} fro
 import {tailwind} from "@tailwind";
 
 interface  GenericButtonProps {
-    onClick: () => void,
+    onPress: () => void,
     label: string
     style?: StyleProp<TouchableOpacityProps>
     backgroundColor: StyleProp<TouchableOpacityProps>
@@ -26,7 +26,7 @@ export function GenericButton (props: Props): JSX.Element {
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
-            style={[tailwind('rounded-xl'), backgroundColor, style]}
+            style={[backgroundColor, tailwind('rounded-xl', {'bg-brand-gray-700': props.disabled}), style]}
             {...rest}
         >
             <Text style={[tailwind('font-semibold text-center text-lg py-3.5'), labelColor]}>{label}</Text>
