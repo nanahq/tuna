@@ -11,16 +11,19 @@ import {BackButton} from "@screens/OnboardingNavigator/screens/components/BackBu
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 import {ImageWithTextRow} from "@screens/OnboardingNavigator/screens/components/ImageWithTextRow";
+import {PhoneNumberFormater} from "../../../../../utils/phoneNumberFomartter";
 
 type EnterPhoneNumberScreenProps = StackScreenProps<OnboardingParamsList, OnboardingScreenName.ENTER_MOBILE_PHONE>
 export function EnterPhoneNumberScreen ({navigation}: EnterPhoneNumberScreenProps): JSX.Element {
     const [phoneNumber, setPhoneNumber] = useState<string>('')
 
+
     function onContinue(): void {
+
         navigation.navigate({
             name: OnboardingScreenName.ENTER_PASSWORD,
             params: {
-               phoneNumber,
+               phoneNumber: PhoneNumberFormater.format(phoneNumber),
             },
             merge: true,
         });

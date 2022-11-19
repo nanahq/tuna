@@ -85,13 +85,14 @@ const styles = StyleSheet.create({
         borderColor: getColor('brand-blue-500'),
     },
     cell: {
-        backgroundColor: getColor('brand-gray-200'),
         alignItems: "center",
+        backgroundColor: getColor('brand-gray-200'),
         borderRadius: 10,
         borderStyle: "solid",
         borderWidth: 1,
-        display: "flex",
-        fontSize: 20 ,
+        color: getColor('brand-black-500'),
+        display: "flex" ,
+        fontSize: 20,
         fontWeight: "500",
         height: 40,
         justifyContent: "center",
@@ -101,7 +102,6 @@ const styles = StyleSheet.create({
         paddingTop: 1,
         textAlign: "center",
         width: 40,
-        color: getColor('brand-black-500'),
 
     }
 });

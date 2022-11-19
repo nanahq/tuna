@@ -1,7 +1,6 @@
-import {StyleProp, TextStyle, TouchableOpacity, TouchableOpacityProps} from "react-native";
+import {StyleProp, TextStyle, TouchableOpacity, TouchableOpacityProps,Text} from "react-native";
 import {IconComponent, IconName, IconType} from "@components/commons/IconComponent";
 import {tailwind} from "@tailwind";
-import {Text} from 'react-native'
 
 
 interface IconButtonProps extends TouchableOpacityProps {
@@ -34,7 +33,7 @@ export function IconButton (props: IconButtonProps): JSX.Element {
             )}
 
             {props.iconLabel !== undefined && (
-                <Text style={[props.textStyle]}>
+                <Text style={props.textStyle}>
                     {props.iconLabel}
                 </Text>
             )}

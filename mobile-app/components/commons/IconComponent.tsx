@@ -28,12 +28,12 @@ export function IconComponent (props: Props): JSX.Element {
     } = props
     switch (iconType) {
         case 'MaterialCommunityIcons':
-            return <MaterialCommunityIcons {...otherProps} style={[style]} />
+            return <MaterialCommunityIcons {...otherProps} style={style} />
         case 'MaterialIcons':
-            return <MaterialIcons {...otherProps} style={[style]} />
+            return <MaterialIcons {...otherProps} style={style} />
 
         case 'Feather':
-            return <Feather {...otherProps} style={[style]} />
+            return <Feather {...otherProps} style={style} />
         default:
          return <></>
     }

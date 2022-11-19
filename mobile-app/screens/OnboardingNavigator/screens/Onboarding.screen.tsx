@@ -5,10 +5,10 @@ import {useEffect} from 'react'
 import {useLogger} from "@contexts/NativeLoggingProvider";
 import {ScrolledView} from "@components/views/ScrolledView";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
-import {OnboardingCarousel} from "./components/OnboardingCarosel";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
+import {OnboardingCarousel} from "./components/OnboardingCarosel";
 
 export function OnboardingScreen (): JSX.Element {
     const navigator = useNavigation<NavigationProp<OnboardingParamsList>>()

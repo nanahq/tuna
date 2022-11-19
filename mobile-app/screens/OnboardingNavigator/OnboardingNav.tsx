@@ -8,11 +8,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import * as Linking from "expo-linking";
 import {useRef} from "react";
-import {OnboardingScreenName} from "./ScreenName.enum";
-import {OnboardingScreen} from "./screens/Onboarding.screen";
 import {EnterPhoneNumberScreen} from "@screens/OnboardingNavigator/screens/authentication/EnterPhoneNumber.screen";
 import {EnterPasswordScreen} from "@screens/OnboardingNavigator/screens/authentication/EnterPassword.Screen";
 import {VerifyPhoneNumberScreen} from "@screens/OnboardingNavigator/screens/authentication/VerifyPhoneNumber.screen";
+import {OnboardingScreen} from "./screens/Onboarding.screen";
+import {OnboardingScreenName} from "./ScreenName.enum";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.ENTER_PASSWORD]: {
