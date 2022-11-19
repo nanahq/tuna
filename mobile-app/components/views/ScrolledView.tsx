@@ -14,7 +14,7 @@ export const ScrolledView = forwardRef(
 
         return (
             <ScrollView
-                style={[style]}
+                style={style}
                 ref={ref}
                 {...rest}
             />

@@ -5910,12 +5910,33 @@
 		"borderBottomColor": "rgba(30, 35, 39, var(--tw-border-opacity))",
 		"borderLeftColor": "rgba(30, 35, 39, var(--tw-border-opacity))"
 	},
+	"border-brand-gray-200": {
+		"--tw-border-opacity": 1,
+		"borderTopColor": "rgba(217, 217, 217, var(--tw-border-opacity))",
+		"borderRightColor": "rgba(217, 217, 217, var(--tw-border-opacity))",
+		"borderBottomColor": "rgba(217, 217, 217, var(--tw-border-opacity))",
+		"borderLeftColor": "rgba(217, 217, 217, var(--tw-border-opacity))"
+	},
 	"border-brand-gray-500": {
 		"--tw-border-opacity": 1,
 		"borderTopColor": "rgba(246, 246, 249, var(--tw-border-opacity))",
 		"borderRightColor": "rgba(246, 246, 249, var(--tw-border-opacity))",
 		"borderBottomColor": "rgba(246, 246, 249, var(--tw-border-opacity))",
 		"borderLeftColor": "rgba(246, 246, 249, var(--tw-border-opacity))"
+	},
+	"border-brand-gray-700": {
+		"--tw-border-opacity": 1,
+		"borderTopColor": "rgba(115, 115, 115, var(--tw-border-opacity))",
+		"borderRightColor": "rgba(115, 115, 115, var(--tw-border-opacity))",
+		"borderBottomColor": "rgba(115, 115, 115, var(--tw-border-opacity))",
+		"borderLeftColor": "rgba(115, 115, 115, var(--tw-border-opacity))"
+	},
+	"border-brand-gray-800": {
+		"--tw-border-opacity": 1,
+		"borderTopColor": "rgba(113, 113, 113, var(--tw-border-opacity))",
+		"borderRightColor": "rgba(113, 113, 113, var(--tw-border-opacity))",
+		"borderBottomColor": "rgba(113, 113, 113, var(--tw-border-opacity))",
+		"borderLeftColor": "rgba(113, 113, 113, var(--tw-border-opacity))"
 	},
 	"border-brand-gray-text-500": {
 		"borderTopColor": "#0b1c3a99",
@@ -6415,9 +6436,21 @@
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(30, 35, 39, var(--tw-bg-opacity))"
 	},
+	"bg-brand-gray-200": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(217, 217, 217, var(--tw-bg-opacity))"
+	},
 	"bg-brand-gray-500": {
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(246, 246, 249, var(--tw-bg-opacity))"
+	},
+	"bg-brand-gray-700": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(115, 115, 115, var(--tw-bg-opacity))"
+	},
+	"bg-brand-gray-800": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(113, 113, 113, var(--tw-bg-opacity))"
 	},
 	"bg-brand-gray-text-500": {
 		"backgroundColor": "#0b1c3a99"
@@ -7997,9 +8030,21 @@
 		"--tw-text-opacity": 1,
 		"color": "rgba(30, 35, 39, var(--tw-text-opacity))"
 	},
+	"text-brand-gray-200": {
+		"--tw-text-opacity": 1,
+		"color": "rgba(217, 217, 217, var(--tw-text-opacity))"
+	},
 	"text-brand-gray-500": {
 		"--tw-text-opacity": 1,
 		"color": "rgba(246, 246, 249, var(--tw-text-opacity))"
+	},
+	"text-brand-gray-700": {
+		"--tw-text-opacity": 1,
+		"color": "rgba(115, 115, 115, var(--tw-text-opacity))"
+	},
+	"text-brand-gray-800": {
+		"--tw-text-opacity": 1,
+		"color": "rgba(113, 113, 113, var(--tw-text-opacity))"
 	},
 	"text-brand-gray-text-500": {
 		"color": "#0b1c3a99"
@@ -8648,9 +8693,21 @@
 		"--tw-ring-opacity": 1,
 		"--tw-ring-color": "rgba(30, 35, 39, var(--tw-ring-opacity))"
 	},
+	"ring-brand-gray-200": {
+		"--tw-ring-opacity": 1,
+		"--tw-ring-color": "rgba(217, 217, 217, var(--tw-ring-opacity))"
+	},
 	"ring-brand-gray-500": {
 		"--tw-ring-opacity": 1,
 		"--tw-ring-color": "rgba(246, 246, 249, var(--tw-ring-opacity))"
+	},
+	"ring-brand-gray-700": {
+		"--tw-ring-opacity": 1,
+		"--tw-ring-color": "rgba(115, 115, 115, var(--tw-ring-opacity))"
+	},
+	"ring-brand-gray-800": {
+		"--tw-ring-opacity": 1,
+		"--tw-ring-color": "rgba(113, 113, 113, var(--tw-ring-opacity))"
 	},
 	"ring-brand-gray-text-500": {
 		"--tw-ring-color": "#0b1c3a99"
@@ -9051,8 +9108,17 @@
 	"ring-offset-brand-black-500": {
 		"--tw-ring-offset-color": "#1e2327"
 	},
+	"ring-offset-brand-gray-200": {
+		"--tw-ring-offset-color": "#D9D9D9"
+	},
 	"ring-offset-brand-gray-500": {
 		"--tw-ring-offset-color": "#F6F6F9"
+	},
+	"ring-offset-brand-gray-700": {
+		"--tw-ring-offset-color": "#737373"
+	},
+	"ring-offset-brand-gray-800": {
+		"--tw-ring-offset-color": "#717171"
 	},
 	"ring-offset-brand-gray-text-500": {
 		"--tw-ring-offset-color": "#0b1c3a99"

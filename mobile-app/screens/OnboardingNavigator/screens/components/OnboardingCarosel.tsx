@@ -1,4 +1,5 @@
 import SwiperFlatList from 'react-native-swiper-flatlist'
+import {useSafeAreaInsets} from 'react-native-safe-area-context'
 
 import OnboardinCorouselImage1 from '@assets/onboarding/onboarding_image_1.png'
 import OnboardinCorouselImage2 from '@assets/onboarding/onboarding_image_2.png'
@@ -31,19 +32,21 @@ const slides: JSX.Element[] = [
 ]
 
 // Needs for it to work on web. Otherwise, it takes full window size
-const { width, height } =
-    Device.modelName === "web" ? { width: 375, height: 652 } : Dimensions.get("window");
- function CarouselSlide (props: CarouselSlidesProps): JSX.Element  {
-    return (
-        <View style={[tailwind('flex-1 relative'), {width, height: height - 160}]} >
+const { width, height } = Device.modelName === "web" ? { width: 375, height: 652 } : Dimensions.get("window");
 
-            <ImageBackground source={props.image} resizeMode='cover' style={tailwind('flex-1')} />
-            <View style={[tailwind('px-10 flex flex-row justify-center absolute'), {top: height - 427}]}>
-                <Text style={[tailwind('font-semibold  text-white text-xl text-center')]}>{props.title}</Text>
-            </View>
-            <View style={[tailwind('absolute'), {top: 50, left:'20%'}]}>
-                <Image source={SiteLogoGreenWhite}  resizeMode='center' style={{width: 281, height: 59 }} />
-            </View>
+function CarouselSlide (props: CarouselSlidesProps): JSX.Element  {
+    const {top: topInsert} = useSafeAreaInsets()
+     return (
+        <View style={[tailwind('flex-1'), {width, height: height - 160}]} >
+            <ImageBackground source={props.image} resizeMode='cover' style={tailwind('flex-1')}>
+                <View style={[tailwind('px-16'), {paddingTop: topInsert + 10} ]}>
+                    <Image source={SiteLogoGreenWhite}  resizeMode='center' style={{width: 281, height: 59 }} />
+                </View>
+                <View style={[tailwind('px-10 flex flex-row justify-center'), {top: height - 427}]}>
+                    <Text style={tailwind('font-semibold  text-white text-xl text-center')}>{props.title}</Text>
+                </View>
+            </ImageBackground>
+
         </View>
     )
 }
