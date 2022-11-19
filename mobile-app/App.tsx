@@ -6,6 +6,7 @@ import {tailwind} from "@tailwind";
 import {NativeLoggingProvider, useLogger} from "@contexts/NativeLoggingProvider";
 import {AuthPersistenceProvider} from "@contexts/AuthPersistenceProvider";
 import {persistence} from "@api/persistence";
+import ErrorBoundary from "@screens/ErrorBoundary/ErrorBoundary";
 
 export default function App() {
   const isLoaded = useCachedResource()
@@ -20,17 +21,19 @@ export default function App() {
 
   return (
     <NativeLoggingProvider>
-       <AuthPersistenceProvider
-           api={{
-               ...persistence
-           }}
-       >
-           <GestureHandlerRootView
-               style={tailwind('flex-1')}
+       <ErrorBoundary>
+           <AuthPersistenceProvider
+               api={{
+                   ...persistence
+               }}
            >
-               <MainScreen />
-           </GestureHandlerRootView>
-       </AuthPersistenceProvider>
+               <GestureHandlerRootView
+                   style={tailwind('flex-1')}
+               >
+                   <MainScreen />
+               </GestureHandlerRootView>
+           </AuthPersistenceProvider>
+       </ErrorBoundary>
     </NativeLoggingProvider>
   );
 }
