@@ -15,13 +15,14 @@ import {OnboardingScreen} from "./screens/Onboarding.screen";
 import {OnboardingScreenName} from "./ScreenName.enum";
 
 export interface OnboardingParamsList {
-    [OnboardingScreenName.ENTER_PASSWORD]: {
+    [OnboardingScreenName.SIGN_UP_BUSINESS]: {
+        firstName: string
+        lastName: string
         phoneNumber: string
-    }
-
-    [OnboardingScreenName.VERIFY_PHONE_NUMBER]: {
-        phoneNumber: string
-    }
+        password: string
+        confirmPassword: string
+        email: string
+    },
 
     [key: string]: undefined | object;
 }
@@ -33,9 +34,9 @@ const LinkingConfiguration: LinkingOptions<ReactNavigation.RootParamList> = {
     config: {
         screens: {
             [OnboardingScreenName.ONBOARDING]: "onboarding/landing",
-            [OnboardingScreenName.ENTER_MOBILE_PHONE]: "onboarding/enter/phone",
-            [OnboardingScreenName.ENTER_PASSWORD]: "onboarding/enter/password",
-            [OnboardingScreenName.VERIFY_PHONE_NUMBER]: "onboarding/verify/phone",
+            [OnboardingScreenName.SIGN_UP_PROFILE]: "onboarding/signup/profile",
+            [OnboardingScreenName.SIGN_UP_BUSINESS]: "onboarding/signup/business",
+            [OnboardingScreenName.LOGIN]: "onboarding/login",
             [OnboardingScreenName.FORGET_PASSWORD]: "onboarding/retrieve/password",
         },
     },
@@ -61,29 +62,21 @@ export function OnboardingNagivator (): JSX.Element {
                 />
                 <OnboardingStack.Screen
                     component={EnterPhoneNumberScreen}
-                    name={OnboardingScreenName.ENTER_MOBILE_PHONE}
+                    name={OnboardingScreenName.LOGIN}
                     options={{
                         headerShown: false
                     }}
                 />
                 <OnboardingStack.Screen
                     component={EnterPasswordScreen}
-                    name={OnboardingScreenName.ENTER_PASSWORD}
+                    name={OnboardingScreenName.SIGN_UP_PROFILE}
                     options={{
                         headerShown: false
                     }}
                 />
-                {/* <OnboardingStack.Screen */}
-                {/*     component={OnboardingScreen} */}
-                {/*     name={OnboardingScreenName.FORGET_PASSWORD} */}
-                {/*     options={{ */}
-                {/*         headerShown: false */}
-                {/*     }} */}
-                {/* /> */}
-
                 <OnboardingStack.Screen
                     component={VerifyPhoneNumberScreen}
-                    name={OnboardingScreenName.VERIFY_PHONE_NUMBER}
+                    name={OnboardingScreenName.SIGN_UP_BUSINESS}
                     options={{
                         headerShown: false
                     }}

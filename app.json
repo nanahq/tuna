@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "EatLater",
+    "name": "EatLater Vendors",
     "description": "Order food from your favorite vendors and restaurants",
-    "slug": "wallet",
-    "owner": "imagyne",
+    "slug": "vendor",
+    "owner": "EatLater",
     "version": "0.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-config/icon.png",

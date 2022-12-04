@@ -1,7 +1,7 @@
 export enum OnboardingScreenName {
     ONBOARDING ='Onboarding',
-    ENTER_MOBILE_PHONE = 'EnterMobilePhone',
-    ENTER_PASSWORD = 'EnterPassword',
-    VERIFY_PHONE_NUMBER = 'VerifyPhoneNumber',
+    SIGN_UP_PROFILE = 'SignUpProfile',
+    LOGIN = 'login',
+    SIGN_UP_BUSINESS = 'SignUpBusiness',
     FORGET_PASSWORD = 'ForgetPassword'
 }
