@@ -11,8 +11,10 @@ import {
 import {BottomSheetModalMethods} from "@gorhom/bottom-sheet/lib/typescript/types";
 import {IconComponent} from "@components/commons/IconComponent";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
-import {useNavigation} from "@react-navigation/native";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
 import Modal from 'react-overlays/Modal'
+import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
+import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 
 type WelcomeModalProps =   {
     promptModalName: string
@@ -23,7 +25,7 @@ type WelcomeModalProps =   {
 
 export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
     const { dismiss } = useBottomSheetModal();
-    const navigation = useNavigation()
+    const navigation = useNavigation<NavigationProp<OnboardingParamsList>>()
     const containerRef = useRef(null);
     const isWeb = Device.osName !== 'Android' && Device.osName !== 'iOS'
 
@@ -49,8 +51,8 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
     }, []);
 
     function goToLogin (): void {
-        // navigation.navigate(')
         closeModal()
+        navigation.navigate(OnboardingScreenName.LOGIN)
     }
     if(isWeb) {
         return (
