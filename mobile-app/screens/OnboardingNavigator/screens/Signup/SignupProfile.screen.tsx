@@ -9,6 +9,7 @@ import * as Device from 'expo-device'
 import {StackScreenProps} from "@react-navigation/stack";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
+import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
 
 export interface SignupProfileForm {
     firstName: string
@@ -163,7 +164,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
                     disabled={checkNullState()}
                 />
-            <Text style={tailwind('text-center text-sm text-brand-black-500 mt-2')}>Do you have an account? Login</Text>
+            <LoginButtonWithText />
         </ScrolledView>
     )
 }
