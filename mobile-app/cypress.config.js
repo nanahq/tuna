@@ -3,8 +3,8 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
     projectId: "oqk3fk",
     fixturesFolder: false,
-    viewportWidth: 1500,
-    viewportHeight: 900,
+    viewportWidth: 900,
+    viewportHeight: 812,
     orientation: "portrait",
     retries: {
         runMode: 1,

@@ -50,6 +50,7 @@ module.exports = {
         },
 
         'brand-blue': {
+          200: '#DBE1E5',
           500: '#0b1c3a',
         },
 

@@ -1,3 +1,5 @@
+
+
 module.exports = {
     preset: "jest-expo",
     transform: {
@@ -17,10 +19,8 @@ module.exports = {
         "!**/*.config.js",
         "!**/.versionrc.js",
         "!**/_shim.js",
-        "!**/screens/PlaygroundNavigator/**",
         "!**/cypress-coverage/**",
         "!**/jest-coverage/**",
-        "!**/website/**",
     ],
     coverageDirectory: "jest-coverage",
     setupFiles: ["./jest.setup.js"],

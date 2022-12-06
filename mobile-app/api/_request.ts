@@ -1,7 +1,7 @@
 import {ApiRoute, APIService, NetworkMapper, PlaygroundServicePort} from "@api/network.mapper";
-import axios, {Method, AxiosError} from 'axios'
+import axios, {AxiosError, Method} from 'axios'
 
-export  function getUrl (gateway: APIService = "API_GATEWAY"): string {
+export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
     const environment = process.env.NODE_ENV
 
     let url: string
@@ -23,13 +23,13 @@ const config = {
     },
 };
 
-interface baseParamProps {
+interface baseParamProps<T> {
     method: Method
     url: string
-    data?: any
+    data?: T
 }
 
-async function base (param: baseParamProps) {
+async function base<T>(param: baseParamProps<T>) {
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
     setTimeout(() => {
@@ -59,18 +59,18 @@ async function base (param: baseParamProps) {
 }
 
 
-const request = async (method: Method, url: string) => {
-    return await base({method, url})
-        .then(res => Promise.resolve(res))
+async function request<T> (method: Method, url: string): Promise<{data: any, cookies: string[]}> {
+    return await base<T>({method, url})
+        .then(res => Promise.resolve<{data: any, cookies: string[]}>(res))
         .catch(err => Promise.reject(err));
-};
+}
 
-const requestData = async ({method, url, data}: baseParamProps ) => {
-    return await base({method, url, data})
-        .then(res => Promise.resolve(res))
+
+async function requestData<T> ({method, url, data}: baseParamProps<T>): Promise<{data: any, cookies: string[]}> {
+    return await base<T>({method, url, data})
+        .then(res => Promise.resolve<{data: any, cookies: string[]}>(res))
         .catch(err => Promise.reject(err));
-};
-
+}
 export const _api = {
     request,
     requestData,

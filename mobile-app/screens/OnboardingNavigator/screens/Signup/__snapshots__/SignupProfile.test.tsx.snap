@@ -1,0 +1,422 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SignupProfileScreen Should match snapshot 1`] = `
+<RCTScrollView
+  style={
+    [
+      {
+        "display": "flex",
+        "paddingLeft": 20,
+        "paddingRight": 20,
+        "width": "100%",
+      },
+    ]
+  }
+  testId="SignupProfileScreen.View"
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginTop": 40,
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "display": "flex",
+              "flexDirection": "column",
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "rgba(30, 35, 39, 1)",
+                "fontFamily": "MediumFont",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 20,
+                "marginBottom": 10,
+              },
+              undefined,
+            ]
+          }
+          testID="SignupProfileScreen.FirstName.Label"
+        >
+          First Name
+        </Text>
+        <TextInput
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "rgba(219, 225, 229, 1)",
+                "borderBottomLeftRadius": 8,
+                "borderBottomRightRadius": 8,
+                "borderTopLeftRadius": 8,
+                "borderTopRightRadius": 8,
+                "paddingBottom": 14,
+                "paddingLeft": 12,
+                "paddingRight": 12,
+                "paddingTop": 14,
+              },
+              {
+                "width": 160,
+              },
+            ]
+          }
+          testID="SignupProfileScreen.FirstName.Input"
+          value=""
+        />
+      </View>
+      <View
+        style={
+          [
+            {
+              "display": "flex",
+              "flexDirection": "column",
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "rgba(30, 35, 39, 1)",
+                "fontFamily": "MediumFont",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 20,
+                "marginBottom": 10,
+              },
+              undefined,
+            ]
+          }
+          testID="SignupProfileScreen.LastName.Label"
+        >
+          Last Name
+        </Text>
+        <TextInput
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "rgba(219, 225, 229, 1)",
+                "borderBottomLeftRadius": 8,
+                "borderBottomRightRadius": 8,
+                "borderTopLeftRadius": 8,
+                "borderTopRightRadius": 8,
+                "paddingBottom": 14,
+                "paddingLeft": 12,
+                "paddingRight": 12,
+                "paddingTop": 14,
+              },
+              {
+                "width": 160,
+              },
+            ]
+          }
+          testID="SignupProfileScreen.LastName.Input"
+          value=""
+        />
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "display": "flex",
+            "flexDirection": "column",
+          },
+          {
+            "marginTop": 20,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "rgba(30, 35, 39, 1)",
+              "fontFamily": "MediumFont",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 20,
+              "marginBottom": 10,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.PhoneNumber.Label"
+      >
+        Phone Number
+      </Text>
+      <TextInput
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        style={
+          [
+            {
+              "backgroundColor": "rgba(219, 225, 229, 1)",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "paddingBottom": 14,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "paddingTop": 14,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.PhoneNumber.Input"
+        value=""
+      />
+    </View>
+    <View
+      style={
+        [
+          {
+            "display": "flex",
+            "flexDirection": "column",
+          },
+          {
+            "marginTop": 20,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "rgba(30, 35, 39, 1)",
+              "fontFamily": "MediumFont",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 20,
+              "marginBottom": 10,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.Email.Label"
+      >
+        Email
+      </Text>
+      <TextInput
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        style={
+          [
+            {
+              "backgroundColor": "rgba(219, 225, 229, 1)",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "paddingBottom": 14,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "paddingTop": 14,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.Email.Input"
+        value=""
+      />
+    </View>
+    <View
+      style={
+        [
+          {
+            "display": "flex",
+            "flexDirection": "column",
+          },
+          {
+            "marginTop": 20,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "rgba(30, 35, 39, 1)",
+              "fontFamily": "MediumFont",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 20,
+              "marginBottom": 10,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.Password.Label"
+      >
+        Password
+      </Text>
+      <TextInput
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        style={
+          [
+            {
+              "backgroundColor": "rgba(219, 225, 229, 1)",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "paddingBottom": 14,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "paddingTop": 14,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.Password.Input"
+        value=""
+      />
+    </View>
+    <View
+      style={
+        [
+          {
+            "display": "flex",
+            "flexDirection": "column",
+          },
+          {
+            "marginTop": 20,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "rgba(30, 35, 39, 1)",
+              "fontFamily": "MediumFont",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 20,
+              "marginBottom": 10,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.ConfirmPassword.Label"
+      >
+        Confirm Password
+      </Text>
+      <TextInput
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        style={
+          [
+            {
+              "backgroundColor": "rgba(219, 225, 229, 1)",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "paddingBottom": 14,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "paddingTop": 14,
+            },
+            undefined,
+          ]
+        }
+        testID="SignupProfileScreen.ConfirmPassword.Input"
+        value=""
+      />
+    </View>
+    <View
+      accessibilityState={
+        {
+          "disabled": true,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "backgroundColor": "rgba(115, 115, 115, 1)",
+          "borderBottomLeftRadius": 12,
+          "borderBottomRightRadius": 12,
+          "borderTopLeftRadius": 12,
+          "borderTopRightRadius": 12,
+          "opacity": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "fontFamily": "SemiBoldFont",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "lineHeight": 28,
+              "paddingBottom": 14,
+              "paddingTop": 14,
+              "textAlign": "center",
+            },
+            {
+              "color": "rgba(255, 255, 255, 1)",
+            },
+          ]
+        }
+      >
+        Continue
+      </Text>
+    </View>
+    <Text
+      style={
+        {
+          "color": "rgba(30, 35, 39, 1)",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "marginTop": 8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Do you have an account? Login
+    </Text>
+  </View>
+</RCTScrollView>
+`;

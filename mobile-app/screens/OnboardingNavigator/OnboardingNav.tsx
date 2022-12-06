@@ -1,18 +1,15 @@
-import {
-    LinkingOptions,
-    NavigationContainer,
-    NavigationContainerRef,
-} from "@react-navigation/native";
+import {LinkingOptions, NavigationContainer, NavigationContainerRef,} from "@react-navigation/native";
 
-import { createStackNavigator } from "@react-navigation/stack";
+import {createStackNavigator} from "@react-navigation/stack";
 
 import * as Linking from "expo-linking";
 import {useRef} from "react";
-import {EnterPhoneNumberScreen} from "@screens/OnboardingNavigator/screens/authentication/EnterPhoneNumber.screen";
-import {EnterPasswordScreen} from "@screens/OnboardingNavigator/screens/authentication/EnterPassword.Screen";
-import {VerifyPhoneNumberScreen} from "@screens/OnboardingNavigator/screens/authentication/VerifyPhoneNumber.screen";
 import {OnboardingScreen} from "./screens/Onboarding.screen";
 import {OnboardingScreenName} from "./ScreenName.enum";
+import {SignupProfileScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupProfile.screen";
+import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
+import {SignupBusinessScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupBusiness.screen";
+import {LoginScreen} from "@screens/OnboardingNavigator/screens/authentication/Login.screen";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
@@ -20,7 +17,6 @@ export interface OnboardingParamsList {
         lastName: string
         phoneNumber: string
         password: string
-        confirmPassword: string
         email: string
     },
 
@@ -61,24 +57,28 @@ export function OnboardingNagivator (): JSX.Element {
                     }}
                 />
                 <OnboardingStack.Screen
-                    component={EnterPhoneNumberScreen}
+                    component={LoginScreen}
                     name={OnboardingScreenName.LOGIN}
-                    options={{
-                        headerShown: false
-                    }}
+                    // options={{
+                    //     headerShown: true,
+                    //     header: () => <SignupHeader page='Profile' />
+                    // }}
                 />
                 <OnboardingStack.Screen
-                    component={EnterPasswordScreen}
+                    component={SignupProfileScreen}
                     name={OnboardingScreenName.SIGN_UP_PROFILE}
                     options={{
-                        headerShown: false
+                        headerShown: true,
+                        header: () => <SignupHeader page='Profile' />
+
                     }}
                 />
                 <OnboardingStack.Screen
-                    component={VerifyPhoneNumberScreen}
+                    component={SignupBusinessScreen}
                     name={OnboardingScreenName.SIGN_UP_BUSINESS}
                     options={{
-                        headerShown: false
+                        headerShown: true,
+                        header: () => <SignupHeader page='Restaurant' showBackButton={true} />
                     }}
                 />
 

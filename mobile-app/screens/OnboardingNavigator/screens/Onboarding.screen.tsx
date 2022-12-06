@@ -1,42 +1,57 @@
-import {View, Text} from 'react-native'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {tailwind} from "@tailwind";
 import * as SplashScreen from 'expo-splash-screen'
 import {useEffect} from 'react'
 import {useLogger} from "@contexts/NativeLoggingProvider";
-import {ScrolledView} from "@components/views/ScrolledView";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
-import {OnboardingCarousel} from "./components/OnboardingCarosel";
+import {OnboardingCover} from './components/OnboardingCover'
+import * as Device from 'expo-device'
 
 export function OnboardingScreen (): JSX.Element {
     const navigator = useNavigation<NavigationProp<OnboardingParamsList>>()
     const logger = useLogger()
 
+
     // Hide splashscreen when first page is loaded to prevent white screen
     useEffect(() => {
-        setTimeout(() => {
-            SplashScreen.hideAsync().catch(logger.error);
-        });
+        SplashScreen.hideAsync().catch(logger.error);
     }, []);
     return (
-       <ScrolledView
-        testId="OnboardingScreen.View"
-        contentContainerStyle={{overflow: 'hidden'}}
+       <View
+        testID="OnboardingScreen.View"
        >
-            <OnboardingCarousel />
-           <View style={[tailwind('bg-primary-500 flex w-full py-8 px-12'), {height: 160}]}>
-               <Text style={tailwind('font-semibold text-white text-center text-xl')}>Login or Signup with EatLater</Text>
+          <OnboardingCover />
+           <View style={[tailwind('bg-brand-black-500 flex w-full py-8 px-9 h-full')]}>
+               <Text testID='OnboardingScreen.Heading' style={tailwind('font-medium text-white text-center text-lg', {
+                   'mt-9': Device.osName === 'iOS',
+                   'mt-5': Device.osName === 'Android'
+               })}>
+                   Drive sales by reaching out to wider audience
+               </Text>
+               <Text  testID='OnboardingScreen.Text' style={tailwind('font-normal text-white text-center text-sm pt-2.5', {
+                   'mt-10': Device.osName === 'iOS',
+                   'mt-8': Device.osName === 'Android'
+               })}>
+                   Sell on EatLater and boost your sales, grow your business and more benefits
+               </Text>
                 <GenericButton
-                    onPress={() => navigator.navigate(OnboardingScreenName.ENTER_MOBILE_PHONE)}
-                    label="Continue"
-                    labelColor={tailwind('text-white')}
-                    backgroundColor={tailwind('bg-brand-black-500')}
-                    style={tailwind('mt-4')}
+                    onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}
+                    label="Join us!"
+                    labelColor={tailwind('text-white text-base font-normal')}
+                    backgroundColor={tailwind('bg-secondary-500')}
+                    style={tailwind({
+                        'mt-28': Device.osName === 'iOS',
+                        'mt-20': Device.osName === 'Android'
+                    })}
                     testId="GenericButton.Onboarding.Continue"
                 />
+               <TouchableOpacity testID="OnboardingScreen.Login.Button" style={tailwind(' mt-8')}>
+                   <Text testID="OnboardingScreen.Login.Text" style={tailwind('text-white font-normal text-sm text-center')}>Do you have an account? Login</Text>
+               </TouchableOpacity>
            </View>
-       </ScrolledView>
+       </View>
     )
 }

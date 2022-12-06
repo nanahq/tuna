@@ -1,12 +1,13 @@
 import * as SplashScreen from 'expo-splash-screen'
 import {MainScreen} from "@screens/Main";
 import {useCachedResource} from "@hooks/useCachedResource";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {tailwind} from "@tailwind";
 import {NativeLoggingProvider, useLogger} from "@contexts/NativeLoggingProvider";
 import {AuthPersistenceProvider} from "@contexts/AuthPersistenceProvider";
 import {persistence} from "@api/persistence";
 import ErrorBoundary from "@screens/ErrorBoundary/ErrorBoundary";
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 
 export default function App() {
   const isLoaded = useCachedResource()
@@ -30,7 +31,9 @@ export default function App() {
                <GestureHandlerRootView
                    style={tailwind('flex-1')}
                >
-                   <MainScreen />
+                  <BottomSheetModalProvider>
+                      <MainScreen />
+                  </BottomSheetModalProvider>
                </GestureHandlerRootView>
            </AuthPersistenceProvider>
        </ErrorBoundary>
