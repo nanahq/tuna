@@ -4,7 +4,7 @@ import {AppScreenName} from "@screens/AppNavigator/AppNavScreenName";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import * as Device from 'expo-device'
 import {IconComponent} from "@components/commons/IconComponent";
-import {HomeScreen} from "@screens/AppNavigator/Screens/Home.screen";
+import {HomeScreen} from "@screens/AppNavigator/HomeNavigator/Screens/Home.screen";
 import {HomeNavigator} from "@screens/AppNavigator/HomeNavigator/HomeNav";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
@@ -26,7 +26,6 @@ const getTabBarLabel = (props: {
     </Text>
 );
 
-
 export function BottomTabNavigator ():JSX.Element {
     return (
         <BottomTab.Navigator
@@ -36,7 +35,7 @@ export function BottomTabNavigator ():JSX.Element {
                 headerShown: false,
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: tailwind(
-                    "px-5 py-2 h-24 border-t-0.5 border-brand-black-500"),
+                    "px-5 py-2 h-24 border-t-0.5 border-brand-black-500 "),
                 tabBarActiveTintColor: getColor("secondary-500"),
                 tabBarInactiveTintColor: getColor("brand-black-500"),
                 tabBarItemStyle: tailwind({ "pb-6 pt-2": Device.osName === 'iOS'}),

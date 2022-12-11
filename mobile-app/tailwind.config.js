@@ -66,6 +66,9 @@ module.exports = {
         'brand-gray-text': {
           500: '#0b1c3a99',
         },
+        'brand-green': {
+          500: '#4FD3BC'
+        }
 
       },
     borderWidth: {
