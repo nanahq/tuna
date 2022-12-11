@@ -5052,6 +5052,18 @@
 		"borderBottomWidth": 1,
 		"borderLeftWidth": 1
 	},
+	"border-0.5": {
+		"borderTopWidth": 0.5,
+		"borderRightWidth": 0.5,
+		"borderBottomWidth": 0.5,
+		"borderLeftWidth": 0.5
+	},
+	"border-1.5": {
+		"borderTopWidth": 1.5,
+		"borderRightWidth": 1.5,
+		"borderBottomWidth": 1.5,
+		"borderLeftWidth": 1.5
+	},
 	"border-t-0": {
 		"borderTopWidth": 0
 	},
@@ -5066,6 +5078,12 @@
 	},
 	"border-t": {
 		"borderTopWidth": 1
+	},
+	"border-t-0.5": {
+		"borderTopWidth": 0.5
+	},
+	"border-t-1.5": {
+		"borderTopWidth": 1.5
 	},
 	"border-r-0": {
 		"borderRightWidth": 0
@@ -5082,6 +5100,12 @@
 	"border-r": {
 		"borderRightWidth": 1
 	},
+	"border-r-0.5": {
+		"borderRightWidth": 0.5
+	},
+	"border-r-1.5": {
+		"borderRightWidth": 1.5
+	},
 	"border-b-0": {
 		"borderBottomWidth": 0
 	},
@@ -5097,6 +5121,12 @@
 	"border-b": {
 		"borderBottomWidth": 1
 	},
+	"border-b-0.5": {
+		"borderBottomWidth": 0.5
+	},
+	"border-b-1.5": {
+		"borderBottomWidth": 1.5
+	},
 	"border-l-0": {
 		"borderLeftWidth": 0
 	},
@@ -5111,6 +5141,12 @@
 	},
 	"border-l": {
 		"borderLeftWidth": 1
+	},
+	"border-l-0.5": {
+		"borderLeftWidth": 0.5
+	},
+	"border-l-1.5": {
+		"borderLeftWidth": 1.5
 	},
 	"border-solid": {
 		"borderStyle": "solid"
