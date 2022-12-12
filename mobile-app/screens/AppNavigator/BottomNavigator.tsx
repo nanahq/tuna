@@ -6,6 +6,7 @@ import * as Device from 'expo-device'
 import {IconComponent} from "@components/commons/IconComponent";
 import {HomeScreen} from "@screens/AppNavigator/HomeNavigator/Screens/Home.screen";
 import {HomeNavigator} from "@screens/AppNavigator/HomeNavigator/HomeNav";
+import {OrderNavigator} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -89,7 +90,7 @@ export function BottomTabNavigator ():JSX.Element {
                 }}
             />
             <BottomTab.Screen
-                component={HomeScreen}
+                component={OrderNavigator}
                 name={AppScreenName.ORDERS}
                 options={{
                     tabBarLabel: ({ focused, color }) =>

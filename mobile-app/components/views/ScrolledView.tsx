@@ -1,6 +1,6 @@
-import { forwardRef } from "react";
+import {forwardRef} from "react";
 
-import { ScrollView } from "react-native";
+import {ScrollView} from "react-native";
 
 interface ScrolledViewProps {
     testId: string
@@ -14,6 +14,7 @@ export const ScrolledView = forwardRef(
 
         return (
             <ScrollView
+                showsVerticalScrollIndicator={false}
                 style={style}
                 ref={ref}
                 {...rest}
