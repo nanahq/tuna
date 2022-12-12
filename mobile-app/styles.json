@@ -5052,6 +5052,18 @@
 		"borderBottomWidth": 1,
 		"borderLeftWidth": 1
 	},
+	"border-0.5": {
+		"borderTopWidth": 0.5,
+		"borderRightWidth": 0.5,
+		"borderBottomWidth": 0.5,
+		"borderLeftWidth": 0.5
+	},
+	"border-1.5": {
+		"borderTopWidth": 1.5,
+		"borderRightWidth": 1.5,
+		"borderBottomWidth": 1.5,
+		"borderLeftWidth": 1.5
+	},
 	"border-t-0": {
 		"borderTopWidth": 0
 	},
@@ -5066,6 +5078,12 @@
 	},
 	"border-t": {
 		"borderTopWidth": 1
+	},
+	"border-t-0.5": {
+		"borderTopWidth": 0.5
+	},
+	"border-t-1.5": {
+		"borderTopWidth": 1.5
 	},
 	"border-r-0": {
 		"borderRightWidth": 0
@@ -5082,6 +5100,12 @@
 	"border-r": {
 		"borderRightWidth": 1
 	},
+	"border-r-0.5": {
+		"borderRightWidth": 0.5
+	},
+	"border-r-1.5": {
+		"borderRightWidth": 1.5
+	},
 	"border-b-0": {
 		"borderBottomWidth": 0
 	},
@@ -5097,6 +5121,12 @@
 	"border-b": {
 		"borderBottomWidth": 1
 	},
+	"border-b-0.5": {
+		"borderBottomWidth": 0.5
+	},
+	"border-b-1.5": {
+		"borderBottomWidth": 1.5
+	},
 	"border-l-0": {
 		"borderLeftWidth": 0
 	},
@@ -5111,6 +5141,12 @@
 	},
 	"border-l": {
 		"borderLeftWidth": 1
+	},
+	"border-l-0.5": {
+		"borderLeftWidth": 0.5
+	},
+	"border-l-1.5": {
+		"borderLeftWidth": 1.5
 	},
 	"border-solid": {
 		"borderStyle": "solid"
@@ -5924,6 +5960,13 @@
 		"borderBottomColor": "rgba(217, 217, 217, var(--tw-border-opacity))",
 		"borderLeftColor": "rgba(217, 217, 217, var(--tw-border-opacity))"
 	},
+	"border-brand-gray-400": {
+		"--tw-border-opacity": 1,
+		"borderTopColor": "rgba(141, 149, 155, var(--tw-border-opacity))",
+		"borderRightColor": "rgba(141, 149, 155, var(--tw-border-opacity))",
+		"borderBottomColor": "rgba(141, 149, 155, var(--tw-border-opacity))",
+		"borderLeftColor": "rgba(141, 149, 155, var(--tw-border-opacity))"
+	},
 	"border-brand-gray-500": {
 		"--tw-border-opacity": 1,
 		"borderTopColor": "rgba(246, 246, 249, var(--tw-border-opacity))",
@@ -5950,6 +5993,13 @@
 		"borderRightColor": "#0b1c3a99",
 		"borderBottomColor": "#0b1c3a99",
 		"borderLeftColor": "#0b1c3a99"
+	},
+	"border-brand-green-500": {
+		"--tw-border-opacity": 1,
+		"borderTopColor": "rgba(79, 211, 188, var(--tw-border-opacity))",
+		"borderRightColor": "rgba(79, 211, 188, var(--tw-border-opacity))",
+		"borderBottomColor": "rgba(79, 211, 188, var(--tw-border-opacity))",
+		"borderLeftColor": "rgba(79, 211, 188, var(--tw-border-opacity))"
 	},
 	"border-opacity-0": {
 		"--tw-border-opacity": 0
@@ -6451,6 +6501,10 @@
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(217, 217, 217, var(--tw-bg-opacity))"
 	},
+	"bg-brand-gray-400": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(141, 149, 155, var(--tw-bg-opacity))"
+	},
 	"bg-brand-gray-500": {
 		"--tw-bg-opacity": 1,
 		"backgroundColor": "rgba(246, 246, 249, var(--tw-bg-opacity))"
@@ -6465,6 +6519,10 @@
 	},
 	"bg-brand-gray-text-500": {
 		"backgroundColor": "#0b1c3a99"
+	},
+	"bg-brand-green-500": {
+		"--tw-bg-opacity": 1,
+		"backgroundColor": "rgba(79, 211, 188, var(--tw-bg-opacity))"
 	},
 	"bg-opacity-0": {
 		"--tw-bg-opacity": 0
@@ -8049,6 +8107,10 @@
 		"--tw-text-opacity": 1,
 		"color": "rgba(217, 217, 217, var(--tw-text-opacity))"
 	},
+	"text-brand-gray-400": {
+		"--tw-text-opacity": 1,
+		"color": "rgba(141, 149, 155, var(--tw-text-opacity))"
+	},
 	"text-brand-gray-500": {
 		"--tw-text-opacity": 1,
 		"color": "rgba(246, 246, 249, var(--tw-text-opacity))"
@@ -8063,6 +8125,10 @@
 	},
 	"text-brand-gray-text-500": {
 		"color": "#0b1c3a99"
+	},
+	"text-brand-green-500": {
+		"--tw-text-opacity": 1,
+		"color": "rgba(79, 211, 188, var(--tw-text-opacity))"
 	},
 	"text-opacity-0": {
 		"--tw-text-opacity": 0
@@ -8716,6 +8782,10 @@
 		"--tw-ring-opacity": 1,
 		"--tw-ring-color": "rgba(217, 217, 217, var(--tw-ring-opacity))"
 	},
+	"ring-brand-gray-400": {
+		"--tw-ring-opacity": 1,
+		"--tw-ring-color": "rgba(141, 149, 155, var(--tw-ring-opacity))"
+	},
 	"ring-brand-gray-500": {
 		"--tw-ring-opacity": 1,
 		"--tw-ring-color": "rgba(246, 246, 249, var(--tw-ring-opacity))"
@@ -8730,6 +8800,10 @@
 	},
 	"ring-brand-gray-text-500": {
 		"--tw-ring-color": "#0b1c3a99"
+	},
+	"ring-brand-green-500": {
+		"--tw-ring-opacity": 1,
+		"--tw-ring-color": "rgba(79, 211, 188, var(--tw-ring-opacity))"
 	},
 	"ring-opacity-0": {
 		"--tw-ring-opacity": 0
@@ -9133,6 +9207,9 @@
 	"ring-offset-brand-gray-200": {
 		"--tw-ring-offset-color": "#D9D9D9"
 	},
+	"ring-offset-brand-gray-400": {
+		"--tw-ring-offset-color": "#8D959B"
+	},
 	"ring-offset-brand-gray-500": {
 		"--tw-ring-offset-color": "#F6F6F9"
 	},
@@ -9144,6 +9221,9 @@
 	},
 	"ring-offset-brand-gray-text-500": {
 		"--tw-ring-offset-color": "#0b1c3a99"
+	},
+	"ring-offset-brand-green-500": {
+		"--tw-ring-offset-color": "#4FD3BC"
 	},
 	"filter": {
 		"--tw-blur": "var(--tw-empty, )",

@@ -60,14 +60,22 @@ module.exports = {
         'brand-gray': {
           200: '#D9D9D9',
           500: '#F6F6F9',
+          400: '#8D959B',
           700: '#737373',
           800: '#717171'
         },
         'brand-gray-text': {
           500: '#0b1c3a99',
         },
+        'brand-green': {
+          500: '#4FD3BC'
+        }
 
-      }
+      },
+    borderWidth: {
+      0.5: 0.5,
+      1.5: 1.5,
+    },
     },
   },
 }

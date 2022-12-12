@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity, View} from 'react-native'
+import {Text, View} from 'react-native'
 import {tailwind} from "@tailwind";
 import * as SplashScreen from 'expo-splash-screen'
 import {useEffect} from 'react'
@@ -9,6 +9,7 @@ import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 import {OnboardingCover} from './components/OnboardingCover'
 import * as Device from 'expo-device'
+import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
 
 export function OnboardingScreen (): JSX.Element {
     const navigator = useNavigation<NavigationProp<OnboardingParamsList>>()
@@ -48,9 +49,7 @@ export function OnboardingScreen (): JSX.Element {
                     })}
                     testId="GenericButton.Onboarding.Continue"
                 />
-               <TouchableOpacity testID="OnboardingScreen.Login.Button" style={tailwind(' mt-8')}>
-                   <Text testID="OnboardingScreen.Login.Text" style={tailwind('text-white font-normal text-sm text-center')}>Do you have an account? Login</Text>
-               </TouchableOpacity>
+                <LoginButtonWithText />
            </View>
        </View>
     )

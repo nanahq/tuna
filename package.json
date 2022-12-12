@@ -11,7 +11,7 @@
     "start:web": "expo start --clear --web",
     "test:ci": "jest --ci --coverage --detectOpenHandles --debug",
     "cypress:open": "cypress open --project ./mobile-app",
-    "cypress:run": "cypress run --project ./mobile-app --headless --browser chrome",
+    "cypress:run": "cypress run --project ./mobile-app --headless --browser firefox:dev",
     "react-devtools:open": "react-devtools",
     "translation:missing": "ts-node shared/translations/reporter/index.ts"
   },

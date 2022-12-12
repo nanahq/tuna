@@ -119,8 +119,8 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,25 +140,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,7 +158,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {View, Text, TouchableOpacity} from 'react-native'
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Text, View} from 'react-native'
 import {tailwind} from "@tailwind";
 import * as SplashScreen from 'expo-splash-screen'
 import {useEffect} from 'react'
@@ -188,6 +186,7 @@ import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 import {OnboardingCover} from './components/OnboardingCover'
 import * as Device from 'expo-device'
+import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
 &nbsp;
 export function <span class="fstat-no" title="function not covered" >OnboardingScreen </span>(): JSX.Element {
     const navigator = <span class="cstat-no" title="statement not covered" >useNavigation&lt;NavigationProp&lt;OnboardingParamsList&gt;&gt;()</span>
@@ -227,9 +226,7 @@ export function <span class="fstat-no" title="function not covered" >OnboardingS
                     })}
                     testId="GenericButton.Onboarding.Continue"
                 /&gt;
-               &lt;TouchableOpacity testID="OnboardingScreen.Login.Button" style={tailwind(' mt-8')}&gt;
-                   &lt;Text testID="OnboardingScreen.Login.Text" style={tailwind('text-white font-normal text-sm text-center')}&gt;Do you have an account? Login&lt;/Text&gt;
-               &lt;/TouchableOpacity&gt;
+                &lt;LoginButtonWithText /&gt;
            &lt;/View&gt;
        &lt;/View&gt;
     )
@@ -241,7 +238,7 @@ export function <span class="fstat-no" title="function not covered" >OnboardingS
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-06T11:25:02.194Z
+                at 2022-12-10T21:04:12.646Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

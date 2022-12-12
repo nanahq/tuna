@@ -1,4 +1,4 @@
-import {Keyboard, Text, TextInput, TouchableOpacity} from 'react-native'
+import {Keyboard, TextInput} from 'react-native'
 import {getColor, tailwind} from '@tailwind'
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {useRef, useState} from "react";
@@ -11,6 +11,8 @@ import {SignupProfileForm} from "@screens/OnboardingNavigator/screens/Signup/Sig
 import {LoaderComponent} from "@components/commons/LoaderComponent";
 import {WelcomeButtonSheet} from "@screens/OnboardingNavigator/screens/components/WelcomeBottomSheet";
 import {ScrolledView} from "@components/views/ScrolledView";
+import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
+import {ErrorMessage} from "@screens/OnboardingNavigator/screens/components/ErrorMessage";
 
 interface SignupBusinessForm {
     businessPhoneNumber: string
@@ -183,20 +185,12 @@ try {
                             testId="OnboardingScreen.SignupBusinessScreen.ContinueButton"
                             disabled={checkNullState()}
                         />
-                        <TouchableOpacity>
-                            <Text style={tailwind('text-center text-sm text-brand-black-500 mt-2')}>Do you have an account? Login</Text>
-                        </TouchableOpacity>
+                        <LoginButtonWithText />
                     </>
                 )}
             </ScrolledView>
             <WelcomeButtonSheet  promptModalName='WELCOME_MODAL' modalRef={bottomSheetModalRef} />
         </>
 
-    )
-}
-
-function ErrorMessage ({error}: {error: string}): JSX.Element {
-    return (
-        <Text style={tailwind('text-red-600 text-xs pb-1')}>{error}</Text>
     )
 }
