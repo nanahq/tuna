@@ -31,7 +31,6 @@ export function BottomTabNavigator ():JSX.Element {
         <BottomTab.Navigator
             initialRouteName={AppScreenName.HOME}
             screenOptions={{
-
                 headerShown: false,
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: tailwind(
