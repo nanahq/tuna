@@ -47,7 +47,7 @@
       "@hooks/*": [
         "hooks/*"
       ],
-      "@types/*": [
+      "@typings/*": [
         "../types/*"
       ],
       "@screens/*": [

@@ -1,4 +1,4 @@
-import {Order} from "@types/Orders.type";
+import {Order} from "@typings/Orders.type";
 import {StyleProp, Text, TouchableOpacity, TouchableOpacityProps, View} from "react-native";
 import {tailwind} from "@tailwind";
 import {IconComponent} from "@components/commons/IconComponent";

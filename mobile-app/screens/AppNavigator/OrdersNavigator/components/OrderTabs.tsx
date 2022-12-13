@@ -1,4 +1,4 @@
-import {DaysList, DaysListMapper} from "@types/Days";
+import {DaysList, DaysListMapper} from "@typings/Days";
 import {useWindowDimensions} from 'react-native'
 import {getColor, tailwind} from '@tailwind'
 

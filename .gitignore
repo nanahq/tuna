@@ -13,3 +13,5 @@ web-build/
 config
 # macOS
 .DS_Store
+.nyc_output
+/mobile-app/.nyc_output/
