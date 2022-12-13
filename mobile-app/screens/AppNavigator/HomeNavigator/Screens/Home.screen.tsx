@@ -29,7 +29,7 @@ export function HomeScreen (): JSX.Element {
                     iconName='truck'
                     testId='CheckOrder'
                     label='New orders'
-                    onPress={() => navigation.navigate("Orders")}
+                    onPress={() => navigation.navigate("PendingOrders")}
                 />
                 <QuickActions.Action
                     iconName='edit'
