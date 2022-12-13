@@ -6,9 +6,9 @@ import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
 import {PropsWithChildren, useCallback} from "react";
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
-import {IconComponent} from "@components/commons/IconComponent";
+import {DeliveredOrderCard, OrdersCard} from "@screens/AppNavigator/OrdersNavigator/components/OrderCard";
 
-type CategoryType = 'PENDING' | 'DELIVERED'
+export type CategoryType = 'PENDING' | 'DELIVERED'
 
 interface OrderCatergoryProps {
     testId: string
@@ -23,11 +23,13 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
         navigation.navigate({
             name: route,
             params: {
-                orders: props.orders
+                orders: props.orders ?? []
             },
             merge: true
         })
     }, [props.type])
+
+
     return (
         <View testID={props.testId} style={tailwind('my-5')}>
             <View style={tailwind('flex flex-row  w-full items-center justify-between mb-2')}>
@@ -35,37 +37,25 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
                 <ShowAllButton onPress={onShowAll} testID={`showall-${props.testId}`} />
             </View>
             <View style={tailwind('border-0.5 border-brand-black-500')}>
-                <OrdersCard  type={props.type}/>
-                <OrdersCard  type={props.type}/>
-                <OrdersCard  type={props.type}/>
-                <OrdersCard  type={props.type}/>
-                <OrdersCard  type={props.type} border={false}/>
+                {props.type === 'PENDING' ? (
+                    <>
+                        <OrdersCard  />
+                        <OrdersCard />
+                        <OrdersCard />
+                        <OrdersCard />
+                        <OrdersCard border={false}/>
+                    </>
+                ): (
+                    <>
+                        <DeliveredOrderCard  />
+                        <DeliveredOrderCard />
+                        <DeliveredOrderCard />
+                        <DeliveredOrderCard />
+                        <DeliveredOrderCard border={false}/>
+                    </>
+                )}
             </View>
         </View>
     )
 }
 
-function OrdersCard (props: {order?: Partial<Order>, type: CategoryType, border?: boolean}): JSX.Element {
-    const {border = true} = props
-
-    return (
-        <View style={tailwind('flex p-1.5 flex-row justify-between items-center w-full border-b-0.5 border-brand-black-500', {
-            'border-0': !border
-        })}>
-            <View style={tailwind('flex flex-col')}>
-                <Text>Tasty Shawarma</Text>
-                <Text>NGN 2000</Text>
-            </View>
-            <View style={tailwind('flex flex-col')}>
-                <View style={tailwind('bg-secondary-500 p-1 w-20 rounded-lg')}>
-                    <Text style={tailwind('text-center text-white uppercase')}>MONDAY</Text>
-                </View>
-                <Text>Time: 2AM</Text>
-            </View>
-            <IconComponent iconType='Feather' name='check-square'  size={26} style={tailwind({
-                'text-brand-black-500': props.type === 'PENDING',
-                'text-green-500': props.type === 'DELIVERED'
-            })}/>
-        </View>
-    )
-}

@@ -1,19 +1,21 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import {OrdersScreen} from "@screens/AppNavigator/OrdersNavigator/screens/Orders.screen";
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
+import {PendingOrders} from "@screens/AppNavigator/OrdersNavigator/screens/PendingOrders";
+import {DeliveredOrders} from "@screens/AppNavigator/OrdersNavigator/screens/DeliveredOrders";
 
 
 export interface OrderParamsList {
     GetOrders: {
        orderid: string
-    },
+    } | undefined,
    DeliveredOrders: {
         orders: Array<any>
-    },
+    } | undefined,
 
     PendingOrders: {
         orders: Array<any>
-    },
+    } | undefined,
     [key: string]: undefined | object;
 }
 const HomeStack = createStackNavigator<OrderParamsList>();
@@ -43,14 +45,14 @@ export function OrderNavigator(): JSX.Element {
                 }}
             />
             <HomeStack.Screen
-                component={OrdersScreen}
+                component={PendingOrders}
                 name={OrderScreenName.PENDING_ORDERS}
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
             <HomeStack.Screen
-                component={OrdersScreen}
+                component={DeliveredOrders}
                 name={OrderScreenName.DELIVERED_ORDERS}
                 options={{
                     headerShown: false

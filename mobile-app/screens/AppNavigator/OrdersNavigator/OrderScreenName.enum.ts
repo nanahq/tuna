@@ -1,6 +1,6 @@
 export enum OrderScreenName  {
     ORDERS= 'OrdersScreen',
-    GET_ORDER = 'GET_ORDER',
-    DELIVERED_ORDERS = 'DELIVERED_ORDERS',
-    PENDING_ORDERS = 'PENDING_ORDERS',
+    GET_ORDER = 'GetOrders',
+    DELIVERED_ORDERS = 'DeliveredOrders',
+    PENDING_ORDERS = 'PendingOrders',
 }
