@@ -3,6 +3,7 @@ import {OrdersScreen} from "@screens/AppNavigator/OrdersNavigator/screens/Orders
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
 import {PendingOrders} from "@screens/AppNavigator/OrdersNavigator/screens/PendingOrders";
 import {DeliveredOrders} from "@screens/AppNavigator/OrdersNavigator/screens/DeliveredOrders";
+import {GetOrder} from "@screens/AppNavigator/OrdersNavigator/screens/GetOrders";
 
 
 export interface OrderParamsList {
@@ -38,7 +39,7 @@ export function OrderNavigator(): JSX.Element {
             />
 
             <HomeStack.Screen
-                component={OrdersScreen}
+                component={GetOrder}
                 name={OrderScreenName.GET_ORDER}
                 options={{
                     headerShown: false

@@ -23,72 +23,72 @@ const DATA = [
 export const OrdersMock: Array<{order: any, onPress: (navigation: NavigationProp<any> ) => void, type: CategoryType}> = [
     {
         order: {id: 1},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 2},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 3},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 4},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 5},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 6},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 7},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 8},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 9},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 10},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 71},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 18},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 91},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     },
     {
         order: {id: 101},
-        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 1}}),
+        onPress: (navigation) => navigation.navigate('GetOrders', {params : {orderid: 'a0b652f2-5ca4-4bbe-8561-7ac45ab8f32d'}}),
         type: 'PENDING'
     }
 ]
@@ -142,8 +142,6 @@ export default function OrdersTabs() {
         setRoutes(tabsTitles)
 
     }, [])
-
-
 
     return (
         <TabView
