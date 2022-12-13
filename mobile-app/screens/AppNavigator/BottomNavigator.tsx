@@ -7,6 +7,7 @@ import {IconComponent} from "@components/commons/IconComponent";
 import {HomeScreen} from "@screens/AppNavigator/HomeNavigator/Screens/Home.screen";
 import {HomeNavigator} from "@screens/AppNavigator/HomeNavigator/HomeNav";
 import {OrderNavigator} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
+import {ListingsNavigator} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -74,7 +75,7 @@ export function BottomTabNavigator ():JSX.Element {
                 }}
             />
             <BottomTab.Screen
-                component={HomeScreen}
+                component={ListingsNavigator}
                 name={AppScreenName.LISTINGS}
                 options={{
                     tabBarLabel: ({ focused, color }) =>

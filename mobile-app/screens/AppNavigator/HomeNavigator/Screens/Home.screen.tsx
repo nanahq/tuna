@@ -55,7 +55,7 @@ export function HomeScreen (): JSX.Element {
                 <QuickLinks.Link
                     testId='Orders'
                     label='Orders'
-                    onPress={() => navigation.navigate('orders')}
+                    onPress={() => navigation.navigate('Orders')}
                 />
                 <QuickLinks.Link
                     testId='Stats'
