@@ -1,12 +1,16 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import {ListingsScreenName} from "@screens/AppNavigator/ListingsNavigator/ListingsScreenName.enum";
 import {ListingsScreen} from "@screens/AppNavigator/ListingsNavigator/screens/ListingsScreen";
+import {SingleListingScreen} from "@screens/AppNavigator/ListingsNavigator/screens/SingleListingScreen";
+import {AddListingsScreen} from "@screens/AppNavigator/ListingsNavigator/screens/AddListingsScreen";
 
 
 export interface ListingsParams {
-    GetListings: {
+    GetListing: {
         listings: string
     } | undefined,
+
+    AddListing: undefined,
 
     [key: string]: undefined | object;
 }
@@ -30,8 +34,16 @@ export function ListingsNavigator(): JSX.Element {
             />
 
             <ListingsStack.Screen
-                component={ListingsScreen}
+                component={SingleListingScreen}
                 name={ListingsScreenName.GET_LISTING}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <ListingsStack.Screen
+                component={AddListingsScreen}
+                name={ListingsScreenName.ADD_LISTING}
                 options={{
                     headerShown: false
                 }}

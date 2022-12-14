@@ -1,4 +1,5 @@
 export enum ListingsScreenName  {
-    Listings= 'ListingsSreen',
-    GET_LISTING = 'GetListings'
+    Listings= 'ListingsScreen',
+    GET_LISTING = 'GetListing',
+    ADD_LISTING= 'AddListing'
 }

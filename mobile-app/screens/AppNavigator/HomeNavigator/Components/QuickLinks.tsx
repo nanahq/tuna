@@ -2,6 +2,7 @@ import {PropsWithChildren} from "react";
 import {StyleProp, Text, TouchableOpacity, View, ViewStyle} from "react-native";
 import {tailwind} from "@tailwind";
 import * as Device from 'expo-device'
+import {LinearGradient} from "expo-linear-gradient";
 
 export function QuickLinks ({children}: PropsWithChildren<{}>): JSX.Element {
     return (
@@ -27,13 +28,19 @@ interface LinkProps {
 
 function Link (props: LinkProps): JSX.Element {
     return (
-        <TouchableOpacity
-            onPress={props.onPress}
-            testID={props.testId}
-            style={[tailwind('bg-brand-black-500 h-28 w-28 rounded-xl flex items-center justify-center'), props.style]}
+        <LinearGradient
+            style={tailwind('h-28 w-28 flex items-center justify-center rounded-xl mt-2')}
+            colors={['#000000', '#434343']}
         >
-            <Text style={tailwind('text-white text-lg font-medium')}>{props.label}</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+                onPress={props.onPress}
+                testID={props.testId}
+                style={[tailwind(' flex items-center justify-center'), props.style]}
+            >
+                <Text style={tailwind('text-white text-center text-lg font-medium')}>{props.label}</Text>
+            </TouchableOpacity>
+        </LinearGradient>
+
     )
 }
 
