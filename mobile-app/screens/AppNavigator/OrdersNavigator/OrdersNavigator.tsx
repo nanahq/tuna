@@ -14,23 +14,20 @@ export interface OrderParamsList {
         orders: Array<any>
     } | undefined,
 
-    PendingOrders: {
-        orders: Array<any>
-    } | undefined,
     [key: string]: undefined | object;
 }
-const HomeStack = createStackNavigator<OrderParamsList>();
+const OrderStack = createStackNavigator<OrderParamsList>();
 
 export function OrderNavigator(): JSX.Element {
     return (
-        <HomeStack.Navigator
+        <OrderStack.Navigator
             initialRouteName={OrderScreenName.ORDERS}
             screenOptions={{
                headerShown: false
             }}
         >
 
-            <HomeStack.Screen
+            <OrderStack.Screen
                 component={OrdersScreen}
                 name={OrderScreenName.ORDERS}
                 options={{
@@ -38,27 +35,27 @@ export function OrderNavigator(): JSX.Element {
                 }}
             />
 
-            <HomeStack.Screen
+            <OrderStack.Screen
                 component={GetOrder}
                 name={OrderScreenName.GET_ORDER}
                 options={{
                     headerShown: false
                 }}
             />
-            <HomeStack.Screen
+            <OrderStack.Screen
                 component={PendingOrders}
                 name={OrderScreenName.PENDING_ORDERS}
                 options={{
                     headerShown: false,
                 }}
             />
-            <HomeStack.Screen
+            <OrderStack.Screen
                 component={DeliveredOrders}
                 name={OrderScreenName.DELIVERED_ORDERS}
                 options={{
                     headerShown: false
                 }}
             />
-        </HomeStack.Navigator>
+        </OrderStack.Navigator>
     );
 }

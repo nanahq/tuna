@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {DaysListMapper} from '@types/Days'
+import {DaysListMapper} from '@typings/Days'
 
 export function useDate (): any {
     const [today, setToday] = useState<string>(DaysListMapper[0])

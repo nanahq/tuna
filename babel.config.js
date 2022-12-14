@@ -12,7 +12,7 @@ module.exports = function (api) {
           '@components': './mobile-app/components',
           '@environment': './environment',
           '@hooks': './mobile-app/hooks',
-          '@types': './types',
+          '@typings': './types',
           '@screens': './mobile-app/screens',
           '@store': './shared/store',
           '@translations': './translations',

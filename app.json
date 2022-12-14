@@ -10,6 +10,14 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "jsEngine": "hermes",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you upload photos of your listings"
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/app-config/splash.png",
       "resizeMode": "contain",

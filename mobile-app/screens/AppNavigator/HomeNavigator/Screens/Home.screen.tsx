@@ -7,6 +7,7 @@ import {QuickActions} from "@screens/AppNavigator/HomeNavigator/Components/Quick
 import {useNavigation} from "@react-navigation/native";
 import {QuickLinks} from "@screens/AppNavigator/HomeNavigator/Components/QuickLinks";
 import * as Device from "expo-device";
+import {LinearGradient} from 'expo-linear-gradient'
 
 export function HomeScreen (): JSX.Element {
     const logger = useLogger()
@@ -55,7 +56,7 @@ export function HomeScreen (): JSX.Element {
                 <QuickLinks.Link
                     testId='Orders'
                     label='Orders'
-                    onPress={() => navigation.navigate('orders')}
+                    onPress={() => navigation.navigate('Orders')}
                 />
                 <QuickLinks.Link
                     testId='Stats'
@@ -81,12 +82,16 @@ export function HomeScreen (): JSX.Element {
 
 function EarningsCard (props: PropsWithChildren<{}>): JSX.Element {
     return (
-        <View testID="HomeScreen.EarningsCard" style={tailwind('rounded-xl flex flex-row items-center justify-between bg-secondary-500 px-5 py-4', {
+        <LinearGradient
+
+            colors={['#FEAC5E', '#C779D0', '#4BC0C8']}
+            testID="HomeScreen.EarningsCard"
+            style={tailwind('rounded-xl flex flex-row items-center justify-between bg-secondary-500 px-5 py-4', {
             'h-28': Device.osName === 'Android',
             'h-32': Device.osName === 'iOS'
         })}>
             {props.children}
-        </View>
+        </LinearGradient>
     )
 }
 

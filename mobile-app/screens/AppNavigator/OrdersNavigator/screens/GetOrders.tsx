@@ -6,7 +6,7 @@ import {tailwind} from '@tailwind'
 import {OrderSection} from "@screens/AppNavigator/OrdersNavigator/components/OrderItemRow";
 import {IconButton} from "@components/commons/buttons/IconButton";
 import {OrderCompleteButton} from "@screens/AppNavigator/OrdersNavigator/components/OrderCompleteButton";
-import {OrderStatus} from "@types/Orders.type";
+import {OrderStatus} from "@typings/Orders.type";
 import {OrderQrCode} from "@screens/AppNavigator/OrdersNavigator/components/OrderQrCode";
 
 
