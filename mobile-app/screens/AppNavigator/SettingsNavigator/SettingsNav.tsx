@@ -1,6 +1,12 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/SettingsScreenName.enum";
 import {SettingsScreen} from "@screens/AppNavigator/SettingsNavigator/screens/Settings.screen";
+import {AccountProfile} from "@screens/AppNavigator/SettingsNavigator/screens/AccountProfile";
+import {RestaurantProfile} from "@screens/AppNavigator/SettingsNavigator/screens/RestaurantProfile";
+import {tailwind} from "@tailwind";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {PaymentSettings} from "@screens/AppNavigator/SettingsNavigator/screens/PaymentSetting";
+import {RestaurantSettings} from "@screens/AppNavigator/SettingsNavigator/screens/RestaurantSettings";
 
 
 export interface SettingsParamsList {
@@ -12,11 +18,22 @@ export interface SettingsParamsList {
 const SettingsStack = createStackNavigator<SettingsParamsList>();
 
 export function SettingsNavigator(): JSX.Element {
+    const insets = useSafeAreaInsets()
     return (
         <SettingsStack.Navigator
             initialRouteName={SettingsScreenName.SETTINGS}
             screenOptions={{
-                headerShown: false
+                headerLeft: () => <></>,
+                headerTitle: 'Profile',
+                headerTitleAlign: 'left',
+                headerLeftContainerStyle: tailwind('pl-5'),
+                headerTitleStyle: tailwind('font-semibold text-brand-black-500 text-lg'),
+                headerStyle: [tailwind(''), {
+                    shadowOpacity: 8,
+                    height: insets.top + 40
+                }],
+                headerBackTitleVisible: false,
+                headerShown: true
             }}
         >
 
@@ -24,29 +41,42 @@ export function SettingsNavigator(): JSX.Element {
                 component={SettingsScreen}
                 name={SettingsScreenName.SETTINGS}
                 options={{
-                    headerShown: false
+                    headerShown: true,
+                    headerTitle: 'Settings & Profile',
                 }}
             />
 
             <SettingsStack.Screen
-                component={SettingsScreen}
+                component={AccountProfile}
                 name={SettingsScreenName.ACCOUNT_PROFILE}
                 options={{
-                    headerShown: false
+                    headerShown: true,
+                    headerTitle: 'Account Profile'
+
                 }}
             />
             <SettingsStack.Screen
-                component={SettingsScreen}
+                component={RestaurantProfile}
                 name={SettingsScreenName.RESTAURANT_PROFILE}
                 options={{
-                    headerShown: false
+                    headerShown: true,
+                    headerTitle: 'Restaurant Profile'
                 }}
             />
             <SettingsStack.Screen
-                component={SettingsScreen}
+                component={PaymentSettings}
                 name={SettingsScreenName.PAYMENT_PROFILE}
                 options={{
-                    headerShown: false
+                    headerShown: true,
+                    headerTitle: 'Payment settings'
+                }}
+            />
+            <SettingsStack.Screen
+                component={RestaurantSettings}
+                name={SettingsScreenName.RESTAURANT_SETTINGS}
+                options={{
+                    headerShown: true,
+                    headerTitle: 'Business Operations'
                 }}
             />
         </SettingsStack.Navigator>
