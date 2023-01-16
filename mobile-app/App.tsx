@@ -8,13 +8,14 @@ import {AuthPersistenceProvider} from "@contexts/AuthPersistenceProvider";
 import {persistence} from "@api/persistence";
 import ErrorBoundary from "@screens/ErrorBoundary/ErrorBoundary";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {StoreProvider} from "@store/StoreProvider";
 
 export default function App() {
   const isLoaded = useCachedResource()
    const logger = useLogger()
 
 
-   // delay splashscreen till cached resources are loaded
+ // delay splashscreen till cached resources are loaded
   if (!isLoaded) {
     SplashScreen.preventAutoHideAsync().catch(logger.error);
     return null;
@@ -25,16 +26,20 @@ export default function App() {
        <ErrorBoundary>
            <AuthPersistenceProvider
                api={{
-                   ...persistence
+                  get: persistence.getSecure,
+                   set: persistence.setSecure,
+                   delete: persistence.deleteSecure
                }}
            >
-               <GestureHandlerRootView
-                   style={tailwind('flex-1')}
-               >
-                  <BottomSheetModalProvider>
-                      <MainScreen />
-                  </BottomSheetModalProvider>
-               </GestureHandlerRootView>
+               <StoreProvider>
+                   <GestureHandlerRootView
+                       style={tailwind('flex-1')}
+                   >
+                       <BottomSheetModalProvider>
+                           <MainScreen />
+                       </BottomSheetModalProvider>
+                   </GestureHandlerRootView>
+               </StoreProvider>
            </AuthPersistenceProvider>
        </ErrorBoundary>
     </NativeLoggingProvider>

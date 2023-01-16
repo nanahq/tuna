@@ -156,7 +156,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
 
 
     function goBack (): void {
-        navigation.goBack()
+        navigation.navigate("LISTINGS")
     }
 
     function onChange (name: keyof AddListingForm, value: string): void {

@@ -1,17 +1,31 @@
 import {StyleProp, Text, View, ViewStyle} from 'react-native'
 import {tailwind} from "@tailwind";
 import {PropsWithChildren, useEffect} from "react";
+
 import * as SplashScreen from "expo-splash-screen";
+
 import {useLogger} from "@contexts/NativeLoggingProvider";
 import {QuickActions} from "@screens/AppNavigator/HomeNavigator/Components/QuickActions";
 import {useNavigation} from "@react-navigation/native";
 import {QuickLinks} from "@screens/AppNavigator/HomeNavigator/Components/QuickLinks";
+
 import * as Device from "expo-device";
+
 import {LinearGradient} from 'expo-linear-gradient'
+import {useDispatch} from "react-redux";
+import {fetchProfile} from '@store/profile.reducer'
+import {fetchOrders} from "@store/orders.reducer";
 
 export function HomeScreen (): JSX.Element {
     const logger = useLogger()
     const navigation = useNavigation<any>()
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        dispatch(fetchProfile() as any)
+        dispatch(fetchOrders() as any)
+    }, [])
 
     // Hide splashscreen when first page is loaded to prevent white screen
     useEffect(() => {
@@ -30,13 +44,13 @@ export function HomeScreen (): JSX.Element {
                     iconName='truck'
                     testId='CheckOrder'
                     label='New orders'
-                    onPress={() => navigation.navigate("PendingOrders")}
+                    onPress={() => navigation.navigate("ORDERS", {screen: "PendingOrders", merge: true})}
                 />
                 <QuickActions.Action
                     iconName='edit'
                     testId='EditProfile'
                     label='Edit profile'
-                    onPress={() => navigation.navigate("Profile")}
+                    onPress={() => navigation.navigate("SETTINGS", {screen: "AccountProfile"})}
                 />
                 <QuickActions.Action
                     iconName='headphones'
@@ -48,7 +62,7 @@ export function HomeScreen (): JSX.Element {
                     iconName='plus'
                     testId='AddListing'
                     label='Add listing'
-                    onPress={() => navigation.navigate("Orders")}
+                    onPress={() => navigation.navigate("LISTINGS", {screen: "AddListing", merge: true})}
                 />
             </QuickActions>
 
@@ -79,14 +93,12 @@ export function HomeScreen (): JSX.Element {
     )
 }
 
-
 function EarningsCard (props: PropsWithChildren<{}>): JSX.Element {
     return (
         <LinearGradient
-
-            colors={['#FEAC5E', '#C779D0', '#4BC0C8']}
+            colors={['#000000', '#434343']}
             testID="HomeScreen.EarningsCard"
-            style={tailwind('rounded-xl flex flex-row items-center justify-between bg-secondary-500 px-5 py-4', {
+            style={tailwind('flex flex-row items-center justify-between bg-secondary-500 px-5 py-4', {
             'h-28': Device.osName === 'Android',
             'h-32': Device.osName === 'iOS'
         })}>

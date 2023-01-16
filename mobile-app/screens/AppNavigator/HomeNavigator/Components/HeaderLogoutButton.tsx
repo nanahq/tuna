@@ -9,7 +9,7 @@ export function HeaderLogoutButton (): JSX.Element {
         <IconButton
             testID='HeaderLogoutButton'
             iconSize={20}
-            iconStyle={tailwind('text-white')}
+            iconStyle={tailwind('text-brand-black-500')}
             iconName='power'
             iconType='Feather'
             onPress={onLogoutPress}
