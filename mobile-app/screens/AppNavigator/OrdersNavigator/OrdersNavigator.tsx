@@ -4,9 +4,11 @@ import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreen
 import {PendingOrders} from "@screens/AppNavigator/OrdersNavigator/screens/PendingOrders";
 import {DeliveredOrders} from "@screens/AppNavigator/OrdersNavigator/screens/DeliveredOrders";
 import {GetOrder} from "@screens/AppNavigator/OrdersNavigator/screens/GetOrders";
+import {tailwind} from "@tailwind";
 
 
 export interface OrderParamsList {
+    OrdersScreen: undefined,
     GetOrders: {
        orderid: string
     } | undefined,
@@ -23,15 +25,15 @@ export function OrderNavigator(): JSX.Element {
         <OrderStack.Navigator
             initialRouteName={OrderScreenName.ORDERS}
             screenOptions={{
-               headerShown: false
+               headerShown: false,
             }}
         >
-
             <OrderStack.Screen
                 component={OrdersScreen}
                 name={OrderScreenName.ORDERS}
                 options={{
-                   headerShown: false
+                    headerTitleStyle: tailwind('hidden'),
+                   headerShown: false,
                 }}
             />
 

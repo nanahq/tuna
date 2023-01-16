@@ -97,11 +97,11 @@ export const OrdersMock: Array<{order: any, onPress: (navigation: NavigationProp
 
 const OrderList = (props: {day: keyof DaysList}) => {
     const RenderItem = ({item}: ListRenderItemInfo<{onPress: (navigation: NavigationProp<any>) => void,  type: CategoryType, order: any}>) => (
-        <OrdersCard {...item} style={tailwind('mb-4')}/>
+        <OrdersCard {...item} style={tailwind('mb-4 px-4')}/>
     )
     return (
             <FlashList
-                contentContainerStyle={tailwind('px-4 pt-4 bg-white')}
+                contentContainerStyle={tailwind(' bg-white')}
                 data={OrdersMock}
                 renderItem={(props) => <RenderItem {...props} />}
                 keyExtractor={item => item.order.id}
@@ -156,6 +156,7 @@ export default function OrdersTabs() {
                     activeColor={getColor('secondary-500')}
                 />
             )}
+
             navigationState={{ index, routes }}
             renderScene={renderScene}
             onIndexChange={setIndex}

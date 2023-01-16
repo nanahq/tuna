@@ -26,7 +26,7 @@ export function HomeNavigator(): JSX.Element {
                     headerBackTitleVisible: false,
                     headerRightContainerStyle: tailwind("pr-5"),
                     headerLeftContainerStyle: tailwind("pl-5 relative right-2"),
-                    headerStyle: [tailwind('bg-brand-black-500'), {
+                    headerStyle: [tailwind('bg-white border-b-0.5 border-brand-black-500'), {
                         height: (Device.osName !== "Android" ? 100 : 118) + insets.top,
                         shadowOpacity: 0,
                     }],

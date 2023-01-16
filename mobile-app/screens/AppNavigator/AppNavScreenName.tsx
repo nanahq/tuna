@@ -2,7 +2,7 @@ export enum AppScreenName {
     HOME=  'HOME',
     LISTINGS ='LISTINGS',
     ORDERS = 'ORDERS',
-    PROFILE = 'PROFILE',
+    SETTINGS = 'SETTINGS',
     WALLET = 'WALLET',
     STAT = 'STAT'
 }

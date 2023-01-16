@@ -5,16 +5,20 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import * as Device from 'expo-device'
 import {IconComponent} from "@components/commons/IconComponent";
 import {HomeScreen} from "@screens/AppNavigator/HomeNavigator/Screens/Home.screen";
-import {HomeNavigator} from "@screens/AppNavigator/HomeNavigator/HomeNav";
 import {OrderNavigator} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
 import {ListingsNavigator} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
+import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
+import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/SettingsScreenName.enum";
+import {ListingsScreenName} from "@screens/AppNavigator/ListingsNavigator/ListingsScreenName.enum";
+import {HomeScreenName} from "@screens/AppNavigator/HomeNavigator/HomeScreenName.enum";
+import {SettingsNavigator} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export interface BottomTabParamList {
     Listings: undefined
     Orders: undefined
-    Profile: undefined
+    Settings: undefined
     Wallet: undefined
     [key: string]: undefined | object
 }
@@ -31,7 +35,7 @@ const getTabBarLabel = (props: {
 export function BottomTabNavigator ():JSX.Element {
     return (
         <BottomTab.Navigator
-            initialRouteName={AppScreenName.HOME}
+            initialRouteName={AppScreenName.ORDERS}
             screenOptions={{
                 headerShown: false,
                 tabBarLabelPosition: "below-icon",
@@ -43,18 +47,18 @@ export function BottomTabNavigator ():JSX.Element {
             }}
         >
             <BottomTab.Screen
-                component={HomeNavigator}
-                name={AppScreenName.HOME}
+                component={OrderNavigator}
+                name={AppScreenName.ORDERS}
                 options={{
                     tabBarLabel: ({ focused, color }) =>
                         getTabBarLabel({
                             focused,
                             color,
-                            title: 'Home',
+                            title: 'Orders',
                         }),
                     tabBarTestID: "BottomTabHome",
                     tabBarIcon: ({ color }) => (
-                        <IconComponent iconType='Feather' name="home"  size={24} color={color}/>
+                        <IconComponent iconType='MaterialIcons' name="takeout-dining"  size={24} color={color}/>
                     ),
                 }}
             />
@@ -90,25 +94,10 @@ export function BottomTabNavigator ():JSX.Element {
                     ),
                 }}
             />
+
             <BottomTab.Screen
-                component={OrderNavigator}
-                name={AppScreenName.ORDERS}
-                options={{
-                    tabBarLabel: ({ focused, color }) =>
-                        getTabBarLabel({
-                            focused,
-                            color,
-                            title: 'Orders',
-                        }),
-                    tabBarTestID: "BottomTabHome",
-                    tabBarIcon: ({ color }) => (
-                        <IconComponent iconType='MaterialIcons' name="takeout-dining"  size={24} color={color}/>
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                component={HomeScreen}
-                name={AppScreenName.PROFILE}
+                component={SettingsNavigator}
+                name={AppScreenName.SETTINGS}
                 options={{
                     tabBarLabel: ({ focused, color }) =>
                         getTabBarLabel({
@@ -130,25 +119,25 @@ export function BottomTabNavigator ():JSX.Element {
 export const AppLinking = {
     [AppScreenName.HOME]: {
         screens: {
-            ListingsScreen: AppScreenName.HOME,
+            HomeScreen: HomeScreenName.HOME,
         },
     },
 
     [AppScreenName.LISTINGS]: {
         screens: {
-            ListingsScreen: AppScreenName.LISTINGS,
+            ListingsScreen: ListingsScreenName.Listings,
         },
     },
 
     [AppScreenName.ORDERS]: {
         screens: {
-            OrdersScreen: AppScreenName.ORDERS,
+            OrdersScreen: OrderScreenName.ORDERS,
         },
     },
 
-    [AppScreenName.PROFILE]: {
+    [AppScreenName.SETTINGS]: {
         screens: {
-            ProfileScreen: AppScreenName.PROFILE,
+            SettingsScreen: SettingsScreenName.SETTINGS,
         },
     },
     [AppScreenName.WALLET]: {

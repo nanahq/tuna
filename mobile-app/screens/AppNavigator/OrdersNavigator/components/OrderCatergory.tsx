@@ -1,4 +1,4 @@
-import {Order} from "../../../../../types/Orders.type";
+import {Order} from "@store/orders.reducer";
 import {Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {ShowAllButton} from "@screens/AppNavigator/OrdersNavigator/components/ShowAllButton";
@@ -7,13 +7,15 @@ import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavig
 import {PropsWithChildren, useCallback} from "react";
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
 import {DeliveredOrderCard, OrdersCard} from "@screens/AppNavigator/OrdersNavigator/components/OrderCard";
+import {EmptyOrder} from "@screens/AppNavigator/OrdersNavigator/components/EmptyOrder";
 
 export type CategoryType = 'PENDING' | 'DELIVERED'
 
 interface OrderCatergoryProps {
     testId: string
-    orders?: Order[]
+    orders: Order[]
     type: CategoryType
+    hasFetchedOrders: boolean
 }
 export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): JSX.Element {
     const navigation = useNavigation<NavigationProp<OrderParamsList>>()
@@ -37,23 +39,20 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
                 <ShowAllButton onPress={onShowAll} testID={`showall-${props.testId}`} />
             </View>
             <View style={tailwind('border-0.5 border-brand-black-500')}>
-                {props.type === 'PENDING' ? (
-                    <>
-                        <OrdersCard  />
-                        <OrdersCard />
-                        <OrdersCard />
-                        <OrdersCard />
-                        <OrdersCard border={false}/>
-                    </>
-                ): (
-                    <>
-                        <DeliveredOrderCard  />
-                        <DeliveredOrderCard />
-                        <DeliveredOrderCard />
-                        <DeliveredOrderCard />
-                        <DeliveredOrderCard border={false}/>
-                    </>
+                {props.orders.length === 0 && (
+                    <EmptyOrder msg='No orders yet.' />
                 )}
+                {props.orders.length > 0 && props.orders.map((order, index) =>  {
+                    if( props.type === 'PENDING') {
+                        return (
+                            <OrdersCard  key={order.refId} border={index === props.orders.length - 1}/>
+                        )
+                    } else {
+                        return (
+                            <DeliveredOrderCard  key={order.refId} border={index === props.orders.length - 1}/>
+                        )
+                    }
+                })}
             </View>
         </View>
     )

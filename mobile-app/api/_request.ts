@@ -1,5 +1,7 @@
 import {ApiRoute, APIService, NetworkMapper, PlaygroundServicePort} from "@api/network.mapper";
 import axios, {AxiosError, Method} from 'axios'
+import {persistence} from "@api/persistence";
+import {cookieParser} from "../../utils/cookieParser";
 
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
     const environment = process.env.NODE_ENV
@@ -21,12 +23,14 @@ const config = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
     },
+    withCredentials: true
 };
 
 interface baseParamProps<T> {
     method: Method
     url: string
     data?: T
+    type?: 'requestData'
 }
 
 async function base<T>(param: baseParamProps<T>) {
@@ -61,7 +65,11 @@ async function base<T>(param: baseParamProps<T>) {
 
 async function request<T> (method: Method, url: string): Promise<{data: any, cookies: string[]}> {
     return await base<T>({method, url})
-        .then(res => Promise.resolve<{data: any, cookies: string[]}>(res))
+        .then(res => {
+           res.cookies.length > 0 && persistence.setSecure(cookieParser(res.cookies[0]))
+           return Promise.resolve<{data: any, cookies: string[]}>(res)
+        })
+
         .catch(err => Promise.reject(err));
 }
 
