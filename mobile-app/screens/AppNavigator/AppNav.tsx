@@ -7,6 +7,7 @@ import {useEffect} from "react";
 import {fetchProfile} from "@store/profile.reducer";
 import {fetchOrders} from "@store/orders.reducer";
 
+import Toast from 'react-native-toast-message'
 
 const App = createStackNavigator<AppParamList>()
 
@@ -28,6 +29,7 @@ export function AppNavigator(): JSX.Element {
             <App.Navigator   screenOptions={{ headerShown: false}}>
                 <App.Screen component={BottomTabNavigator} name="App" />
             </App.Navigator>
+            <Toast />
         </NavigationContainer>
     );
 }

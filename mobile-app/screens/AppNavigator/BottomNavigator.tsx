@@ -103,11 +103,11 @@ export function BottomTabNavigator ():JSX.Element {
                         getTabBarLabel({
                             focused,
                             color,
-                            title: 'Profile',
+                            title: 'Settings',
                         }),
                     tabBarTestID: "BottomTabHome",
                     tabBarIcon: ({ color }) => (
-                        <IconComponent style={tailwind()} iconType='Feather' name="user"  size={24} color={color}/>
+                        <IconComponent style={tailwind()} iconType='Feather' name="settings"  size={24} color={color}/>
                     ),
                 }}
             />

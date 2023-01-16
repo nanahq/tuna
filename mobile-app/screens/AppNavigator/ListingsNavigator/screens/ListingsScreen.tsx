@@ -14,7 +14,6 @@ export function ListingsScreen (): JSX.Element {
             <View style={tailwind('h-full px-4 relative')}>
                 <Text style={tailwind('font-semibold text-xl text-brand-black-500 my-3')}>Listings</Text>
                 <ListingsList />
-
                 <AddListingsButton  navigation={navigation}/>
             </View>
         </SafeAreaView>

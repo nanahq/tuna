@@ -4,42 +4,68 @@ import {_api} from "@api/_request";
 import {persistence} from "@api/persistence";
 import * as Updates from 'expo-updates'
 
-export enum VendorApprovalStatusEnum {
-    PENDING = 'REVIEWING', // Default
-    APPROVED = 'CLEARED',
-    DISAPPROVED = 'RETURNED',
-}
 
 export interface ProfileState {
-   profile: Profile | null
+   accountProfile: AccountProfile | null
+   restaurantProfile: RestaurantProfile | null
+    restaurantSettings: RestaurantSettings | null
+    paymentSettings: PaymentSettings | null
    hasFetchedProfile: boolean
 }
 
-interface Profile {
-    businessName: string
+interface AccountProfile {
     firstName: string
     lastName: string
-    businessPhoneNumber: string
-    settlementBankName: string
-    settlementBankAccountName: string
-    approvalStatus: VendorApprovalStatusEnum
-    address: string
+    phoneNumber: string
     email: string
 }
 
+export interface PaymentSettings {
+    settlementBankName: string
+    settlementBankAccountName: string
+    settlementBankAccountNumber: string
+}
 
+interface RestaurantProfile {
+    businessName: string
+    businessPhoneNumber: string
+    businessEmail: string
+    address: string
+    businessLogo: string
+}
+
+interface RestaurantSettings {
+    businessOperationDays: string[]
+    minStartTime: string
+    minOrderIntervalTime: string
+    maxOrderIntervalDate: string
+}
 const initialState: ProfileState = {
-    profile: {
-        businessName: '',
+    accountProfile: {
+        phoneNumber: '',
         firstName: '',
         lastName: '',
+        email: ''
+    } ,
+    restaurantProfile: {
+        businessEmail: '',
+        address: '',
+        businessName: '',
+        businessLogo: '',
         businessPhoneNumber: '',
+
+    },
+    paymentSettings: {
         settlementBankName: '',
         settlementBankAccountName: '',
-        approvalStatus: VendorApprovalStatusEnum.PENDING,
-        address: '',
-        email: '',
-    } ,
+        settlementBankAccountNumber: ''
+    },
+    restaurantSettings: {
+        businessOperationDays: [],
+        minStartTime: '',
+        minOrderIntervalTime: '',
+        maxOrderIntervalDate: '',
+    },
     hasFetchedProfile: false
 };
 
@@ -66,8 +92,11 @@ export const profile = createSlice({
         builder
             .addCase(
             fetchProfile.fulfilled,
-            (state, {payload: {data}}: PayloadAction<{data: Profile, cookies: any}>) => {
-                state.profile = data
+            (state, {payload: {data}}: PayloadAction<{data: any, cookies: any}>) => {
+                state.accountProfile = data.accountProfile
+                 state.restaurantProfile = data.restaurantProfile
+                state.paymentSettings = data.paymentSettings
+                state.restaurantSettings = data.restaurantSettings
                 state.hasFetchedProfile = true
             }
         ).addCase(
