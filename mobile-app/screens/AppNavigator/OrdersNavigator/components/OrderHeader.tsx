@@ -31,12 +31,3 @@ export function OrderHeaderStatus (): JSX.Element {
 
     )
 }
-
-
-export function OrderHeaderLeft (): JSX.Element  {
-    return (
-        <View style={tailwind('pl-4')}>
-
-        </View>
-    )
-}
