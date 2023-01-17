@@ -12,7 +12,7 @@ interface OrdersStatsProps {
 export function OrdersStats (props: OrdersStatsProps): JSX.Element {
     return  (
         <View style={tailwind('flex flex-col w-full')}>
-            <Text style={tailwind('font-bold text-lg text-brand-black-500 mb-2')}>Your orders</Text>
+            <Text style={tailwind('font-bold text-lg text-brand-black-500 mb-2')}>Your orders Overview</Text>
             <View style={tailwind('border-0.5 border-brand-black-500 p-4 flex flex-row items-center justify-between')}>
                 {props.hasFetchedOrders ? (
                     <>

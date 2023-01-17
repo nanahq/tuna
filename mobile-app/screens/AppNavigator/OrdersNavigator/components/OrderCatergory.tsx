@@ -1,5 +1,5 @@
 import {Order} from "@store/orders.reducer";
-import {Text, View} from 'react-native'
+import {View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {ShowAllButton} from "@screens/AppNavigator/OrdersNavigator/components/ShowAllButton";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
@@ -34,26 +34,36 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
 
     return (
         <View testID={props.testId} style={tailwind('my-5')}>
-            <View style={tailwind('flex flex-row  w-full items-center justify-between mb-2')}>
-                <Text style={tailwind('font-bold text-lg text-brand-black-500')}>{props.type === 'PENDING' ? 'New Orders' : 'Delivered Orders'}</Text>
-                <ShowAllButton onPress={onShowAll} testID={`showall-${props.testId}`} />
-            </View>
-            <View style={tailwind('border-0.5 border-brand-black-500')}>
+            <View style={tailwind('')}>
                 {props.orders.length === 0 && (
                     <EmptyOrder msg='No orders yet.' />
                 )}
+
                 {props.orders.length > 0 && props.orders.map((order, index) =>  {
                     if( props.type === 'PENDING') {
                         return (
-                            <OrdersCard  key={order.refId} border={index === props.orders.length - 1}/>
+                            <>
+                                <View style={tailwind('flex flex-row  w-full items-center justify-between mb-2')}>
+                                    <ShowAllButton onPress={onShowAll} testID={`showall-${props.testId}`} />
+                                </View>
+                                <OrdersCard  key={order.refId} border={index === props.orders.length - 1}/>
+
+                            </>
                         )
                     } else {
                         return (
-                            <DeliveredOrderCard  key={order.refId} border={index === props.orders.length - 1}/>
+                            <>
+                                <View style={tailwind('flex flex-row  w-full items-center justify-between mb-2')}>
+                                    <ShowAllButton onPress={onShowAll} testID={`showall-${props.testId}`} />
+                                </View>
+                                <DeliveredOrderCard  key={order.refId} border={index === props.orders.length - 1}/>
+
+                            </>
                         )
                     }
                 })}
             </View>
+
         </View>
     )
 }

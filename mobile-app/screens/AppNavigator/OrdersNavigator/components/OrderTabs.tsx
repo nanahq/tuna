@@ -95,7 +95,7 @@ export const OrdersMock: Array<{order: any, onPress: (navigation: NavigationProp
 
 
 
-const OrderList = (props: {day: keyof DaysList}) => {
+export const OrderList = (props: {day: keyof DaysList}) => {
     const RenderItem = ({item}: ListRenderItemInfo<{onPress: (navigation: NavigationProp<any>) => void,  type: CategoryType, order: any}>) => (
         <OrdersCard {...item} style={tailwind('mb-4 px-4')}/>
     )
@@ -161,7 +161,6 @@ export default function OrdersTabs() {
             renderScene={renderScene}
             onIndexChange={setIndex}
             initialLayout={{ width: layout.width }}
-
         />
     );
 }
