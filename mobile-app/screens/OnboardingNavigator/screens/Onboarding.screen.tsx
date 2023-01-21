@@ -7,9 +7,9 @@ import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
-import {OnboardingCover} from './components/OnboardingCover'
 import * as Device from 'expo-device'
 import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
+import {OnboardingCover} from './components/OnboardingCover'
 
 export function OnboardingScreen (): JSX.Element {
     const navigator = useNavigation<NavigationProp<OnboardingParamsList>>()
@@ -25,7 +25,7 @@ export function OnboardingScreen (): JSX.Element {
         testID="OnboardingScreen.View"
        >
           <OnboardingCover />
-           <View style={[tailwind('bg-brand-black-500 flex w-full py-8 px-9 h-full')]}>
+           <View style={tailwind('bg-brand-black-500 flex w-full py-8 px-9 h-full')}>
                <Text testID='OnboardingScreen.Heading' style={tailwind('font-medium text-white text-center text-lg', {
                    'mt-9': Device.osName === 'iOS',
                    'mt-5': Device.osName === 'Android'

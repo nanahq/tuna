@@ -73,7 +73,7 @@ export function PaymentSettings (): JSX.Element {
 
     return (
         <SafeAreaView>
-            <ScrolledView testId="AccountProfile.View" style={[tailwind('flex w-full px-5 mt-5 relative')]}>
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 mt-5 relative')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Bank information" editable={false}>
                     {!modalIsOpen && (
@@ -116,7 +116,7 @@ export function PaymentSettings (): JSX.Element {
                            labelColor={tailwind('text-white')}
                            onPress={() => updateProfile()}
                            label={submitting ? PaymentSettingsInteraction.ADDING_BANK_INT : PaymentSettingsInteraction.ADD_BANK_BTN}
-                           backgroundColor={tailwind('bg-brand-black-500')}
+                           backgroundColor={tailwind('bg-secondary-700')}
                            testId="Accountprofile.editButton"
                        />
                    </AddBankModal>

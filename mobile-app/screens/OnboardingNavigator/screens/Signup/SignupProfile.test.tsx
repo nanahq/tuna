@@ -1,5 +1,5 @@
-import {SignupProfileScreen} from './SignupProfile.screen'
 import {render} from '@testing-library/react-native'
+import {SignupProfileScreen} from './SignupProfile.screen'
 
 jest.mock("@react-navigation/native", () => ({
     useNavigation: jest.fn(),

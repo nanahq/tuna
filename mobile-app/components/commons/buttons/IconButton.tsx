@@ -1,9 +1,9 @@
-import {StyleProp, Text, TextStyle, TouchableOpacity, TouchableOpacityProps} from "react-native";
+import {Pressable, PressableProps, StyleProp, Text, TextStyle} from "react-native";
 import {IconComponent, IconName, IconType} from "@components/commons/IconComponent";
 import {tailwind} from "@tailwind";
 
 
-interface IconButtonProps extends TouchableOpacityProps {
+interface IconButtonProps extends PressableProps  {
     iconName: IconName
     iconType: IconType
     iconSize: number
@@ -11,17 +11,18 @@ interface IconButtonProps extends TouchableOpacityProps {
     disabled?: boolean
     textStyle?: StyleProp<TextStyle>
     iconStyle?: StyleProp<any>
+    style?:StyleProp<any>
 }
 
 
 export function IconButton (props: IconButtonProps): JSX.Element {
     const {disabled = false} = props
     return (
-        <TouchableOpacity
+        <Pressable
             testID={props.testID}
             disabled={disabled}
             onPress={props.onPress}
-            style={[tailwind('flex flex-col p-1'), props.style]}
+            style={[tailwind('flex flex-col p-1'), props.style ]}
         >
             {props.iconName !== undefined && props.iconType !== undefined && (
                 <IconComponent
@@ -37,6 +38,6 @@ export function IconButton (props: IconButtonProps): JSX.Element {
                     {props.iconLabel}
                 </Text>
             )}
-        </TouchableOpacity>
+        </Pressable>
     )
 }

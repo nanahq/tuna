@@ -1,7 +1,7 @@
 import {Text, TouchableOpacity} from "react-native";
 import {tailwind} from '@tailwind'
 
-export function ListingsPhotosUploadButton (props: {onPress: () => Promise<void>, disabled: boolean}): JSX.Element {
+export function ListingsPhotosUploadButton (props: {onPress: () => Promise<void>, disabled?: boolean}): JSX.Element {
     return (
         <TouchableOpacity
             style={tailwind('py-2 px-4 rounded-lg', {

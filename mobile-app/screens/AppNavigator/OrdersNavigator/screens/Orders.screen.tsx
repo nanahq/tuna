@@ -69,7 +69,7 @@ export function OrdersScreen (): JSX.Element {
         <SafeAreaView
             style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
         >
-            <View testID="OrdersScreen" style={[tailwind('px-3.5 py-5')]}>
+            <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
                 <OrderHeaderStatus />
                 <OrdersStats
                     hasFetchedOrders={hasFetchedOrders}
@@ -83,8 +83,8 @@ export function OrdersScreen (): JSX.Element {
                     <TabBar
                         {...props}
                         indicatorStyle={tailwind('bg-secondary-500')}
-                        scrollEnabled={true}
-                        style={[tailwind('bg-white w-full'), ]}
+                        scrollEnabled
+                        style={tailwind('bg-white w-full')}
                         labelStyle={tailwind('text-brand-black-500')}
                         activeColor={getColor('secondary-500')}
                     />

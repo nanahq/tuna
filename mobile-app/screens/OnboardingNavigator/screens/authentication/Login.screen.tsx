@@ -9,8 +9,8 @@ import {GenericButton} from "@components/commons/buttons/GenericButton";
 import * as Device from "expo-device";
 import {_api} from "@api/_request";
 import {useAuthPersistence} from "@contexts/AuthPersistenceProvider";
-import {cookieParser} from '../../../../../utils/cookieParser';
 import {ErrorMessage} from "@screens/OnboardingNavigator/screens/components/ErrorMessage";
+import {cookieParser} from '../../../../../utils/cookieParser';
 
 
 interface LoginForm {
@@ -35,7 +35,7 @@ export function LoginScreen (): JSX.Element {
     }
 
     function checkNullState (): boolean {
-        let isValidForm: boolean[] = []
+        const isValidForm: boolean[] = []
 
         Object.keys(form).forEach((formItem) => {
             // @ts-ignore
@@ -78,13 +78,13 @@ export function LoginScreen (): JSX.Element {
                 <Image source={AppLogo} style={tailwind('w-14  h-14 rounded-lg', {'mb-2': _hasError})} />
             </View>
             {(() => {
-                if(_hasError && typeof _errorMessage !== 'string' && _errorMessage !== null) {
+                if (_hasError && typeof _errorMessage !== 'string' && _errorMessage !== null) {
                     return _errorMessage.map(error => (
                         <ErrorMessage error={error} key={error} />
                     ))
                 }
 
-                if(_hasError && typeof _errorMessage === 'string') {
+                if (_hasError && typeof _errorMessage === 'string') {
                     return  <ErrorMessage error={_errorMessage} key={_errorMessage} />
                 }
 

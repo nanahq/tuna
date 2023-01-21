@@ -20,7 +20,7 @@ export function DeliveredOrders (): JSX.Element {
             <TextArea
                 containerStyle={tailwind('mb-4')}
                 testID="DeliveredOrders.Search"
-                onChangeText={() => {}} initialText={''}
+                onChangeText={() => {}} initialText=""
                 placeholder='Search Order by order id'
                 placeHolderStyle=''
                 style={tailwind('bg-brand-blue-200 rounded-lg')}

@@ -54,7 +54,7 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
         closeModal()
         navigation.navigate(OnboardingScreenName.LOGIN)
     }
-    if(isWeb) {
+    if (isWeb) {
         return (
             <SafeAreaView
                 style={tailwind("w-full h-full flex-col absolute z-50 top-0 left-0")}
@@ -105,7 +105,7 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
     return (
         <BottomSheetModal
             onChange={(index) => {
-                if(index === 1) {
+                if (index === 1) {
                     goToLogin()
                 }
             }}

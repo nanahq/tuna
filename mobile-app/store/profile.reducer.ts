@@ -102,6 +102,7 @@ export const profile = createSlice({
         ).addCase(
             fetchProfile.rejected,
             (state, _payload) => {
+                console.log(_payload)
                 void clearOnAuthError()
             }
         )

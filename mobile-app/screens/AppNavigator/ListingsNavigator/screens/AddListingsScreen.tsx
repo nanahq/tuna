@@ -102,9 +102,9 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
     const {bottom: bottomInset} = useSafeAreaInsets()
 
 
-    //Check if images selected does not exceed threshold
+    // Check if images selected does not exceed threshold
     useEffect(() => {
-        if(images.length >= MAX_SELECTION_LIMIT) {
+        if (images.length >= MAX_SELECTION_LIMIT) {
             setMaxSelectionReached(true)
         } else {
             setMaxSelectionReached(false)
@@ -113,7 +113,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
     }, [images.length])
 
         function checkNullState (): boolean {
-            let isValidForm: boolean[] = []
+            const isValidForm: boolean[] = []
 
             Object.keys(form).forEach((formItem) => {
                 // @ts-ignore
@@ -129,7 +129,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
+        const result = await ImagePicker.launchImageLibraryAsync({
             allowsMultipleSelection: true,
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             aspect: [4, 3],
@@ -146,7 +146,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
 
     const onCheckBoxChange = useCallback((day: ListingAvailableDay ): void => {
         const newDates = availableDays.map( (item) => {
-            if(item.day === day) {
+            if (item.day === day) {
                 item.checked = !item.checked
             }
             return item
@@ -169,7 +169,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
     }
 
     function onRemoveImage (image: string): void {
-        if(images.indexOf(image) !== -1) {
+        if (images.indexOf(image) !== -1) {
             setImages(images.filter(i => i !== image))
         }
     }
@@ -191,7 +191,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
     }
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white')}>
-            <ScrolledView testId="AddListingsScreen" style={[tailwind('p-5')]}>
+            <ScrolledView testId="AddListingsScreen" style={tailwind('p-5')}>
                 <IconButton
                     iconName='arrow-left'
                     iconType='Feather'
@@ -201,7 +201,7 @@ export function AddListingsScreen ({navigation}: AddListingsProps): JSX.Element 
                     onPress={goBack}
                 />
                 <Text style={tailwind('text-brand-black-500 text-lg mb-2 font-semibold')} >Add a new Listing</Text>
-                <View style={[ {paddingBottom: bottomInset + 150}]}>
+                <View style={{paddingBottom: bottomInset + 150}}>
                     <TextInputWithLabel
                         label='Listing name'
                         testID='AddListingsScreen.listingName.text'

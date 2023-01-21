@@ -95,10 +95,10 @@ export const OrdersMock: Array<{order: any, onPress: (navigation: NavigationProp
 
 
 
-export const OrderList = (props: {day: keyof DaysList}) => {
-    const RenderItem = ({item}: ListRenderItemInfo<{onPress: (navigation: NavigationProp<any>) => void,  type: CategoryType, order: any}>) => (
-        <OrdersCard {...item} style={tailwind('mb-4 px-4')}/>
-    )
+export function OrderList(props: {day: keyof DaysList}) {
+    function RenderItem({item}: ListRenderItemInfo<{onPress: (navigation: NavigationProp<any>) => void,  type: CategoryType, order: any}>) {
+  return <OrdersCard {...item} style={tailwind('mb-4 px-4')}/>
+}
     return (
             <FlashList
                 contentContainerStyle={tailwind(' bg-white')}
@@ -150,7 +150,7 @@ export default function OrdersTabs() {
                     {...props}
                     indicatorStyle={tailwind('bg-secondary-500')}
                     tabStyle={{ width: 120 }}
-                    scrollEnabled={true}
+                    scrollEnabled
                     style={[tailwind('bg-white'), {paddingTop: topInsets, }]}
                     labelStyle={tailwind('text-brand-black-500')}
                     activeColor={getColor('secondary-500')}

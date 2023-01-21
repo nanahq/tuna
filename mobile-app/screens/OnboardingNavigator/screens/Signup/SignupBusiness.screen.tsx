@@ -60,7 +60,7 @@ export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Elemen
     }
 
     function checkNullState (): boolean {
-        let isValidForm: boolean[] = []
+        const isValidForm: boolean[] = []
 
         Object.keys(form).forEach((formItem) => {
             // @ts-ignore
@@ -109,13 +109,13 @@ try {
         <>
             <ScrolledView testId="SignupBusiness.View" contentContainerStyle={[tailwind('pb-8 px-5 h-full')]}>
                 {(() => {
-                    if(_hasError && typeof _errorMessage !== 'string') {
+                    if (_hasError && typeof _errorMessage !== 'string') {
                         return _errorMessage.map(error => (
                             <ErrorMessage error={error} key={error} />
                         ))
                     }
 
-                    if(_hasError && typeof _errorMessage === 'string') {
+                    if (_hasError && typeof _errorMessage === 'string') {
                         return  <ErrorMessage error={_errorMessage} key={_errorMessage} />
                     }
 

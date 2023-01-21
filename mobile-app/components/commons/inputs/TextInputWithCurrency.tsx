@@ -29,9 +29,9 @@ export const  TextInputWithCurrency =  forwardRef<any, TextInputWithLabelProps>(
                     </View>
                     <TextInput
                         ref={ref}
-                        style={[tailwind('bg-brand-blue-200 h-full font-medium text-lg text-brand-black-500', {
+                        style={tailwind('bg-brand-blue-200 h-full font-medium text-lg text-brand-black-500', {
                             'text-base': Device.osName === 'iOS'
-                        })]}
+                        })}
                         {...rest}
                     />
                 </View>

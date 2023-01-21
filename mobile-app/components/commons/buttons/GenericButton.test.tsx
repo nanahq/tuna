@@ -1,5 +1,5 @@
-import {GenericButton} from './GenericButton'
 import {render} from "@testing-library/react-native"
+import {GenericButton} from './GenericButton'
 
 describe('<GenericButton />', () => {
     it('Should match snapshot',
