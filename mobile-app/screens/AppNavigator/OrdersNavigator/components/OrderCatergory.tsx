@@ -40,7 +40,7 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
                 )}
 
                 {props.orders.length > 0 && props.orders.map((order, index) =>  {
-                    if( props.type === 'PENDING') {
+                    if ( props.type === 'PENDING') {
                         return (
                             <>
                                 <View style={tailwind('flex flex-row  w-full items-center justify-between mb-2')}>

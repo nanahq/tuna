@@ -44,7 +44,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
     }
 
     function checkNullState (): boolean {
-        let isValidForm: boolean[] = []
+        const isValidForm: boolean[] = []
 
         Object.keys(form).forEach((formItem) => {
             // @ts-ignore
@@ -59,7 +59,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
     }
 
     function onContinuePress () {
-        if(form.confirmPassword.trim() !== form.password.trim()) {
+        if (form.confirmPassword.trim() !== form.password.trim()) {
             setPasswordMismatch(true)
             return
         }
@@ -79,7 +79,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
 
 
     return (
-        <ScrolledView testId="SignupProfileScreen.View" style={[tailwind('flex w-full px-5')]}>
+        <ScrolledView testId="SignupProfileScreen.View" style={tailwind('flex w-full px-5')}>
                 <View style={tailwind('flex flex-row items-center justify-between w-full mt-10')}>
                     <TextInputWithLabel
                       label='First Name'

@@ -4,12 +4,12 @@ import {createStackNavigator} from "@react-navigation/stack";
 
 import * as Linking from "expo-linking";
 import {useRef} from "react";
-import {OnboardingScreen} from "./screens/Onboarding.screen";
-import {OnboardingScreenName} from "./ScreenName.enum";
 import {SignupProfileScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupProfile.screen";
 import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
 import {SignupBusinessScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupBusiness.screen";
 import {LoginScreen} from "@screens/OnboardingNavigator/screens/authentication/Login.screen";
+import {OnboardingScreenName} from "./ScreenName.enum";
+import {OnboardingScreen} from "./screens/Onboarding.screen";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
@@ -78,7 +78,7 @@ export function OnboardingNagivator (): JSX.Element {
                     name={OnboardingScreenName.SIGN_UP_BUSINESS}
                     options={{
                         headerShown: true,
-                        header: () => <SignupHeader page='Restaurant' showBackButton={true} />
+                        header: () => <SignupHeader page='Restaurant' showBackButton />
                     }}
                 />
 

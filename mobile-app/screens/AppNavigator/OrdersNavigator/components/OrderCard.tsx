@@ -10,7 +10,7 @@ export function OrdersCard (props: {order?: Partial<Order>, border?: boolean, on
     return (
         <TouchableOpacity
             onPress={() => {
-                if(props.onPress !== undefined) {
+                if (props.onPress !== undefined) {
                     props.onPress(navigation)
                 }
             }}
@@ -41,7 +41,7 @@ export function DeliveredOrderCard (props: {order?: Partial<Order>, border?: boo
     return (
         <TouchableOpacity
             onPress={() => {
-                if(props.onPress !== undefined) {
+                if (props.onPress !== undefined) {
                     props.onPress(navigation)
                 }
             }}

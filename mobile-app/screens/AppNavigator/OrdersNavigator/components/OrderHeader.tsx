@@ -8,13 +8,13 @@ export function OrderHeaderStatus (): JSX.Element {
     const onToggle = (value: boolean): void => setIsAvailable(value)
 
     return (
-            <View style={[tailwind(' flex flex-row justify-end')]}>
+            <View style={tailwind(' flex flex-row justify-end')}>
                <View style={tailwind('w-1/2')}>
                    <SwitchSelector
                        height={25}
                        initial={0}
                        onPress={(value: boolean) => onToggle(value)}
-                       textColor={getColor('brand-gray-800')} //'#7a44cf'
+                       textColor={getColor('brand-gray-800')} // '#7a44cf'
                        selectedColor="#ffffff"
                        buttonColor={isAvailable ? getColor('primary-500') : getColor('brand-gray-800')}
                        borderColor={isAvailable ? getColor('primary-500') : getColor('brand-gray-800')}

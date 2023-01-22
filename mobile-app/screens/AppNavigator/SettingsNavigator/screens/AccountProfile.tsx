@@ -80,10 +80,10 @@ export function AccountProfile (): JSX.Element {
         }
 
     }
-
+    // TODO(@siradji) Improve data fields when not editing
     return (
         <SafeAreaView>
-            <ScrolledView testId="AccountProfile.View" style={[tailwind('flex w-full px-5 mt-5')]}>
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 mt-5')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 {!editPassword && (
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
@@ -163,8 +163,8 @@ export function AccountProfile (): JSX.Element {
                         style={tailwind('mt-4')}
                         labelColor={tailwind('text-white')}
                         onPress={() => updateProfile('profile')}
-                        label={'Update profile' }
-                        backgroundColor={tailwind('bg-brand-black-500')}
+                        label="Update profile"
+                        backgroundColor={tailwind('bg-secondary-700')}
                         testId="Accountprofile.editButton" />
                 )}
 
@@ -172,8 +172,8 @@ export function AccountProfile (): JSX.Element {
                         style={tailwind('mt-4')}
                         labelColor={tailwind('text-white')}
                         onPress={() => updateProfile('password')}
-                        label={'Update password'}
-                        backgroundColor={tailwind('bg-brand-black-500')}
+                        label="Update password"
+                        backgroundColor={tailwind('bg-secondary-700')}
                         testId="Accountprofile.editButton" />
                 )}
 

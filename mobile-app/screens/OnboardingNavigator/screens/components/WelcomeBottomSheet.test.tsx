@@ -1,7 +1,7 @@
 import {render} from '@testing-library/react-native'
-import {WelcomeButtonSheet} from './WelcomeBottomSheet'
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import React from "react";
+import {WelcomeButtonSheet} from './WelcomeBottomSheet'
 
 
 jest.mock("@react-navigation/native", () => ({

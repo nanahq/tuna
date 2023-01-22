@@ -1,4 +1,4 @@
-import {View, TextInput, TextInputProps, StyleProp, ViewProps, KeyboardType} from 'react-native'
+import {KeyboardType, StyleProp, TextInput, TextInputProps, View, ViewProps} from 'react-native'
 import {tailwind} from '@tailwind'
 
 interface TextAreaProps {
@@ -7,7 +7,7 @@ interface TextAreaProps {
     onChangeText: (e: any) => void
     initialText: string
     placeholder: string
-    placeHolderStyle: string
+    placeHolderStyle?: string
     containerStyle?: StyleProp<ViewProps>
     keyboardPad?: KeyboardType
     textAlign?:  any

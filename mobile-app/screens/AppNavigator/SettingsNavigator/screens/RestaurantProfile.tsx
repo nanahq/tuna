@@ -107,7 +107,7 @@ export function RestaurantProfile (): JSX.Element {
 
     return (
         <SafeAreaView>
-            <ScrolledView testId="AccountProfile.View" style={[tailwind('flex w-full px-5 mt-5')]}>
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 mt-5')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                     <View style={tailwind('flex flex-row w-full justify-center')}>
                         <View style={tailwind('flex flex-col items-center')}>
@@ -165,7 +165,7 @@ export function RestaurantProfile (): JSX.Element {
                         labelColor={tailwind('text-white')}
                         onPress={() => updateProfile()}
                         label={RestaurantProfileInteraction.UPDATE_PROFILE_BTN}
-                        backgroundColor={tailwind('bg-brand-black-500')}
+                        backgroundColor={tailwind('bg-secondary-700')}
                         testId="Accountprofile.editButton" />
                 )}
 

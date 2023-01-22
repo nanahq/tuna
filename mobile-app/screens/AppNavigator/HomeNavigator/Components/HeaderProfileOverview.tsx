@@ -10,7 +10,7 @@ import {SkeletonLoader, SkeletonLoaderScreen} from "@components/SkeletonLoaders/
 export function HeaderProfileOverview (): JSX.Element {
     const {hasFetchedProfile, profile} = useSelector((state: RootState) => state.profile)
     const insets = useSafeAreaInsets()
-    if(!hasFetchedProfile || profile === null) {
+    if (!hasFetchedProfile || profile === null) {
         return (
             <View style={[tailwind('w-full'), {paddingTop: insets.top + 30}]}>
                 <SkeletonLoader row={1} screen={SkeletonLoaderScreen.ProfileHeader} />

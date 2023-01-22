@@ -45,7 +45,7 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     }, []);
 
 
-    if(isWeb) {
+    if (isWeb) {
         return (
             <SafeAreaView
                 style={tailwind("w-full h-full flex-col absolute z-50 top-0 left-0")}
@@ -84,8 +84,10 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     }
     return (
         <BottomSheetModal
+            handleComponent={EmptyHandleComponent}
+            enablePanDownToClose={false}
             onChange={(index) => {
-                if(index === 1) {
+                if (index === 1) {
                     closeModal()
                 }
             }}
@@ -105,9 +107,14 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
                 />
             )}
         >
-            <View style={tailwind('bg-white rounded-t-xl p-5 h-full')}>
+            <View style={tailwind('bg-white rounded-t-3xl p-5 h-full')}>
                 {props.children}
             </View>
         </BottomSheetModal>
     );
+}
+
+
+function EmptyHandleComponent(): JSX.Element {
+    return <View />;
 }

@@ -66,7 +66,7 @@ export function RestaurantSettings (): JSX.Element {
 
     const onCheckBoxChange = useCallback((day: any ): void => {
         let newDates;
-        if(day === 'EVERYDAY') {
+        if (day === 'EVERYDAY') {
             newDates = availableDays.map( (item) => {
                     item.checked = true
                 return item
@@ -74,7 +74,7 @@ export function RestaurantSettings (): JSX.Element {
         }
 
          newDates = availableDays.map( (item) => {
-            if(item.day === day) {
+            if (item.day === day) {
                 item.checked = !item.checked
             }
             return item
@@ -84,7 +84,7 @@ export function RestaurantSettings (): JSX.Element {
 
     return (
         <SafeAreaView>
-            <ScrollView style={[tailwind('flex w-full h-full px-5 mt-5')]}>
+            <ScrollView style={tailwind('flex w-full h-full px-5 mt-5')}>
                 <ProfileSection sectionName="Operations">
                     <View style={tailwind('flex flex-row  w-full items-center')}>
                         <View style={tailwind('w-2/3')}>
@@ -96,7 +96,7 @@ export function RestaurantSettings (): JSX.Element {
 
                         <DateTimePicker
                             style={tailwind('w-1/3')}
-                            is24Hour={true}
+                            is24Hour
                             value={operationForm.minStartTime}
                             mode='time'
                             onChange={(_, value) => updateTime('minStartTime', value)}
@@ -112,7 +112,7 @@ export function RestaurantSettings (): JSX.Element {
 
                         <DateTimePicker
                             style={tailwind('w-1/3 mt-6')}
-                            is24Hour={true}
+                            is24Hour
                             value={operationForm.minStartTime}
                             mode='time'
                             onChange={(_, value) => updateTime('maxOrderIntervalDate', value)}
@@ -126,7 +126,7 @@ export function RestaurantSettings (): JSX.Element {
                         labelTestId="min.order"
                         value={operationForm.minOrder}
                         keyboardType='number-pad'
-                        onChangeText={(value) => setOperationForm((prev) => ({...prev, ['minOrder']: value})) }
+                        onChangeText={(value) => setOperationForm((prev) => ({...prev, 'minOrder': value})) }
                     />
                     <TextInputWithLabel
                         containerStyle={tailwind('mt-6 w-2/3')}
@@ -136,7 +136,7 @@ export function RestaurantSettings (): JSX.Element {
                         labelTestId="min.order"
                         value={operationForm.minOrder}
                         keyboardType='number-pad'
-                        onChangeText={(value) => setOperationForm((prev) => ({...prev, ['minOrder']: value})) }
+                        onChangeText={(value) => setOperationForm((prev) => ({...prev, 'minOrder': value})) }
                     />
 
                     <View style={tailwind('mt-4 mb-10 border-0.5 border-gray-700 border-dashed py-5 px-4 rounded')}>
