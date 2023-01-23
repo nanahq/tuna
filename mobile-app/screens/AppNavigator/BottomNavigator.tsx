@@ -4,7 +4,6 @@ import {AppScreenName} from "@screens/AppNavigator/AppNavScreenName";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import * as Device from 'expo-device'
 import {IconComponent} from "@components/commons/IconComponent";
-import {HomeScreen} from "@screens/AppNavigator/HomeNavigator/Screens/Home.screen";
 import {OrderNavigator} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
 import {ListingsNavigator} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
@@ -12,6 +11,7 @@ import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/Settin
 import {ListingsScreenName} from "@screens/AppNavigator/ListingsNavigator/ListingsScreenName.enum";
 import {HomeScreenName} from "@screens/AppNavigator/HomeNavigator/HomeScreenName.enum";
 import {SettingsNavigator} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
+import {WalletNavigator} from "@screens/AppNavigator/WalletNavigator/WalletNavigator";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -63,7 +63,7 @@ export function BottomTabNavigator ():JSX.Element {
                 }}
             />
             <BottomTab.Screen
-                component={HomeScreen}
+                component={WalletNavigator}
                 name={AppScreenName.WALLET}
                 options={{
                     tabBarLabel: ({ focused, color }) =>

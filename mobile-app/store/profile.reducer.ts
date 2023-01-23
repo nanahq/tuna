@@ -1,8 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
-import {persistence} from "@api/persistence";
-import * as Updates from 'expo-updates'
+import {clearOnAuthError} from "@store/common";
 
 
 export interface ProfileState {
@@ -108,9 +107,3 @@ export const profile = createSlice({
         )
     },
 });
-
- export async function clearOnAuthError (nullableState?: any): Promise<void> {
-    nullableState !== undefined && (nullableState = null)
-    await persistence.deleteSecure()
-    await Updates.reloadAsync()
-}
