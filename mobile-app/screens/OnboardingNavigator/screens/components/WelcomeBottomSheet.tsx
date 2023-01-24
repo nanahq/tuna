@@ -127,14 +127,14 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
         >
             <View style={tailwind('bg-white rounded-t-xl p-5 h-full')}>
                <View style={tailwind('flex w-full flex-col justify-center')}>
-                   <IconComponent iconType='Feather' name='check-circle' size={100} style={tailwind('text-primary-500 text-center')} />
+                   <IconComponent iconType='Feather' name='check-circle' size={70} style={tailwind('text-primary-500 text-center')} />
                    <Text style={tailwind('font-semibold mt-3 text-lg text-center text-brand-black-500')}>Account successfully Created!</Text>
                    <GenericButton
                        style={tailwind('mt-4')}
                        onPress={goToLogin}
-                       labelColor={tailwind('text-white py-3 text-sm')}
+                       labelColor={tailwind('text-white py-4 text-sm')}
                        label='Log into your account'
-                       backgroundColor={tailwind('bg-secondary-500')}
+                       backgroundColor={tailwind('bg-brand-black-500')}
                        testId="WelcomeModal.ContinueButton"
                    />
                </View>
