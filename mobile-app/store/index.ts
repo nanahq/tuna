@@ -3,6 +3,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import {profile} from "@store/profile.reducer";
 import {orders} from "@store/orders.reducer";
 import {wallet} from "@store/wallet.reducer";
+import {reviews} from "@store/reviews.reducer";
 
 /**
  * RootState for EatLater vendors App
@@ -18,7 +19,8 @@ export function initializeStore() {
         reducer: {
             profile: profile.reducer,
             orders: orders.reducer,
-            wallet: wallet.reducer
+            wallet: wallet.reducer,
+            reviews: reviews.reducer
 
         },
         middleware: (getDefaultMiddleware) =>

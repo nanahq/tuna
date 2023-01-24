@@ -12,6 +12,7 @@ import {ListingsScreenName} from "@screens/AppNavigator/ListingsNavigator/Listin
 import {HomeScreenName} from "@screens/AppNavigator/HomeNavigator/HomeScreenName.enum";
 import {SettingsNavigator} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
 import {WalletNavigator} from "@screens/AppNavigator/WalletNavigator/WalletNavigator";
+import {ReviewNavigator} from "@screens/AppNavigator/ReviewNavigator/ReviewNavigator";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -94,7 +95,22 @@ export function BottomTabNavigator ():JSX.Element {
                     ),
                 }}
             />
-
+            <BottomTab.Screen
+                component={ReviewNavigator}
+                name={AppScreenName.REVIEWS}
+                options={{
+                    tabBarLabel: ({ focused, color }) =>
+                        getTabBarLabel({
+                            focused,
+                            color,
+                            title: 'Reviews',
+                        }),
+                    tabBarTestID: "BottomTabHome",
+                    tabBarIcon: ({ color }) => (
+                        <IconComponent iconType='Feather' name="message-circle"  size={24} color={color}/>
+                    ),
+                }}
+            />
             <BottomTab.Screen
                 component={SettingsNavigator}
                 name={AppScreenName.SETTINGS}
