@@ -10,40 +10,6 @@ import {EmptyReviews} from "@screens/AppNavigator/ReviewNavigator/screen/compone
 import {ReviewCard} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewCard";
 import {Review} from "@store/reviews.reducer";
 
-const data = [{
-    reviewDate: Date.now().toLocaleString(),
-    reviewUser: 'Adam',
-    reviewDesc: 'Food is phenomenal',
-    reviewRating: '4.8',
-    reviewListingName: 'Fufu soup'
-},
-    {
-        reviewDate: new Date().getTime().toLocaleString(),
-        reviewUser: 'Adam',
-        reviewDesc: 'Food is phenomenal',
-        reviewRating: '4.8',
-        reviewListingName: 'Fufu soup'
-    },
-
-    {
-        reviewDate: new Date().getTime().toLocaleString(),
-        reviewUser: 'Adam',
-        reviewDesc: 'Food is phenomenal',
-        reviewRating: '4.8',
-        reviewListingName: 'Fufu soup'
-    },
-
-    {
-        reviewDate: new Date().getTime().toLocaleString(),
-        reviewUser: 'Adam',
-        reviewDesc: 'Food is phenomenal',
-        reviewRating: '4.8',
-        reviewListingName: 'Fufu soup'
-    },
-
-
-]
-
 
 export function ReviewScreen (_props: any): JSX.Element {
     const {reviews, hasFetchedReviews, ...rest} = useSelector((state: RootState) => state.reviews)
@@ -54,10 +20,10 @@ export function ReviewScreen (_props: any): JSX.Element {
             <>
                 <ReviewsHeader {...rest} />
                 <View style={tailwind('px-3')}>
-                    <MostReviewedMenus reviews={data} />
+                    <MostReviewedMenus reviews={getTopRatedMenus()} />
                     <View style={tailwind('mt-5')}>
                         <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-3')}>Recent Reviews</Text>
-                        <RecentViews reviews={data} />
+                        <RecentViews reviews={reviews} />
                     </View>
                 </View>
             </>
