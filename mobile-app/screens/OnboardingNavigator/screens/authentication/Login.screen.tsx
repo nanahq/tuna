@@ -1,16 +1,16 @@
 import {Image, Text, View} from 'react-native'
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import AppLogo from '@assets/onboarding/app-logo.png'
-import {getColor, tailwind} from "@tailwind";
+import {tailwind} from "@tailwind";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {useState} from "react";
-import {LoaderComponent} from "@components/commons/LoaderComponent";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import * as Device from "expo-device";
 import {_api} from "@api/_request";
 import {useAuthPersistence} from "@contexts/AuthPersistenceProvider";
-import {ErrorMessage} from "@screens/OnboardingNavigator/screens/components/ErrorMessage";
 import {cookieParser} from '../../../../../utils/cookieParser';
+import {LogoutButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
+import Toast from "react-native-toast-message";
 
 
 interface LoginForm {
@@ -62,9 +62,17 @@ export function LoginScreen (): JSX.Element {
         } catch (error: any) {
             _setHasError(true)
             if (Number(error.statusCode) === 500) {
-                _setErrorMessage('Something went wrong. Try again')
+               Toast.show({
+                   type: 'error',
+                   text1: 'Something went wrong. Login failed',
+                   autoHide: true,
+               })
             } else {
-                _setErrorMessage(error.message)
+                Toast.show({
+                    type: 'error',
+                    text1: typeof error.message !== 'string' ? error.message[0] : error.message,
+                    autoHide: true,
+                })
             }
         } finally {
             _setLoading(false)
@@ -75,20 +83,8 @@ export function LoginScreen (): JSX.Element {
             style={{padding: 20, paddingTop: topInsert + 28}}
         >
             <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
-                <Image source={AppLogo} style={tailwind('w-14  h-14 rounded-lg', {'mb-2': _hasError})} />
+                <Image source={AppLogo} style={tailwind('w-14  h-14 rounded-lg')} />
             </View>
-            {(() => {
-                if (_hasError && typeof _errorMessage !== 'string' && _errorMessage !== null) {
-                    return _errorMessage.map(error => (
-                        <ErrorMessage error={error} key={error} />
-                    ))
-                }
-
-                if (_hasError && typeof _errorMessage === 'string') {
-                    return  <ErrorMessage error={_errorMessage} key={_errorMessage} />
-                }
-
-            })()}
             <View style={tailwind('mt-20')}>
                 <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-16')}>Welcome back</Text>
                 <TextInputWithLabel
@@ -107,28 +103,25 @@ export function LoginScreen (): JSX.Element {
                     testID="LoginScreen.Phone.Password"
                     containerStyle={tailwind('w-full mb-20')}
                     onChangeText={value => onChange('password', value)}
+                    secureTextEntry={true}
                 />
-                {_loading &&
-                    <LoaderComponent
-                        size='small'
-                        containerStyle={tailwind('mt-10')}
-                        color={getColor('secondary-500')}
-                    />}
-                {!_loading && (
-                        <GenericButton
-                            style={tailwind({
-                                'mt-10': Device.osName === 'Android',
-                                'mt-20': Device.osName === 'iOS'
-                            })}
-                            onPress={onContinuePress}
-                            labelColor={tailwind('text-white')}
-                            label='Log in'
-                            backgroundColor={tailwind('bg-secondary-500')}
-                            testId="LoginScreen.LoginButton"
-                            disabled={checkNullState()}
-                        />
-                )}
+
+                <GenericButton
+                    style={tailwind({
+                        'mt-10': Device.osName === 'Android',
+                        'mt-20': Device.osName === 'iOS'
+                    })}
+                    onPress={onContinuePress}
+                    labelColor={tailwind('text-white')}
+                    label={_loading ? 'Login in...' : 'Log in'}
+                    backgroundColor={tailwind('bg-brand-black-500')}
+                    testId="LoginScreen.LoginButton"
+                    disabled={checkNullState()}
+                    loading={_loading}
+                />
+
             </View>
+            <LogoutButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
         </View>
     )
 }

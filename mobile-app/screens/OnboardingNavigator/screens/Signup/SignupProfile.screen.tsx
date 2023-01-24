@@ -164,7 +164,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
                     disabled={checkNullState()}
                 />
-            <LoginButtonWithText />
+            <LoginButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
         </ScrolledView>
     )
 }

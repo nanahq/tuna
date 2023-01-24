@@ -10,6 +10,7 @@ import {SignupBusinessScreen} from "@screens/OnboardingNavigator/screens/Signup/
 import {LoginScreen} from "@screens/OnboardingNavigator/screens/authentication/Login.screen";
 import {OnboardingScreenName} from "./ScreenName.enum";
 import {OnboardingScreen} from "./screens/Onboarding.screen";
+import Toast from "react-native-toast-message";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
@@ -92,6 +93,7 @@ export function OnboardingNagivator (): JSX.Element {
             ref={navigationRef}
         >
             <OnboardingStacks />
+            <Toast />
         </NavigationContainer>
     )
 }
