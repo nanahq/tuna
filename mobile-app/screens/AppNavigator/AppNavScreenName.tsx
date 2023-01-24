@@ -4,5 +4,6 @@ export enum AppScreenName {
     ORDERS = 'ORDERS',
     SETTINGS = 'SETTINGS',
     WALLET = 'WALLET',
-    STAT = 'STAT'
+    STAT = 'STAT',
+    REVIEWS = 'REVIEWS'
 }
