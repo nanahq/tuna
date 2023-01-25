@@ -35,7 +35,7 @@ export interface PasswordForm {
 
 
 
-const showToast = (type: 'success' | 'error', message: string) => {
+export const showToast = (type: 'success' | 'error', message: string) => {
     Toast.show({
         type: type,
         text1: message,

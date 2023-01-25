@@ -3,8 +3,7 @@ import {tailwind} from '@tailwind'
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {useRef, useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
-import {ScrolledView} from "@components/views/ScrolledView";
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import * as Device from 'expo-device'
 import {StackScreenProps} from "@react-navigation/stack";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
@@ -79,8 +78,8 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
 
 
     return (
-        <ScrolledView testId="SignupProfileScreen.View" style={tailwind('flex w-full px-5')}>
-                <View style={tailwind('flex flex-row items-center justify-between w-full mt-10')}>
+        <KeyboardAwareScrollView style={tailwind('flex w-full px-5')}>
+                <View testID="SignupProfileScreen.View"  style={tailwind('flex flex-row items-center justify-between w-full mt-10')}>
                     <TextInputWithLabel
                       label='First Name'
                       testID='SignupProfileScreen.FirstName.Input'
@@ -128,6 +127,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
 
                 />
                 <TextInputWithLabel
+                    secureTextEntry={true}
                     ref={passwordRef}
                     label='Password'
                     testID='SignupProfileScreen.Password.Input'
@@ -139,6 +139,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
 
                 />
                 <TextInputWithLabel
+                    secureTextEntry={true}
                     ref={confirmPasswordRef}
                     label='Confirm Password'
                     testID='SignupProfileScreen.ConfirmPassword.Input'
@@ -160,11 +161,11 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     onPress={onContinuePress}
                     labelColor={tailwind('text-white')}
                     label='Continue'
-                    backgroundColor={tailwind('bg-secondary-500')}
+                    backgroundColor={tailwind('bg-brand-black-500')}
                     testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
                     disabled={checkNullState()}
                 />
-            <LoginButtonWithText />
-        </ScrolledView>
+            <LoginButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
+        </KeyboardAwareScrollView>
     )
 }

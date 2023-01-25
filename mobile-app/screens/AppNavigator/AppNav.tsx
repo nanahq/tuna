@@ -18,11 +18,11 @@ export interface AppParamList {
 export function AppNavigator(): JSX.Element {
     const dispatch = useDispatch()
 
-
     useEffect(() => {
         dispatch(fetchProfile() as any)
         dispatch(fetchOrders() as any)
     }, [])
+
 
     return (
         <NavigationContainer linking={LinkingConfiguration}>

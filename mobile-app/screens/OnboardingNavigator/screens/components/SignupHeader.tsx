@@ -3,6 +3,7 @@ import {Text, View} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {IconButton} from "@components/commons/buttons/IconButton";
 import {useNavigation} from "@react-navigation/native";
+import {ProgressBar} from "@screens/OnboardingNavigator/screens/components/ProgressBar";
 
 export function SignupHeader (props: {page: string, showBackButton?: boolean}): JSX.Element {
     const {showBackButton = false} = props
@@ -26,6 +27,7 @@ export function SignupHeader (props: {page: string, showBackButton?: boolean}): 
                     <Text  testID='signupProfileScreen.Page'  style={tailwind(' text-sm text-brand-black-500 font-medium')}>{props.page} Details</Text>
                 </View>
             )}
+            <ProgressBar progress={props.page === 'Restaurant' ? 2 : 1} />
         </View>
     )
 }

@@ -1,5 +1,5 @@
-import {Keyboard, TextInput} from 'react-native'
-import {getColor, tailwind} from '@tailwind'
+import {TextInput, View} from 'react-native'
+import {tailwind} from '@tailwind'
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {useRef, useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
@@ -8,11 +8,11 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {_api} from "@api/_request";
 import {SignupProfileForm} from "@screens/OnboardingNavigator/screens/Signup/SignupProfile.screen";
-import {LoaderComponent} from "@components/commons/LoaderComponent";
 import {WelcomeButtonSheet} from "@screens/OnboardingNavigator/screens/components/WelcomeBottomSheet";
-import {ScrolledView} from "@components/views/ScrolledView";
 import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
-import {ErrorMessage} from "@screens/OnboardingNavigator/screens/components/ErrorMessage";
+import {TermsAndConditionsSection} from "@screens/OnboardingNavigator/screens/components/TermsAndConditionsPage";
+import Toast from "react-native-toast-message";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 interface SignupBusinessForm {
     businessPhoneNumber: string
@@ -48,7 +48,7 @@ export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Elemen
         businessPhoneNumber: '',
         businessName: '',
         address: '',
-        state: ''
+        state: 'Abuja'
     })
 
     function openModal (): void {
@@ -91,35 +91,26 @@ try {
         } catch (error: any) {
             _setHasError(true)
             if (Number(error.statusCode) === 500) {
-                _setErrorMessage('Something went wrong. Try again')
+                Toast.show({
+                    type: 'error',
+                    text1: 'Something went wrong. Login failed',
+                    autoHide: true,
+                })
             } else {
-                _setErrorMessage(error.message)
+                Toast.show({
+                    type: 'error',
+                    text1: typeof error.message !== 'string' ? error.message[0] : error.message,
+                    autoHide: true,
+                })
             }
         } finally {
             _setLoading(false)
         }
     }
 
-
-    function dismissKeyboard () {
-        Keyboard.dismiss
-    }
-
     return (
-        <>
-            <ScrolledView testId="SignupBusiness.View" contentContainerStyle={[tailwind('pb-8 px-5 h-full')]}>
-                {(() => {
-                    if (_hasError && typeof _errorMessage !== 'string') {
-                        return _errorMessage.map(error => (
-                            <ErrorMessage error={error} key={error} />
-                        ))
-                    }
-
-                    if (_hasError && typeof _errorMessage === 'string') {
-                        return  <ErrorMessage error={_errorMessage} key={_errorMessage} />
-                    }
-
-                })()}
+        <KeyboardAwareScrollView>
+            <View testID="SignupBusiness.View" style={[tailwind('pb-8 px-5 h-full')]}>
                 <TextInputWithLabel
                     ref={businessNameRef}
                     label='Business Name'
@@ -153,44 +144,26 @@ try {
                     onSubmitEditing={() => stateRef?.current?.focus()}
 
                 />
-                <TextInputWithLabel
-                    ref={stateRef}
-                    label='Business state (We are currently available in Kano'
-                    testID='SignupBusiness.state.Input'
-                    labelTestId="SignupBusiness.state.Label"
-                    containerStyle={tailwind('w-full mt-5')}
-                    value={form.state}
-                    onChangeText={(value) => {
-                        onChange('state', value)
-                    }}
-                    onSubmitEditing={dismissKeyboard}
+                <TermsAndConditionsSection />
+                <GenericButton
+                    style={tailwind({
+                        'mt-10': Device.osName === 'Android',
+                        'mt-20': Device.osName === 'iOS'
+                    })}
+                    onPress={onContinuePress}
+                    labelColor={tailwind('text-white')}
+                    label={_loading ? 'Creating your account' : 'Create account'}
+                    backgroundColor={tailwind('bg-brand-black-500')}
+                    testId="OnboardingScreen.SignupBusinessScreen.ContinueButton"
+                    disabled={checkNullState()}
+                    loading={_loading}
                 />
-                {_loading &&
-                    <LoaderComponent
-                        size='small'
-                        containerStyle={tailwind('my-3')}
-                        color={getColor('secondary-500')}
-                    />}
                 {!_loading && (
-                    <>
-                        <GenericButton
-                            style={tailwind({
-                                'mt-10': Device.osName === 'Android',
-                                'mt-20': Device.osName === 'iOS'
-                            })}
-                            onPress={onContinuePress}
-                            labelColor={tailwind('text-white')}
-                            label='Become a vendor'
-                            backgroundColor={tailwind('bg-secondary-500')}
-                            testId="OnboardingScreen.SignupBusinessScreen.ContinueButton"
-                            disabled={checkNullState()}
-                        />
-                        <LoginButtonWithText />
-                    </>
+                        <LoginButtonWithText style={tailwind('text-brand-black-500')} />
                 )}
-            </ScrolledView>
+            </View>
             <WelcomeButtonSheet  promptModalName='WELCOME_MODAL' modalRef={bottomSheetModalRef} />
-        </>
+        </KeyboardAwareScrollView>
 
     )
 }
