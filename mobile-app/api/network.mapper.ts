@@ -4,7 +4,7 @@ export type APIService = 'API_GATEWAY' | 'VENDOR_GATEWAY' | 'ADMIN_GATEWAY'
 
 export const NetworkMapper: Record<NetworkType, string> = {
     PLAYGROUND: 'http://localhost',
-    PRODUCTION: process.env.API_URL ?? 'http://34.118.24.87.nip.io'
+    PRODUCTION: process.env.API_URL ?? 'http://api.eatlater.ng'
 }
 
 
