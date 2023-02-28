@@ -2,8 +2,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {getColor, tailwind} from '@tailwind'
 import {OrdersStats} from "@screens/AppNavigator/OrdersNavigator/components/OrdersStats";
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {useSelector} from "react-redux";
-import {RootState} from "@store/index";
+import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {Order, OrderStatus} from "@store/orders.reducer";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
@@ -15,6 +14,8 @@ import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import {AddBankModal as LocationModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
 import {LocationModalContent} from "@components/LocationModalContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useDispatch} from "react-redux";
+import {fetchSettings} from "@store/settings.reducer";
 
 const MODAL_NAME = 'LOCATION_MODAL'
 
@@ -24,7 +25,11 @@ const DATA = [
     {key: 'route', title: 'In-transit'},
 ]
 export function OrdersScreen (): JSX.Element {
-    const {orders, hasFetchedOrders} = useSelector((state: RootState) => state.orders )
+    //State selectors
+    const {orders, hasFetchedOrders} = useAppSelector((state: RootState) => state.orders )
+    const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
+    const dispatch = useAppDispatch()
+
     const layout = useWindowDimensions();
     const [index, setIndex] = useState<number>(0);
     const [routes, _setRoutes] = useState<Array<{key: string, title: string}>>(DATA);
@@ -33,6 +38,9 @@ export function OrdersScreen (): JSX.Element {
     const { dismiss } = useBottomSheetModal();
 
 
+    useEffect(() => {
+        dispatch(fetchSettings(profile._id))
+    }, [])
     const filterOrders = useCallback((type: 'completed' | 'pending' | 'cancelled'): number => {
         return orders.filter((order: Order) => {
             switch (type) {
@@ -118,7 +126,7 @@ export function OrdersScreen (): JSX.Element {
              style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
-                 <OrderHeaderStatus />
+                 {hasFetchedProfile && (<OrderHeaderStatus status={profile.status as any} />)}
                  <OrdersStats
                      hasFetchedOrders={hasFetchedOrders}
                      completed={filterOrders('completed')}
@@ -141,7 +149,6 @@ export function OrdersScreen (): JSX.Element {
                  renderScene={renderScene}
                  onIndexChange={setIndex}
                  initialLayout={{ width: layout.width }}
-                 // style={tailwind('mt-16')}
              />
          </SafeAreaView>
          <LocationModal promptModalName={MODAL_NAME} modalRef={bottomSheetModalRef}>

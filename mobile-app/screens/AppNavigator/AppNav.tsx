@@ -2,12 +2,12 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {LinkingOptions, NavigationContainer} from "@react-navigation/native";
 import {AppLinking, BottomTabNavigator} from "@screens/AppNavigator/BottomNavigator";
 import * as Linking from "expo-linking"
-import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {fetchProfile} from "@store/profile.reducer";
 import {fetchOrders} from "@store/orders.reducer";
 
 import Toast from 'react-native-toast-message'
+import {useAppDispatch} from "@store/index";
 
 const App = createStackNavigator<AppParamList>()
 
@@ -16,7 +16,7 @@ export interface AppParamList {
     [key: string]: undefined | Object
 }
 export function AppNavigator(): JSX.Element {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(fetchProfile() as any)
