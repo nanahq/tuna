@@ -1,7 +1,5 @@
-import {Keyboard, Text, TextInput, View} from 'react-native'
+import {Keyboard, Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
-import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
-import {useRef, useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import * as Device from 'expo-device'
@@ -9,60 +7,30 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
+import {useForm} from "react-hook-form";
+import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 
 export interface SignupProfileForm {
     firstName: string
     lastName: string
-    phoneNumber: string
+    phone: string
     email: string
     password: string
     confirmPassword: string
 }
 
+
 type SignupProfileScreenProps = StackScreenProps<OnboardingParamsList, any>
 
 export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JSX.Element {
-    const lastNameRef = useRef<TextInput | null>(null)
-    const emailRef = useRef<TextInput | null>(null)
-    const passwordRef = useRef<TextInput | null>(null)
-    const phoneRef = useRef<TextInput | null>(null)
-    const confirmPasswordRef = useRef<TextInput | null>(null)
-    const [passwordMismatch, setPasswordMismatch] = useState<boolean>(false)
-    const [form, setForm] = useState<SignupProfileForm>({
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+    const {control, formState: {errors}, handleSubmit, register, getValues} = useForm<SignupProfileForm>({
+        criteriaMode: 'all',
+        mode: 'onBlur'
     })
 
 
-    function onChange (name: string, value: string): void {
-       setForm((prevState) => ({...prevState, [name]: value}))
-    }
-
-    function checkNullState (): boolean {
-        const isValidForm: boolean[] = []
-
-        Object.keys(form).forEach((formItem) => {
-            // @ts-ignore
-            if (formItem in form && form[formItem].length > 1) {
-                isValidForm.push(true)
-            } else {
-                isValidForm.push(false)
-            }
-        })
-
-        return isValidForm.some(state => !state) || passwordMismatch
-    }
-
-    function onContinuePress () {
-        if (form.confirmPassword.trim() !== form.password.trim()) {
-            setPasswordMismatch(true)
-            return
-        }
-        const {confirmPassword: _, ...rest} = form
+    function onContinuePress (data: SignupProfileForm): void {
+        const {confirmPassword: _, ...rest} = data
         navigation.navigate({
             name: OnboardingScreenName.SIGN_UP_BUSINESS,
             params: {
@@ -76,94 +44,120 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
         Keyboard.dismiss
     }
 
-
     return (
         <KeyboardAwareScrollView style={tailwind('flex w-full px-5')}>
                 <View testID="SignupProfileScreen.View"  style={tailwind('flex flex-row items-center justify-between w-full mt-10')}>
-                    <TextInputWithLabel
-                      label='First Name'
-                      testID='SignupProfileScreen.FirstName.Input'
-                      style={{
-                          width: 160
-                      }}
-                      labelTestId="SignupProfileScreen.FirstName.Label"
-                      value={form.firstName}
-                      onChangeText={(value) => onChange('firstName', value)}
-                      onSubmitEditing={() => lastNameRef?.current?.focus()}
+                    <ControlledTextInputWithLabel
+                        error={errors.firstName !== undefined}
+                        errorMessage={errors.firstName?.message}
+                        register={register('firstName')}
+                        control={control}
+                        label='First Name'
+                        name='firstName'
+                        testID='SignupProfileScreen.FirstName.Input'
+                        style={{
+                            width: 160
+                        }}
+                        labelTestId="SignupProfileScreen.FirstName.Label"
+                        rules={{required: {
+                                value: true,
+                                message: "Required"
+                            }}}
                     />
-                    <TextInputWithLabel
-                        ref={lastNameRef}
+                    <ControlledTextInputWithLabel
+                        error={errors.lastName !== undefined}
+                        errorMessage={errors.lastName?.message}
                         label='Last Name'
                         testID='SignupProfileScreen.LastName.Input'
                         labelTestId="SignupProfileScreen.LastName.Label"
                         style={{
                             width: 160
                         }}
-                        value={form.lastName}
-                        onChangeText={(value) => onChange('lastName', value)}
-                        onSubmitEditing={() => phoneRef?.current?.focus()}
+                        name='lastName'
+                        control={control}
+                        rules={{required: {
+                                value: true,
+                                message: "Required"
+                            }}}
                     />
                 </View>
-                <TextInputWithLabel
-                    ref={phoneRef}
+                <ControlledTextInputWithLabel
+                    control={control}
+                    name='phone'
                     label='Phone Number'
                     testID='SignupProfileScreen.PhoneNumber.Input'
                     labelTestId="SignupProfileScreen.PhoneNumber.Label"
                     containerStyle={tailwind('w-full mt-5')}
-                    value={form.phoneNumber}
-                    onChangeText={(value) => onChange('phoneNumber', value)}
-                    onSubmitEditing={() => emailRef?.current?.focus()}
-
+                    rules={{required: {
+                            value: true,
+                            message: "Required"
+                        }}}
+                    error={errors.phone !== undefined}
+                    errorMessage={errors.phone?.message}
                 />
-                <TextInputWithLabel
-                    ref={emailRef}
+                <ControlledTextInputWithLabel
                     label='Email'
+                    name='email'
+                    control={control}
                     testID='SignupProfileScreen.Email.Input'
                     labelTestId="SignupProfileScreen.Email.Label"
                     containerStyle={tailwind('w-full mt-5')}
-                    value={form.email}
-                    onChangeText={(value) => onChange('email', value)}
-                    onSubmitEditing={() => passwordRef?.current?.focus()}
-
+                    error={errors.email !== undefined}
+                    errorMessage={errors.email?.message}
+                    rules={{required: {
+                        value: true,
+                            message: "Required"
+                        }}}
                 />
-                <TextInputWithLabel
+                <ControlledTextInputWithLabel
                     secureTextEntry={true}
-                    ref={passwordRef}
                     label='Password'
                     testID='SignupProfileScreen.Password.Input'
                     labelTestId="SignupProfileScreen.Password.Label"
                     containerStyle={tailwind('w-full mt-5')}
-                    value={form.password}
-                    onChangeText={(value) => onChange('password', value)}
-                    onSubmitEditing={() => confirmPasswordRef?.current?.focus()}
-
+                    name='password'
+                    control={control}
+                    rules={{required: {
+                        value: true,
+                            message: 'Required'
+                        }, minLength: {
+                        value: 8,
+                            message: 'Password must be more than 8 characters'
+                        }}}
+                    error={errors.password !== undefined}
+                    errorMessage={errors.password?.message}
                 />
-                <TextInputWithLabel
+                <ControlledTextInputWithLabel
                     secureTextEntry={true}
-                    ref={confirmPasswordRef}
                     label='Confirm Password'
                     testID='SignupProfileScreen.ConfirmPassword.Input'
                     labelTestId="SignupProfileScreen.ConfirmPassword.Label"
                     containerStyle={tailwind('w-full mt-5')}
-                    value={form.confirmPassword}
-                    onChangeText={(value) => {
-                        onChange('confirmPassword', value)
-                        setPasswordMismatch(false)
-                    }}
+                    name='confirmPassword'
+                    control={control}
                     onSubmitEditing={dismissKeyboard}
+                    error={errors.confirmPassword !== undefined}
+                    errorMessage={errors.confirmPassword?.message}
+                    rules={{required: {
+                            value: true,
+                            message: 'Required'
+                        }, minLength: {
+                            value: 8,
+                            message: 'Password must be more than 8 characters'
+                        },
+                        validate: (value) => value === getValues('password') || 'Password mismatch'
+                    }}
                 />
-                 {passwordMismatch && (<Text style={tailwind('text-red-500 text-sm text-center')}>Password do not match</Text>)}
                 <GenericButton
                     style={tailwind({
                         'mt-10': Device.osName === 'Android',
                         'mt-20': Device.osName === 'iOS'
                     })}
-                    onPress={onContinuePress}
+                    onPress={handleSubmit(onContinuePress)}
                     labelColor={tailwind('text-white')}
                     label='Continue'
                     backgroundColor={tailwind('bg-brand-black-500')}
                     testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
-                    disabled={checkNullState()}
                 />
             <LoginButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
         </KeyboardAwareScrollView>

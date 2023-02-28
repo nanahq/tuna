@@ -16,7 +16,7 @@ export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
         firstName: string
         lastName: string
-        phoneNumber: string
+        phone: string
         password: string
         email: string
     },
