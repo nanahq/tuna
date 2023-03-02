@@ -14,6 +14,7 @@ import Modal from 'react-overlays/Modal'
 type WelcomeModalProps =   {
     promptModalName: string
     modalRef: RefObject<BottomSheetModalMethods>
+    enablePanDownToClose?: boolean
 
 }
 
@@ -22,7 +23,7 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     const { dismiss } = useBottomSheetModal();
     const containerRef = useRef(null);
     const isWeb = Device.osName !== 'Android' && Device.osName !== 'iOS'
-
+        const {enablePanDownToClose = false} = props
     const getSnapPoints = (): string[] => {
         if (Device.osName === "iOS") {
             return ["50%"]; // ios measures space without keyboard
@@ -84,8 +85,9 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     }
     return (
         <BottomSheetModal
+            enableHandlePanningGesture={enablePanDownToClose}
             handleComponent={EmptyHandleComponent}
-            enablePanDownToClose={false}
+            enablePanDownToClose={enablePanDownToClose}
             onChange={(index) => {
                 if (index === 1) {
                     closeModal()

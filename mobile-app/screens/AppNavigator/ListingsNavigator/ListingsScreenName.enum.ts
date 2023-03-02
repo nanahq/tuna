@@ -3,5 +3,6 @@ export enum ListingsScreenName  {
     GET_LISTING = 'GetListing',
     ADD_LISTING= 'AddListing',
     ADD_CATEGORY = 'AddCategory',
-    ADD_OPTION = 'AddOption'
+    ADD_OPTION = 'AddOption',
+    SINGLE_MENU = 'SingleMenu'
 }

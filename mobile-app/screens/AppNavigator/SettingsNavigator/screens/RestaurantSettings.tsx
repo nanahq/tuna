@@ -60,7 +60,6 @@ export function RestaurantSettings (): JSX.Element {
 
     const updateTime = (name: keyof OpsSettings, value: Date | undefined ) => {
         const currentTime = value
-        console.log(currentTime)
         setOperationForm((prev) => ({...prev, [name]: currentTime}))
     }
 

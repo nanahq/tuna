@@ -13,6 +13,7 @@ export interface SettingsState {
 
 const initialState: SettingsState = {
     settings: {
+        _id: '',
         vendorId: '',
         payment: undefined,
         operations: undefined
@@ -23,7 +24,6 @@ const initialState: SettingsState = {
 export const fetchSettings = createAsyncThunk(
     AppActions.FETCH_SETTINGS,
     async (vendorId: string) => {
-        console.log(vendorId)
         return await _api.requestData<undefined>({
             method: 'get',
             url: 'vendor/profile'

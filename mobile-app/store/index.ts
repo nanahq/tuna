@@ -6,6 +6,7 @@ import {wallet} from "@store/wallet.reducer";
 import {reviews} from "@store/reviews.reducer";
 import {settings} from "@store/settings.reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {listings} from "@store/listings.reducer";
 /**
  * RootState for EatLater vendors App
  *
@@ -22,7 +23,8 @@ export function initializeStore() {
             orders: orders.reducer,
             wallet: wallet.reducer,
             reviews: reviews.reducer,
-            settings: settings.reducer
+            settings: settings.reducer,
+            listings: listings.reducer
 
         },
         middleware: (getDefaultMiddleware) =>

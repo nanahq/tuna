@@ -4,7 +4,6 @@ import {OrdersStats} from "@screens/AppNavigator/OrdersNavigator/components/Orde
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {useCallback, useEffect, useRef, useState} from "react";
-import {Order, OrderStatus} from "@store/orders.reducer";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {useWindowDimensions, View} from "react-native";
@@ -16,6 +15,8 @@ import {LocationModalContent} from "@components/LocationModalContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
 import {fetchSettings} from "@store/settings.reducer";
+import {Order} from "@typings/Orders.type";
+import { OrderI } from "@imagyne/eatlater-types";
 
 const MODAL_NAME = 'LOCATION_MODAL'
 
@@ -38,29 +39,29 @@ export function OrdersScreen (): JSX.Element {
     const { dismiss } = useBottomSheetModal();
 
 
-    useEffect(() => {
-        dispatch(fetchSettings(profile._id))
-    }, [])
+    // useEffect(() => {
+    //     dispatch(fetchSettings(profile._id))
+    // }, [])
     const filterOrders = useCallback((type: 'completed' | 'pending' | 'cancelled'): number => {
-        return orders.filter((order: Order) => {
+        return orders.filter((order: OrderI) => {
             switch (type) {
                 case "completed":
-                    return order.orderStatus === OrderStatus.FULFILLED
+                    return order
                 case "pending":
-                    return order.orderStatus in [OrderStatus.IN_ROUTE, OrderStatus.COLLECTED, OrderStatus.PROCESSED]
+                    return order
                 case "cancelled":
-                    return order.orderStatus === OrderStatus.CANCELLED
+                    return order
             }
         }).length
     }, [orders, hasFetchedOrders])
 
-    const getPendingOrders = useCallback(() => {
-        return orders.filter((order: Order) =>  order.orderStatus in [OrderStatus.IN_ROUTE, OrderStatus.COLLECTED, OrderStatus.PROCESSED])
-            .slice(0, 4)
-    }, [hasFetchedOrders, orders])
+    // const getPendingOrders = useCallback(() => {
+    //     return orders.filter((order: OrderI) =>  order.orderStatus in [OrderStatus.IN_ROUTE, OrderStatus.COLLECTED, OrderStatus.PROCESSED])
+    //         .slice(0, 4)
+    // }, [hasFetchedOrders, orders])
 
     const getFulfilledOrders = useCallback(() => {
-        return orders.filter((order: Order) =>  order.orderStatus === OrderStatus.FULFILLED)
+        return orders.filter((order: OrderI) =>  order)
             .slice(0, 4)
     }, [hasFetchedOrders, orders])
 

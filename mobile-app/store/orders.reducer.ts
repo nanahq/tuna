@@ -3,18 +3,10 @@ import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import { OrderI} from '@imagyne/eatlater-types'
 
-export enum VendorApprovalStatusEnum {
-    PENDING = 'REVIEWING', // Default
-    APPROVED = 'CLEARED',
-    DISAPPROVED = 'RETURNED',
-}
-
 export interface OrdersState {
     orders: OrderI[]
     hasFetchedOrders: boolean
 }
-
-
 
 const initialState: OrdersState = {
     orders: [],

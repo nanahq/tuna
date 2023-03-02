@@ -8,6 +8,7 @@ import {fetchOrders} from "@store/orders.reducer";
 
 import Toast from 'react-native-toast-message'
 import {useAppDispatch} from "@store/index";
+import {fetchAllListings} from "@store/listings.reducer";
 
 const App = createStackNavigator<AppParamList>()
 
@@ -21,8 +22,8 @@ export function AppNavigator(): JSX.Element {
     useEffect(() => {
         dispatch(fetchProfile() as any)
         dispatch(fetchOrders() as any)
+        dispatch(fetchAllListings())
     }, [])
-
 
     return (
         <NavigationContainer linking={LinkingConfiguration}>

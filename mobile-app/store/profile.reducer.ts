@@ -4,13 +4,10 @@ import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
 import {ResponseWithStatus, VendorI} from '@imagyne/eatlater-types'
 
-type _id = {_id: string}
 export interface ProfileState {
-  profile: Partial<VendorI> & _id
+  profile: VendorI
   hasFetchedProfile: boolean
 }
-
-
 
 const initialState: ProfileState = {
     profile: {
@@ -75,8 +72,9 @@ export const profile = createSlice({
         ).addCase(
             fetchProfile.rejected,
             (state, _payload) => {
-                console.log(_payload)
-                // void clearOnAuthError()
+                    if(_payload.error.message === 'Unauthorized') {
+                        void clearOnAuthError()
+                    }
             }
         )
     },
