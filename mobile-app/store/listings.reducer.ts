@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {ListingOptionGroupI, ListingCategoryI, ListingMenuI, ResponseWithStatus} from "@imagyne/eatlater-types";
+
 export interface ListingsState {
     listingsMenu: ListingMenuI[],
     listingsCategory: ListingCategoryI[],
@@ -105,7 +106,7 @@ export const deleteMenu = createAsyncThunk(
             })
             await dispatch(fetchMenus())
             return
-        }catch (e) {
+        } catch (e) {
             throw e
         }
     }

@@ -35,11 +35,11 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     const [image, setImage] = useState<string>('')
     const [_, setOptions] = useState<ListingOptionGroupI[]>([])
     const [hasEdit, setHasEdit] = useState<boolean>(false)
-    //state
+    // state
     const {listingsOptionGroup} = useAppSelector((state: RootState) => state.listings)
 
     useEffect(() => {
-        if(route?.params?.menu !== undefined) {
+        if (route?.params?.menu !== undefined) {
             const menu = route?.params?.menu
             setValue('name', menu.name)
             setValue("desc", menu.desc)
@@ -72,7 +72,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
             })).data
 
 
-            if(res.status === 1) {
+            if (res.status === 1) {
                 Toast.show({
                     type: 'success',
                     text1: 'Menu updated!',
@@ -81,7 +81,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
             }
             await dispatch(fetchMenus())
             setHasEdit(false)
-        } catch(error: any) {
+        } catch (error: any) {
             Toast.show({
                 type: 'error',
                 text1: error.message !== 'string' ? error.message[0] : error.message,
@@ -93,7 +93,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     }
 
     const handleSetOption = (name: keyof MenuFormInterface, value: boolean): void => {
-        if(route?.params?.menu[name] !== value) {
+        if (route?.params?.menu[name] !== value) {
             setHasEdit(true)
         } else {
             setHasEdit(false)
@@ -122,7 +122,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                     labelTestId=""
                     placeholder='Jollof rice cooked to absolute perfection...'
                     textAlignVertical="top"
-                    multiline={true}
+                    multiline
                     numberOfLines={4}
                     style={{
                         height: 150
@@ -138,7 +138,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                         label='Price'
                         labelTestId=""
                         containerStyle={tailwind('w-5/12')}
-                        collapsable={true}
+                        collapsable
                         placeholder="1200"
                         name='price'
                         control={control}

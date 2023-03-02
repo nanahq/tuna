@@ -136,7 +136,7 @@ export function AddMenu (): JSX.Element {
               data: payload
           })).data
           await dispatch(fetchMenus())
-          if(res.status === 1) {
+          if (res.status === 1) {
               Toast.show({
                   type: 'success',
                   text1: 'Menu created!',
@@ -181,7 +181,7 @@ export function AddMenu (): JSX.Element {
                     labelTestId=""
                     placeholder='Jollof rice cooked to absolute perfection...'
                     textAlignVertical="top"
-                    multiline={true}
+                    multiline
                     numberOfLines={4}
                     style={{
                         height: 150
@@ -202,7 +202,7 @@ export function AddMenu (): JSX.Element {
                         label='Price'
                         labelTestId=""
                         containerStyle={tailwind('w-5/12')}
-                        collapsable={true}
+                        collapsable
                         placeholder="1200"
                         name='price'
                         control={control}
@@ -243,7 +243,7 @@ export function AddMenu (): JSX.Element {
                         <Text style={tailwind('text-brand-black-500 font-medium')}>{category.name}</Text>
                         <IconComponent iconType='Feather' name='chevron-down' style={tailwind('text-brand-black-500')} size={14} />
                     </Pressable>
-                    <Modal enablePanDownToClose={true} promptModalName={CATEGORY_PICKER_MODAL} modalRef={bottomSheetModalRef}>
+                    <Modal enablePanDownToClose promptModalName={CATEGORY_PICKER_MODAL} modalRef={bottomSheetModalRef}>
                         {listingsCategory.length <= 0 ? (
                             <View style={tailwind('flex flex-col items-center justify-center flex-1 w-full')}>
                                 <View style={tailwind('flex flex-col items-center justify-center')}>

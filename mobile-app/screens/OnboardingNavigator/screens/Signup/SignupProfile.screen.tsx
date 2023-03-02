@@ -110,7 +110,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                         }}}
                 />
                 <ControlledTextInputWithLabel
-                    secureTextEntry={true}
+                    secureTextEntry
                     label='Password'
                     testID='SignupProfileScreen.Password.Input'
                     labelTestId="SignupProfileScreen.Password.Label"
@@ -128,7 +128,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     errorMessage={errors.password?.message}
                 />
                 <ControlledTextInputWithLabel
-                    secureTextEntry={true}
+                    secureTextEntry
                     label='Confirm Password'
                     testID='SignupProfileScreen.ConfirmPassword.Input'
                     labelTestId="SignupProfileScreen.ConfirmPassword.Label"

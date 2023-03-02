@@ -26,7 +26,7 @@ const DATA = [
     {key: 'route', title: 'In-transit'},
 ]
 export function OrdersScreen (): JSX.Element {
-    //State selectors
+    // State selectors
     const {orders, hasFetchedOrders} = useAppSelector((state: RootState) => state.orders )
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
     const dispatch = useAppDispatch()

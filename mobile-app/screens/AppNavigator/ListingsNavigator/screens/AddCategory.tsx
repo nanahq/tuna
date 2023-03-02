@@ -43,7 +43,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
     const [menu, setMenu] = useState<ListingMenuI[]>([])
     const [loading, setIsLoading] = useState<boolean>(false)
     useEffect(() => {
-        if(route?.params?.category !== undefined) {
+        if (route?.params?.category !== undefined) {
          setValue('name', route?.params?.category.name)
         setMenu(route?.params?.category.listingsMenu)
          setIsLive(route?.params?.category.isLive)
@@ -77,7 +77,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
    async function onSubmit (data: CreateListingCategoryDto) {
         let type: string = 'CREATE'
         let payload;
-        if(route?.params?.category !== undefined) {
+        if (route?.params?.category !== undefined) {
             type = 'UPDATE'
             payload = {
                 name: data.name,
@@ -99,7 +99,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
        try {
            const res =  await dispatch(addOrUpdateCategory({payload, type})).unwrap()
 
-           if(res.status === 1) {
+           if (res.status === 1) {
                Toast.show({
                    type: 'success',
                    text1: 'Operation successful',
@@ -125,11 +125,21 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
 
     function checkDirty (): boolean {
         const category = route?.params?.category
-        if(category === undefined) return true
-        if(getValues('name') !== category.name) return true
-        if(category.isLive !== isLive) return true
-        if(category.tags.join() !== tags.join())  return true
-        if(category.listingsMenu.length !== menu.length) return true
+        if (category === undefined) {
+return true
+}
+        if (getValues('name') !== category.name) {
+return true
+}
+        if (category.isLive !== isLive) {
+return true
+}
+        if (category.tags.join() !== tags.join())  {
+return true
+}
+        if (category.listingsMenu.length !== menu.length) {
+return true
+}
         return false
     }
     return (
@@ -160,7 +170,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                 <View>
                     <TextWithMoreInfo
                         containerStyle={tailwind('mt-5')}
-                        text={'Tags'}
+                        text="Tags"
                         moreInfo='Add keywords relevant to menus in this category. Optional'
                      />
                     <View style={tailwind('border-0.5 border-dashed border-brand-gray-700 py-4 px-3 flex flex-row items-center flex-wrap')}>
@@ -173,11 +183,10 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                 {checkDirty()  && menu.length <= 0 && (
                     <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-secondary-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
                 )}
-                {/* {formIsDirty &&  categoryName.length >= 5 && <GenericButton onPress={() => {}} label="Save changes" labelColor={tailwind('text-white')} style={tailwind('mt-4')} backgroundColor={tailwind('bg-secondary-700')} testId="AddCategory.Save.Button" />} */}
                 {menu.length >= 1 ? (
                     <View style={tailwind('my-6 flex flex-col')}>
                         <Text style={tailwind('text-brand-black-500 text-lg font-medium mb-1')}>Menu items</Text>
-                        <ScrollView style={[tailwind(' border-0.5 border-brand-black-500  p-2')]}>
+                        <ScrollView style={tailwind(' border-0.5 border-brand-black-500  p-2')}>
                             {menu.map(m => (
                                 <MenuItem menu={m} key={m._id} onPress={() => deleteMenu(m)} />
                             ))}

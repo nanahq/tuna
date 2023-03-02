@@ -2,13 +2,12 @@ import {useWindowDimensions, View} from 'react-native'
 import {getColor, tailwind} from '@tailwind'
 import {AddListingsButton} from "@screens/AppNavigator/ListingsNavigator/screens/components/AddListingsButton";
 import {useNavigation} from "@react-navigation/native";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {ListingsCategory} from "@screens/AppNavigator/ListingsNavigator/screens/Category";
 import {ListingsMenu} from "@screens/AppNavigator/ListingsNavigator/screens/Menu";
 import {ListingsOptions} from "@screens/AppNavigator/ListingsNavigator/screens/Options";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
-import { useEffect} from 'react'
 import {fetchAllListings} from "@store/listings.reducer";
 
 const DATA = [

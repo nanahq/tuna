@@ -72,7 +72,7 @@ export const profile = createSlice({
         ).addCase(
             fetchProfile.rejected,
             (state, _payload) => {
-                    if(_payload.error.message === 'Unauthorized') {
+                    if (_payload.error.message === 'Unauthorized') {
                         void clearOnAuthError()
                     }
             }

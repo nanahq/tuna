@@ -25,7 +25,7 @@ export function ListingsOptions (props: {options: ListingOptionGroupI[], state: 
         )
     }
 
-    if(props.state) {
+    if (props.state) {
         return <View style={tailwind('flex h-full w-full items-center justify-center')}>
             <LoaderComponent style={tailwind('text-brand-secondary-500')} size='large' />
         </View>

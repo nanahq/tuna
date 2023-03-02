@@ -49,7 +49,7 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
     const [_modalIsOpen, setModalIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
-        if(route?.params?.option !== undefined) {
+        if (route?.params?.option !== undefined) {
             const op = route?.params?.option
             setValue('name', op.name)
             setValue('min', `${ op.min}`)
@@ -90,9 +90,15 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
     }
 
     const checkDirty = (): boolean => {
-        if(getValues('name') !== route?.params?.option.name) return true
-        if(getValues('min') !== route?.params?.option.min.toString()) return true
-        if(getValues('max') !== route?.params?.option.max.toString()) return true
+        if (getValues('name') !== route?.params?.option.name) {
+return true
+}
+        if (getValues('min') !== route?.params?.option.min.toString()) {
+return true
+}
+        if (getValues('max') !== route?.params?.option.max.toString()) {
+return true
+}
         return options.length !== route?.params?.option.options.length;
     }
 
@@ -103,7 +109,7 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
         }
         const type = route?.params?.option._id !== undefined ? 'update' : 'new'
 
-        if(type === 'update') {
+        if (type === 'update') {
             payload = {...payload, optionId: route?.params?.option._id }
         }
 
@@ -111,7 +117,7 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
 
         try {
            const res = await dispatch(updateOptionGroup({payload, type})).unwrap()
-           if(res.status === 1) {
+           if (res.status === 1) {
                Toast.show({
                    type: 'success',
                    text1: 'Operation successful',

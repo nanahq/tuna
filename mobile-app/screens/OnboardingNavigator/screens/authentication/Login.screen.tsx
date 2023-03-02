@@ -7,11 +7,11 @@ import {GenericButton} from "@components/commons/buttons/GenericButton";
 import * as Device from "expo-device";
 import {_api} from "@api/_request";
 import {useAuthPersistence} from "@contexts/AuthPersistenceProvider";
-import {cookieParser} from '../../../../../utils/cookieParser';
 import {LogoutButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
 import Toast from "react-native-toast-message";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 import {useForm} from "react-hook-form";
+import {cookieParser} from '../../../../../utils/cookieParser';
 
 
 interface LoginForm {
@@ -26,7 +26,7 @@ export function LoginScreen (): JSX.Element {
     const [_loading, _setLoading] = useState<boolean>(false)
     const [_errorMessage, _setErrorMessage] = useState<string | Array<string> | null>(null)
 
-//form
+// form
     const {control, formState: {errors}, handleSubmit} = useForm<LoginForm>({
         criteriaMode: 'all',
         mode: 'onTouched'
@@ -101,7 +101,7 @@ export function LoginScreen (): JSX.Element {
                         }}}
                     error={errors.password !== undefined}
                     errorMessage={errors.password?.message}
-                    secureTextEntry={true}
+                    secureTextEntry
                 />
 
                 <GenericButton

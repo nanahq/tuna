@@ -37,7 +37,7 @@ export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Elemen
 
     const  openModal = (): void =>  bottomSheetModalRef.current?.present();
 
-    //form
+    // form
     const {control, formState: {errors}, handleSubmit} = useForm<SignupBusinessForm>({
         criteriaMode: 'all',
         mode: 'onTouched'
@@ -80,7 +80,7 @@ try {
 
     return (
         <KeyboardAwareScrollView>
-            <View testID="SignupBusiness.View" style={[tailwind('pb-8 px-5 h-full')]}>
+            <View testID="SignupBusiness.View" style={tailwind('pb-8 px-5 h-full')}>
                 <ControlledTextInputWithLabel
                     label='Business Name'
                     name='businessName'

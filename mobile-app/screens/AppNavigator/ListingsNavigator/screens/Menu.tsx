@@ -8,6 +8,7 @@ import {LoaderComponent} from "@components/commons/LoaderComponent";
 import {useCallback} from "react";
 import {IconButton} from "@components/commons/buttons/IconButton";
 import {useNavigation} from "@react-navigation/native";
+
 export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JSX.Element {
     const navigation = useNavigation<any>()
 
@@ -26,7 +27,7 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
         )
     }
 
-    if(props.state) {
+    if (props.state) {
         return <View style={tailwind('flex h-full w-full items-center justify-center')}>
             <LoaderComponent style={tailwind('text-brand-secondary-500')} size='large' />
         </View>
@@ -68,7 +69,7 @@ export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (
         }]}>
             <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500')}>
                 <View style={tailwind('w-full h-20')}>
-                    <Image source={{uri: menu.photo, cache:'force-cache'}} resizeMode='cover'   style={[tailwind('w-full h-full')]} />
+                    <Image source={{uri: menu.photo, cache:'force-cache'}} resizeMode='cover'   style={tailwind('w-full h-full')} />
                 </View>
                <View style={tailwind('p-4')}>
                   <View style={tailwind('flex flex-row justify-between w-full items-center')}>
