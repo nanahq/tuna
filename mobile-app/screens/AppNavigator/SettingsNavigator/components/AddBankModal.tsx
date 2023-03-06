@@ -15,7 +15,7 @@ type WelcomeModalProps =   {
     promptModalName: string
     modalRef: RefObject<BottomSheetModalMethods>
     enablePanDownToClose?: boolean
-
+    onDismiss?: () => void
 }
 
 
@@ -85,6 +85,7 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     }
     return (
         <BottomSheetModal
+        onDismiss={props.onDismiss}
             enableHandlePanningGesture={enablePanDownToClose}
             handleComponent={EmptyHandleComponent}
             enablePanDownToClose={enablePanDownToClose}

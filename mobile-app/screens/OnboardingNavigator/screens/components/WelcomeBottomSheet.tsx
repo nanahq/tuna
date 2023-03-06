@@ -93,7 +93,7 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
                                 onPress={goToLogin}
                                 labelColor={tailwind('text-white py-3 text-sm')}
                                 label='Log into your account'
-                                backgroundColor={tailwind('bg-secondary-500')}
+                                backgroundColor={tailwind('bg-primary-500')}
                                 testId="WelcomeModal.ContinueButton"
                             />
                         </View>

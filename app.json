@@ -3,7 +3,7 @@
     "name": "EatLater Vendors",
     "description": "Order food from your favorite vendors and restaurants",
     "slug": "vendor",
-    "owner": "EatLater",
+    "owner": "EatLater Logistics",
     "version": "0.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-config/icon.png",

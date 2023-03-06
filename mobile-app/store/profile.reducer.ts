@@ -22,7 +22,10 @@ const initialState: ProfileState = {
         phone: '',
         isValidated: false,
         status: 'ONLINE',
-        settings: {} as any,
+        settings: {
+            payment:undefined, 
+            operations: undefined
+        } as any,
         businessLogo: '',
         location: undefined,
         createdAt: '',
@@ -46,7 +49,7 @@ export const updateUserProfile = createAsyncThunk(
     async (data: Partial<VendorI>): Promise<ResponseWithStatus> => {
         return (await _api.requestData<Partial<VendorI>>({
             method: 'PUT',
-            url: 'vendor/update-profile',
+            url: 'vendor/profile',
             data
         })).data
     }
@@ -71,7 +74,7 @@ export const profile = createSlice({
             }
         ).addCase(
             fetchProfile.rejected,
-            (state, _payload) => {
+            (_, _payload) => {
                     if (_payload.error.message === 'Unauthorized') {
                         void clearOnAuthError()
                     }

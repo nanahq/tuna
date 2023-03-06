@@ -5,9 +5,8 @@ import * as Linking from "expo-linking"
 import {useEffect} from "react";
 import {fetchProfile} from "@store/profile.reducer";
 import {fetchOrders} from "@store/orders.reducer";
-
 import Toast from 'react-native-toast-message'
-import {useAppDispatch} from "@store/index";
+import { useAppDispatch} from "@store/index";
 import {fetchAllListings} from "@store/listings.reducer";
 
 const App = createStackNavigator<AppParamList>()
@@ -25,12 +24,13 @@ export function AppNavigator(): JSX.Element {
         dispatch(fetchAllListings())
     }, [])
 
+
+
     return (
         <NavigationContainer linking={LinkingConfiguration}>
             <App.Navigator   screenOptions={{ headerShown: false}}>
                 <App.Screen component={BottomTabNavigator} name="App" />
             </App.Navigator>
-            <Toast />
         </NavigationContainer>
     );
 }

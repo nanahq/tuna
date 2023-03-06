@@ -29,7 +29,7 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
 
     if (props.state) {
         return <View style={tailwind('flex h-full w-full items-center justify-center')}>
-            <LoaderComponent style={tailwind('text-brand-secondary-500')} size='large' />
+            <LoaderComponent style={tailwind('text-primary-500')} size='large' />
         </View>
 
     }
@@ -59,17 +59,16 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
 }
 
 export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (menu: ListingMenuI) => void}) {
-    Image.prefetch(menu.photo)
     return (
         <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full px-2 mb-4 overflow-hidden'), {
-            shadowColor: '#171717',
-            shadowOffset: {width: -2, height: 4},
-            shadowOpacity: 0.2,
-            shadowRadius: 3,
+            // shadowColor: '#171717',
+            // shadowOffset: {width: -2, height: 4},
+            // shadowOpacity: 0.2,
+            // shadowRadius: 3,
         }]}>
             <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500')}>
                 <View style={tailwind('w-full h-20')}>
-                    <Image source={{uri: menu.photo, cache:'force-cache'}} resizeMode='cover'   style={tailwind('w-full h-full')} />
+                    <Image source={{uri: menu.photo }} resizeMode='cover'   style={tailwind('w-full h-full')} />
                 </View>
                <View style={tailwind('p-4')}>
                   <View style={tailwind('flex flex-row justify-between w-full items-center')}>

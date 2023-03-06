@@ -203,7 +203,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                 </View>
 
                 {hasEdit   && (
-                    <GenericButton loading={loadingUpdate} onPress={() => handleUpdate()}  label='Update Menu' backgroundColor={tailwind('bg-secondary-700')} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full mt-10')} />
+                    <GenericButton loading={loadingUpdate} onPress={() => handleUpdate()}  label='Update Menu' backgroundColor={tailwind('bg-primary-700')} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full mt-10')} />
 
                 )}
                     <View style={tailwind(' flex flex-col w-full border-0.5 border-dashed border-brand-black-500 py-3 px-4 mt-5 mb-10')}>

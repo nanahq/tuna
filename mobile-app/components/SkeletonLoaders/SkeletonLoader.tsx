@@ -1,5 +1,6 @@
 import {ProfileHeaderSkeleton} from "@components/SkeletonLoaders/ProfileHeaderSkeleton";
 import {OrderStatsLoader} from "@components/SkeletonLoaders/OrderStatsLoader";
+import { AccountSettingsLoaderScreen } from "./InputLoader";
 
 interface SkeletonLoaderProp {
     row: number;
@@ -11,7 +12,8 @@ export enum SkeletonLoaderScreen {
     "Listings" = "Listings",
     "Orders" = "Orders",
     "Earnings"  = "Earnings",
-    "OrdersStats" = "OrdersStats"
+    "OrdersStats" = "OrdersStats",
+    "AccountSettings" = "AccountSettings"
 }
 
 
@@ -23,6 +25,15 @@ export function SkeletonLoader (props: SkeletonLoaderProp): JSX.Element {
                 <>
                     {skeletonRow.map(i => (
                         <ProfileHeaderSkeleton key={i}/>
+                    ))}
+                </>
+            )
+
+        case SkeletonLoaderScreen.AccountSettings:
+            return (
+                <>
+                     {skeletonRow.map(i => (
+                        <AccountSettingsLoaderScreen key={i}/>
                     ))}
                 </>
             )
@@ -51,6 +62,7 @@ export function SkeletonLoader (props: SkeletonLoaderProp): JSX.Element {
                     ))}
                 </>
             )
+            
         case SkeletonLoaderScreen.OrdersStats:
             return (
                 <>
@@ -59,5 +71,7 @@ export function SkeletonLoader (props: SkeletonLoaderProp): JSX.Element {
                     ))}
                 </>
             )
+        default: 
+        return <></>
     }
 }

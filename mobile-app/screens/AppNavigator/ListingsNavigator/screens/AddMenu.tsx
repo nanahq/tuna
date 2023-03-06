@@ -1,4 +1,4 @@
-import {KeyboardAvoidingView, Pressable, ScrollView, Switch, Text, View} from 'react-native'
+import {Dimensions, KeyboardAvoidingView, Pressable, ScrollView, Switch, Text, View} from 'react-native'
 import {useRef, useState} from "react";
 
 import {getColor, tailwind} from '@tailwind'
@@ -17,16 +17,20 @@ import {
 } from "@screens/AppNavigator/ListingsNavigator/screens/components/ListingsPhotosUploadButton";
 import * as ImagePicker from "expo-image-picker";
 import {useForm} from "react-hook-form";
-import {ListingCategoryI, ListingMenuI, ListingOptionGroupI} from "@imagyne/eatlater-types";
+import {ListingCategoryI, ListingMenuI} from "@imagyne/eatlater-types";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
-import {addMenu, fetchMenus} from "@store/listings.reducer";
+import { fetchMenus} from "@store/listings.reducer";
 import * as Device from "expo-device";
-import Toast from "react-native-toast-message";
 import {_api} from "@api/_request";
 
+import uuid from 'react-native-uuid'
+import { ShowToast } from '@components/commons/Toast';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 export const CATEGORY_PICKER_MODAL = 'CAT_MENU_MODAL'
+export const OPTION_PICKER_MODAL = 'OPTION_MENU_MODAL'
+
 
 const MAX_SELECTION_LIMIT = 1
 
@@ -39,13 +43,14 @@ interface MenuFormInterface {
 export function AddMenu (): JSX.Element {
     const navigation = useNavigation()
     const bottomSheetModalRef = useRef<any>(null)
+   const height = Dimensions.get('screen').height
+
     const { dismiss } = useBottomSheetModal()
 
-    const {listingsCategory} = useAppSelector((state: RootState) => state.listings)
+    const {listingsCategory, listingsOptionGroup} = useAppSelector((state: RootState) => state.listings)
     const dispatch = useAppDispatch()
 
     const {handleSubmit, formState: {errors}, control} = useForm<Partial<ListingMenuI>>()
-
     const [menuForm, setMenuForm] = useState<MenuFormInterface>({
         photo: null,
         isLive: true,
@@ -54,23 +59,13 @@ export function AddMenu (): JSX.Element {
     })
 
     const [category, setCategory] = useState<{name: string, id: string}>({
-        name: 'Select Category',
+        name: 'Select existing Category',
         id: ''
     })
-    const [options, setOptions] = useState<ListingOptionGroupI[]>([])
-
+    const [optionsString, setOptionString] = useState<string[]>([])
     const [loading, setLoading] = useState<boolean>(false)
 
-    function updateForm (value: string, key: keyof Omit<MenuFormInterface, 'photo'>): void {
-        setMenuForm((prevState) => ({...prevState, [key]: value}))
-    }
-
     const openModal = (): void =>  bottomSheetModalRef.current?.present();
-
-    function onSelectCategory (value: string): void {
-        dismiss(CATEGORY_PICKER_MODAL)
-        updateForm(value, 'categoryId')
-    }
 
     function inModalAddCat (): void {
         dismiss(CATEGORY_PICKER_MODAL)
@@ -103,14 +98,28 @@ export function AddMenu (): JSX.Element {
         dismiss(CATEGORY_PICKER_MODAL)
     }
 
+    function handleOptionSelection (optionId: string, type: 'SELECT'| 'UNSELECT'): void {
+        switch (type) {
+            case 'SELECT':
+                setOptionString((prev: any) => ([...prev, optionId]))
+                break;
+            case 'UNSELECT':
+                const newOptions = optionsString.filter((prevId) => prevId !== optionId)
+                setOptionString(newOptions)
+                break;
+            default:
+                break;
+        }
+    }
 
     async function onSubmitCb (data: any ): Promise<void>  {
         const extension = menuForm.photo.fileName.split('.')[1]
         const imagePayload = {
             uri: Device.osName === 'Andriod' ? menuForm.photo.uri : menuForm.photo.uri.replace('file://', ''),
-            name: `${menuForm.photo.assetId}.${extension}`,
+            name: `${uuid.v4()}.${extension}`,
             type: `image/${extension}`
         } as any
+
 
         const payload = new FormData()
         payload.append('name', data.name)
@@ -121,7 +130,7 @@ export function AddMenu (): JSX.Element {
         payload.append('isLive', `${menuForm.isLive}`)
         payload.append('isAvailable', `${menuForm.isAvailable}`)
         payload.append('categoryId', category.id)
-        payload.append('optionGroups', '63f93c3a248f6c43d0b764f7')
+        payload.append('optionGroups', optionsString.join(','))
 
         payload.append('listingImage', imagePayload )
       try {
@@ -137,22 +146,14 @@ export function AddMenu (): JSX.Element {
           })).data
           await dispatch(fetchMenus())
           if (res.status === 1) {
-              Toast.show({
-                  type: 'success',
-                  text1: 'Menu created!',
-                  autoHide: true,
-              })
-
+            ShowToast('success', 'Menu created!')
               setTimeout(() => {
                   void navigation.goBack()
               }, 3000)
           }
       } catch (error: any){
-          Toast.show({
-              type: 'error',
-              text1: error.message !== 'string' ? error.message[0] : error.message,
-              autoHide: true,
-          })
+        ShowToast('error',  error.message !== 'string' ? error.message[0] : error.message)
+
       } finally {
           setLoading(false)
       }
@@ -243,7 +244,7 @@ export function AddMenu (): JSX.Element {
                         <Text style={tailwind('text-brand-black-500 font-medium')}>{category.name}</Text>
                         <IconComponent iconType='Feather' name='chevron-down' style={tailwind('text-brand-black-500')} size={14} />
                     </Pressable>
-                    <Modal enablePanDownToClose promptModalName={CATEGORY_PICKER_MODAL} modalRef={bottomSheetModalRef}>
+                    <Modal enablePanDownToClose  promptModalName={CATEGORY_PICKER_MODAL} modalRef={bottomSheetModalRef}>
                         {listingsCategory.length <= 0 ? (
                             <View style={tailwind('flex flex-col items-center justify-center flex-1 w-full')}>
                                 <View style={tailwind('flex flex-col items-center justify-center')}>
@@ -265,17 +266,43 @@ export function AddMenu (): JSX.Element {
 
                     </Modal>
                 </View>
-                {/* <View style={tailwind('flex flex-col mt-10')}> */}
-                {/*     <TextWithMoreInfo */}
-                {/*         moreInfo="Add option(s) to menu to allow your customers to customize their order. For example, Main Protein or Sauce type. This is entirly optional" */}
-                {/*         text="Menu options" */}
-                {/*     /> */}
-                {/*     <OptionHeader navigation={navigation} /> */}
-                {/*     <Pressable  onPress={openModal} style={tailwind(' mt-3 flex flex-row w-full justify-between items-center bg-brand-blue-200 p-2 rounded-sm')}> */}
-                {/*         <Text style={tailwind('text-brand-black-500 font-medium')}>{menuForm.categoryId}</Text> */}
-                {/*         <IconComponent iconType='Feather' name='chevron-down' style={tailwind('text-brand-black-500')} size={14} /> */}
-                {/*     </Pressable> */}
-                {/* </View> */}
+                <View style={tailwind('flex flex-col mt-10')}> 
+                    <TextWithMoreInfo
+                        moreInfo="Add option(s) to menu to allow your customers to customize their order. For example, Main Protein or Sauce type. This is entirly optional" 
+                        text="Menu options" 
+                    /> 
+                    <OptionHeader navigation={navigation} /> 
+                    <View style={tailwind('border-0.5 border-brand-black-500 flex w-full mt-3')}>    
+        <View style={tailwind('flex flex-row  w-full justify-between items-center bg-brand-gray-500 border-b-0.5 border-brand-black-500')}>
+            <TextInput 
+                // value={searchQuery}
+                // onChangeText={(value) => setSearchQuery(value)}
+                style={tailwind('py-3 px-3')}
+                placeholder='search option group'
+                placeholderTextColor={getColor('brand-gray-700')}
+            />
+            <IconComponent iconType='Feather' name='search' size={16} style={tailwind('text-brand-gray-700 mr-2')} />
+        </View>
+            <ScrollView style={[tailwind('px-3 pb-3 pt-2'), {
+            height: height/4
+            }] }>
+            {listingsOptionGroup.length > 0 &&  listingsOptionGroup.map((option: any) => {
+                const isSelected = optionsString.some((_option) => option._id === _option)
+                return  (
+                    <TouchableOpacity key={option._id} onPress={() => handleOptionSelection(option._id,  isSelected ? 'UNSELECT': 'SELECT')} style={tailwind('flex flex-row px-2 w-full items-center justify-between border-0.5 mb-2 border-brand-black-500 py-3 ')}>
+                    <Text style={tailwind('text-brand-black-500 text-sm font-medium')}>{option.name}</Text>
+                    <View   
+                        style={tailwind('w-3 h-3 border-0.5 border-brand-black-500', {
+                            'bg-brand-black-500':  isSelected
+                        })}
+                    />
+                </TouchableOpacity>
+                )
+            })}
+            </ScrollView>
+
+        </View>
+                 </View> 
                 <View style={tailwind('flex flex-row items-center mt-10')}>
                     <View style={tailwind('flex flex-col w-1/2')}>
                         <Text style={tailwind('text-brand-black-500 font-medium text-sm')}>Live</Text>
@@ -302,7 +329,7 @@ export function AddMenu (): JSX.Element {
                         value={menuForm.isAvailable}
                     />
                 </View>
-                <GenericButton loading={loading} onPress={handleSubmit(onSubmitCb)} label='Add Menu' backgroundColor={tailwind({'bg-secondary-700': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
+                <GenericButton loading={loading} onPress={handleSubmit(onSubmitCb)} label='Add Menu' backgroundColor={tailwind({'bg-primary-700': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
             </ScrollView>
         </KeyboardAvoidingView>
     )
@@ -339,16 +366,7 @@ function CategoryItem ({cat, onPress}: {cat: ListingCategoryI, onPress: () => vo
     return (
         <Pressable onPress={onPress} style={tailwind('flex flex-col items-center w-full mb-3  py-4 px-2 border-b-0.5 border-brand-black-500')}>
             <View style={tailwind('flex w-full flex-row items-center justify-between')}>
-                <Text style={tailwind('text-brand-black-500  font-semibold')}>{cat.name}</Text>
-                <View style={tailwind('flex flex-row items-center')}>
-                    <Text style={tailwind('text-brand-black-500  font-semibold')}>status</Text>
-                    <View
-                        style={tailwind('h-3 w-3 rounded-full ml-1', {
-                            'bg-primary-500': cat.isLive,
-                            'bg-brand-gray-700': !cat.isLive
-                        })}
-                    />
-                </View>
+                <Text style={tailwind('text-brand-black-500 text-sm  font-medium')}>{cat.name}</Text>
             </View>
         </Pressable>
     )

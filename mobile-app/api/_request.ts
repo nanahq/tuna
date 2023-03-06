@@ -54,7 +54,8 @@ async function base<T>(param: baseParamProps<T>) {
                 cookies: res.headers['set-cookie'] ?? []
             });
         })
-        .catch((err: AxiosError) => {
+        .catch((err: any) => {
+            console.log(JSON.stringify(err))
             if (err.response) {
                 return Promise.reject(err.response?.data);
             }

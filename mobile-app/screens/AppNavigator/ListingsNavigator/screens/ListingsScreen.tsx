@@ -2,13 +2,13 @@ import {useWindowDimensions, View} from 'react-native'
 import {getColor, tailwind} from '@tailwind'
 import {AddListingsButton} from "@screens/AppNavigator/ListingsNavigator/screens/components/AddListingsButton";
 import {useNavigation} from "@react-navigation/native";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {ListingsCategory} from "@screens/AppNavigator/ListingsNavigator/screens/Category";
 import {ListingsMenu} from "@screens/AppNavigator/ListingsNavigator/screens/Menu";
 import {ListingsOptions} from "@screens/AppNavigator/ListingsNavigator/screens/Options";
-import {RootState, useAppDispatch, useAppSelector} from "@store/index";
-import {fetchAllListings} from "@store/listings.reducer";
+import {RootState, useAppSelector} from "@store/index";
+import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
 
 const DATA = [
     {key: 'AddListing', title: 'Menu'},
@@ -30,17 +30,21 @@ export function ListingsScreen (): JSX.Element {
         AddOption:  () =>  <ListingsOptions options={listingsOptionGroup} state={fetchingListings}/>
 
     });
+
+    if(fetchingListings) {
+        return <LoaderComponentScreen />
+    }
     return (
         <View style={tailwind('w-full bg-white h-full flex-col flex pb-5 relative')}>
             <TabView
                 renderTabBar={(props) => (
                     <TabBar
                         {...props}
-                        indicatorStyle={tailwind('bg-secondary-500')}
+                        indicatorStyle={tailwind('bg-primary-500')}
                         scrollEnabled
                         style={tailwind('bg-white w-full')}
                         labelStyle={tailwind('text-brand-black-500')}
-                        activeColor={getColor('secondary-500')}
+                        activeColor={getColor('primary-500')}
                     />
                 )}
                 navigationState={{ index, routes }}

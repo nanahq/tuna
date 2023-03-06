@@ -27,7 +27,7 @@ export function ListingsOptions (props: {options: ListingOptionGroupI[], state: 
 
     if (props.state) {
         return <View style={tailwind('flex h-full w-full items-center justify-center')}>
-            <LoaderComponent style={tailwind('text-brand-secondary-500')} size='large' />
+            <LoaderComponent style={tailwind('text--primary-500')} size='large' />
         </View>
 
     }
@@ -60,10 +60,10 @@ export interface OptionCardProps {
 export function OptionCard ({option, onPress}: OptionCardProps): JSX.Element {
     return (
         <Pressable onPress={() => onPress(option)} style={[tailwind('flex flex-col w-full px-2 mb-4'),{
-            shadowColor: '#171717',
-            shadowOffset: {width: -2, height: 4},
-            shadowOpacity: 0.2,
-            shadowRadius: 3,
+            // shadowColor: '#171717',
+            // shadowOffset: {width: -2, height: 4},
+            // shadowOpacity: 0.2,
+            // shadowRadius: 3,
         }]}>
            <View style={tailwind('border-0.5 border-brand-black-500 bg-white p-3')}>
                <View style={tailwind('flex flex-row w-full items-start justify-between ')}>

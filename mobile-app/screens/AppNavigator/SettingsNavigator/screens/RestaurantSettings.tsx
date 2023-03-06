@@ -1,89 +1,95 @@
 import {SafeAreaView, ScrollView, Text, View} from "react-native";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
-import {tailwind} from "@tailwind";
+import {getColor, tailwind} from "@tailwind";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {useCallback, useState} from "react";
-import {ListingDateCheckBox} from "@screens/AppNavigator/ListingsNavigator/screens/components/ListingAvailableDateRow";
+import { useEffect, useState} from "react";
+import {VendorOperationSetting} from '@imagyne/eatlater-types'
+import { RootState, useAppDispatch, useAppSelector } from "@store/index";
+import { LoaderComponent } from "@components/commons/LoaderComponent";
+import { GenericButton } from "@components/commons/buttons/GenericButton";
+import { _api } from "@api/_request";
+import { ShowToast } from "@components/commons/Toast";
+import { fetchProfile } from "@store/profile.reducer";
+import { GoBackButton } from "../components/Goback";
+import { useNavigation } from "@react-navigation/native";
 
-interface OpsSettings {
-    businessOperationDays: string[]
-    minStartTime:  Date
-    minOrderIntervalTime:  Date
-    maxOrderIntervalDate:  Date
-    minOrder: string
-}
 export function RestaurantSettings (): JSX.Element {
-    const [availableDays, setAvailableDays] = useState<Array<any>>([
-        {
-            day: "EVERYDAY",
-            checked: false
-        },
-        {
-            day: "MONDAY",
-            checked: false
-        },
-        {
-            day: "TUESDAY",
-            checked: false
-        },
-        {
-            day: "WEDNESDAY",
-            checked: false
-        },
-        {
-            day: "THURSDAY",
-            checked: false
-        },
-        {
-            day: "FRIDAY",
-            checked: false
-        },
+    const navigation = useNavigation()
+    const {profile,  hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
+    const dispatch = useAppDispatch()
 
-        {
-            day: "SATURDAY",
-            checked: false
-        },
-        {
-            day: "SUNDAY",
-            checked: false
-        },
-    ])
-    const [operationForm, setOperationForm] = useState<OpsSettings>( {
-        businessOperationDays: [],
-        minStartTime: new Date(),
-        minOrderIntervalTime:new Date(),
-        maxOrderIntervalDate:new Date() ,
-        minOrder: ""
+    const [operationForm, setOperationForm] = useState<any>( {
+        startTime: new Date(),
+        cutoffTime: new Date(),
+        placementTime: '',
+        minOrder: 0
     })
 
 
-    const updateTime = (name: keyof OpsSettings, value: Date | undefined ) => {
-        const currentTime = value
-        setOperationForm((prev) => ({...prev, [name]: currentTime}))
+    useEffect(() => {
+        if(profile?.settings?.operations !== undefined) {
+            const ops = profile.settings.operations
+            console.log(ops)
+            setOperationForm((prev: any) => ({
+                ...prev,
+                    startTime: new Date(ops.startTime as string),
+                    cutoffTime:new Date(ops.cutoffTime as string),
+                    placementTime: ops.placementTime,
+                    minOrder: String(ops.minOrder)
+            }))
+        }
+    }, [])
+    const [loading, setLoading] = useState<boolean>(false)
+
+    if(!hasFetchedProfile) {
+        return (
+            <View style={tailwind('flex-1 w-full bg-white justify-center items-center')}>
+                <View>
+                    <LoaderComponent size="large" color={getColor('primary-500')}/>
+                </View>
+            </View>
+        )
     }
 
-    const onCheckBoxChange = useCallback((day: any ): void => {
-        let newDates;
-        if (day === 'EVERYDAY') {
-            newDates = availableDays.map( (item) => {
-                    item.checked = true
-                return item
-            })
-        }
+    const updateTime = (name: keyof VendorOperationSetting, value: Date | undefined ) => {
+        const currentTime = value
+        setOperationForm((prev: any) => ({...prev, [name]: currentTime}))
+    }
 
-         newDates = availableDays.map( (item) => {
-            if (item.day === day) {
-                item.checked = !item.checked
-            }
-            return item
-        })
-        setAvailableDays(newDates)
-    }, [] )
+
+    const handleSettingsUpdate = async (): Promise<void> => {
+        const payload: VendorOperationSetting = {
+            ...operationForm,
+            startTime: String(operationForm.startTime),
+            cutoffTime: String(operationForm.cutoffTime),
+            minOrder:   Number(operationForm.minOrder)
+        }
+        setLoading(true)
+        try {
+            await _api.requestData({
+                method: 'post',
+                url: 'vendor/settings',
+                data: {
+                    payment: profile.settings?.payment,
+                    operations: payload
+                }
+            })
+        dispatch(fetchProfile())
+        ShowToast('success', 'Settings updated!')
+        } catch (error: any) {
+        ShowToast('error', typeof error?.message === 'string' ? error.messase : error.message[0])
+            
+        } finally {
+            setLoading(false)
+        
+        }
+    }
 
     return (
         <SafeAreaView>
             <ScrollView style={tailwind('flex w-full h-full px-5 mt-5')}>
+                <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Operations">
                     <View style={tailwind('flex flex-row  w-full items-center')}>
                         <View style={tailwind('w-2/3')}>
@@ -92,14 +98,13 @@ export function RestaurantSettings (): JSX.Element {
                                 Time you start operation. This will be used to prevent customer from ordering before you start working
                             </Text>
                         </View>
-
                         <DateTimePicker
                             style={tailwind('w-1/3')}
                             is24Hour
-                            value={operationForm.minStartTime}
+                            value={operationForm.startTime}
                             mode='time'
-                            onChange={(_, value) => updateTime('minStartTime', value)}
-                        />
+                            onChange={(_, value) => updateTime('startTime',value)}
+                        /> 
                     </View>
                     <View style={tailwind('flex flex-row  w-full items-center')}>
                         <View style={tailwind('w-2/3 mt-6')}>
@@ -112,40 +117,41 @@ export function RestaurantSettings (): JSX.Element {
                         <DateTimePicker
                             style={tailwind('w-1/3 mt-6')}
                             is24Hour
-                            value={operationForm.minStartTime}
+                            value={operationForm.cutoffTime}
                             mode='time'
-                            onChange={(_, value) => updateTime('maxOrderIntervalDate', value)}
+                            onChange={(_, value) => updateTime('cutoffTime', value)}
                         />
                     </View>
                     <TextInputWithLabel
                         containerStyle={tailwind('mt-6 w-2/3')}
-                        placeholder="2000"
+                        placeholder="1 hour"
                         label="Minimum Order placement time"
                         moreInfo='Minimum time in hours between operation time and order delivery time'
-                        labelTestId="min.order"
-                        value={operationForm.minOrder}
+                        labelTestId="min.place"
+                        value={operationForm.placementTime}
                         keyboardType='number-pad'
-                        onChangeText={(value) => setOperationForm((prev) => ({...prev, 'minOrder': value})) }
+                        onChangeText={(value) => setOperationForm((prev: any) => ({...prev, 'placementTime': value})) }
                     />
                     <TextInputWithLabel
                         containerStyle={tailwind('mt-6 w-2/3')}
-                        placeholder="2000"
+                        placeholder="N2000"
                         label="Minimum Order"
-                        moreInfo='Minimum order value a customer must place'
+                        moreInfo='Minimum order value.'
                         labelTestId="min.order"
                         value={operationForm.minOrder}
                         keyboardType='number-pad'
-                        onChangeText={(value) => setOperationForm((prev) => ({...prev, 'minOrder': value})) }
+                        onChangeText={(value) => setOperationForm((prev: any) => ({...prev, 'minOrder': value})) }
                     />
-
-                    <View style={tailwind('mt-4 mb-10 border-0.5 border-gray-700 border-dashed py-5 px-4 rounded')}>
-                        <Text style={tailwind('mb-2.5 font-medium text-sm text-brand-black-500 font-semibold')}>Availability</Text>
-                        <View style={tailwind('flex flex-row items-center flex-wrap')}>
-                            {availableDays.map(({day, checked}) => (
-                                <ListingDateCheckBox  key={day} onChange={() => onCheckBoxChange(day)} date={day} checked={checked} />
-                            ))}
-                        </View>
-                    </View>
+                    <GenericButton
+                    loading={loading}
+                    backgroundColor={tailwind('bg-brand-black-500')}
+                        label="Save settings"
+                        onPress={() => handleSettingsUpdate()}
+                        labelColor={tailwind('text-white')}
+                        style={tailwind('mt-16')}
+                        testId=''
+                
+                    />
                 </ProfileSection>
             </ScrollView>
         </SafeAreaView>

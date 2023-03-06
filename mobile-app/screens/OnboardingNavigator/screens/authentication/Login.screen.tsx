@@ -69,10 +69,10 @@ export function LoginScreen (): JSX.Element {
             <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
                 <Image source={AppLogo} style={tailwind('w-14  h-14 rounded-lg')} />
             </View>
-            <View style={tailwind('mt-20')}>
-                <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-16')}>Welcome back</Text>
+            <View style={tailwind('mt-10')}>
+                <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-5')}>Welcome back</Text>
                 <ControlledTextInputWithLabel
-                    label="email"
+                    label="Email"
                     labelTestId="LoginScreen.Phone.Label"
                     testID="LoginScreen.Phone.Input"
                     containerStyle={tailwind('w-full mb-4')}
@@ -106,8 +106,8 @@ export function LoginScreen (): JSX.Element {
 
                 <GenericButton
                     style={tailwind({
-                        'mt-10': Device.osName === 'Android',
-                        'mt-20': Device.osName === 'iOS'
+                        'mt-1': Device.osName === 'Android',
+                        'mt-2': Device.osName === 'iOS'
                     })}
                     onPress={handleSubmit(onContinuePress)}
                     labelColor={tailwind('text-white')}
@@ -118,7 +118,7 @@ export function LoginScreen (): JSX.Element {
                 />
 
             </View>
-            <LogoutButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
+            <LogoutButtonWithText style={tailwind('text-primary-700 font-semibold')} />
         </View>
     )
 }

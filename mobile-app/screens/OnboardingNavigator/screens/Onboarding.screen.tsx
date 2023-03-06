@@ -42,7 +42,7 @@ export function OnboardingScreen (): JSX.Element {
                     onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}
                     label="Join us!"
                     labelColor={tailwind('text-white text-base font-normal')}
-                    backgroundColor={tailwind('bg-secondary-500')}
+                    backgroundColor={tailwind('bg-primary-500')}
                     style={tailwind({
                         'mt-28': Device.osName === 'iOS',
                         'mt-20': Device.osName === 'Android'

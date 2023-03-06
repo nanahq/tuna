@@ -159,7 +159,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     backgroundColor={tailwind('bg-brand-black-500')}
                     testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
                 />
-            <LoginButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
+            <LoginButtonWithText style={tailwind('text-primary-700 font-semibold')} />
         </KeyboardAwareScrollView>
     )
 }

@@ -1,4 +1,3 @@
-import {Order} from "@store/orders.reducer";
 import {View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {ShowAllButton} from "@screens/AppNavigator/OrdersNavigator/components/ShowAllButton";
@@ -7,13 +6,14 @@ import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavig
 import {PropsWithChildren, useCallback} from "react";
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
 import {DeliveredOrderCard, OrdersCard} from "@screens/AppNavigator/OrdersNavigator/components/OrderCard";
-import {EmptyOrder} from "@screens/AppNavigator/OrdersNavigator/components/EmptyOrder";
+import { EmptyAnimation } from "@components/lottie/Empty";
+import { OrderI } from '@imagyne/eatlater-types';
 
 export type CategoryType = 'PENDING' | 'DELIVERED'
 
 interface OrderCatergoryProps {
     testId: string
-    orders: Order[]
+    orders: OrderI[]
     type: CategoryType
     hasFetchedOrders: boolean
 }
@@ -36,7 +36,7 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
         <View testID={props.testId} style={tailwind('my-5')}>
             <View style={tailwind('')}>
                 {props.orders.length === 0 && (
-                    <EmptyOrder msg='No orders yet.' />
+                    <EmptyAnimation text='No orders yet.' />
                 )}
 
                 {props.orders.length > 0 && props.orders.map((order, index) =>  {

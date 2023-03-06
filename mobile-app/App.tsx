@@ -9,7 +9,10 @@ import {persistence} from "@api/persistence";
 import ErrorBoundary from "@screens/ErrorBoundary/ErrorBoundary";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {StoreProvider} from "@store/StoreProvider";
-
+import ConnectionBoundary from '@components/commons/ConnectionBoundary';
+import { AppToast } from '@components/commons/AppToast';
+import { ToastProps } from "react-native-toast-notifications/lib/typescript/toast";
+import { ToastProvider } from "react-native-toast-notifications"
 export default function App() {
   const isLoaded = useCachedResource()
    const logger = useLogger()
@@ -20,6 +23,11 @@ export default function App() {
     SplashScreen.preventAutoHideAsync().catch(logger.error);
     return null;
   }
+
+  const customToast = {
+    app_toast_success: (toast: ToastProps) => <AppToast  type="success" toast={toast} />,
+    app_toast_error: (toast: ToastProps) => <AppToast type="error" toast={toast} />,
+  };
 
   return (
     <NativeLoggingProvider>
@@ -32,13 +40,17 @@ export default function App() {
                }}
            >
                <StoreProvider>
+                <ConnectionBoundary>
                    <GestureHandlerRootView
                        style={tailwind('flex-1')}
                    >
                        <BottomSheetModalProvider>
-                           <MainScreen />
+                          <ToastProvider renderType={customToast}>
+                          <MainScreen />
+                          </ToastProvider>
                        </BottomSheetModalProvider>
                    </GestureHandlerRootView>
+                </ConnectionBoundary>
                </StoreProvider>
            </AuthPersistenceProvider>
        </ErrorBoundary>
