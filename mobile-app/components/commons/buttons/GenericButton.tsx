@@ -30,12 +30,12 @@ export function GenericButton (props: Props): JSX.Element {
             activeOpacity={activeOpacity}
             style={[backgroundColor, tailwind('rounded-xl', {
                 'bg-brand-gray-700': props.disabled,
-                'flex flex-row justify-center w-full items-center': props.loading
+                'flex flex-row justify-center w-full items-center bg-brand-gray-700': props.loading
             }), style]}
             {...rest}
         >
             <Text style={[tailwind('font-semibold text-center text-lg py-3.5'), labelColor]}>{label}</Text>
-            {props.loading !== undefined && props.loading && <LoaderComponent size='small' style={tailwind('pl-2')} />}
+            {props.loading !== undefined && props.loading && <LoaderComponent size='small' style={tailwind('pl-2 text-white')} />}
         </TouchableOpacity>
     )
 }

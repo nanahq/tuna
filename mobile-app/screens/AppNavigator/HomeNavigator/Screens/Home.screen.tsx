@@ -98,7 +98,7 @@ function EarningsCard (props: PropsWithChildren<{}>): JSX.Element {
         <LinearGradient
             colors={['#000000', '#434343']}
             testID="HomeScreen.EarningsCard"
-            style={tailwind('flex flex-row items-center justify-between bg-secondary-500 px-5 py-4', {
+            style={tailwind('flex flex-row items-center justify-between bg-primary-500 px-5 py-4', {
             'h-28': Device.osName === 'Android',
             'h-32': Device.osName === 'iOS'
         })}>

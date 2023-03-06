@@ -1,6 +1,7 @@
 import {PropsWithChildren} from "react";
 import {StyleProp, Text, TouchableOpacity, TouchableOpacityProps, View} from 'react-native'
 import {tailwind} from '@tailwind'
+import { NotComplete } from "./NotCompleted";
 
 export function SettingsSection (props: PropsWithChildren<{title: string}>):JSX.Element {
     return  (
@@ -13,7 +14,8 @@ export function SettingsSection (props: PropsWithChildren<{title: string}>):JSX.
     )
 }
 
-function Item (props: {onPress: () => void,  disabled?: boolean, subtitle?: string, title: string, style?: StyleProp<TouchableOpacityProps>, hasBorder?: boolean}): JSX.Element {
+
+function Item (props: {onPress: () => void,  disabled?: boolean, isComplete?: boolean,  subtitle?: string, title: string, style?: StyleProp<TouchableOpacityProps>, hasBorder?: boolean}): JSX.Element {
    const { title, disabled = false,  hasBorder = true,  style, ...rest} = props
     return (
         <TouchableOpacity
@@ -23,7 +25,10 @@ function Item (props: {onPress: () => void,  disabled?: boolean, subtitle?: stri
             }), style]}
             {...rest}
         >
-            <Text style={tailwind('font-semibold text-sm text-brand-black-500', {'text-brand-gray-400': disabled})}>{title}</Text>
+            <View style={tailwind('flex flex-row items-center justify-between')}>
+                <Text style={tailwind('font-semibold text-sm text-brand-black-500', {'text-brand-gray-400': disabled})}>{title}</Text>
+                {props.isComplete !==undefined &&  !props.isComplete && (<NotComplete />)}
+            </View>
             {props.subtitle && (<Text style={tailwind('font-normal text-xs text-brand-gray-800 mt-1')}>{props.subtitle}</Text>)}
         </TouchableOpacity>
     )

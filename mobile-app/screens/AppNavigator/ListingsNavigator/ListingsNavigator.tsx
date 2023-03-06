@@ -7,18 +7,24 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {AddCategory} from "@screens/AppNavigator/ListingsNavigator/screens/AddCategory";
 import {AddOption} from "@screens/AppNavigator/ListingsNavigator/screens/AddOption";
 import {AddMenu} from "@screens/AppNavigator/ListingsNavigator/screens/AddMenu";
+import {ListingCategoryI, ListingMenuI, ListingOptionGroupI} from "@imagyne/eatlater-types";
+import {SingleMenu} from "@screens/AppNavigator/ListingsNavigator/screens/SingleMenu";
 
 
 export interface ListingsParams {
     GetListing: {
         listings: string
-    } | undefined,
+    } | undefined
 
-    AddListing: undefined,
-
+    SingleMenu: {
+        menu: ListingMenuI
+    } | undefined
+    AddOption: {
+        option: ListingOptionGroupI
+    } | undefined
     AddCategory: {
-        catId: string | undefined
-    }
+        category: ListingCategoryI
+    } | undefined
 
     [key: string]: undefined | object;
 }
@@ -85,6 +91,14 @@ export function ListingsNavigator(): JSX.Element {
                 options={{
                     headerShown: true,
                     headerTitle: 'Add Menu'
+                }}
+            />
+            <ListingsStack.Screen
+                component={SingleMenu}
+                name={ListingsScreenName.SINGLE_MENU}
+                options={{
+                    headerShown: true,
+                    headerTitle: 'Menu'
                 }}
             />
         </ListingsStack.Navigator>

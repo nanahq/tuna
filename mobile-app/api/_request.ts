@@ -31,6 +31,7 @@ interface baseParamProps<T> {
     url: string
     data?: T
     type?: 'requestData'
+    headers?: any
 }
 
 async function base<T>(param: baseParamProps<T>) {
@@ -38,12 +39,12 @@ async function base<T>(param: baseParamProps<T>) {
     const source = CancelToken.source();
     setTimeout(() => {
         source.cancel();
-    }, 10000);
+    }, 30000);
     return await axios({
         method: param.method,
         baseURL: config.baseUrl,
         url: param.url,
-        headers: config.headers,
+        headers: param.headers ?? config.headers,
         cancelToken: source.token,
         data: param.data,
     })
@@ -53,11 +54,11 @@ async function base<T>(param: baseParamProps<T>) {
                 cookies: res.headers['set-cookie'] ?? []
             });
         })
-        .catch((err: AxiosError) => {
+        .catch((err: any) => {
+            console.log(JSON.stringify(err))
             if (err.response) {
                 return Promise.reject(err.response?.data);
             }
-
             return Promise.reject('TIMEOUT');
         });
 }

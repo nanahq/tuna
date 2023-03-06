@@ -13,8 +13,8 @@ export function EarningsOverview (props: EarningsOverviewProps): JSX.Element {
             shadowOpacity: 0.1,
             shadowRadius: 0.1
         }]}>
-            <EarningSection label='24 hours sales' earnings={props["dailyEarnings"]} />
-            <EarningSection label='Lifetime sales' earnings={props["lifeTimeEarnings"]} />
+            <EarningSection label='24 hours sales' earnings={props.dailyEarnings} />
+            <EarningSection label='Lifetime sales' earnings={props.lifeTimeEarnings} />
         </View>
     )
 }

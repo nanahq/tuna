@@ -25,11 +25,11 @@ export function SettingsNavigator(): JSX.Element {
             screenOptions={{
                 headerLeft: () => <></>,
                 headerTitle: 'Profile',
-                headerTitleAlign: 'left',
+                headerTitleAlign: 'center',
                 headerLeftContainerStyle: tailwind('pl-5'),
                 headerTitleStyle: tailwind('font-semibold text-brand-black-500 text-lg'),
                 headerStyle: [tailwind(''), {
-                    shadowOpacity: 8,
+                    shadowOpacity: 4,
                     height: insets.top + 40
                 }],
                 headerBackTitleVisible: false,
@@ -41,8 +41,9 @@ export function SettingsNavigator(): JSX.Element {
                 component={SettingsScreen}
                 name={SettingsScreenName.SETTINGS}
                 options={{
+                    headerTitleAlign: 'center',
                     headerShown: true,
-                    headerTitle: 'Settings & Profile',
+                    headerTitle: ' Profile',
                 }}
             />
 

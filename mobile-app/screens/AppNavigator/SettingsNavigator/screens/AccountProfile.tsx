@@ -1,24 +1,27 @@
 import {getColor, tailwind} from "@tailwind";
-import {SafeAreaView, View} from "react-native";
-import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+import {SafeAreaView, View, Text} from "react-native";
 import {ScrolledView} from "@components/views/ScrolledView";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {useSelector} from "react-redux";
-import {RootState} from "@store/index";
+import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {LoaderComponent} from "@components/commons/LoaderComponent";
 import Toast from 'react-native-toast-message'
 import {useNavigation} from "@react-navigation/native";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
+import { useForm } from "react-hook-form";
+import { ControlledTextInputWithLabel } from "@components/commons/inputs/ControlledTextInput";
+import { ShowToast } from "@components/commons/Toast";
+import { _api } from "@api/_request";
+import { fetchProfile } from "@store/profile.reducer";
+
 
 export interface AccountProfileForm {
     firstName: string
     lastName: string
-    phoneNumber: string
+    phone: string
     email: string
-
-
 }
 export interface PasswordForm {
     password: string
@@ -27,68 +30,60 @@ export interface PasswordForm {
 
 
 
-const showToast = (type: 'success' | 'error', message: string) => {
-    Toast.show({
-        type: type,
-        text1: message,
-        autoHide: true
-    });
-}
 export function AccountProfile (): JSX.Element {
-    const {hasFetchedProfile, accountProfile } = useSelector((state: RootState) => state.profile)
+    const {hasFetchedProfile, profile } = useAppSelector((state: RootState) => state.profile)
+    const dispatch = useAppDispatch()
     const navigation = useNavigation()
+
     const [submitting, setSubmitting] = useState<boolean>(false)
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
-    const [editPassword, setEditPassword ] = useState<boolean>(false)
 
-    const [form, setForm] = useState<AccountProfileForm>({
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        email: '',
+    const {control, handleSubmit, formState: {isDirty, errors}, setValue} = useForm<AccountProfileForm>({
+        criteriaMode: 'all'
     })
 
-    const [passwordForm, setPasswordForm] = useState<PasswordForm>({
-        password: '',
-        confirmPassword: ''
-    })
+    if(!hasFetchedProfile) {
+        return <View>
+            <Text>Fetching</Text>
+        </View>
+    }
 
-    function onChange (name: string, value: string, section = 'profile'): void {
-        switch (section) {
-            case 'profile':
-                setForm((prevState) => ({...prevState, [name]: value}))
-                break;
-            case 'password':
-                setPasswordForm((prevState) => ({...prevState, [name]: value}))
-        }
+    useEffect(() => {
+        setValue('firstName', profile.firstName)
+        setValue('lastName', profile.lastName)
+        setValue('email', profile.email)
+        setValue('phone', profile.phone)
+    }, [])
+
+   async function updateProfile (data: AccountProfileForm): Promise<void> {
+    setSubmitting(true)
+       try {
+         (await _api.requestData<AccountProfileForm>({
+            method: 'put',
+            url: 'vendor/profile',
+            data
+        })).data
+       setSubmitting(false)
+        setEditProfileState(false)
+        ShowToast('success', 'Profile Updated')
+        await dispatch(fetchProfile())
+
+       } catch (error: any) {
+        console.log(error)
+        ShowToast('error',  error.message !== 'string' ? error.message[0] : error.message )
+       } finally{
+       setSubmitting(false)
+       }
     }
 
 
-   async function updateProfile (type: 'password' | 'profile'): Promise<void> {
-        setSubmitting(true)
-        switch (type) {
-            case "profile":
-                setEditProfileState(false)
-                setSubmitting(false)
-                showToast('success', 'Profile Updated')
-                break;
-            case "password":
-                setEditPassword(false)
-                setSubmitting(false)
-                showToast('success', 'Password updated')
-                break;
-        }
-
-    }
-    // TODO(@siradji) Improve data fields when not editing
     return (
         <SafeAreaView>
-            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 mt-5')}>
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 pt-5 bg-white')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
-                {!editPassword && (
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
                         <View style={tailwind('flex flex-row items-center justify-between w-full')}>
-                            <TextInputWithLabel
+                            <ControlledTextInputWithLabel
                                 editable={editProfileState}
                                 label='First Name'
                                 testID='AccountProfile.FirstName.Input'
@@ -96,10 +91,16 @@ export function AccountProfile (): JSX.Element {
                                     width: 160
                                 }}
                                 labelTestId="AccountProfile.FirstName.Label"
-                                value={form.firstName}
-                                onChangeText={(value) => onChange('firstName', value)}
+                                control={control}
+                                name="firstName"
+                                rules={{required: {
+                                    value: true,
+                                    message: "Required"
+                                }}}
+                            error={errors.firstName !== undefined}
+                            errorMessage={errors.firstName?.message}
                             />
-                            <TextInputWithLabel
+                            <ControlledTextInputWithLabel
                                 editable={editProfileState}
                                 label='Last Name'
                                 testID='AccountProfile.LastName.Input'
@@ -107,79 +108,61 @@ export function AccountProfile (): JSX.Element {
                                 style={{
                                     width: 160
                                 }}
-                                value={form.lastName}
-                                onChangeText={(value) => onChange('lastName', value)}
+                                control={control}
+                                name="lastName"
+                                rules={{required: {
+                                    value: true,
+                                    message: "Required"
+                                }}}
+                            error={errors.lastName !== undefined}
+                            errorMessage={errors.lastName?.message}
                             />
                         </View>
-                        <TextInputWithLabel
+                        <ControlledTextInputWithLabel
                             editable={editProfileState}
                             label='Phone Number'
                             testID='AccountProfile.PhoneNumber.Input'
                             labelTestId="AccountProfile.PhoneNumber.Label"
                             containerStyle={tailwind('w-full mt-5')}
-                            value={form.phoneNumber}
-                            onChangeText={(value) => onChange('phoneNumber', value)}
+                            control={control}
+                            name="phone"
+                            rules={{required: {
+                                value: true,
+                                message: "Required"
+                            }}}
+                        error={errors.phone !== undefined}
+                        errorMessage={errors.phone?.message}
 
                         />
-                        <TextInputWithLabel
+                        <ControlledTextInputWithLabel
                             editable={editProfileState}
                             label='Email'
                             testID='AccountProfile.Email.Input'
                             labelTestId="AccountProfile.Email.Label"
                             containerStyle={tailwind('w-full mt-5')}
-                            value={form.email}
-                            onChangeText={(value) => onChange('email', value)}
-
+                            control={control}
+                                name="email"
+                                rules={{required: {
+                                    value: true,
+                                    message: "Required"
+                                }}}
+                            error={errors.email !== undefined}
+                            errorMessage={errors.email?.message}
                         />
                     </ProfileSection>
-                )}
-                {!editProfileState && (
-                    <ProfileSection sectionName='Password' onPress={() => setEditPassword(true)}>
-                        <TextInputWithLabel
-                            editable={editPassword}
-                            label=' New Password'
-                            testID='AccountProfile.Password.Input'
-                            labelTestId="AccountProfile.Password.Label"
-                            containerStyle={tailwind('w-full mt-5')}
-                            value={passwordForm.password}
-                            onChangeText={(value) => onChange('password', value)}
 
-                        />
-                        <TextInputWithLabel
-                            editable={editPassword}
-                            label='Confirm New Password'
-                            testID='AccountProfile.ConfirmPassword.Input'
-                            labelTestId="AccountProfile.ConfirmPassword.Label"
-                            containerStyle={tailwind('w-full mt-5')}
-                            value={passwordForm.confirmPassword}
-                            onChangeText={(value) => {
-                                onChange('confirmPassword', value)
-                            }}
-                        />
-                    </ProfileSection>
-                )}
-                {editProfileState && !submitting  && (
-                    <GenericButton
+                    {editProfileState && (
+                        <GenericButton
                         style={tailwind('mt-4')}
                         labelColor={tailwind('text-white')}
-                        onPress={() => updateProfile('profile')}
+                        onPress={handleSubmit(updateProfile)}
                         label="Update profile"
-                        backgroundColor={tailwind('bg-secondary-700')}
-                        testId="Accountprofile.editButton" />
-                )}
-
-                {editPassword && !submitting && ( <GenericButton
-                        style={tailwind('mt-4')}
-                        labelColor={tailwind('text-white')}
-                        onPress={() => updateProfile('password')}
-                        label="Update password"
-                        backgroundColor={tailwind('bg-secondary-700')}
-                        testId="Accountprofile.editButton" />
-                )}
-
-                {submitting && (
-                    <LoaderComponent color={getColor('secondary-500')} size='large' style={tailwind('mt-4')} />
-                )}
+                        backgroundColor={tailwind('bg-primary-700')}
+                        testId="Accountprofile.editButton" 
+                        loading={submitting}
+                        />
+                    )}
+    
             </ScrolledView>
         </SafeAreaView>
     )

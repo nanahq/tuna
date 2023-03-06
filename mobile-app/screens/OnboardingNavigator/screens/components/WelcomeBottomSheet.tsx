@@ -84,7 +84,7 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
                         bottom: "0",
                     }} // array as value crashes Web Modal
                 >
-                    <View style={tailwind('bg-white rounded-t-xl p-5 h-full')}>
+                    <View style={tailwind('bg-white rounded-t-xl p-5 flex flex-1')}>
                         <View style={tailwind('flex w-full flex-col justify-center')}>
                             <IconComponent iconType='Feather' name='check-circle' size={100} style={tailwind('text-primary-500 text-center')} />
                             <Text style={tailwind('font-semibold mt-3 text-lg text-center text-brand-black-500')}>Account successfully Created!</Text>
@@ -93,7 +93,7 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
                                 onPress={goToLogin}
                                 labelColor={tailwind('text-white py-3 text-sm')}
                                 label='Log into your account'
-                                backgroundColor={tailwind('bg-secondary-500')}
+                                backgroundColor={tailwind('bg-primary-500')}
                                 testId="WelcomeModal.ContinueButton"
                             />
                         </View>

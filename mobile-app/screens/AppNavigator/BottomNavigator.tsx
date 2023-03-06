@@ -1,4 +1,4 @@
-import {Text} from 'react-native'
+import {Text, View} from 'react-native'
 import {getColor, tailwind} from "@tailwind";
 import {AppScreenName} from "@screens/AppNavigator/AppNavScreenName";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -13,6 +13,7 @@ import {HomeScreenName} from "@screens/AppNavigator/HomeNavigator/HomeScreenName
 import {SettingsNavigator} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
 import {WalletNavigator} from "@screens/AppNavigator/WalletNavigator/WalletNavigator";
 import {ReviewNavigator} from "@screens/AppNavigator/ReviewNavigator/ReviewNavigator";
+import { RootState, useAppSelector } from '@store/index';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -34,6 +35,7 @@ const getTabBarLabel = (props: {
 );
 
 export function BottomTabNavigator ():JSX.Element {
+    const {profile} = useAppSelector((state: RootState) => state.profile)
     return (
         <BottomTab.Navigator
             initialRouteName={AppScreenName.ORDERS}
@@ -42,7 +44,7 @@ export function BottomTabNavigator ():JSX.Element {
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: tailwind(
                     "px-5 py-2 h-24 border-t-0.5 border-brand-black-500 "),
-                tabBarActiveTintColor: getColor("secondary-500"),
+                tabBarActiveTintColor: getColor("primary-500"),
                 tabBarInactiveTintColor: getColor("brand-black-500"),
                 tabBarItemStyle: tailwind({ "pb-6 pt-2": Device.osName === 'iOS'}),
             }}
@@ -67,12 +69,7 @@ export function BottomTabNavigator ():JSX.Element {
                 component={WalletNavigator}
                 name={AppScreenName.WALLET}
                 options={{
-                    tabBarLabel: ({ focused, color }) =>
-                        getTabBarLabel({
-                            focused,
-                            color,
-                            title: 'Wallet',
-                        }),
+                  
                     tabBarTestID: "BottomTabHome",
                     tabBarIcon: ({ color }) => (
                         <IconComponent iconType='Feather' name="credit-card"  size={24} color={color}/>
@@ -123,7 +120,10 @@ export function BottomTabNavigator ():JSX.Element {
                         }),
                     tabBarTestID: "BottomTabHome",
                     tabBarIcon: ({ color }) => (
-                        <IconComponent style={tailwind()} iconType='Feather' name="settings"  size={24} color={color}/>
+                       <View style={tailwind('relative')}>
+                         <IconComponent style={tailwind()} iconType='Feather' name="settings"  size={24} color={color}/>
+                         {profile.settings?.operations === undefined || profile.settings?.payment === undefined && (<View style={tailwind('absolute z-50 w-2 h-2 rounded-full bg-red-500 top-0 right-0 ')}  />)}
+                       </View>
                     ),
                 }}
             />

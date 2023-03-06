@@ -148,12 +148,12 @@ export default function OrdersTabs() {
             renderTabBar={(props) => (
                 <TabBar
                     {...props}
-                    indicatorStyle={tailwind('bg-secondary-500')}
+                    indicatorStyle={tailwind('bg-primary-500')}
                     tabStyle={{ width: 120 }}
                     scrollEnabled
                     style={[tailwind('bg-white'), {paddingTop: topInsets, }]}
                     labelStyle={tailwind('text-brand-black-500')}
-                    activeColor={getColor('secondary-500')}
+                    activeColor={getColor('primary-500')}
                 />
             )}
 

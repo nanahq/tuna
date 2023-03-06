@@ -8,15 +8,15 @@ import {SignupProfileScreen} from "@screens/OnboardingNavigator/screens/Signup/S
 import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
 import {SignupBusinessScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupBusiness.screen";
 import {LoginScreen} from "@screens/OnboardingNavigator/screens/authentication/Login.screen";
+import Toast from "react-native-toast-message";
 import {OnboardingScreenName} from "./ScreenName.enum";
 import {OnboardingScreen} from "./screens/Onboarding.screen";
-import Toast from "react-native-toast-message";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
         firstName: string
         lastName: string
-        phoneNumber: string
+        phone: string
         password: string
         email: string
     },

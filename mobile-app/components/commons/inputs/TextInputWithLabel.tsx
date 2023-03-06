@@ -68,6 +68,7 @@ export interface ModalTextInputProps extends BottomSheetTextInputProps {
     label: string
     labelTestId: string
     moreInfo?: string
+    placeholderTextColor?: string
 }
 
 
@@ -101,6 +102,7 @@ export function ModalTextInput (props: ModalTextInputProps): JSX.Element {
                 )}
             </View>
             <BottomSheetTextInput
+                    placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
                 onFocus={() => setInputFocus(true)}
                 onBlur={() => setInputFocus(false)}
                 style={[tailwind('rounded-lg bg-brand-blue-200 py-3.5 px-3 font-medium text-lg text-brand-black-500', {
