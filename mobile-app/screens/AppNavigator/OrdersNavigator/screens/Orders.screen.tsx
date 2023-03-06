@@ -18,10 +18,15 @@ import { useNavigation } from "@react-navigation/native";
 import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
-// @ts-expect-error
 import {OrderI} from '@imagyne/eatlater-types'
 
 
+export enum OrderStatus {
+    PROCESSED = "ORDER_PLACED",
+    COLLECTED = "COLLECTED_FROM_VENDOR",
+    IN_ROUTE = "OUT_FOR_DELIVERY",
+    FULFILLED = "DELIVERED_TO_CUSTOMER"
+}
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const PROFILE_COMPLETE_MODAL = 'PROFILE_COMPLETE_MODAL'
 const DATA = [
@@ -58,37 +63,34 @@ export function OrdersScreen (): JSX.Element {
 
 
     const getFulfilledOrders = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order)
-            .slice(0, 4)
+        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.FULFILLED)
     }, [hasFetchedOrders, orders])
 
-    const pendingOrders = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order)
-            .slice(0, 4)
+    const getPendingOrders = useCallback(() => {
+        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
 
     const ordersInTransit = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order)
-            .slice(0, 4)
+        return orders.filter((order: OrderI) =>  order.orderStatus in [OrderStatus.IN_ROUTE, OrderStatus.COLLECTED])
     }, [hasFetchedOrders, orders])
     const renderScene = SceneMap<any>({
         Pending: () => <OrderCategory
-            orders={getFulfilledOrders()}
+            orders={getPendingOrders()}
             hasFetchedOrders={hasFetchedOrders}
-            type='PENDING'
+            type={OrderStatus.PROCESSED}
             testId='OrdersScreen.OrderCategory.PENDING'
         />,
         Delivered:  () => <OrderCategory
             orders={getFulfilledOrders()}
             hasFetchedOrders={hasFetchedOrders}
-            type='PENDING'
+            type={OrderStatus.FULFILLED}
             testId='OrdersScreen.OrderCategory.PENDING'
         />,
         route:  () => <OrderCategory
-            orders={getFulfilledOrders()}
+            orders={ordersInTransit()}
             hasFetchedOrders={hasFetchedOrders}
-            type='PENDING'
+            type={OrderStatus.COLLECTED}
             testId='OrdersScreen.OrderCategory.PENDING'
         />,
 
@@ -158,9 +160,9 @@ export function OrdersScreen (): JSX.Element {
                  {showProfileCompleteMsg && (<CompleteProfileMsg />)}
                  <OrdersStats
                      hasFetchedOrders={hasFetchedOrders}
-                     completed={filterOrders('completed')}
-                     cancelled={filterOrders('cancelled')}
-                     pending={filterOrders('pending')}
+                     completed={getFulfilledOrders().length}
+                     cancelled={ordersInTransit().length}
+                     pending={getPendingOrders().length}
                  />
              </View>
              <TabView

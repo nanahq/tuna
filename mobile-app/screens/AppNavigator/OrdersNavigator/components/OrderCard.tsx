@@ -3,25 +3,24 @@ import {StyleProp, Text, TouchableOpacity, TouchableOpacityProps, View} from "re
 import {tailwind} from "@tailwind";
 import {IconComponent} from "@components/commons/IconComponent";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
+import { OrderI } from "@imagyne/eatlater-types";
 
-export function OrdersCard (props: {order?: Partial<Order>, border?: boolean, onPress?: (navigation: NavigationProp<any>) => void, style?: StyleProp<TouchableOpacityProps>}): JSX.Element {
-    const {border = true} = props
+export function OrdersCard ({order, onPress, style}: {order: OrderI, border?: boolean, onPress?: (navigation: NavigationProp<any>) => void, style?: StyleProp<TouchableOpacityProps>}): JSX.Element {
     const navigation = useNavigation()
     return (
         <TouchableOpacity
             onPress={() => {
-                if (props.onPress !== undefined) {
-                    props.onPress(navigation)
+                if (onPress !== undefined) {
+                    onPress(navigation)
                 }
             }}
             style={[
-            tailwind('flex p-1.5 flex-row justify-between items-center w-full border-b-0.5 border-brand-black-500', {
-                'border-0': !border
+            tailwind('flex p-1.5 flex-row justify-between items-center  my-2 w-full border-0.5 border-brand-black-500', {
             }),
-            props.style
+            style
         ]}>
             <View style={tailwind('flex flex-col')}>
-                <Text>Tasty Shawarma</Text>
+                <Text>Tastu sha</Text>
                 <Text>NGN 2000</Text>
             </View>
             <View style={tailwind('flex flex-col')}>

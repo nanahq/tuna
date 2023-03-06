@@ -89,7 +89,6 @@ export function RestaurantProfile (): JSX.Element {
             })).data
             setLogo(photo)
         } catch (error) {
-            console.log(error)
         }
     }
 

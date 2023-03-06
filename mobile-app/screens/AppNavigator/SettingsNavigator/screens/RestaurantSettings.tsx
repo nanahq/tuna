@@ -30,7 +30,6 @@ export function RestaurantSettings (): JSX.Element {
     useEffect(() => {
         if(profile?.settings?.operations !== undefined) {
             const ops = profile.settings.operations
-            console.log(ops)
             setOperationForm((prev: any) => ({
                 ...prev,
                     startTime: new Date(ops.startTime as string),

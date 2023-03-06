@@ -122,7 +122,6 @@ export const addOrUpdateCategory = createAsyncThunk(
                url: 'listing/category',
                data: payload
            })).data
-           console.log(res)
             dispatch(fetchCategories())
            return res
        } catch (e) {

@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
-import { VendorSettingsI} from '@imagyne/eatlater-types'
+import {VendorSettingsI} from '@imagyne/eatlater-types'
 
 export interface SettingsState {
     settings: VendorSettingsI
@@ -51,7 +51,6 @@ export const settings = createSlice({
             ).addCase(
             fetchSettings.rejected,
             (state, _payload) => {
-                console.log(_payload)
                 // void clearOnAuthError()
             }
         )

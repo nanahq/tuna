@@ -111,7 +111,6 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                }, 3000)
            }
        } catch (error: any) {
-            console.log(error)
            // Toast.show({
            //     type: 'error',
            //     text1: typeof error.message !== 'string' ? error.message[0] : error.message,

@@ -36,7 +36,6 @@ export const orders = createSlice({
             .addCase(
                 fetchOrders.fulfilled,
                 (state, {payload: {data}}: PayloadAction<{data: OrderI[], cookies: any}>) => {
-                    console.log(data)
                     state.orders = data
                     state.hasFetchedOrders = true
                 }

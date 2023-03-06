@@ -56,7 +56,6 @@ export const wallet = createSlice({
             ).addCase(
             fetchWallet.rejected,
             (state, _payload) => {
-                console.log(_payload)
                 void clearOnAuthError()
             }
         )
