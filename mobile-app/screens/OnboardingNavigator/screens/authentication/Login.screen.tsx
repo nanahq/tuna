@@ -44,6 +44,7 @@ export function LoginScreen (): JSX.Element {
             })
             await  setToken(cookieParser(cookies[0]))
         } catch (error: any) {
+            console.log(error)
             _setHasError(true)
             if (Number(error.statusCode) === 500) {
                Toast.show({

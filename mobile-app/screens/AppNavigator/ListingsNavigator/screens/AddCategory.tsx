@@ -16,6 +16,8 @@ import {IconButton} from "@components/commons/buttons/IconButton";
 import {useAppDispatch} from "@store/index";
 import {addOrUpdateCategory, fetchCategories, updateOptionGroup} from "@store/listings.reducer";
 import Toast from "react-native-toast-message";
+import { showTost } from "@components/commons/Toast";
+import { useToast } from "react-native-toast-notifications";
 
 type AddCategoryNavProps = StackScreenProps<ListingsParams, "AddCategory">
 enum TagSelection {
@@ -38,6 +40,8 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
     const [isLive, setIsLive] = useState<boolean>(false)
     const [tags, setTags] = useState<string[]>([])
     const dispatch = useAppDispatch()
+    const toast = useToast()
+    
     const {control, setValue, handleSubmit, getValues} = useForm<CreateListingCategoryDto>()
 
     const [menu, setMenu] = useState<ListingMenuI[]>([])
@@ -106,16 +110,13 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                    autoHide: true,
                })
 
+               showTost(toast, 'Category added!', 'success')
                setTimeout(() => {
                    void navigation.goBack()
                }, 3000)
            }
        } catch (error: any) {
-           // Toast.show({
-           //     type: 'error',
-           //     text1: typeof error.message !== 'string' ? error.message[0] : error.message,
-           //     autoHide: true,
-           // })
+          showTost(toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
        } finally {
            setIsLoading(false)
        }

@@ -44,7 +44,7 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
     }, [])
 
     return (
-        <View style={tailwind('flex-1 bg-white')}>
+        <View style={tailwind('flex-1 bg-brand-gray-500')}>
             <FlashList
                 contentContainerStyle={tailwind('py-4')}
                 data={props.menu}
@@ -60,13 +60,10 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
 
 export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (menu: ListingMenuI) => void}) {
     return (
-        <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full px-2 mb-4 overflow-hidden'), {
-            // shadowColor: '#171717',
-            // shadowOffset: {width: -2, height: 4},
-            // shadowOpacity: 0.2,
-            // shadowRadius: 3,
+        <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full px-2 mb-4 rounded-lg overflow-hidden'), {
+         
         }]}>
-            <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500')}>
+            <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500  rounded-lg')}>
                 <View style={tailwind('w-full h-20')}>
                     <Image source={{uri: menu.photo }} resizeMode='cover'   style={tailwind('w-full h-full')} />
                 </View>

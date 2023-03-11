@@ -17,6 +17,8 @@ import {ListingOption} from "@imagyne/eatlater-types";
 import {useAppDispatch} from "@store/index";
 import {updateOptionGroup} from "@store/listings.reducer";
 import Toast from "react-native-toast-message";
+import { useToast } from 'react-native-toast-notifications';
+import { showTost } from '@components/commons/Toast';
 
 
 
@@ -34,6 +36,8 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
     const navigation = useNavigation()
     const { dismiss } = useBottomSheetModal()
     const dispatch = useAppDispatch()
+    const toast = useToast()
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // Form
     const {control, setValue, handleSubmit, getValues, formState: {isDirty, errors}} = useForm<OptionFormI>()
@@ -123,17 +127,13 @@ return true
                    text1: 'Operation successful',
                    autoHide: true,
                })
-
+               showTost(toast, 'Option added!', 'success')
                setTimeout(() => {
                   void navigation.goBack()
                }, 3000)
            }
         } catch (error: any) {
-            Toast.show({
-                type: 'error',
-                text1: typeof error.message !== 'string' ? error.message[0] : error.message,
-                autoHide: true,
-            })
+           showTost(toast,  typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
         } finally {
             setIsLoading(false)
         }

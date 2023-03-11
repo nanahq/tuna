@@ -104,7 +104,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
 
 
     return (
-        <KeyboardAvoidingView style={tailwind('px-5 bg-white ')}>
+        <KeyboardAvoidingView style={tailwind('px-5 bg-brand-gray-500 ')}>
             <ScrollView showsVerticalScrollIndicator={false} >
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ControlledTextInputWithLabel

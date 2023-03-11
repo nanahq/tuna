@@ -25,8 +25,9 @@ import * as Device from "expo-device";
 import {_api} from "@api/_request";
 
 import uuid from 'react-native-uuid'
-import { ShowToast } from '@components/commons/Toast';
+import { ShowToast, showTost } from '@components/commons/Toast';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { useToast } from 'react-native-toast-notifications';
 
 export const CATEGORY_PICKER_MODAL = 'CAT_MENU_MODAL'
 export const OPTION_PICKER_MODAL = 'OPTION_MENU_MODAL'
@@ -49,6 +50,8 @@ export function AddMenu (): JSX.Element {
 
     const {listingsCategory, listingsOptionGroup} = useAppSelector((state: RootState) => state.listings)
     const dispatch = useAppDispatch()
+
+    const toast = useToast()
 
     const {handleSubmit, formState: {errors}, control} = useForm<Partial<ListingMenuI>>()
     const [menuForm, setMenuForm] = useState<MenuFormInterface>({
@@ -122,9 +125,9 @@ export function AddMenu (): JSX.Element {
 
 
         const payload = new FormData()
-        payload.append('name', data.name)
+        payload.append('name', data.name.trim())
         payload.append('price', data.price)
-        payload.append('desc', data.desc)
+        payload.append('desc', data.desc.trim())
         payload.append('serving', data.serving)
 
         payload.append('isLive', `${menuForm.isLive}`)
@@ -133,6 +136,7 @@ export function AddMenu (): JSX.Element {
         payload.append('optionGroups', optionsString.join(','))
 
         payload.append('listingImage', imagePayload )
+        console.log(JSON.stringify(payload))
       try {
           setLoading(true)
          const res = (await _api.requestData({
@@ -146,13 +150,14 @@ export function AddMenu (): JSX.Element {
           })).data
           await dispatch(fetchMenus())
           if (res.status === 1) {
-            ShowToast('success', 'Menu created!')
+            showTost(toast, 'Menu created!', 'success')
               setTimeout(() => {
                   void navigation.goBack()
               }, 3000)
           }
       } catch (error: any){
-        ShowToast('error',  error.message !== 'string' ? error.message[0] : error.message)
+        console.log(error)
+        showTost(  toast, error.message !== 'string' ? error.message[0] : error.message, 'error')
 
       } finally {
           setLoading(false)
@@ -174,7 +179,7 @@ export function AddMenu (): JSX.Element {
                             message: "Required"
                         }}}
                     error={errors.name !== undefined}
-                    errorMessage={errors.name?.message}
+                    errorMessage={errors.name?.message as any}
                 />
                 <ControlledTextInputWithLabel
                     containerStyle={tailwind('mt-5')}
@@ -194,7 +199,7 @@ export function AddMenu (): JSX.Element {
                             message: "Required"
                         }}}
                     error={errors.desc !== undefined}
-                    errorMessage={errors.desc?.message}
+                    errorMessage={errors.desc?.message as any}
                 />
 
                 <View style={tailwind('flex flex-row items-center justify-between w-full mt-5')}>
@@ -212,7 +217,7 @@ export function AddMenu (): JSX.Element {
                                 message: "Required"
                             }}}
                         error={errors.price !== undefined}
-                        errorMessage={errors.price?.message}
+                        errorMessage={errors.price?.message as any}
                     />
                     <ControlledTextInputWithLabel
                         label='Serving/Price type'
@@ -226,7 +231,7 @@ export function AddMenu (): JSX.Element {
                                 message: "Required"
                             }}}
                         error={errors.serving !== undefined}
-                        errorMessage={errors.serving?.message}
+                        errorMessage={errors.serving?.message as any}
                     />
                 </View>
                 <View style={tailwind('my-10 border-brand-gray-700 border-0.5 border-dashed px-3 py-5 rounded')}>

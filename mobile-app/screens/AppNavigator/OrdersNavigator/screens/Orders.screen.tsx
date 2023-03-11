@@ -13,8 +13,6 @@ import {AddBankModal, AddBankModal as LocationModal} from "@screens/AppNavigator
 import {LocationModalContent} from "@components/LocationModalContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ShowToast } from "@components/commons/Toast";
-import { GenericButton } from "@components/commons/buttons/GenericButton";
-import { useNavigation } from "@react-navigation/native";
 import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
@@ -28,17 +26,20 @@ export enum OrderStatus {
     FULFILLED = "DELIVERED_TO_CUSTOMER"
 }
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
-const PROFILE_COMPLETE_MODAL = 'PROFILE_COMPLETE_MODAL'
-const DATA = [
-    {key: 'Pending', title: 'Pending'},
-    {key: 'Delivered', title: 'Delivered'},
+const DATA  = [
+    {key: 'demand', title: 'Instant'},
+    {key: 'pre', title: 'Pre order'},
+    {key: 'pending', title: 'Pending'},
+    {key: 'pickup', title: 'Courier pickup'},
     {key: 'route', title: 'In-transit'},
+    {key: 'delivered', title: 'Delivered'},
 ]
+
+
 export function OrdersScreen (): JSX.Element {
     // State selectors
     const {orders, hasFetchedOrders} = useAppSelector((state: RootState) => state.orders )
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
-    const navigation = useNavigation<any>()
     const layout = useWindowDimensions();
     const [index, setIndex] = useState<number>(0);
     const [routes, _setRoutes] = useState<Array<{key: string, title: string}>>(DATA);
@@ -46,21 +47,6 @@ export function OrdersScreen (): JSX.Element {
     const bottomSheetModalRef = useRef<any>(null)
 
     const { dismiss } = useBottomSheetModal();
-
-  
-    const filterOrders = useCallback((type: 'completed' | 'pending' | 'cancelled'): number => {
-        return orders.filter((order: OrderI) => {
-            switch (type) {
-                case "completed":
-                    return order
-                case "pending":
-                    return order
-                case "cancelled":
-                    return order
-            }
-        }).length
-    }, [orders, hasFetchedOrders])
-
 
     const getFulfilledOrders = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.FULFILLED)
@@ -71,17 +57,32 @@ export function OrdersScreen (): JSX.Element {
     }, [hasFetchedOrders, orders])
 
 
-    const ordersInTransit = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderStatus in [OrderStatus.IN_ROUTE, OrderStatus.COLLECTED])
+    const getOnDemandOrders = useCallback(() => {
+        return orders.filter((order: OrderI) =>  order.orderType === 'ON_DEMAND' && order.orderStatus !==  OrderStatus.FULFILLED)
     }, [hasFetchedOrders, orders])
+
+
+    const getPreOrders = useCallback(() => {
+        return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus !==  OrderStatus.FULFILLED)
+    }, [hasFetchedOrders, orders])
+
+    const getCourierPickupOrders =  useCallback(() => {
+        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.PROCESSED)
+    }, [hasFetchedOrders, orders])
+
+
+    const ordersInTransit = useCallback(() => {
+        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.IN_ROUTE)
+    }, [hasFetchedOrders, orders])
+
     const renderScene = SceneMap<any>({
-        Pending: () => <OrderCategory
+        pending: () => <OrderCategory
             orders={getPendingOrders()}
             hasFetchedOrders={hasFetchedOrders}
             type={OrderStatus.PROCESSED}
             testId='OrdersScreen.OrderCategory.PENDING'
         />,
-        Delivered:  () => <OrderCategory
+        delivered:  () => <OrderCategory
             orders={getFulfilledOrders()}
             hasFetchedOrders={hasFetchedOrders}
             type={OrderStatus.FULFILLED}
@@ -93,8 +94,25 @@ export function OrdersScreen (): JSX.Element {
             type={OrderStatus.COLLECTED}
             testId='OrdersScreen.OrderCategory.PENDING'
         />,
-
-    });
+        pre:  () => <OrderCategory
+        orders={getPreOrders()}
+        hasFetchedOrders={hasFetchedOrders}
+        type={OrderStatus.COLLECTED}
+        testId='OrdersScreen.OrderCategory.PENDING'
+    />,
+    demand:  () => <OrderCategory
+    orders={getOnDemandOrders()}
+    hasFetchedOrders={hasFetchedOrders}
+    type={OrderStatus.COLLECTED}
+    testId='OrdersScreen.OrderCategory.PENDING'
+/>,
+ pickup:  () => <OrderCategory
+ orders={getCourierPickupOrders()}
+ hasFetchedOrders={hasFetchedOrders}
+ type={OrderStatus.COLLECTED}
+ testId='OrdersScreen.OrderCategory.PENDING'
+/>,
+   });
 
     useEffect(() => {
         void openModal()
@@ -140,7 +158,11 @@ export function OrdersScreen (): JSX.Element {
             return 
         }
         
-        if(profile.settings?.operations === undefined || profile.settings.payment === undefined) {
+        if(profile.settings?.operations === undefined) {
+            setShowProfileCompleteMsg(true)
+        }
+
+        if(profile.settings?.payment === undefined) {
             setShowProfileCompleteMsg(true)
         }
     }
@@ -152,9 +174,8 @@ export function OrdersScreen (): JSX.Element {
     return (
      <>
          <SafeAreaView
-             style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
+             style={tailwind('w-full bg-brand-gray-500 h-full flex-col flex pb-5')}
          >
-            
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
                  {hasFetchedProfile && (<OrderHeaderStatus status={profile.status as any} />)}
                  {showProfileCompleteMsg && (<CompleteProfileMsg />)}

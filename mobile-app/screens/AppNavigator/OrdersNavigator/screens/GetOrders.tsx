@@ -8,59 +8,96 @@ import {IconButton} from "@components/commons/buttons/IconButton";
 import {OrderCompleteButton} from "@screens/AppNavigator/OrdersNavigator/components/OrderCompleteButton";
 import {OrderStatus} from "@typings/Orders.type";
 import {OrderQrCode} from "@screens/AppNavigator/OrdersNavigator/components/OrderQrCode";
+import { calculatePreorderDate } from "../../../../../utils/date";
+import { ScrollView } from "react-native-gesture-handler";
+import { GoBackButton } from "@screens/AppNavigator/SettingsNavigator/components/Goback";
+import { useToast } from "react-native-toast-notifications";
+import { useState } from "react";
+import { _api } from "@api/_request";
+import { useAppDispatch } from "@store/index";
+import { fetchOrders } from "@store/orders.reducer";
+import { showTost } from "@components/commons/Toast";
+import { GenericButton } from "@components/commons/buttons/GenericButton";
 
 
-type GetOrderProps = StackScreenProps<OrderParamsList, "GetOrders">
+type GetOrderProps = StackScreenProps<OrderParamsList, "GetOrder">
 
-export function GetOrder ({route, navigation}: GetOrderProps ): JSX.Element {
+export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.Element {
+    const [loading, setIsloading] = useState<boolean>(false)
+    const toast = useToast()
+    const dispatch = useAppDispatch()
+
       function goBack (): void {
           navigation.goBack()
       }
+
+
+      const updateOrder =async  (): Promise<void> => {
+        toast.hideAll()
+        setIsloading(true)
+        try {
+            await _api.requestData<{orderId: string, status: OrderStatus}>({
+                method: "put",
+                url: 'order/update',
+                data: {
+                    orderId: params.order._id,
+                    status: OrderStatus.COLLECTED
+                }
+            })
+
+            dispatch(fetchOrders())
+            showTost( toast, 'Order status updated!', 'success')
+            navigation.goBack()
+        } catch (error: any) {
+            showTost( toast,typeof error.message === 'string' ? error.message : error.message[0] ,'error')
+        } finally {
+            setIsloading(false)
+        }
+      }
+
     return (
         <SafeAreaView style={tailwind('bg-white')}>
-            <View style={tailwind('px-5 pt-5 h-full bg-white')}>
-                <IconButton
-                    iconName='arrow-left'
-                    iconType='Feather'
-                    iconSize={24}
-                    iconStyle={tailwind('text-brand-black-500')}
-                    style={tailwind('mb-2')}
-                    onPress={goBack}
-                />
+            <ScrollView style={tailwind('px-5 pb-5 h-full bg-white')}>
+                <GoBackButton  onPress={goBack}/>
                 <OrderSection heading='Order details' testId='GetOrder.OrderDetails'>
+                <OrderSection.Row title='Item name: ' text={params.order.listing.name}  titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} containerStyle={tailwind('mb-2')}/>
                   <View style={tailwind('flex flex-row items-center justify-between w-full mb-2')}>
-                      <OrderSection.Row title='Quantity:' text='2' />
-                      <OrderSection.Row title='Pickup time:' text='2:30 AM' />
+                      <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} title='Quantity:' text='2' />
+                      <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')}  title='Pickup time:' text={(params.order.orderType as any) === 'PRE_ORDER ' ? calculatePreorderDate('2023-03-03T19:00:00.000Z') :  calculatePreorderDate('2023-03-03T19:00:00.000Z')} />
                   </View>
-                    <OrderSection.Row title='Delivery Day:' text='Tomorrow'  containerStyle={tailwind('mb-2')}/>
-                    <OrderSection.Row title='Special Note:' text='Please do not make it super spicy' />
+                    <OrderSection.Row   titleStyle={tailwind('font-medium')} textStyle={tailwind(' text-lg font-bold')} title='Special Note:' text='Please do not make it super spicy' />
                 </OrderSection>
                <View style={tailwind('flex flex-row w-full mt-5')}>
-                   <OrderSection heading='Add ons' testId='GetOrder.Addons' fullWidth={false} width={tailwind('w-1/2')}>
-                       <OrderSection.Row title='-' text='Zobo'  containerStyle={tailwind('mb-2')}/>
-                       <OrderSection.Row title='-' text='Kunun Aya' />
-                   </OrderSection>
-                   <OrderSection heading='Order Options' testId='GetOrder.Options' fullWidth={false} width={tailwind('w-1/2')}>
-                       <OrderSection.Row title='-' text='Meat'  containerStyle={tailwind('mb-2')}/>
-                       <OrderSection.Row title='-' text='Chicken' />
+                   <OrderSection heading='Options' testId='GetOrder.Addons' fullWidth={false} width={tailwind('w-1/2')}>
+                       {params.order.options.map(option => (
+                       <OrderSection.Row title='-' key={option} text={option}  containerStyle={tailwind('mb-2')}/>
+                       ))}
                    </OrderSection>
                </View>
                 <View style={tailwind('flex flex-row items-center justify-between w-full mt-5')}>
-                    <OrderSection.Row title="Order Value" text="1200" titleStyle={tailwind('font-semibold')} />
-                    <View style={tailwind('bg-green-500 rounded-lg py-0.5 px-2 flex justify-center items-center')}>
-                        <Text style={tailwind('text-white text-xs text-center')}>Delivered</Text>
+                    <OrderSection.Row title="Order Value" text={String(params.order.orderBreakDown.orderCost)} titleStyle={tailwind('font-semibold')} />
+                    <View style={tailwind('bg-success-600 rounded-lg py-2 px-2 flex justify-center items-center')}>
+                        <Text style={tailwind('text-white text-xs font-bold text-center')}>{params.order.orderStatus}</Text>
                     </View>
                 </View>
                 <View style={tailwind('flex flex-row w-full items-center justify-center mt-12')}>
-                    <OrderCompleteButton
-                        status={OrderStatus.COLLECTED}
-                        orderid={route?.params?.orderid}
+                {params.order.orderStatus === OrderStatus.PROCESSED && (
+                      <GenericButton 
+                      onPress={updateOrder}
+                      loading={loading}
+                      disabled={loading}
+                      label='Complete order'
+                      backgroundColor={tailwind('bg-brand-black-500')}
+                      labelColor={tailwind('text-white')}
+                      testId=""
+                      style={tailwind('w-full')}
                     />
+                )}
                 </View>
                 <View style={tailwind('flex flex-row justify-center items-center w-full mt-10')}>
-                    <OrderQrCode orderId={ route?.params?.orderid ?? 'INVALID_ORDER'} />
+                    <OrderQrCode orderId={ params.order._id ?? 'INVALID_ORDER'} />
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }

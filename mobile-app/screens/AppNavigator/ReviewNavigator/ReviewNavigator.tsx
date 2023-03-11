@@ -18,7 +18,7 @@ export function ReviewNavigator(): JSX.Element {
         <ReviewStack.Navigator
             initialRouteName={ReviewsScreenName.REVIEWS}
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
             }}
         >
             <ReviewStack.Screen
@@ -26,7 +26,7 @@ export function ReviewNavigator(): JSX.Element {
                 name={ReviewsScreenName.REVIEWS}
                 options={{
                     headerTitleStyle: tailwind('hidden'),
-                    headerShown: false,
+                    headerShown: true,
                 }}
             />
             <ReviewStack.Screen

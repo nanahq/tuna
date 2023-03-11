@@ -37,7 +37,7 @@ export function ListingsCategory (props: {categories: ListingCategoryI[], state:
     }, [])
 
     return (
-        <View style={tailwind('flex-1 bg-white')}>
+        <View style={tailwind('flex-1  bg-brand-gray-500')}>
             <FlashList
                 contentContainerStyle={tailwind('py-4')}
                 data={props.categories}

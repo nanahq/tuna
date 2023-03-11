@@ -11,12 +11,8 @@ export interface CategoryCardProps {
 export function CategoryCard (props: CategoryCardProps): JSX.Element {
     return (
             <Pressable onPress={() => props.onPress(props.category)} style={[tailwind('flex flex-col w-full px-2 mb-4'), {
-                // shadowColor: '#171717',
-                // shadowOffset: {width: -2, height: 4},
-                // shadowOpacity: 0.1,
-                // shadowRadius: 1,
             }]}>
-                <View style={tailwind('border-0.5 border-brand-black-500 bg-white p-3')}>
+                <View style={tailwind('border-0.5 border-brand-black-500 bg-white  rounded-lg p-3')}>
 
                 <View style={tailwind('flex flex-row w-full items-baseline justify-between')}>
                     <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-5')}>{props.category.name}</Text>

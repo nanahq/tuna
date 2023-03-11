@@ -8,52 +8,69 @@ import {IconComponent} from "@components/commons/IconComponent";
 import {useAuthPersistence} from "@contexts/AuthPersistenceProvider";
 import Toast from "react-native-toast-message";
 import { RootState, useAppSelector } from '@store/index';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { NotComplete } from '../components/NotCompleted';
 import { CompleteProfileMsg } from '@components/commons/CompleteProfileMsg';
 import {  LoaderComponentScreen } from '@components/commons/LoaderComponent';
+import days from 'dayjs'
+import { showTost } from '@components/commons/Toast';
+import { useToast } from 'react-native-toast-notifications';
 
 type SettingsScreenProps = StackScreenProps<SettingsParamsList, any>
 
-
 export function SettingsScreen ({navigation}: SettingsScreenProps): JSX.Element {
-
     const {profile: {profile, hasFetchedProfile}, orders: {orders}} = useAppSelector((state: RootState) => state)
+    const toast = useToast()
+    const [profileComplete, setProfileComplete] = useState<boolean>(true)
 
     const {clearToken} = useAuthPersistence()
-    async  function onLogoutPress (): Promise<void>{
-    (await clearToken())
-    Toast.show({
-        type: 'success',
-        text1: 'Logging out',
-        autoHide: true
-    });
 
- 
+    useEffect(():void => {
+        checkProfileCompleteStatus()
+    }, [hasFetchedProfile])
+
+    async  function onLogoutPress (): Promise<void>{
+     showTost(toast, 'Logging out', 'success')
+     await clearToken()
+}
+
+
+function checkProfileCompleteStatus (): void {
+    if(!hasFetchedProfile ) {
+        setProfileComplete(true)
+        return 
+    }
+    
+    if(profile.settings?.operations === undefined) {
+        setProfileComplete(false)
+    }
+
+    if(profile.settings?.payment === undefined) {
+        setProfileComplete(false)
+    }
 }
 
 const ordersDelivered =  useCallback((): string => {
     const num =  orders.filter(order => order.orderStatus === 'DELIVERED_TO_CUSTOMER').length
 
-    return `${num} ${num > 0 ? 'orders'  : 'order'} delivered. ${num > 0 ? 'Well done!' : 'The first order is the hardest'}`
+    return `${num} ${num > 0 ? 'orders'  : 'order'} delivered.`
 }, [])
-
 
 
 if(!hasFetchedProfile) {
   return   <LoaderComponentScreen />
 }
     return (
-        <View style={tailwind('flex-1 bg-white')}>
-            <ScrollView style={tailwind('p-5 pt-0 ')}>
-            <View style={tailwind(' w-full flex flex-row items-center mb-4  my-8 ')}>
+        <View style={tailwind('flex-1 bg-brand-gray-500')}>
+            <View style={tailwind(' w-full flex flex-row items-center px-5 py-8 mb-2 bg-white ')}>
                     {profile.businessLogo !== undefined && (  <Image source={{uri: profile.businessLogo}} resizeMode='contain' style={tailwind('w-12 h-12 rounded-full')} />)}
                         <View style={tailwind('flex flex-col ml-4')}>
                             <Text style={tailwind('text-xl font-bold text-brand-black-500')}>Hi, {profile.businessName} </Text>
-                            <Text style={tailwind('text-xs font-medium')}>{ordersDelivered()}</Text>
+                            <Text style={tailwind('text-sm text-brand-black-500 font-medium')}>{ordersDelivered()}</Text>
                         </View>
             </View>
-             {profile.settings?.operations === undefined  || profile.settings.payment === undefined && (<CompleteProfileMsg />)}
+            <ScrollView style={tailwind('p-5 pt-0 ')}>
+             {!profileComplete && (<CompleteProfileMsg />)}
                 <SettingsSection title="Profiles">
                     <SettingsSection.Item
                         subtitle="phone number, emails, password"

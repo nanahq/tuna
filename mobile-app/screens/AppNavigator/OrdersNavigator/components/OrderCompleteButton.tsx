@@ -6,7 +6,7 @@ export function OrderCompleteButton (props: {orderid?: string, status: OrderStat
     return (
         <TouchableOpacity
             onPress={() => {}}
-            style={[tailwind('bg-green-500 rounded-xl flex flex-row items-center justify-center'), {
+            style={[tailwind('bg-success-600 rounded-xl flex flex-row items-center justify-center'), {
                 width: 255,
                 height: 50
             }]}
