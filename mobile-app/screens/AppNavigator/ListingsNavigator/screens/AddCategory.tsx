@@ -1,4 +1,4 @@
-import {Dimensions, Pressable, ScrollView, Switch, Text, View} from "react-native";
+import { Pressable, ScrollView, Switch, Text, View} from "react-native";
 import {getColor, tailwind} from '@tailwind'
 import {useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -9,13 +9,14 @@ import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {IconComponent} from "@components/commons/IconComponent";
 import {TextWithMoreInfo} from "@components/Text/TextWithMoreInfo";
 import {useForm} from "react-hook-form";
-import {CreateListingCategoryDto} from "@imagyne/eatlater-types/dist/dto/listing.dto";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 import { ListingMenuI} from "@imagyne/eatlater-types";
 import {IconButton} from "@components/commons/buttons/IconButton";
 import {useAppDispatch} from "@store/index";
-import {addOrUpdateCategory, fetchCategories, updateOptionGroup} from "@store/listings.reducer";
+import {addOrUpdateCategory} from "@store/listings.reducer";
 import Toast from "react-native-toast-message";
+import { showTost } from "@components/commons/Toast";
+import { useToast } from "react-native-toast-notifications";
 
 type AddCategoryNavProps = StackScreenProps<ListingsParams, "AddCategory">
 enum TagSelection {
@@ -38,7 +39,9 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
     const [isLive, setIsLive] = useState<boolean>(false)
     const [tags, setTags] = useState<string[]>([])
     const dispatch = useAppDispatch()
-    const {control, setValue, handleSubmit, getValues} = useForm<CreateListingCategoryDto>()
+    const toast = useToast()
+    
+    const {control, setValue, handleSubmit, getValues} = useForm<any>()
 
     const [menu, setMenu] = useState<ListingMenuI[]>([])
     const [loading, setIsLoading] = useState<boolean>(false)
@@ -63,8 +66,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                 setTags((prevState) => [...prevState, tag])
                 break;
             case TagSelection.UNSELECT:
-                const newTags = tags.filter(_tag => tag !== _tag)
-                setTags(newTags)
+                setTags(tags.filter(_tag => tag !== _tag))
                 break;
         }
 
@@ -74,7 +76,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         setMenu((prev) => prev.filter(m => m._id !== menu._id))
     }
 
-   async function onSubmit (data: CreateListingCategoryDto) {
+   async function onSubmit (data: any) {
         let type: string = 'CREATE'
         let payload;
         if (route?.params?.category !== undefined) {
@@ -106,16 +108,13 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                    autoHide: true,
                })
 
+               showTost(toast, 'Category added!', 'success')
                setTimeout(() => {
                    void navigation.goBack()
                }, 3000)
            }
        } catch (error: any) {
-           // Toast.show({
-           //     type: 'error',
-           //     text1: typeof error.message !== 'string' ? error.message[0] : error.message,
-           //     autoHide: true,
-           // })
+          showTost(toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
        } finally {
            setIsLoading(false)
        }

@@ -18,15 +18,15 @@ export function ReviewNavigator(): JSX.Element {
         <ReviewStack.Navigator
             initialRouteName={ReviewsScreenName.REVIEWS}
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
             }}
         >
             <ReviewStack.Screen
                 component={ReviewScreen}
                 name={ReviewsScreenName.REVIEWS}
                 options={{
-                    headerTitleStyle: tailwind('hidden'),
-                    headerShown: false,
+                    headerShown: true,
+                    headerTitle: "Reviews and ratings"
                 }}
             />
             <ReviewStack.Screen
@@ -34,7 +34,7 @@ export function ReviewNavigator(): JSX.Element {
                 name={ReviewsScreenName.GET_REVIEW}
                 options={{
                     headerTitleStyle: tailwind('hidden'),
-                    headerShown: false,
+                    headerShown: true,
                 }}
             />
         </ReviewStack.Navigator>

@@ -22,9 +22,8 @@ export function LoginScreen (): JSX.Element {
     const {setToken} = useAuthPersistence()
     const {top: topInsert} = useSafeAreaInsets()
 
-    const [_hasError, _setHasError] = useState<boolean>(false)
     const [_loading, _setLoading] = useState<boolean>(false)
-    const [_errorMessage, _setErrorMessage] = useState<string | Array<string> | null>(null)
+    
 
 // form
     const {control, formState: {errors}, handleSubmit} = useForm<LoginForm>({
@@ -34,8 +33,6 @@ export function LoginScreen (): JSX.Element {
 
     async function onContinuePress (data: LoginForm): Promise<void> {
         try {
-            _setHasError(false)
-            _setErrorMessage('')
             _setLoading(true)
            const {cookies} = await _api.requestData<LoginForm>({
                 method: 'POST',
@@ -44,7 +41,6 @@ export function LoginScreen (): JSX.Element {
             })
             await  setToken(cookieParser(cookies[0]))
         } catch (error: any) {
-            _setHasError(true)
             if (Number(error.statusCode) === 500) {
                Toast.show({
                    type: 'error',
@@ -76,7 +72,6 @@ export function LoginScreen (): JSX.Element {
                     labelTestId="LoginScreen.Phone.Label"
                     testID="LoginScreen.Phone.Input"
                     containerStyle={tailwind('w-full mb-4')}
-                    onChange={() => _setHasError(false)}
                     placeholder='your@email.com'
                     name='email'
                     control={control}

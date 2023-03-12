@@ -4,7 +4,6 @@ import {tailwind} from '@tailwind'
 interface TextWithMoreInfoProps {
     moreInfo: string
     moreInfoStyle?: StyleProp<TextStyle>
-    textStyle?: StyleProp<TextStyle>
     containerStyle?: StyleProp<ViewStyle>
     text: string
 }

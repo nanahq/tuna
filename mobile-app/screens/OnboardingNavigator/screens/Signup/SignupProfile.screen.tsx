@@ -1,4 +1,4 @@
-import {Keyboard, Text, View} from 'react-native'
+import {Keyboard, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -40,9 +40,8 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
         })
     }
 
-    function dismissKeyboard () {
-        Keyboard.dismiss
-    }
+    const  dismissKeyboard = (): void =>  Keyboard.dismiss()
+    
 
     return (
         <KeyboardAwareScrollView style={tailwind('flex w-full px-5')}>

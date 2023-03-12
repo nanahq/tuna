@@ -1,39 +1,39 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
+import { ReviewI, VendorReviewOverview } from "@imagyne/eatlater-types";
 
 
 export interface ReviewState {
-    reviews: Review[]
-    averageRating: string | undefined
-    totalNumberOfReviews: string | undefined
-    lastReviewed: string | undefined
-    hasFetchedReviews: boolean | undefined
-}
-
-export interface Review {
-    reviewDate: string
-    reviewUser: string
-    reviewDesc: string
-    reviewRating: string
-    reviewListingName: string
+    reviews: ReviewI[]
+    overview: VendorReviewOverview
+    hasFetchedReviews: boolean
 }
 
 const initialState: ReviewState = {
     reviews: [],
-    averageRating: undefined,
-    totalNumberOfReviews: undefined,
-    lastReviewed: 'No reviews yet',
-    hasFetchedReviews: false
+    hasFetchedReviews: false,
+    overview: {
+        numberOfReviews: 0,
+        rating: '0',
+        riskFactor: 'MEDIUM'
+    }
 };
 
 export const fetchReviews = createAsyncThunk(
     AppActions.FETCH_REVIEWS,
-    async () => {
-        return await _api.requestData<undefined>({
-            method: 'get',
-            url: 'reviews/get-all'
-        })
+    async (vendorId: string) => {
+        const [stats, reviews] = await Promise.all([
+            _api.requestData({
+                method: 'get',
+                url: `review/stats/vendor/${vendorId}`
+            }),
+            _api.requestData({
+                method: 'get',
+                url: `review/vendor/${vendorId}`
+            }),
+        ])
+        return {overview: stats.data, reviews: reviews.data}
     }
 );
 
@@ -49,11 +49,9 @@ export const reviews = createSlice({
         builder
             .addCase(
                 fetchReviews.fulfilled,
-                (state, {payload: {data}}: PayloadAction<{data:any, cookies: any}>) => {
-                    state.reviews = data.reviews
-                    state.lastReviewed = data.lastReviewed
-                    state.totalNumberOfReviews = data.totalReviews
-                    state.averageRating = data.avgRating
+                (state, {payload}: PayloadAction<{overview: VendorReviewOverview, reviews: ReviewI[]}>) => {
+                    state.reviews = payload.reviews
+                    state.overview = payload.overview
                     state.hasFetchedReviews = true
                 }
             );

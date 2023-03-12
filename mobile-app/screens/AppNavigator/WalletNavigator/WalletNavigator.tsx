@@ -35,6 +35,7 @@ export function WalletNavigator(): JSX.Element {
                 name={WalletScreenName.WALLET}
                 options={{
                     headerShown: true,
+                    headerTitle:''
                 }}
             />
 

@@ -23,6 +23,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/anImageThatDoesNotExist.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

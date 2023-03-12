@@ -20,9 +20,9 @@ export function ListingsScreen (): JSX.Element {
     const navigation = useNavigation<any>()
     const layout = useWindowDimensions();
     const [index, setIndex] = useState<number>(0);
-    const [routes, _setRoutes] = useState<Array<{key: string, title: string}>>(DATA);
+    const [routes] = useState<Array<{key: string, title: string}>>(DATA);
 
-    const {listingsCategory, listingsMenu, listingsOptionGroup, hasFetchedListings, fetchingListings}  = useAppSelector((state: RootState) => state.listings)
+    const {listingsCategory, listingsMenu, listingsOptionGroup, fetchingListings}  = useAppSelector((state: RootState) => state.listings)
 
     const renderScene = SceneMap<any>({
         AddListing: () =><ListingsMenu menu={listingsMenu} state={fetchingListings}/>,
@@ -31,11 +31,11 @@ export function ListingsScreen (): JSX.Element {
 
     });
 
-    if(fetchingListings) {
+    if (fetchingListings) {
         return <LoaderComponentScreen />
     }
     return (
-        <View style={tailwind('w-full bg-white h-full flex-col flex pb-5 relative')}>
+        <View style={tailwind('w-full bg-brand-gray-500 h-full flex-col flex pb-5 relative')}>
             <TabView
                 renderTabBar={(props) => (
                     <TabBar

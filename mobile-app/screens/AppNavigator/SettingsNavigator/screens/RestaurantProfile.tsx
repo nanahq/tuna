@@ -10,7 +10,7 @@ import * as Location from 'expo-location'
 import * as ImagePicker from "expo-image-picker";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
 import { useForm } from "react-hook-form";
-import { ShowToast } from "@components/commons/Toast";
+import { ShowToast, showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
 import { _api } from "@api/_request";
 import * as Device from 'expo-device'
@@ -18,6 +18,8 @@ import { ControlledTextInputWithLabel } from "@components/commons/inputs/Control
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from 'react-native-uuid'
 import { useToast } from "react-native-toast-notifications";
+import { TextWithMoreInfo } from "@components/Text/TextWithMoreInfo";
+import { ListingsPhotosUploadButton } from "@screens/AppNavigator/ListingsNavigator/screens/components/ListingsPhotosUploadButton";
 
 
 const RestaurantProfileInteraction = {
@@ -45,17 +47,10 @@ export function RestaurantProfile (): JSX.Element {
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
     const [gettingLocation, setGettingLocation] = useState<boolean>(false)
     const [logo, setLogo] = useState<string | undefined>(undefined)
-
-    const {control, handleSubmit, formState: {isDirty, errors}, setValue} = useForm<RestaurantProfileForm>({
+    const [_restaurantImage, _setRestaurantImage] = useState<string | undefined>(undefined)
+    const {control, handleSubmit, formState: { errors}, setValue} = useForm<RestaurantProfileForm>({
         criteriaMode: 'all'
     })
-
-
-    if(!hasFetchedProfile) {
-        return <View>
-            <Text>Fetching</Text>
-        </View>
-    }
 
 
     useEffect(() => {
@@ -63,7 +58,16 @@ export function RestaurantProfile (): JSX.Element {
         setValue('businessAddress', profile.businessAddress)
         setValue('businessEmail', profile.businessEmail)
         setLogo(profile.businessLogo)
+        // setRestaurantImage(profile.restaurantImage)
     }, [])
+
+
+
+    if (!hasFetchedProfile) {
+        return <View>
+            <Text>Fetching</Text>
+        </View>
+    }
 
 
     async function updateBusinessLogo (data: ImagePicker.ImagePickerAsset): Promise<void> {
@@ -76,7 +80,6 @@ export function RestaurantProfile (): JSX.Element {
 
         const payload = new FormData()
         payload.append('logo', imagePayload)
-        
         try {
             const photo = ( await _api.requestData({
                 method: 'put',
@@ -89,6 +92,35 @@ export function RestaurantProfile (): JSX.Element {
             })).data
             setLogo(photo)
         } catch (error) {
+            showTost(toast, 'failed to upload image', 'error')
+        }
+    }
+
+
+    async function updateBusinessImage (data: ImagePicker.ImagePickerAsset): Promise<void> {
+        const extension = data?.fileName?.split('.')[1]
+        const imagePayload = {
+            uri: Device.osName === 'Andriod' ?  data?.uri : data?.uri.replace('file://', ''),
+            name: `${uuid.v4()}.${extension}`,
+            type: `image/${extension}`
+        } as any
+
+        const payload = new FormData()
+        payload.append('image', imagePayload)
+        
+        try {
+            const photo = ( await _api.requestData({
+                method: 'put',
+                url: 'vendor/image',
+                headers:{
+                    'Content-Type': 'multipart/form-data',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                data: payload
+            })).data
+            _setRestaurantImage(photo)
+        } catch (error) {
+            showTost(toast, 'failed to upload image', 'error')
         }
     }
 
@@ -106,14 +138,9 @@ export function RestaurantProfile (): JSX.Element {
 
          await AsyncStorage.setItem('LOCATION_COORDS', JSON.stringify( { longitude,  latitude }))
         setGettingLocation(false)
-        toast.show(
-            RestaurantProfileInteraction.COORD_UPDATE,
-            {
-                type: "app_toast_success",
-                placement: "top",
-                duration: 3000,
-            }
-            );
+        
+        showTost(toast, RestaurantProfileInteraction.COORD_UPDATE, 'success')
+        
         try {
             await _api.requestData({
                 method: 'put',
@@ -121,7 +148,7 @@ export function RestaurantProfile (): JSX.Element {
                 data: { coordinates: [`${longitude}`, `${latitude}`]}
             })
         } catch (error) {
-            console.log(error)
+            showTost(toast, 'failed to update location', 'error')
         }
     }
 
@@ -129,41 +156,28 @@ export function RestaurantProfile (): JSX.Element {
     toast.hideAll();
     setSubmitting(true)
        try {
-         (await _api.requestData<RestaurantProfileForm>({
+         await _api.requestData<RestaurantProfileForm>({
             method: 'put',
             url: 'vendor/profile',
             data
-        })).data
+        })
+
        setSubmitting(false)
         setEditProfileState(false)
-        toast.show(
-        'Profile updated',
-        {
-            type: "app_toast_success",
-            placement: "top",
-            duration: 3000,
-        }
-        );
+        showTost(toast, 'profile updated!', 'success')
+
         await dispatch(fetchProfile())
 
        } catch (error: any) {
-        toast.show(
-            error.message !== 'string' ? error.message[0] : error.message,
-            {
-                type: "app_toast_error",
-                placement: "top",
-                duration: 3000,
-            }
-            );
-        ShowToast('error',  error.message !== 'string' ? error.message[0] : error.message )
-       } finally{
+        
+        showTost(toast,  error.message !== 'string' ? error.message[0] : error.message, 'error')
+       } finally {
        setSubmitting(false)
        }
     }
 
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
+    const pickImage = async (cb: (assets: any) => Promise<void>) => {
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsMultipleSelection: true,
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -173,17 +187,10 @@ export function RestaurantProfile (): JSX.Element {
         });
 
         if (!result.canceled) {
-         await  updateBusinessLogo(result?.assets[0])
+         await  cb(result?.assets[0])
         }
 
-        toast.show(
-            'Logo updated',
-            {
-                type: "app_toast_success",
-                placement: "top",
-                duration: 3000,
-            }
-            );
+        showTost(toast, 'Image updated!', 'success')
     };
 
     return (
@@ -200,7 +207,7 @@ export function RestaurantProfile (): JSX.Element {
                                 <Text style={tailwind('text-lg font-bold text-white text-center')}>logo</Text>
                                 </View>
                         )}
-                        <TouchableOpacity onPress={pickImage} style={tailwind('absolute bottom-0 w-28 py-0.5 flex flex-row justify-center rounded-b-xl', {
+                        <TouchableOpacity onPress={() => pickImage(updateBusinessLogo)} style={tailwind('absolute bottom-0 w-28 py-0.5 flex flex-row justify-center rounded-b-xl', {
                             'bg-brand-gray-400': logo !== undefined,
                             'bg-brand-black-500': logo !== undefined
                         })}>
@@ -226,14 +233,13 @@ export function RestaurantProfile (): JSX.Element {
                             error={errors.businessName !== undefined}
                             errorMessage={errors.businessName?.message}
                             />
-                            <ControlledTextInputWithLabel
+              
+                        </View>
+                        <ControlledTextInputWithLabel
                                 editable={editProfileState}
                                 label='Business Email'
                                 testID='AccountProfile.LastName.Input'
                                 labelTestId="AccountProfile.LastName.Label"
-                                style={{
-                                    width: 160
-                                }}
                                 control={control}
                                 name="businessEmail"
                                 rules={{required: {
@@ -243,7 +249,6 @@ export function RestaurantProfile (): JSX.Element {
                             error={errors.businessEmail !== undefined}
                             errorMessage={errors.businessEmail?.message}
                             />
-                        </View>
                         <ControlledTextInputWithLabel
                             editable={editProfileState}
                             label='Business Address'
@@ -258,8 +263,7 @@ export function RestaurantProfile (): JSX.Element {
                             }}}
                         error={errors.businessAddress !== undefined}
                         errorMessage={errors.businessAddress?.message}
-
-                        />
+                    />
                     </ProfileSection>
                     {editProfileState && (
                         <GenericButton
@@ -272,11 +276,20 @@ export function RestaurantProfile (): JSX.Element {
                         loading={submitting}
                         />
                     )}
+
+                    <View style={tailwind('my-10 border-brand-gray-700 border-0.5 border-dashed px-3 py-5 rounded')}>
+                    <TextWithMoreInfo
+                        moreInfo="Amazing image of your signature dish. "
+                        text="Add a restaurant image"
+                        containerStyle={tailwind('mb-4')}
+                    />
+                    <ListingsPhotosUploadButton onPress={() => pickImage(updateBusinessImage)} disabled={false}  />
+                </View>
                 {!editProfileState && (
                     <View  style={tailwind('flex w-full flex-col mt-16')}>
                         <View style={tailwind('flex flex-col w-full')}>
                             <Text style={tailwind('text-lg font-medium text-brand-black-500 mb-2')}>Update Location</Text>
-                            <InfoHover ></InfoHover>
+                            <InfoHover  />
                         </View>
                         <GenericButton
                             style={tailwind('my-4')}
@@ -300,3 +313,4 @@ function InfoHover (): JSX.Element {
        </View>
     )
 }
+

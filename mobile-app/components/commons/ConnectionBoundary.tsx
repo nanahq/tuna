@@ -1,6 +1,5 @@
 import { useNetInfo, fetch } from "@react-native-community/netinfo";
-import { View, Image, Text } from "react-native";
-import ImageConnectionProblem from "@assets/images/misc/connection_problem.png";
+import { View } from "react-native";
 import { tailwind } from "@tailwind";
 import Lottie from 'lottie-react-native'
 import Animation from '@assets/app/12701-no-internet-connection.json'

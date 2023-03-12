@@ -1,12 +1,11 @@
 import {tailwind} from "@tailwind";
 import {SafeAreaView, View, Text} from "react-native";
-import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+
 import {ScrolledView} from "@components/views/ScrolledView";
 import {useRef, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 
-import Toast from 'react-native-toast-message'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import {useNavigation} from "@react-navigation/native";
 import {AddBankModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
@@ -15,10 +14,11 @@ import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
 import { _api } from "@api/_request";
 import { PaymentInfo } from "@imagyne/eatlater-types";
-import { ShowToast } from "@components/commons/Toast";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
 import { ModalTextInput } from "@components/commons/inputs/TextInputWithLabel";
+import { useToast } from "react-native-toast-notifications";
+import { IconComponent } from "@components/commons/IconComponent";
 
 
 const PaymentSettingsInteraction = {
@@ -33,6 +33,7 @@ const MODAL_NAME = 'ADD_BANK'
 
 export function PaymentSettings (): JSX.Element {
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile)
+    const toast = useToast()
     const dispatch = useAppDispatch()
     const bottomSheetModalRef = useRef<any>(null)
     const { dismiss } = useBottomSheetModal();
@@ -42,7 +43,7 @@ export function PaymentSettings (): JSX.Element {
     const [form, setForm] = useState<PaymentInfo>({
         bankName: '',
         bankAccountNumber: '',
-        bankAccountInfo: ''
+        bankAccountName: ''
     })
 
 
@@ -50,7 +51,7 @@ export function PaymentSettings (): JSX.Element {
         setForm((prevState) => ({...prevState, [name]: value}))
     }
 
-    if(!hasFetchedProfile) {
+    if (!hasFetchedProfile) {
         return <View>
             <Text>Fetching...</Text>
         </View>
@@ -68,10 +69,10 @@ export function PaymentSettings (): JSX.Element {
                     payment: {...form}
                 }
             })
-            dispatch(fetchProfile())
-        ShowToast('success', PaymentSettingsInteraction.ADD_BANK_SUCCESS_MSG)
+         dispatch(fetchProfile())
+        showTost(toast, PaymentSettingsInteraction.ADD_BANK_SUCCESS_MSG, 'success')
         } catch (error: any) {
-        ShowToast('error', typeof error?.message === 'string' ? error.messase : error.message[0])
+        showTost(toast, typeof error?.message === 'string' ? error.messase : error.message[0], 'error')
             
         } finally {
             setSubmitting(false)
@@ -91,25 +92,54 @@ export function PaymentSettings (): JSX.Element {
 
     return (
         <SafeAreaView style={tailwind('flex-1')}>
-            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5  bg-white')}>
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 bg-brand-gray-500')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Bank information" editable={false}>
-                    {!modalIsOpen &&  profile.settings?.payment ==undefined && (
+                  
+                    <View style={tailwind('flex flex-col')}>
+                       <View style={tailwind('flex flex-row items-center')}>
+                       <IconComponent iconType="Feather" name='info' style={tailwind('text-brand-gray-700')} size={14} />
+                        <Text style={tailwind('text-brand-gray-700 text-xs font-medium ml-2')}>
+                                Add your banking informtion here. Information provided here will be used to make payout. 
+                            </Text>
+                           
+                       </View>
+                    </View>
+
+                    {!modalIsOpen &&  profile.settings?.payment === undefined && (
                         <EmptyOrder  msg='No Bank account added yet'/>
                     )}
-
                     {profile.settings?.payment !== undefined && (
-                            <View>
-                                <View>
-                                    <Text>{profile.settings?.payment.bankName}</Text>
+                            <View style={tailwind('flex flex-col w-full mt-10')}>
+                                <View style={tailwind('')}>
+                                    <Text style={tailwind('font-bold text-brand-black-500 text-lg')}>Payout banks</Text>
                                 </View>
-                                <View>
-                                    <Text>{profile.settings?.payment.bankAccountInfo}</Text>
+                                <View style={tailwind('flex flex-col mt-5 w-full')}>
+                                    <View style={tailwind(' flex w-full border-0.5 border-brand-gray-400 rounded-lg py-3 px-4 bg-white')}>
+                                        <BankInfoItem 
+                                            title="Bank Name"
+                                            text={profile.settings.payment.bankName}
+                                        />
+                                         <BankInfoItem 
+                                            title="Bank Account name"
+                                            text={profile.settings.payment.bankAccountName}
+                                        />
+                                         <BankInfoItem 
+                                            title="Bank Account number"
+                                            text={`${profile.settings.payment.bankAccountNumber.substring(0, 4)}*****`}
+                                        />
+                                        <View style={tailwind('flex flex-row w-full justify-end')}>
+                                           <View style={tailwind('w-3 h-3 bg-success-600 rounded-full')} />
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={tailwind('mt-10 w-full flex flex-row')}>
+                                    <Text style={tailwind('text-brand-gray-700 text-xs font-medium ml-2')}>At the moment, we do not support changing banking information once it's added. You can contact customer support to help you with that</Text>
                                 </View>
                             </View>
                     )}
                    <AddBankModal  
-                   enablePanDownToClose={true} 
+                   enablePanDownToClose 
                    promptModalName={MODAL_NAME}
                     modalRef={bottomSheetModalRef}
                     onDismiss={() => setModalIsOpen(false) }
@@ -130,8 +160,8 @@ export function PaymentSettings (): JSX.Element {
                            testID='AccountProfile.PhoneNumber.Input'
                            labelTestId="AccountProfile.PhoneNumber.Label"
                            containerStyle={tailwind('w-full mt-5')}
-                           value={form.bankAccountInfo}
-                           onChangeText={(value) => onChange('bankAccountInfo', value)}
+                           value={form.bankAccountName}
+                           onChangeText={(value) => onChange('bankAccountName', value)}
 
                        />
                        <ModalTextInput
@@ -154,7 +184,7 @@ export function PaymentSettings (): JSX.Element {
                            testId="Accountprofile.editButton"
                        />
                    </AddBankModal>
-                   {!modalIsOpen && profile.settings?.payment == undefined && (
+                   {!modalIsOpen && profile.settings?.payment === undefined && (
                     <GenericButton
                     style={tailwind('my-4')}
                     onPress={openModal}
@@ -166,5 +196,14 @@ export function PaymentSettings (): JSX.Element {
                 </ProfileSection>
             </ScrolledView>
         </SafeAreaView>
+    )
+}
+
+export function BankInfoItem ({title, text}: {title: string, text:string}): JSX.Element {
+    return (
+        <View style={tailwind('flex flex-row w-full items-center')}>
+            <Text style={tailwind('font-semibold text-sm mr-2')}>{title}</Text>
+            <Text style={tailwind('font-medium text-sm')}>{text}</Text>
+        </View>
     )
 }

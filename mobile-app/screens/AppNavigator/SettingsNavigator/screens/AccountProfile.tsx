@@ -1,20 +1,18 @@
-import {getColor, tailwind} from "@tailwind";
+import { tailwind} from "@tailwind";
 import {SafeAreaView, View, Text} from "react-native";
 import {ScrolledView} from "@components/views/ScrolledView";
 import {useEffect, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
-import {useSelector} from "react-redux";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
-import {LoaderComponent} from "@components/commons/LoaderComponent";
-import Toast from 'react-native-toast-message'
 import {useNavigation} from "@react-navigation/native";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import { useForm } from "react-hook-form";
 import { ControlledTextInputWithLabel } from "@components/commons/inputs/ControlledTextInput";
-import { ShowToast } from "@components/commons/Toast";
+import {  showTost } from "@components/commons/Toast";
 import { _api } from "@api/_request";
 import { fetchProfile } from "@store/profile.reducer";
+import { useToast } from "react-native-toast-notifications";
 
 
 export interface AccountProfileForm {
@@ -34,19 +32,14 @@ export function AccountProfile (): JSX.Element {
     const {hasFetchedProfile, profile } = useAppSelector((state: RootState) => state.profile)
     const dispatch = useAppDispatch()
     const navigation = useNavigation()
+    const toast = useToast()
 
     const [submitting, setSubmitting] = useState<boolean>(false)
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
 
-    const {control, handleSubmit, formState: {isDirty, errors}, setValue} = useForm<AccountProfileForm>({
+    const {control, handleSubmit, formState: { errors}, setValue} = useForm<AccountProfileForm>({
         criteriaMode: 'all'
     })
-
-    if(!hasFetchedProfile) {
-        return <View>
-            <Text>Fetching</Text>
-        </View>
-    }
 
     useEffect(() => {
         setValue('firstName', profile.firstName)
@@ -55,23 +48,30 @@ export function AccountProfile (): JSX.Element {
         setValue('phone', profile.phone)
     }, [])
 
+
+    if (!hasFetchedProfile) {
+        return <View>
+            <Text>Fetching</Text>
+        </View>
+    }
+
+ 
    async function updateProfile (data: AccountProfileForm): Promise<void> {
     setSubmitting(true)
        try {
-         (await _api.requestData<AccountProfileForm>({
+         await _api.requestData<AccountProfileForm>({
             method: 'put',
             url: 'vendor/profile',
             data
-        })).data
+        })
        setSubmitting(false)
         setEditProfileState(false)
-        ShowToast('success', 'Profile Updated')
+        showTost(toast, 'Profile Updated', 'success')
         await dispatch(fetchProfile())
 
        } catch (error: any) {
-        console.log(error)
-        ShowToast('error',  error.message !== 'string' ? error.message[0] : error.message )
-       } finally{
+        showTost(toast,  error.message !== 'string' ? error.message[0] : error.message, 'error' )
+       } finally {
        setSubmitting(false)
        }
     }

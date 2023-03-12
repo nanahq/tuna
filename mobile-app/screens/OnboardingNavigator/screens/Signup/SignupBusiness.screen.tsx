@@ -31,10 +31,8 @@ type SignupBusinessProps = StackScreenProps<OnboardingParamsList, any>
 
 export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Element {
     const bottomSheetModalRef = useRef<any>(null)
-    const [_hasError, _setHasError] = useState<boolean>(false)
     const [_loading, _setLoading] = useState<boolean>(false)
-    const [_errorMessage, _setErrorMessage] = useState<string | Array<string>>([])
-
+  
     const  openModal = (): void =>  bottomSheetModalRef.current?.present();
 
     // form
@@ -46,8 +44,6 @@ export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Elemen
 
     async function onContinuePress (data: SignupBusinessForm): Promise<void> {
 try {
-            _setHasError(false)
-            _setErrorMessage('')
             _setLoading(true)
             await _api.requestData<SignupPayload>({
                 method: 'POST',
@@ -59,7 +55,6 @@ try {
             })
             openModal()
         } catch (error: any) {
-            _setHasError(true)
             if (Number(error.statusCode) === 500) {
                 Toast.show({
                     type: 'error',

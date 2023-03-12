@@ -1,67 +1,42 @@
 import {Dimensions, Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
-import {EarningsOverview} from "@screens/AppNavigator/WalletNavigator/component/EarningsOVerview";
+import {EarningsOVerview} from "@screens/AppNavigator/WalletNavigator/component/EarningsOVerview";
 import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {PayoutCard} from "@screens/AppNavigator/WalletNavigator/component/PayoutCard";
 import {useSelector} from "react-redux";
 import {RootState} from "@store/index";
-import {EmptyWallet} from "@components/Empty/Wallet";
+import { VendorPayoutI } from '@imagyne/eatlater-types';
+import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
+import { EmptyAnimation } from '@components/lottie/Empty';
 
-const mock = [
-    {
-        payoutNumber: '090',
-        payoutDate: '25-dec-2022',
-        payoutAmount: '3000',
-    },
-
-    {
-        payoutNumber: '450',
-        payoutDate: '25-dec-2022',
-        payoutAmount: '56000',
-    },
-
-    {
-        payoutNumber: '11',
-        payoutDate: '25-dec-2022',
-        payoutAmount: '3000',
-    },
-
-    {
-        payoutNumber: '868',
-        payoutDate: '25-dec-2022',
-        payoutAmount: '63305',
-    },
-
-    {
-        payoutNumber: '234',
-        payoutDate: '25-dec-2022',
-        payoutAmount: '3000',
-    },
-]
 
 export function WalletScreen (): JSX.Element {
-    const {payoutHistory, lifeTimeEarnings, dailyEarnings, hasFetchedWallet} = useSelector((state: RootState) => state.wallet )
-
+    const {payouts, overview, hasFetchedWallet} = useSelector((state: RootState) => state.wallet )
+    
+    if (!hasFetchedWallet) {
+        return (
+            <LoaderComponentScreen />
+        )
+    }
+    
     return (
-        <View style={tailwind('px-5 flex-1 flex bg-white')}>
-           <EarningsOverview lifeTimeEarnings={lifeTimeEarnings} dailyEarnings={dailyEarnings} />
+        <View style={tailwind('px-5 flex-1 flex bg-brand-gray-500')}>
+            <EarningsOVerview overview={overview} />  
 
-            <View style={tailwind('flex  flex-col mt-10')}>
-                <Text style={tailwind('text-xl text-brand-black-500 font-semibold mb-4')}>Payout history</Text>
-                {hasFetchedWallet && payoutHistory.length >= 1 ? (
-                    <PayoutHistory />
-                ): (
-                    <EmptyWallet />
-                )}
-            </View>
+            <Text style={tailwind('text-lg font-semibold text-brand-black-500 mt-4 mb-2')}>Payouts</Text>
+            {payouts.length < 1  ? (
+                <EmptyAnimation text='No transaction has been made' />
+            ): (
+                <PayoutHistory payouts={payouts} />
+            )}  
         </View>
     )
 }
 
-export function PayoutHistory (): JSX.Element {
+export function PayoutHistory ({payouts}: {payouts: VendorPayoutI[]}): JSX.Element {
     const screen = Dimensions.get('screen')
-    const renderItem = ({item}: ListRenderItemInfo<any>) => (
-        <PayoutCard {...item}/>
+    const renderItem = ({item, index}: ListRenderItemInfo<VendorPayoutI>) => (
+        <PayoutCard payout={item} index={index} />
     )
 
     return (
@@ -69,9 +44,9 @@ export function PayoutHistory (): JSX.Element {
             height: screen.height / 2
         }]}>
             <FlashList
-                data={mock}
+                data={payouts}
                 renderItem={renderItem}
-                keyExtractor={item => item.payoutNumber}
+                keyExtractor={item => item._id}
                 estimatedItemSize={30}
                 showsVerticalScrollIndicator={false}
             />

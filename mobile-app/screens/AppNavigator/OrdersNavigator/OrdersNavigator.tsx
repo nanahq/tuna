@@ -5,13 +5,14 @@ import {PendingOrders} from "@screens/AppNavigator/OrdersNavigator/screens/Pendi
 import {DeliveredOrders} from "@screens/AppNavigator/OrdersNavigator/screens/DeliveredOrders";
 import {GetOrder} from "@screens/AppNavigator/OrdersNavigator/screens/GetOrders";
 import {tailwind} from "@tailwind";
+import { OrderI } from "@imagyne/eatlater-types";
 
 
 export interface OrderParamsList {
     OrdersScreen: undefined,
-    GetOrders: {
-       orderid: string
-    } | undefined,
+    GetOrder: {
+       order: OrderI
+    },
    DeliveredOrders: {
         orders: Array<any>
     } | undefined,

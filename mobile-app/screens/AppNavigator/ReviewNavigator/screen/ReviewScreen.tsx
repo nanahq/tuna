@@ -1,44 +1,58 @@
 import {Text, View} from 'react-native'
 import {ReviewsHeader} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewsHeader";
 import {useSelector} from "react-redux";
-import {RootState} from "@store/index";
-import {MostReviewedMenus} from "@screens/AppNavigator/ReviewNavigator/screen/components/MostReviewedMenus";
+import {RootState, useAppDispatch} from "@store/index";
 import {tailwind} from "@tailwind";
 import {GenericFlashList} from "@components/views/FlashList";
-import {useCallback, useRef} from "react";
-import {EmptyReviews} from "@screens/AppNavigator/ReviewNavigator/screen/components/EmptyReviews";
+import {useCallback, useEffect, useRef} from "react";
 import {ReviewCard} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewCard";
-import {Review} from "@store/reviews.reducer";
+import { fetchReviews} from "@store/reviews.reducer";
+import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
+import {ReviewI} from '@imagyne/eatlater-types'
+import { EmptyAnimation } from '@components/lottie/Empty';
 
 
-export function ReviewScreen (_props: any): JSX.Element {
-    const {reviews, hasFetchedReviews, ...rest} = useSelector((state: RootState) => state.reviews)
-    const getTopRatedMenus = useCallback(() => {
-        return reviews.sort((a, b) => Number(a.reviewRating) - Number(b.reviewRating)).slice(0, 4)
+export function ReviewScreen (): JSX.Element {
+    const {hasFetchedProfile, profile} = useSelector((state: RootState) => state.profile)
+
+    const {hasFetchedReviews, reviews, overview} = useSelector((state: RootState) => state.reviews)
+
+    const dispatch = useAppDispatch()
+    
+    useEffect(() => {
+        if (!hasFetchedProfile) {
+return
+} 
+        void dispatch(fetchReviews(profile._id))
     }, [])
+
+
+    if (!hasFetchedReviews) {
+        return (
+            <LoaderComponentScreen />
+        )
+    }
+
     return  (
-            <>
-                <ReviewsHeader {...rest} />
+            <View style={tailwind('flex-1 bg-brand-gray-500')}>
+                <ReviewsHeader overview={overview} />
                 <View style={tailwind('px-3')}>
-                    <MostReviewedMenus reviews={getTopRatedMenus()} />
                     <View style={tailwind('mt-5')}>
                         <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-3')}>Recent Reviews</Text>
                         <RecentViews reviews={reviews} />
                     </View>
                 </View>
-            </>
+            </View>
     )
 }
 
-
-function RecentViews (props: {reviews: Review[]}): JSX.Element {
+function RecentViews (props: {reviews: ReviewI[]}): JSX.Element {
     const ref = useRef<any>(null)
     const RenderItems = useCallback(
-        (props: { item: Review; index: number }): JSX.Element => {
+        (props: { item: ReviewI }): JSX.Element => {
             return (
                 <ReviewCard
-                    {...props.item}
-
+                    review={props.item}
                 />
             );
         },
@@ -46,12 +60,12 @@ function RecentViews (props: {reviews: Review[]}): JSX.Element {
     );
     return (
         <GenericFlashList
-            contentContainerStyle={tailwind("pb-2")}
+            contentContainerStyle={tailwind("pb-20")}
             data={props.reviews}
             ref={ref}
             estimatedItemSize={30}
-            keyExtractor={(_item, index) => index.toString()}
-            ListEmptyComponent={<EmptyReviews />}
+            keyExtractor={(_item) => _item._id}
+            ListEmptyComponent={<EmptyAnimation text='No Reviews yet' />}
             renderItem={RenderItems}
         />
     );

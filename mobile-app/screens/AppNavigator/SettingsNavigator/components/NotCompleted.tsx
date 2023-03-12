@@ -3,8 +3,8 @@ import {tailwind} from '@tailwind'
 
 export function NotComplete (): JSX.Element {
     return (
-        <View style={tailwind('border-0.5 border-brand-green-500 rounded-lg flex flex-row justify-center py-1 px-3')}>
-                <Text style={tailwind('text-brand-green-500 font-medium text-xs')}>Not Complete</Text>
+        <View style={tailwind('border-0.5 border-warning-600 rounded-lg flex flex-row justify-center py-1 px-3')}>
+                <Text style={tailwind('text-warning-600 font-semibold text-xs')}>Not Complete</Text>
         </View>
     )
 }

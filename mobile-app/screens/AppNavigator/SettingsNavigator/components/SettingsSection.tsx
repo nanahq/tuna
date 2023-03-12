@@ -7,7 +7,7 @@ export function SettingsSection (props: PropsWithChildren<{title: string}>):JSX.
     return  (
         <View style={tailwind('mb-12')}>
             <Text style={tailwind('font-semibold text-lg text-brand-black-500 mb-4')}>{props.title}</Text>
-            <View style={tailwind('border-0.5 border-brand-black-500')}>
+            <View style={tailwind('border-0.5 border-brand-black-500 bg-white')}>
                 {props.children}
             </View>
         </View>

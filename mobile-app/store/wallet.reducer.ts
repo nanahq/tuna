@@ -2,35 +2,39 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
+import {VendorPayoutI, PayoutOverview} from '@imagyne/eatlater-types'
 
-
-interface Payout {
-    payoutNumber: string
-    payoutDate: string
-    payoutAmount: string
-}
 export interface WalletState {
-    lifeTimeEarnings: string
-    dailyEarnings: string
-    payoutHistory: Partial<Payout>[],
+    overview: PayoutOverview
+    payouts: VendorPayoutI[]
     hasFetchedWallet: boolean
 }
 
 
 const initialState: WalletState = {
-    lifeTimeEarnings: '0',
-    dailyEarnings: '0',
-    payoutHistory: [],
+    overview: {
+        '24_hours': 0,
+        '7_days': 0,
+        '30_days': 0
+    }, 
+    payouts: [],
     hasFetchedWallet: false
 };
 
 export const fetchWallet = createAsyncThunk(
     AppActions.FETCH_WALLET,
     async () => {
-        return await _api.requestData<undefined>({
-            method: 'get',
-            url: 'vendor/wallet'
-        })
+        const [payouts, overview] = await Promise.all([
+            _api.requestData<undefined>({
+                method: 'get',
+                url: 'wallet/payouts'
+            }),
+            _api.requestData<undefined>({
+                method: 'get',
+                url: 'wallet/overview'
+            })
+        ])
+        return {payouts: payouts.data, overview: overview.data}
     }
 );
 
@@ -47,15 +51,14 @@ export const wallet = createSlice({
         builder
             .addCase(
                 fetchWallet.fulfilled,
-                (state, {payload: {data}}: PayloadAction<{data: any, cookies: any}>) => {
+                (state, {payload: {payouts, overview}}: PayloadAction<{payouts: VendorPayoutI[], overview: PayoutOverview}>) => {
+                    state.overview = overview
+                    state.payouts = payouts
                     state.hasFetchedWallet = true
-                    state.dailyEarnings = data.dailyEarnings
-                    state.lifeTimeEarnings = data.lifeTimeEarnings
-                    state.payoutHistory = data.payoutHistory
                 }
             ).addCase(
             fetchWallet.rejected,
-            (state, _payload) => {
+            () => {
                 void clearOnAuthError()
             }
         )

@@ -5,9 +5,9 @@ import * as Linking from "expo-linking"
 import {useEffect} from "react";
 import {fetchProfile} from "@store/profile.reducer";
 import {fetchOrders} from "@store/orders.reducer";
-import Toast from 'react-native-toast-message'
 import { useAppDispatch} from "@store/index";
 import {fetchAllListings} from "@store/listings.reducer";
+import { fetchWallet } from "@store/wallet.reducer";
 
 const App = createStackNavigator<AppParamList>()
 
@@ -22,6 +22,7 @@ export function AppNavigator(): JSX.Element {
         dispatch(fetchProfile() as any)
         dispatch(fetchOrders() as any)
         dispatch(fetchAllListings())
+        dispatch(fetchWallet())
     }, [])
 
 
