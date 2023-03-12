@@ -6,7 +6,6 @@ import {useRef, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 
-import Toast from 'react-native-toast-message'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import {useNavigation} from "@react-navigation/native";
 import {AddBankModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
@@ -52,7 +51,7 @@ export function PaymentSettings (): JSX.Element {
         setForm((prevState) => ({...prevState, [name]: value}))
     }
 
-    if(!hasFetchedProfile) {
+    if (!hasFetchedProfile) {
         return <View>
             <Text>Fetching...</Text>
         </View>
@@ -107,7 +106,7 @@ export function PaymentSettings (): JSX.Element {
                        </View>
                     </View>
 
-                    {!modalIsOpen &&  profile.settings?.payment ==undefined && (
+                    {!modalIsOpen &&  profile.settings?.payment === undefined && (
                         <EmptyOrder  msg='No Bank account added yet'/>
                     )}
                     {profile.settings?.payment !== undefined && (
@@ -140,7 +139,7 @@ export function PaymentSettings (): JSX.Element {
                             </View>
                     )}
                    <AddBankModal  
-                   enablePanDownToClose={true} 
+                   enablePanDownToClose 
                    promptModalName={MODAL_NAME}
                     modalRef={bottomSheetModalRef}
                     onDismiss={() => setModalIsOpen(false) }
@@ -185,7 +184,7 @@ export function PaymentSettings (): JSX.Element {
                            testId="Accountprofile.editButton"
                        />
                    </AddBankModal>
-                   {!modalIsOpen && profile.settings?.payment == undefined && (
+                   {!modalIsOpen && profile.settings?.payment === undefined && (
                     <GenericButton
                     style={tailwind('my-4')}
                     onPress={openModal}

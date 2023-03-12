@@ -1,4 +1,4 @@
-import {ScrollView, View} from 'react-native'
+import { View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {EmptyMenu} from "@components/Empty/Listings";
 import {CategoryCard} from "@screens/AppNavigator/ListingsNavigator/screens/components/CategoryCard";
@@ -16,6 +16,14 @@ export function ListingsCategory (props: {categories: ListingCategoryI[], state:
         navigation.navigate("AddCategory",{category})
     }
 
+    const renderItem = useCallback(({item}:  ListRenderItemInfo<ListingCategoryI>): JSX.Element => {
+        return <CategoryCard
+            onPress={onPress}
+            category={item}
+        />
+    }, [])
+
+
     if (props.categories.length <= 0) {
         return (
             <EmptyMenu type='CATEGORY' title="Category" subtitle='Create categories and add them to your menus eg. African Cuisine' />
@@ -29,13 +37,7 @@ export function ListingsCategory (props: {categories: ListingCategoryI[], state:
 
     }
 
-    const renderItem = useCallback(({item}:  ListRenderItemInfo<ListingCategoryI>): JSX.Element => {
-        return <CategoryCard
-            onPress={onPress}
-            category={item}
-        />
-    }, [])
-
+   
     return (
         <View style={tailwind('flex-1  bg-brand-gray-500')}>
             <FlashList

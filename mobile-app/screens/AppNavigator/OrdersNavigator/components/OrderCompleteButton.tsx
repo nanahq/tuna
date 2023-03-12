@@ -1,8 +1,7 @@
 import {Text, TouchableOpacity} from "react-native";
-import {OrderStatus} from "@typings/Orders.type";
 import {tailwind} from "@tailwind";
 
-export function OrderCompleteButton (props: {orderid?: string, status: OrderStatus}): JSX.Element {
+export function OrderCompleteButton (): JSX.Element {
     return (
         <TouchableOpacity
             onPress={() => {}}

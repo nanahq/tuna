@@ -1,80 +1,55 @@
 import {Text, View} from 'react-native'
 import {ReviewsHeader} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewsHeader";
 import {useSelector} from "react-redux";
-import {RootState} from "@store/index";
-import {MostReviewedMenus} from "@screens/AppNavigator/ReviewNavigator/screen/components/MostReviewedMenus";
+import {RootState, useAppDispatch} from "@store/index";
 import {tailwind} from "@tailwind";
 import {GenericFlashList} from "@components/views/FlashList";
-import {useCallback, useEffect, useRef, useState} from "react";
-import {EmptyReviews} from "@screens/AppNavigator/ReviewNavigator/screen/components/EmptyReviews";
+import {useCallback, useEffect, useRef} from "react";
 import {ReviewCard} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewCard";
-import {Review} from "@store/reviews.reducer";
-import { _api } from '@api/_request';
-import { showTost } from '@components/commons/Toast';
-import { useToast } from 'react-native-toast-notifications';
+import { fetchReviews} from "@store/reviews.reducer";
 import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
 import {ReviewI} from '@imagyne/eatlater-types'
 import { EmptyAnimation } from '@components/lottie/Empty';
 
 
-export function ReviewScreen (_props: any): JSX.Element {
+export function ReviewScreen (): JSX.Element {
     const {hasFetchedProfile, profile} = useSelector((state: RootState) => state.profile)
 
-    const [loading, setLoading] = useState<boolean>(false)
-    const toast = useToast()
-   
+    const {hasFetchedReviews, reviews, overview} = useSelector((state: RootState) => state.reviews)
 
+    const dispatch = useAppDispatch()
+    
     useEffect(() => {
-        if(!hasFetchedProfile) return 
-        // fetchVendorReviewData(profile._id)
-    },[])
+        if (!hasFetchedProfile) {
+return
+} 
+        void dispatch(fetchReviews(profile._id))
+    }, [])
 
 
-    const fetchVendorReviewData = async (vendorId: string): Promise<void> => {
-        try {
-            setLoading(true)
-            const [stats] = await Promise.all([
-                // _api.requestData({
-                //     method: 'get',
-                //     url: `review/stats/vendor/${vendorId}`
-                // }),
-                _api.requestData({
-                    method: 'get',
-                    url: `review/vendor/${vendorId}`
-                }),
-            ])
-
-        } catch (error) {
-            console.log(error)
-            showTost(toast, 'Failed to fetch review', 'error')
-        } finally {
-            setLoading(false)
-        }
-    } 
-
-    if(loading) {
+    if (!hasFetchedReviews) {
         return (
             <LoaderComponentScreen />
         )
     }
+
     return  (
-            <>
-                <ReviewsHeader />
+            <View style={tailwind('flex-1 bg-brand-gray-500')}>
+                <ReviewsHeader overview={overview} />
                 <View style={tailwind('px-3')}>
                     <View style={tailwind('mt-5')}>
                         <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-3')}>Recent Reviews</Text>
-                        <RecentViews reviews={[]} />
+                        <RecentViews reviews={reviews} />
                     </View>
                 </View>
-            </>
+            </View>
     )
 }
-
 
 function RecentViews (props: {reviews: ReviewI[]}): JSX.Element {
     const ref = useRef<any>(null)
     const RenderItems = useCallback(
-        (props: { item: ReviewI; index: number }): JSX.Element => {
+        (props: { item: ReviewI }): JSX.Element => {
             return (
                 <ReviewCard
                     review={props.item}

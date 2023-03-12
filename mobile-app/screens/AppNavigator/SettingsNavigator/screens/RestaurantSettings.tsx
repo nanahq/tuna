@@ -1,4 +1,4 @@
-import {Pressable, SafeAreaView, ScrollView, Text, View} from "react-native";
+import { SafeAreaView, ScrollView, Text, View} from "react-native";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {getColor, tailwind} from "@tailwind";
@@ -10,12 +10,12 @@ import { RootState, useAppDispatch, useAppSelector } from "@store/index";
 import { LoaderComponent } from "@components/commons/LoaderComponent";
 import { GenericButton } from "@components/commons/buttons/GenericButton";
 import { _api } from "@api/_request";
-import { ShowToast, showTost } from "@components/commons/Toast";
+import {  showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
-import { GoBackButton } from "../components/Goback";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useToast } from "react-native-toast-notifications";
+import { GoBackButton } from "../components/Goback";
 
 const operations = [
   {
@@ -51,9 +51,8 @@ export function RestaurantSettings (): JSX.Element {
 
 
     useEffect(() => {
-        if(profile?.settings?.operations !== undefined) {
+        if (profile?.settings?.operations !== undefined) {
             const ops = profile.settings.operations
-            console.log(ops)
             setOperationForm((prev: any) => ({
                 ...prev,
                     startTime: new Date(ops.startTime as string),
@@ -68,7 +67,7 @@ export function RestaurantSettings (): JSX.Element {
     }, [])
     const [loading, setLoading] = useState<boolean>(false)
 
-    if(!hasFetchedProfile) {
+    if (!hasFetchedProfile) {
         return (
             <View style={tailwind('flex-1 w-full bg-white justify-center items-center')}>
                 <View>
@@ -92,7 +91,6 @@ export function RestaurantSettings (): JSX.Element {
             minOrder:   Number(operationForm.minOrder),
             deliveryType: operationType
         }
-        console.log(payload)
         setLoading(true)
         try {
             await _api.requestData({
@@ -115,7 +113,7 @@ export function RestaurantSettings (): JSX.Element {
     }
 
     const handleSelectOperationType = (value: string, type: 'SELECT' | 'UNSELECT'): void => {
-            if(type === 'UNSELECT') {
+            if (type === 'UNSELECT') {
                 setType('')
             } else {
                 setType(value)

@@ -1,10 +1,9 @@
-import {Dimensions, View} from 'react-native'
 import {tailwind} from '@tailwind'
-import {ShowAllButton} from "@screens/AppNavigator/OrdersNavigator/components/ShowAllButton";
+
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
-import {PropsWithChildren, useCallback} from "react";
-import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
+import {PropsWithChildren} from "react";
+
 import {DeliveredOrderCard, OrdersCard} from "@screens/AppNavigator/OrdersNavigator/components/OrderCard";
 import { EmptyAnimation } from "@components/lottie/Empty";
 import { OrderI, OrderType } from '@imagyne/eatlater-types';
@@ -19,14 +18,13 @@ export enum OrderStatus {
 export type CategoryType = 'PENDING' | 'DELIVERED'
 
 interface OrderCatergoryProps {
-    testId: string
     orders: OrderI[]
     type: OrderStatus | OrderType
-    hasFetchedOrders: boolean
 }
 export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): JSX.Element {
     const navigation = useNavigation<NavigationProp<OrderParamsList>>()
     const onPress = (order: OrderI): void => navigation.navigate("GetOrder", {order})
+
     return (
       
             <ScrollView style={[tailwind('px-3 h-full'),{
@@ -43,14 +41,15 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
                         case 'ON_DEMAND':
                         case 'PRE_ORDER':
                             return (
-                                    <OrdersCard  order={order} key={order.refId} onPress={onPress} border={index === props.orders.length - 1}/>
+                                    <OrdersCard  order={order} key={order.refId} onPress={onPress}/>
                             )
                         case OrderStatus.FULFILLED: 
                             return (
-                                    <DeliveredOrderCard order={order} onPress={onPress}  key={order.refId} border={index === props.orders.length - 1}/>
+                                    <DeliveredOrderCard order={order} onPress={onPress}  key={order.refId} />
                             )
+
                         default:
-                            break;
+                           return <></>
                     }
                 })}
             </ScrollView>

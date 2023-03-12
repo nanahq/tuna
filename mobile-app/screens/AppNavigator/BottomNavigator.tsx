@@ -40,7 +40,7 @@ export function BottomTabNavigator ():JSX.Element {
     const [profileComplete, setProfileComplete] = useState<boolean>(true)
 
     useEffect(() => {
-        if(profile.settings?.operations === undefined) {
+        if (profile.settings?.operations === undefined) {
             setProfileComplete(false)
             return
         } 

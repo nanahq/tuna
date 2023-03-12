@@ -1,16 +1,12 @@
-import {Order} from "@typings/Orders.type";
-import {Image, StyleProp, Text, TouchableOpacity, TouchableOpacityProps, View} from "react-native";
+import {Image, StyleProp, Text, TouchableOpacity, View} from "react-native";
 import {tailwind} from "@tailwind";
 import {IconComponent} from "@components/commons/IconComponent";
-import {NavigationProp, useNavigation} from "@react-navigation/native";
 import { OrderI } from "@imagyne/eatlater-types";
-import { calculatePreorderDate } from "../../../../../utils/date";
 import { PropsWithChildren } from "react";
+import { calculatePreorderDate } from "../../../../../utils/date";
 
-export function OrdersCard ({order, onPress, style}: {order: OrderI, border?: boolean, onPress?: (order: OrderI) => void, style?: StyleProp<TouchableOpacityProps>}): JSX.Element {
-    const navigation = useNavigation()
+export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (order: OrderI) => void, style?: StyleProp<any>}): JSX.Element {
   
-  console.log(order.orderDeliveryScheduledTime)
     return (
         <TouchableOpacity
             onPress={() => {
@@ -74,7 +70,7 @@ export function OrdersCard ({order, onPress, style}: {order: OrderI, border?: bo
 }
 
 
-export function DeliveredOrderCard (props: {order: OrderI, border?: boolean, onPress?: (order: OrderI) => void, style?: StyleProp<TouchableOpacityProps>}): JSX.Element {
+export function DeliveredOrderCard (props: {order: OrderI, onPress?: (order: OrderI) => void, style?: StyleProp<any>}): JSX.Element {
     return (
         <TouchableOpacity
             onPress={() => {

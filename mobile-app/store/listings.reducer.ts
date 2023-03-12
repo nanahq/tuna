@@ -98,17 +98,13 @@ export const addMenu = createAsyncThunk(
 export const deleteMenu = createAsyncThunk(
     AppActions.DELETE_MENU,
     async (id: any, {dispatch}) => {
-        try {
             await _api.requestData<any>({
                 method: 'put',
                 url: '/listing/menu',
                 data: {isDeleted: true, menuId: id}
             })
             await dispatch(fetchMenus())
-            return
-        } catch (e) {
-            throw e
-        }
+            
     }
 )
 
@@ -116,7 +112,6 @@ export const addOrUpdateCategory = createAsyncThunk(
     AppActions.UPDATE_CATEGORY,
     async (data: {type: string, payload: any}, {dispatch}): Promise<any> => {
         const {payload, type} = data
-       try {
            const res = (await _api.requestData({
                method: type === 'UPDATE' ? 'put' : 'post',
                url: 'listing/category',
@@ -124,9 +119,6 @@ export const addOrUpdateCategory = createAsyncThunk(
            })).data
             dispatch(fetchCategories())
            return res
-       } catch (e) {
-           throw e
-       }
 }
 )
 export const updateMenu = createAsyncThunk(
@@ -185,13 +177,13 @@ export const listings = createSlice({
                 }
             ).addCase(
                 fetchAllListings.rejected,
-            (state, _payload) => {
+            (state) => {
                     state.fetchingListings = false
                     state.hasFetchedListings = false
             }
         ).addCase(
             fetchAllListings.pending,
-            (state, _) => {
+            (state) => {
                 state.fetchingListings = true
             }
         ).addCase(

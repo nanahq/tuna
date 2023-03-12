@@ -78,7 +78,7 @@ export const profile = createSlice({
                     if (_payload.error.message === 'Unauthorized') {
                         void clearOnAuthError()
                     } 
-                    if(_payload.error.message?.includes('id is not found')) {
+                    if (_payload.error.message?.includes('id is not found')) {
                         void clearOnAuthError()
                     }
             }

@@ -2,6 +2,7 @@ import { tailwind } from '@tailwind';
 import {View, Text} from 'react-native'
 import { ToastProps } from "react-native-toast-notifications/lib/typescript/toast";
 import { IconComponent } from './IconComponent';
+
 interface AppToastProps {
     toast: ToastProps;
     type: "success" | "error"

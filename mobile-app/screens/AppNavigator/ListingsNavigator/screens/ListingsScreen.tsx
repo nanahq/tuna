@@ -20,7 +20,7 @@ export function ListingsScreen (): JSX.Element {
     const navigation = useNavigation<any>()
     const layout = useWindowDimensions();
     const [index, setIndex] = useState<number>(0);
-    const [routes, _setRoutes] = useState<Array<{key: string, title: string}>>(DATA);
+    const [routes] = useState<Array<{key: string, title: string}>>(DATA);
 
     const {listingsCategory, listingsMenu, listingsOptionGroup, fetchingListings}  = useAppSelector((state: RootState) => state.listings)
 
@@ -31,7 +31,7 @@ export function ListingsScreen (): JSX.Element {
 
     });
 
-    if(fetchingListings) {
+    if (fetchingListings) {
         return <LoaderComponentScreen />
     }
     return (

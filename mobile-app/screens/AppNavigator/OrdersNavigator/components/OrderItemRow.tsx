@@ -7,7 +7,7 @@ interface OrderItemRowProps{
     text: string
     titleStyle?: StyleProp<TextProps>
     textStyle?: StyleProp<TextProps>
-    containerStyle?: StyleProp<ViewProps>
+    containerStyle?: StyleProp<any>
 }
 
  function OrderItemRow (props: OrderItemRowProps): JSX.Element {
@@ -20,7 +20,7 @@ interface OrderItemRowProps{
 }
 
 
-export function OrderSection (props:PropsWithChildren<{width?: StyleProp<ViewProps>, heading: string, testId: string, fullWidth?: boolean}>): JSX.Element {
+export function OrderSection (props:PropsWithChildren<{width?: StyleProp<ViewProps>, heading: string, fullWidth?: boolean}>): JSX.Element {
     const {heading , children, fullWidth = true} = props
     return (
         <View style={[tailwind('flex flex-col', {

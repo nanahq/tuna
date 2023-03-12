@@ -1,18 +1,13 @@
 import {Image, Pressable, ScrollView, Text, View} from 'react-native'
-import {SafeAreaView} from "react-native-safe-area-context";
 import {tailwind} from "@tailwind";
 import {SettingsSection} from "@screens/AppNavigator/SettingsNavigator/components/SettingsSection";
 import {SettingsParamsList} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
 import {StackScreenProps} from "@react-navigation/stack";
-import {IconComponent} from "@components/commons/IconComponent";
 import {useAuthPersistence} from "@contexts/AuthPersistenceProvider";
-import Toast from "react-native-toast-message";
 import { RootState, useAppSelector } from '@store/index';
 import { useCallback, useEffect, useState } from 'react';
-import { NotComplete } from '../components/NotCompleted';
 import { CompleteProfileMsg } from '@components/commons/CompleteProfileMsg';
 import {  LoaderComponentScreen } from '@components/commons/LoaderComponent';
-import days from 'dayjs'
 import { showTost } from '@components/commons/Toast';
 import { useToast } from 'react-native-toast-notifications';
 
@@ -36,16 +31,16 @@ export function SettingsScreen ({navigation}: SettingsScreenProps): JSX.Element 
 
 
 function checkProfileCompleteStatus (): void {
-    if(!hasFetchedProfile ) {
+    if (!hasFetchedProfile ) {
         setProfileComplete(true)
         return 
     }
     
-    if(profile.settings?.operations === undefined) {
+    if (profile.settings?.operations === undefined) {
         setProfileComplete(false)
     }
 
-    if(profile.settings?.payment === undefined) {
+    if (profile.settings?.payment === undefined) {
         setProfileComplete(false)
     }
 }
@@ -57,7 +52,7 @@ const ordersDelivered =  useCallback((): string => {
 }, [])
 
 
-if(!hasFetchedProfile) {
+if (!hasFetchedProfile) {
   return   <LoaderComponentScreen />
 }
     return (
@@ -104,10 +99,10 @@ if(!hasFetchedProfile) {
                     <SettingsSection.Item title="Submit Request To Developers" hasBorder={false} onPress={() => navigation.navigate('RestaurantProfile')} disabled />
                 </SettingsSection>
             <View style={tailwind('flex flex-col w-full my-5')}>
-            <Pressable onPress={onLogoutPress} style={[tailwind('flex flex-row items-center border-b-0.5 border-brand-black-500 px-3 py-2')]} >
+            <Pressable onPress={onLogoutPress} style={tailwind('flex flex-row items-center border-b-0.5 border-brand-black-500 px-3 py-2')} >
                             <Text style={tailwind('font-bold text-brand-black-500 text-lg')}> Logout</Text>
                         </Pressable>
-                        <Pressable onPress={onLogoutPress} style={[tailwind('flex flex-row items-center mt-1 px-3 py-2')]} >
+                        <Pressable onPress={onLogoutPress} style={tailwind('flex flex-row items-center mt-1 px-3 py-2')} >
                             <Text style={tailwind('font-bold text-red-600 text-lg')}> Delete Account</Text>
                         </Pressable>
             </View>

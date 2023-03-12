@@ -4,6 +4,7 @@ import {updateUserProfile, fetchProfile} from "@store/profile.reducer";
 import {useAppDispatch} from "@store/index";
 import {useState} from "react";
 import { LoaderComponent } from '@components/commons/LoaderComponent';
+
 export function OrderHeaderStatus (props:{status: 'ONLINE' | 'OFFLINE'}): JSX.Element {
     const [loading, setIsLoading] = useState<{type: 'ONLINE' | 'OFFLINE', state: boolean}>({
         type: 'ONLINE',

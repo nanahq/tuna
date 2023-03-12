@@ -17,6 +17,14 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
             menu
         })
     }
+
+
+    const renderItem = useCallback(({item}:  ListRenderItemInfo<ListingMenuI>): JSX.Element => {
+        return <ListingMenuCard
+            onPress={onListingPress}
+            menu={item}
+        />
+    }, [])
     if (props.menu.length <= 0) {
         return (
             <EmptyMenu
@@ -34,14 +42,6 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
 
     }
 
-
-
-    const renderItem = useCallback(({item}:  ListRenderItemInfo<ListingMenuI>): JSX.Element => {
-        return <ListingMenuCard
-            onPress={onListingPress}
-            menu={item}
-        />
-    }, [])
 
     return (
         <View style={tailwind('flex-1 bg-brand-gray-500')}>

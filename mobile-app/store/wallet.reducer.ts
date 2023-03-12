@@ -34,7 +34,6 @@ export const fetchWallet = createAsyncThunk(
                 url: 'wallet/overview'
             })
         ])
-
         return {payouts: payouts.data, overview: overview.data}
     }
 );
@@ -59,7 +58,7 @@ export const wallet = createSlice({
                 }
             ).addCase(
             fetchWallet.rejected,
-            (state, _payload) => {
+            () => {
                 void clearOnAuthError()
             }
         )

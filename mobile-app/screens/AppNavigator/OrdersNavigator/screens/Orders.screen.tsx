@@ -6,10 +6,10 @@ import {RootState, useAppSelector} from "@store/index";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
-import {useWindowDimensions, View, Text} from "react-native";
+import {useWindowDimensions, View} from "react-native";
 import * as Location from "expo-location";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
-import {AddBankModal, AddBankModal as LocationModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
+import { AddBankModal as LocationModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
 import {LocationModalContent} from "@components/LocationModalContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ShowToast } from "@components/commons/Toast";
@@ -29,7 +29,6 @@ const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const DATA  = [
     {key: 'demand', title: 'Instant'},
     {key: 'pre', title: 'Pre order'},
-    {key: 'pending', title: 'Pending'},
     {key: 'pickup', title: 'Courier pickup'},
     {key: 'route', title: 'In-transit'},
     {key: 'delivered', title: 'Delivered'},
@@ -48,6 +47,7 @@ export function OrdersScreen (): JSX.Element {
 
     const { dismiss } = useBottomSheetModal();
 
+
     const getFulfilledOrders = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.FULFILLED)
     }, [hasFetchedOrders, orders])
@@ -58,12 +58,12 @@ export function OrdersScreen (): JSX.Element {
 
 
     const getOnDemandOrders = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderType === 'ON_DEMAND' && order.orderStatus !==  OrderStatus.FULFILLED)
+        return orders.filter((order: OrderI) =>  order.orderType === 'ON_DEMAND' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
 
     const getPreOrders = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus !==  OrderStatus.FULFILLED)
+        return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
     const getCourierPickupOrders =  useCallback(() => {
@@ -76,41 +76,26 @@ export function OrdersScreen (): JSX.Element {
     }, [hasFetchedOrders, orders])
 
     const renderScene = SceneMap<any>({
-        pending: () => <OrderCategory
-            orders={getPendingOrders()}
-            hasFetchedOrders={hasFetchedOrders}
-            type={OrderStatus.PROCESSED}
-            testId='OrdersScreen.OrderCategory.PENDING'
-        />,
+     
         delivered:  () => <OrderCategory
             orders={getFulfilledOrders()}
-            hasFetchedOrders={hasFetchedOrders}
-            type={OrderStatus.FULFILLED}
             testId='OrdersScreen.OrderCategory.PENDING'
         />,
         route:  () => <OrderCategory
             orders={ordersInTransit()}
-            hasFetchedOrders={hasFetchedOrders}
             type={OrderStatus.COLLECTED}
-            testId='OrdersScreen.OrderCategory.PENDING'
         />,
         pre:  () => <OrderCategory
         orders={getPreOrders()}
-        hasFetchedOrders={hasFetchedOrders}
         type={OrderStatus.COLLECTED}
-        testId='OrdersScreen.OrderCategory.PENDING'
     />,
     demand:  () => <OrderCategory
     orders={getOnDemandOrders()}
-    hasFetchedOrders={hasFetchedOrders}
     type={OrderStatus.COLLECTED}
-    testId='OrdersScreen.OrderCategory.PENDING'
 />,
  pickup:  () => <OrderCategory
  orders={getCourierPickupOrders()}
- hasFetchedOrders={hasFetchedOrders}
  type={OrderStatus.COLLECTED}
- testId='OrdersScreen.OrderCategory.PENDING'
 />,
    });
 
@@ -153,21 +138,21 @@ export function OrdersScreen (): JSX.Element {
     }
 
      function checkProfileCompleteStatus (): void {
-        if(!hasFetchedProfile ) {
+        if (!hasFetchedProfile ) {
             setShowProfileCompleteMsg(false)
             return 
         }
         
-        if(profile.settings?.operations === undefined) {
+        if (profile.settings?.operations === undefined) {
             setShowProfileCompleteMsg(true)
         }
 
-        if(profile.settings?.payment === undefined) {
+        if (profile.settings?.payment === undefined) {
             setShowProfileCompleteMsg(true)
         }
     }
 
-    if(!hasFetchedOrders) {
+    if (!hasFetchedOrders) {
         return <LoaderComponentScreen />
     }
 

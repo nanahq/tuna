@@ -40,7 +40,7 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // Form
-    const {control, setValue, handleSubmit, getValues, formState: {isDirty, errors}} = useForm<OptionFormI>()
+    const {control, setValue, handleSubmit, getValues, formState: { errors}} = useForm<OptionFormI>()
 
     const [options, setOptions] = useState<ListingOption[]>([])
 
@@ -50,7 +50,6 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
     })
 
     const screenHeight = Dimensions.get('screen').height
-    const [_modalIsOpen, setModalIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
         if (route?.params?.option !== undefined) {
@@ -64,7 +63,6 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
 
     function openModal (): void {
         bottomSheetModalRef.current?.present();
-        setModalIsOpen(true)
     }
 
     const handleInputChange = (value: string,  name: string): void =>  setAddOption((prev: any) => ({...prev, [name ]: value}))

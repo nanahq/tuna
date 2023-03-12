@@ -25,7 +25,7 @@ import * as Device from "expo-device";
 import {_api} from "@api/_request";
 
 import uuid from 'react-native-uuid'
-import { ShowToast, showTost } from '@components/commons/Toast';
+import {  showTost } from '@components/commons/Toast';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { useToast } from 'react-native-toast-notifications';
 
@@ -107,8 +107,7 @@ export function AddMenu (): JSX.Element {
                 setOptionString((prev: any) => ([...prev, optionId]))
                 break;
             case 'UNSELECT':
-                const newOptions = optionsString.filter((prevId) => prevId !== optionId)
-                setOptionString(newOptions)
+                setOptionString(optionsString.filter((prevId) => prevId !== optionId))
                 break;
             default:
                 break;
@@ -136,7 +135,6 @@ export function AddMenu (): JSX.Element {
         payload.append('optionGroups', optionsString.join(','))
 
         payload.append('listingImage', imagePayload )
-        console.log(JSON.stringify(payload))
       try {
           setLoading(true)
          const res = (await _api.requestData({
@@ -156,7 +154,6 @@ export function AddMenu (): JSX.Element {
               }, 3000)
           }
       } catch (error: any){
-        console.log(error)
         showTost(  toast, error.message !== 'string' ? error.message[0] : error.message, 'error')
 
       } finally {

@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
-import {clearOnAuthError} from "@store/common";
 import {VendorSettingsI} from '@imagyne/eatlater-types'
 
 export interface SettingsState {
@@ -23,10 +22,10 @@ const initialState: SettingsState = {
 
 export const fetchSettings = createAsyncThunk(
     AppActions.FETCH_SETTINGS,
-    async (vendorId: string) => {
+    async () => {
         return await _api.requestData<undefined>({
             method: 'get',
-            url: 'vendor/profile'
+            url: 'vendor/settings'
         })
     }
 );
@@ -50,8 +49,7 @@ export const settings = createSlice({
                 }
             ).addCase(
             fetchSettings.rejected,
-            (state, _payload) => {
-                // void clearOnAuthError()
+            () => {
             }
         )
     },

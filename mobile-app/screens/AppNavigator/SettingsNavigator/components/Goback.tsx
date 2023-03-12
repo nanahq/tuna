@@ -3,7 +3,6 @@ import {IconButton} from "@components/commons/buttons/IconButton";
 import {StyleProp, TextProps} from "react-native";
 
 export function GoBackButton ({onPress, style}: {onPress: () => void, style?: StyleProp<TextProps>}) : JSX.Element  {
-{
     return (
         <IconButton
             iconName='arrow-left'
@@ -14,5 +13,4 @@ export function GoBackButton ({onPress, style}: {onPress: () => void, style?: St
             onPress={onPress}
         />
     )
-}
 }

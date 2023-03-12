@@ -33,7 +33,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     })
 
     const [image, setImage] = useState<string>('')
-    const [_, setOptions] = useState<ListingOptionGroupI[]>([])
+    const [ _option , setOptions] = useState<ListingOptionGroupI[]>([])
     const [hasEdit, setHasEdit] = useState<boolean>(false)
     // state
     const {listingsOptionGroup} = useAppSelector((state: RootState) => state.listings)

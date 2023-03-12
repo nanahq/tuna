@@ -1,5 +1,6 @@
 import Toast  from "react-native-toast-message";
 import { ToastType } from "react-native-toast-notifications";
+
 export const ShowToast = (type: 'success' | 'error', message: string) => {
     Toast.show({
         type: type,

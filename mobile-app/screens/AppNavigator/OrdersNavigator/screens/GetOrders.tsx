@@ -4,11 +4,9 @@ import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavig
 import {SafeAreaView} from "react-native-safe-area-context";
 import {tailwind} from '@tailwind'
 import {OrderSection} from "@screens/AppNavigator/OrdersNavigator/components/OrderItemRow";
-import {IconButton} from "@components/commons/buttons/IconButton";
-import {OrderCompleteButton} from "@screens/AppNavigator/OrdersNavigator/components/OrderCompleteButton";
+
 import {OrderStatus} from "@typings/Orders.type";
 import {OrderQrCode} from "@screens/AppNavigator/OrdersNavigator/components/OrderQrCode";
-import { calculatePreorderDate } from "../../../../../utils/date";
 import { ScrollView } from "react-native-gesture-handler";
 import { GoBackButton } from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import { useToast } from "react-native-toast-notifications";
@@ -18,6 +16,7 @@ import { useAppDispatch } from "@store/index";
 import { fetchOrders } from "@store/orders.reducer";
 import { showTost } from "@components/commons/Toast";
 import { GenericButton } from "@components/commons/buttons/GenericButton";
+import { calculatePreorderDate } from "../../../../../utils/date";
 
 
 type GetOrderProps = StackScreenProps<OrderParamsList, "GetOrder">

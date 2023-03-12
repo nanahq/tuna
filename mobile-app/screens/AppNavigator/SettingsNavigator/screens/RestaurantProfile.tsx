@@ -10,7 +10,7 @@ import * as Location from 'expo-location'
 import * as ImagePicker from "expo-image-picker";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
 import { useForm } from "react-hook-form";
-import { ShowToast } from "@components/commons/Toast";
+import { ShowToast, showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
 import { _api } from "@api/_request";
 import * as Device from 'expo-device'
@@ -47,17 +47,10 @@ export function RestaurantProfile (): JSX.Element {
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
     const [gettingLocation, setGettingLocation] = useState<boolean>(false)
     const [logo, setLogo] = useState<string | undefined>(undefined)
-    const [restaurantImage, setRestaurantImage] = useState<string | undefined>(undefined)
-    const {control, handleSubmit, formState: {isDirty, errors}, setValue} = useForm<RestaurantProfileForm>({
+    const [_restaurantImage, _setRestaurantImage] = useState<string | undefined>(undefined)
+    const {control, handleSubmit, formState: { errors}, setValue} = useForm<RestaurantProfileForm>({
         criteriaMode: 'all'
     })
-
-
-    if(!hasFetchedProfile) {
-        return <View>
-            <Text>Fetching</Text>
-        </View>
-    }
 
 
     useEffect(() => {
@@ -65,8 +58,16 @@ export function RestaurantProfile (): JSX.Element {
         setValue('businessAddress', profile.businessAddress)
         setValue('businessEmail', profile.businessEmail)
         setLogo(profile.businessLogo)
-        setRestaurantImage(profile.restaurantImage)
+        // setRestaurantImage(profile.restaurantImage)
     }, [])
+
+
+
+    if (!hasFetchedProfile) {
+        return <View>
+            <Text>Fetching</Text>
+        </View>
+    }
 
 
     async function updateBusinessLogo (data: ImagePicker.ImagePickerAsset): Promise<void> {
@@ -79,7 +80,6 @@ export function RestaurantProfile (): JSX.Element {
 
         const payload = new FormData()
         payload.append('logo', imagePayload)
-        
         try {
             const photo = ( await _api.requestData({
                 method: 'put',
@@ -92,6 +92,7 @@ export function RestaurantProfile (): JSX.Element {
             })).data
             setLogo(photo)
         } catch (error) {
+            showTost(toast, 'failed to upload image', 'error')
         }
     }
 
@@ -117,11 +118,11 @@ export function RestaurantProfile (): JSX.Element {
                 },
                 data: payload
             })).data
-            setRestaurantImage(photo)
+            _setRestaurantImage(photo)
         } catch (error) {
+            showTost(toast, 'failed to upload image', 'error')
         }
     }
-
 
     async function requestLocation (): Promise<void> {
         setGettingLocation(true)
@@ -137,14 +138,9 @@ export function RestaurantProfile (): JSX.Element {
 
          await AsyncStorage.setItem('LOCATION_COORDS', JSON.stringify( { longitude,  latitude }))
         setGettingLocation(false)
-        toast.show(
-            RestaurantProfileInteraction.COORD_UPDATE,
-            {
-                type: "app_toast_success",
-                placement: "top",
-                duration: 3000,
-            }
-            );
+        
+        showTost(toast, RestaurantProfileInteraction.COORD_UPDATE, 'success')
+        
         try {
             await _api.requestData({
                 method: 'put',
@@ -152,7 +148,7 @@ export function RestaurantProfile (): JSX.Element {
                 data: { coordinates: [`${longitude}`, `${latitude}`]}
             })
         } catch (error) {
-            console.log(error)
+            showTost(toast, 'failed to update location', 'error')
         }
     }
 
@@ -160,41 +156,28 @@ export function RestaurantProfile (): JSX.Element {
     toast.hideAll();
     setSubmitting(true)
        try {
-         (await _api.requestData<RestaurantProfileForm>({
+         await _api.requestData<RestaurantProfileForm>({
             method: 'put',
             url: 'vendor/profile',
             data
-        })).data
+        })
+
        setSubmitting(false)
         setEditProfileState(false)
-        toast.show(
-        'Profile updated',
-        {
-            type: "app_toast_success",
-            placement: "top",
-            duration: 3000,
-        }
-        );
+        showTost(toast, 'profile updated!', 'success')
+
         await dispatch(fetchProfile())
 
        } catch (error: any) {
-        toast.show(
-            error.message !== 'string' ? error.message[0] : error.message,
-            {
-                type: "app_toast_error",
-                placement: "top",
-                duration: 3000,
-            }
-            );
-        ShowToast('error',  error.message !== 'string' ? error.message[0] : error.message )
-       } finally{
+        
+        showTost(toast,  error.message !== 'string' ? error.message[0] : error.message, 'error')
+       } finally {
        setSubmitting(false)
        }
     }
 
 
     const pickImage = async (cb: (assets: any) => Promise<void>) => {
-        // No permissions request is necessary for launching the image library
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsMultipleSelection: true,
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -207,14 +190,7 @@ export function RestaurantProfile (): JSX.Element {
          await  cb(result?.assets[0])
         }
 
-        toast.show(
-            'Logo updated',
-            {
-                type: "app_toast_success",
-                placement: "top",
-                duration: 3000,
-            }
-            );
+        showTost(toast, 'Image updated!', 'success')
     };
 
     return (
@@ -313,7 +289,7 @@ export function RestaurantProfile (): JSX.Element {
                     <View  style={tailwind('flex w-full flex-col mt-16')}>
                         <View style={tailwind('flex flex-col w-full')}>
                             <Text style={tailwind('text-lg font-medium text-brand-black-500 mb-2')}>Update Location</Text>
-                            <InfoHover ></InfoHover>
+                            <InfoHover  />
                         </View>
                         <GenericButton
                             style={tailwind('my-4')}

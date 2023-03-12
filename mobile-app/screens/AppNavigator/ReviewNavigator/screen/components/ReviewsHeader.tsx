@@ -1,59 +1,48 @@
-import {StyleProp, Text, View} from 'react-native'
+import {StyleProp, Text, TouchableOpacity, View} from 'react-native'
 import { tailwind} from '@tailwind'
 import {VendorReviewOverview} from '@imagyne/eatlater-types'
 import { IconComponent } from '@components/commons/IconComponent';
-import { IconButton } from '@components/commons/buttons/IconButton';
 
-
-const mock: VendorReviewOverview = {
-    numberOfReviews: 2200, 
-    rating: '4.6',
-    riskFactor: 'LOW'
-     
-}
-export function ReviewsHeader (props: {overview?: VendorReviewOverview}): JSX.Element {
-
+export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}: {overview: VendorReviewOverview}): JSX.Element {
+    
     return (
-        <View style={[tailwind('py-4 px-3 mt-2 overflow-hidden bg-white'), {
+        <View style={[tailwind('py-2 px-3 mt-2 overflow-hidden'), {
             
         }]}>
            <View style={tailwind('flex flex-row w-full justify-center')}>
            <TotalReviews 
-                total={mock.numberOfReviews}
+                total={numberOfReviews}
                 style={tailwind('mr-1')}
             />
             <Satisfaction
-                rating={parseFloat(mock.rating)}
+                rating={parseFloat(rating)}
                 style={tailwind('mr-1')}
             />
              <RiskFactor 
-                risk={mock.riskFactor}
+                risk={riskFactor}
             />
            </View>
-            <View style={tailwind('mt-4')}> 
-                <IconButton
-                    iconName='share-2'
-                    iconSize={22}
+            <TouchableOpacity style={tailwind('mt-4 rounded-full w-10 h-10 bg-white flex items-center justify-center flex-row')}> 
+                <IconComponent
+                    name='share-2'
+                    size={16}
                     iconType='Feather'
-                    onPress={() => {}}
-                    iconLabel='Share'
-                    iconStyle={tailwind('text-brand-black-500')}
-                    textStyle={tailwind('font-bold text-brand-black-500')}
+                    style={tailwind('text-sm text-brand-black-500')}
                 />
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }
 
 
 
-function TotalReviews(props: {total: number | string, style?: StyleProp<any>}): JSX.Element {
+function TotalReviews(props: {total: number | string, style?: any}): JSX.Element {
     return (
-        <View style={[tailwind('border-0.5 border-brand-black-500 flex flex-col items-center  rounded-lg p-1 px-2 h-24 w-1/3'), props.style]}>
+        <View style={[tailwind('border-0.5 bg-white border-brand-black-500 flex flex-col items-center  rounded-lg p-1 px-2 h-24 w-1/3'), props.style]}>
             <IconComponent
                 name='star'
                 iconType='MaterialCommunityIcons'
-                style={tailwind('text-yellow-500')}
+                style={tailwind('text-warning-500')}
                 size={34}
             />
             <View style={tailwind('flex flex-col items-center ')}>
@@ -69,7 +58,7 @@ function Satisfaction (props: {rating: number, style?: StyleProp<any>}): JSX.Ele
     let iconName: string = ''
     let style: string = ''
 
-    if(props.rating >= 4) {
+    if (props.rating >= 4 || props.rating === 0.0) {
         iconName = 'smile'
         style = 'text-success-500'
     } else if (props.rating <= 4 && props.rating >= 2.5) {
@@ -81,7 +70,7 @@ function Satisfaction (props: {rating: number, style?: StyleProp<any>}): JSX.Ele
     }
 
     return (
-        <View style={[tailwind('border-0.5 border-brand-black-500 flex flex-col items-center  rounded-lg p-1 px-2  h-24 w-1/3'), props.style]}>
+        <View style={[tailwind('border-0.5 bg-white border-brand-black-500 flex flex-col items-center  rounded-lg p-1 px-2  h-24 w-1/3'), props.style]}>
             <IconComponent
                 name={iconName}
                 iconType='Feather'
@@ -99,7 +88,7 @@ function Satisfaction (props: {rating: number, style?: StyleProp<any>}): JSX.Ele
 function RiskFactor (props: {risk: 'HIGH' | 'MEDIUM' | 'LOW', style?: any}): JSX.Element {
     let style: string = ''
    
-    switch(props.risk) {
+    switch (props.risk) {
         case 'HIGH': 
             style='text-error-500'
         break;
@@ -113,7 +102,7 @@ function RiskFactor (props: {risk: 'HIGH' | 'MEDIUM' | 'LOW', style?: any}): JSX
         break;
     }
     return (
-        <View style={[tailwind('border-0.5 border-brand-black-500 flex flex-col items-center  justify-center rounded-lg p-1 px-2 h-24 w-1/3 '), props.style]}>
+        <View style={[tailwind('border-0.5 bg-white border-brand-black-500 flex flex-col items-center  justify-center rounded-lg p-1 px-2 h-24 w-1/3 '), props.style]}>
            <Text style={tailwind(` font-bold text-lg ${style}`)}>{props.risk}</Text>
             <View style={tailwind('flex flex-col items-center')}>
                 <Text style={tailwind('text-gray-400')}>Risk factor</Text>

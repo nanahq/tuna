@@ -13,7 +13,7 @@ import { EmptyAnimation } from '@components/lottie/Empty';
 export function WalletScreen (): JSX.Element {
     const {payouts, overview, hasFetchedWallet} = useSelector((state: RootState) => state.wallet )
     
-    if(!hasFetchedWallet) {
+    if (!hasFetchedWallet) {
         return (
             <LoaderComponentScreen />
         )

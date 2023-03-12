@@ -19,6 +19,14 @@ export function ListingsOptions (props: {options: ListingOptionGroupI[], state: 
         })
     }
 
+    const renderItem = useCallback(({item}:  ListRenderItemInfo<ListingOptionGroupI>): JSX.Element => {
+        return <OptionCard
+            onPress={onOptionPress}
+            option={item}
+        />
+    }, [])
+    
+
     if (props.options.length <= 0) {
         return (
             <EmptyMenu type='OPTION' title="Options" subtitle='Add options and add-ons. Meat, Chillis, Zobo etc' />
@@ -32,12 +40,7 @@ export function ListingsOptions (props: {options: ListingOptionGroupI[], state: 
 
     }
 
-    const renderItem = useCallback(({item}:  ListRenderItemInfo<ListingOptionGroupI>): JSX.Element => {
-        return <OptionCard
-            onPress={onOptionPress}
-            option={item}
-        />
-    }, [])
+   
 
 
     return (
