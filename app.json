@@ -2,8 +2,8 @@
   "expo": {
     "name": "EatLater Vendors",
     "description": "Order food from your favorite vendors and restaurants",
-    "slug": "vendor",
-    "owner": "EatLater Logistics",
+    "slug": "eatlater-vendors",
+    "owner": "eatlater",
     "version": "0.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-config/icon.png",
@@ -34,6 +34,11 @@
     },
     "web": {
       "favicon": "./assets/app-config/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aef4b4d0-bb0f-4a37-b455-2833d9ae026a"
+      }
     }
   }
 }
