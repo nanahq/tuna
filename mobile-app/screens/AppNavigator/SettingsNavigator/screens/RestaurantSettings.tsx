@@ -3,7 +3,7 @@ import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {getColor, tailwind} from "@tailwind";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useEffect, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import {VendorOperationSetting} from '@imagyne/eatlater-types'
 
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useToast } from "react-native-toast-notifications";
 import { GoBackButton } from "../components/Goback";
+
 
 const operations = [
   {
@@ -40,6 +41,10 @@ export function RestaurantSettings (): JSX.Element {
 
     const toast = useToast()
 
+    const startTimeRef = useRef<any>(null)
+    const endTimeTimeRef = useRef<any>(null)
+
+    const [loading, setLoading] = useState<boolean>(false)
     const [operationType,setType ] = useState<string>('');
     const [operationForm, setOperationForm] = useState<any>( {
         startTime: new Date(),
@@ -49,6 +54,8 @@ export function RestaurantSettings (): JSX.Element {
         minOrder: 0
     })
 
+
+    // const [] = useStateWithCallback()
 
     useEffect(() => {
         if (profile?.settings?.operations !== undefined) {
@@ -65,8 +72,16 @@ export function RestaurantSettings (): JSX.Element {
             setType(ops.deliveryType)
         }
     }, [])
-    const [loading, setLoading] = useState<boolean>(false)
 
+    // const [showStartTimePicker, setShowStartTimePicker]  = useState<boolean>(false)
+
+    // const [showEndTimePicker, setShowEndTimePicker] = useState<boolean>(false)
+
+
+    useEffect(() => {
+        startTimeRef?.current?.blur()
+        endTimeTimeRef?.current?.blur()
+    }, [])
     if (!hasFetchedProfile) {
         return (
             <View style={tailwind('flex-1 w-full bg-white justify-center items-center')}>
@@ -108,7 +123,7 @@ export function RestaurantSettings (): JSX.Element {
 
         } finally {
             setLoading(false)
-        
+
         }
     }
 
@@ -133,13 +148,14 @@ export function RestaurantSettings (): JSX.Element {
                             </Text>
                         </View>
                         <DateTimePicker
-                        
                             style={tailwind('w-1/3')}
                             is24Hour
                             value={operationForm.startTime}
                             mode='time'
-                            onChange={(_, value) => updateTime('startTime',value)}
-                        /> 
+                            onChange={(_, value) => {
+                                 updateTime('startTime',value)
+                            }}
+                        />
                     </View>
                     <View style={tailwind('flex flex-row  w-full items-center')}>
                         <View style={tailwind('w-2/3 mt-6')}>
@@ -148,7 +164,6 @@ export function RestaurantSettings (): JSX.Element {
                                 Customers won't be able to place order after this time
                             </Text>
                         </View>
-
                         <DateTimePicker
                             style={tailwind('w-1/3 mt-6')}
                             is24Hour
@@ -216,7 +231,7 @@ export function RestaurantSettings (): JSX.Element {
                         labelColor={tailwind('text-white')}
                         style={tailwind('mt-16 mb-10')}
                         testId=''
-                
+
                     />
                 </ProfileSection>
             </ScrollView>

@@ -32,7 +32,7 @@ type SignupBusinessProps = StackScreenProps<OnboardingParamsList, any>
 export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Element {
     const bottomSheetModalRef = useRef<any>(null)
     const [_loading, _setLoading] = useState<boolean>(false)
-  
+
     const  openModal = (): void =>  bottomSheetModalRef.current?.present();
 
     // form
@@ -55,7 +55,7 @@ try {
             })
             openModal()
         } catch (error: any) {
-            if (Number(error.statusCode) === 500) {
+            if (Number(error?.statusCode) === 500) {
                 Toast.show({
                     type: 'error',
                     text1: 'Something went wrong. Login failed',

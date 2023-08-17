@@ -26,15 +26,15 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
     const onPress = (order: OrderI): void => navigation.navigate("GetOrder", {order})
 
     return (
-      
+
             <ScrollView style={[tailwind('px-3 h-full'),{
-                
+
             }]}>
                 {props.orders.length === 0 && (
                     <EmptyAnimation text='No orders yet.' />
                 )}
 
-                {props.orders.length > 0 && props.orders.map((order, index) =>  {
+                {props.orders.length > 0 && props.orders.map((order) =>  {
                     switch (props.type) {
                         case OrderStatus.PROCESSED:
                         case OrderStatus.COLLECTED:
@@ -43,7 +43,7 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
                             return (
                                     <OrdersCard  order={order} key={order.refId} onPress={onPress}/>
                             )
-                        case OrderStatus.FULFILLED: 
+                        case OrderStatus.FULFILLED:
                             return (
                                     <DeliveredOrderCard order={order} onPress={onPress}  key={order.refId} />
                             )

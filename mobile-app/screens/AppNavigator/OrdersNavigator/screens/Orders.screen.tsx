@@ -41,7 +41,7 @@ export function OrdersScreen (): JSX.Element {
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
     const layout = useWindowDimensions();
     const [index, setIndex] = useState<number>(0);
-    const [routes, _setRoutes] = useState<Array<{key: string, title: string}>>(DATA);
+    const [routes] = useState<Array<{key: string, title: string}>>(DATA);
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
     const bottomSheetModalRef = useRef<any>(null)
 
@@ -76,14 +76,14 @@ export function OrdersScreen (): JSX.Element {
     }, [hasFetchedOrders, orders])
 
     const renderScene = SceneMap<any>({
-     
+
         delivered:  () => <OrderCategory
             orders={getFulfilledOrders()}
-            testId='OrdersScreen.OrderCategory.PENDING'
+            type={OrderStatus.FULFILLED}
         />,
         route:  () => <OrderCategory
             orders={ordersInTransit()}
-            type={OrderStatus.COLLECTED}
+            type={OrderStatus.IN_ROUTE}
         />,
         pre:  () => <OrderCategory
         orders={getPreOrders()}
@@ -140,9 +140,9 @@ export function OrdersScreen (): JSX.Element {
      function checkProfileCompleteStatus (): void {
         if (!hasFetchedProfile ) {
             setShowProfileCompleteMsg(false)
-            return 
+            return
         }
-        
+
         if (profile.settings?.operations === undefined) {
             setShowProfileCompleteMsg(true)
         }
@@ -162,7 +162,7 @@ export function OrdersScreen (): JSX.Element {
              style={tailwind('w-full bg-brand-gray-500 h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
-                 {hasFetchedProfile && (<OrderHeaderStatus status={profile.status as any} />)}
+                <OrderHeaderStatus status={profile.status as any} />
                  {showProfileCompleteMsg && (<CompleteProfileMsg />)}
                  <OrdersStats
                      hasFetchedOrders={hasFetchedOrders}

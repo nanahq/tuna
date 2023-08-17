@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import { ReviewI, VendorReviewOverview } from "@imagyne/eatlater-types";
-
+import { showToastStandard } from "@components/commons/Toast";
 
 export interface ReviewState {
     reviews: ReviewI[]
@@ -12,7 +12,7 @@ export interface ReviewState {
 
 const initialState: ReviewState = {
     reviews: [],
-    hasFetchedReviews: false,
+    hasFetchedReviews: true,
     overview: {
         numberOfReviews: 0,
         rating: '0',
@@ -54,7 +54,14 @@ export const reviews = createSlice({
                     state.overview = payload.overview
                     state.hasFetchedReviews = true
                 }
-            );
+            ).addCase(
+                fetchReviews.rejected,
+                () => {
+                    showToastStandard('Failed to fetch reviews', 'error')
+                }
+            ).addCase(fetchReviews.pending, (state) => {
+                state.hasFetchedReviews = false
+            })
     },
 });
 

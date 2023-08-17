@@ -1,6 +1,7 @@
 import {ApiRoute, APIService, NetworkMapper, PlaygroundServicePort} from "@api/network.mapper";
 import axios, { Method} from 'axios'
 import {persistence} from "@api/persistence";
+import { showToastStandard } from "@components/commons/Toast";
 import {cookieParser} from "../../utils/cookieParser";
 
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
@@ -8,12 +9,13 @@ export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
 
     let url: string
 
-    if (environment === 'development') {
+    if (environment === '') {
         url =   `${NetworkMapper.PLAYGROUND}:${PlaygroundServicePort[gateway]}/${ApiRoute[gateway]}/v1`
     } else  {
         url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
     }
 
+    // return `https://86ed-197-210-70-209.ngrok-free.app/vendor-gateway/v1`
     return url
 }
 
@@ -39,7 +41,7 @@ async function base<T>(param: baseParamProps<T>) {
     const source = CancelToken.source();
     setTimeout(() => {
         source.cancel();
-    }, 30000);
+    }, 50000);
     return await axios({
         method: param.method,
         baseURL: config.baseUrl,
@@ -48,7 +50,7 @@ async function base<T>(param: baseParamProps<T>) {
         cancelToken: source.token,
         data: param.data,
     })
-        .then(res => {
+      .then(res => {
             return Promise.resolve({
                 data: res?.data,
                 cookies: res.headers['set-cookie'] ?? []
@@ -61,24 +63,22 @@ async function base<T>(param: baseParamProps<T>) {
             if (err.response) {
                 return Promise.reject(err.response?.data);
             }
+            showToastStandard('Something went wrong', 'error')
 
             return Promise.reject(err);
-        });
+        })
 }
-
 
 async function request<T> (method: Method, url: string): Promise<{data: any, cookies: string[]}> {
     return await base<T>({method, url})
         .then(res => {
-          
             if ( res.cookies.length > 0) {
             persistence.setSecure(cookieParser(res.cookies[0]))
-           } 
+           }
            return Promise.resolve<{data: any, cookies: string[]}>(res)
         })
         .catch(err => Promise.reject(err));
 }
-
 
 async function requestData<T> ({method, url, data}: baseParamProps<T>): Promise<{data: any, cookies: string[]}> {
     return await base<T>({method, url, data})

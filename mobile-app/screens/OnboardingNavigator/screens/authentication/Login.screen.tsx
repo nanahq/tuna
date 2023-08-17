@@ -23,9 +23,8 @@ export function LoginScreen (): JSX.Element {
     const {top: topInsert} = useSafeAreaInsets()
 
     const [_loading, _setLoading] = useState<boolean>(false)
-    
 
-// form
+
     const {control, formState: {errors}, handleSubmit} = useForm<LoginForm>({
         criteriaMode: 'all',
         mode: 'onTouched'
@@ -41,7 +40,7 @@ export function LoginScreen (): JSX.Element {
             })
             await  setToken(cookieParser(cookies[0]))
         } catch (error: any) {
-            if (Number(error.statusCode) === 500) {
+            if (Number(error?.statusCode) === 500) {
                Toast.show({
                    type: 'error',
                    text1: 'Something went wrong. Login failed',

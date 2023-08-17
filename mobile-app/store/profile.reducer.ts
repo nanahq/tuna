@@ -3,6 +3,7 @@ import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
 import {ResponseWithStatus, VendorI} from '@imagyne/eatlater-types'
+import { showToastStandard } from "@components/commons/Toast";
 
 export interface ProfileState {
   profile: VendorI
@@ -23,7 +24,7 @@ const initialState: ProfileState = {
         isValidated: false,
         status: 'ONLINE',
         settings: {
-            payment:undefined, 
+            payment:undefined,
             operations: undefined
         } as any,
         businessLogo: '',
@@ -31,7 +32,7 @@ const initialState: ProfileState = {
         createdAt: '',
         updatedAt: ''
     },
-    hasFetchedProfile: false
+    hasFetchedProfile: true
 };
 
 export const fetchProfile = createAsyncThunk(
@@ -75,13 +76,16 @@ export const profile = createSlice({
         ).addCase(
             fetchProfile.rejected,
             (_, _payload) => {
+                    showToastStandard('Can not fetch profile', 'error')
                     if (_payload.error.message === 'Unauthorized') {
                         void clearOnAuthError()
-                    } 
+                    }
                     if (_payload.error.message?.includes('id is not found')) {
                         void clearOnAuthError()
                     }
             }
-        )
+        ).addCase(fetchProfile.pending, (state) => {
+            state.hasFetchedProfile = false
+        })
     },
 });

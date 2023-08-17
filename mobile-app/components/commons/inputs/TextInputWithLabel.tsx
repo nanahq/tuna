@@ -28,7 +28,7 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
         const [inputFocus, setInputFocus] = useState<boolean>(false)
 
         return (
-            <View style={[tailwind('flex flex-col'), containerStyle]}>
+            <View style={[tailwind('flex flex-col'), containerStyle as any]}>
                 <View style={tailwind('flex flex-col mb-2.5 w-full ')}>
                     <Text
                         testID={labelTestId}
@@ -86,7 +86,7 @@ export function ModalTextInput (props: ModalTextInputProps): JSX.Element {
     const [inputFocus, setInputFocus] = useState<boolean>(false)
 
     return (
-        <View style={[tailwind('flex flex-col'), containerStyle]}>
+        <View style={[tailwind('flex flex-col'), containerStyle as any]}>
             <View style={tailwind('flex flex-col mb-2.5 w-full ')}>
                 <Text
                     testID={labelTestId}
@@ -102,7 +102,7 @@ export function ModalTextInput (props: ModalTextInputProps): JSX.Element {
                 )}
             </View>
             <BottomSheetTextInput
-                    placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
+                placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
                 onFocus={() => setInputFocus(true)}
                 onBlur={() => setInputFocus(false)}
                 style={[tailwind('rounded-lg bg-brand-blue-200 py-3.5 px-3 font-medium text-lg text-brand-black-500', {

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "EatLater Vendors",
-    "description": "Order food from your favorite vendors and restaurants",
-    "slug": "eatlater-vendors",
-    "owner": "eatlater",
-    "version": "0.0.0",
+    "name": "Nana Vendors",
+    "description": "Reach a wider audience and sell more with Nana",
+    "slug": "nana-vendors-app",
+    "owner": "nana-app",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-config/icon.png",
     "scheme": "myapp",
@@ -27,7 +27,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/anImageThatDoesNotExist.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -43,7 +46,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "aef4b4d0-bb0f-4a37-b455-2833d9ae026a"
+        "projectId": "58e19edd-8d6d-4cbe-9998-c40b1f0fa020"
       }
     }
   }

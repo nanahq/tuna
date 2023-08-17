@@ -28,7 +28,7 @@ export function GenericButton (props: Props): JSX.Element {
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
-            style={[backgroundColor, tailwind('rounded-xl', {
+            style={[backgroundColor as any, tailwind('rounded-xl', {
                 'bg-brand-gray-700': props.disabled,
                 'flex flex-row justify-center w-full items-center bg-brand-gray-700': props.loading
             }), style]}

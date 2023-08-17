@@ -7,7 +7,7 @@ import {RegisterOptions} from "react-hook-form/dist/types/validator";
 
 export interface ControlledTextInputWithLabelProps extends TextInputProps {
     labelStyle?: StyleProp<TextInputProps>
-    containerStyle?: StyleProp<TextInputProps>
+    containerStyle?: StyleProp<any>
     label: string
     labelTestId: string
     moreInfo?: string,

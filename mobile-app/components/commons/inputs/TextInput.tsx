@@ -22,7 +22,7 @@ export function TextArea ( props: TextAreaProps):JSX.Element {
         ...otherProps
     } = props
     return (
-        <View style={[tailwind(), containerStyle]}>
+        <View style={containerStyle as any}>
             <TextInput
             keyboardType={keyboardPad}
             style={[tailwind('py-3 px-2.5 flex items-center'), style]}

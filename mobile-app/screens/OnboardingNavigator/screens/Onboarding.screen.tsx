@@ -36,7 +36,7 @@ export function OnboardingScreen (): JSX.Element {
                    'mt-10': Device.osName === 'iOS',
                    'mt-8': Device.osName === 'Android'
                })}>
-                   Sell on EatLater and boost your sales, grow your business and more benefits
+                   Sell on Nana and boost your sales, grow your business and more benefits
                </Text>
                 <GenericButton
                     onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}

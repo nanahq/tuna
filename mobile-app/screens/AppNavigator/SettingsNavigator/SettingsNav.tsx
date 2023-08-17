@@ -8,7 +8,6 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {PaymentSettings} from "@screens/AppNavigator/SettingsNavigator/screens/PaymentSetting";
 import {RestaurantSettings} from "@screens/AppNavigator/SettingsNavigator/screens/RestaurantSettings";
 
-
 export interface SettingsParamsList {
     AccountProfile: undefined,
     RestaurantProfile: | undefined,

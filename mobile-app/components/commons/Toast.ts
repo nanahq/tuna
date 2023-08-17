@@ -17,3 +17,11 @@ export const showTost =  (toast: ToastType, message: string, type: 'success' | '
         duration: 3000,
     })
 }
+
+export const showToastStandard = (message: string, type: 'success'  | 'error'): void => {
+    Toast.show({
+        type: `app_toast_${type}`,
+        text1: message,
+        autoHide: true
+    })
+}

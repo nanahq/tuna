@@ -33,6 +33,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     })
 
     const [image, setImage] = useState<string>('')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ _option , setOptions] = useState<ListingOptionGroupI[]>([])
     const [hasEdit, setHasEdit] = useState<boolean>(false)
     // state

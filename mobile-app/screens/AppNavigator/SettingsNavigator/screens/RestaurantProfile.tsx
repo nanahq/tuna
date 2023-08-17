@@ -47,6 +47,7 @@ export function RestaurantProfile (): JSX.Element {
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
     const [gettingLocation, setGettingLocation] = useState<boolean>(false)
     const [logo, setLogo] = useState<string | undefined>(undefined)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_restaurantImage, _setRestaurantImage] = useState<string | undefined>(undefined)
     const {control, handleSubmit, formState: { errors}, setValue} = useForm<RestaurantProfileForm>({
         criteriaMode: 'all'
@@ -107,7 +108,7 @@ export function RestaurantProfile (): JSX.Element {
 
         const payload = new FormData()
         payload.append('image', imagePayload)
-        
+
         try {
             const photo = ( await _api.requestData({
                 method: 'put',
@@ -138,9 +139,9 @@ export function RestaurantProfile (): JSX.Element {
 
          await AsyncStorage.setItem('LOCATION_COORDS', JSON.stringify( { longitude,  latitude }))
         setGettingLocation(false)
-        
+
         showTost(toast, RestaurantProfileInteraction.COORD_UPDATE, 'success')
-        
+
         try {
             await _api.requestData({
                 method: 'put',
@@ -169,7 +170,7 @@ export function RestaurantProfile (): JSX.Element {
         await dispatch(fetchProfile())
 
        } catch (error: any) {
-        
+
         showTost(toast,  error.message !== 'string' ? error.message[0] : error.message, 'error')
        } finally {
        setSubmitting(false)
@@ -233,7 +234,7 @@ export function RestaurantProfile (): JSX.Element {
                             error={errors.businessName !== undefined}
                             errorMessage={errors.businessName?.message}
                             />
-              
+
                         </View>
                         <ControlledTextInputWithLabel
                                 editable={editProfileState}
@@ -272,7 +273,7 @@ export function RestaurantProfile (): JSX.Element {
                         onPress={handleSubmit(updateProfile)}
                         label="Update profile"
                         backgroundColor={tailwind('bg-primary-700')}
-                        testId="Accountprofile.editButton" 
+                        testId="Accountprofile.editButton"
                         loading={submitting}
                         />
                     )}

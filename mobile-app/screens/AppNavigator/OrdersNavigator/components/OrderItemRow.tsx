@@ -25,7 +25,7 @@ export function OrderSection (props:PropsWithChildren<{width?: StyleProp<ViewPro
     return (
         <View style={[tailwind('flex flex-col', {
             'w-full': fullWidth
-        }), props.width]}>
+        }), props.width as any]}>
             <Text style={tailwind('font-semibold text-xl text-brand-black-500 mb-2.5')}>{heading}</Text>
             {children}
         </View>

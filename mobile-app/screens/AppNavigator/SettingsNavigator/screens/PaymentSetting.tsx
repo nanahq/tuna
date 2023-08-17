@@ -24,7 +24,7 @@ import { IconComponent } from "@components/commons/IconComponent";
 const PaymentSettingsInteraction = {
     ADD_BANK_BTN: 'Add bank',
     ADDING_BANK_INT: 'Adding bank..',
-    ADD_BANK_SUCCESS_MSG: 'Payment settigns updated'
+    ADD_BANK_SUCCESS_MSG: 'Payment settings updated'
 }
 
 const MODAL_NAME = 'ADD_BANK'
@@ -73,7 +73,7 @@ export function PaymentSettings (): JSX.Element {
         showTost(toast, PaymentSettingsInteraction.ADD_BANK_SUCCESS_MSG, 'success')
         } catch (error: any) {
         showTost(toast, typeof error?.message === 'string' ? error.messase : error.message[0], 'error')
-            
+
         } finally {
             setSubmitting(false)
             setTimeout(() => {
@@ -81,7 +81,7 @@ export function PaymentSettings (): JSX.Element {
             }, 500)
             setModalIsOpen(false)
         }
-        
+
     }
 
     function openModal (): void {
@@ -95,14 +95,14 @@ export function PaymentSettings (): JSX.Element {
             <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 bg-brand-gray-500')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Bank information" editable={false}>
-                  
+
                     <View style={tailwind('flex flex-col')}>
                        <View style={tailwind('flex flex-row items-center')}>
                        <IconComponent iconType="Feather" name='info' style={tailwind('text-brand-gray-700')} size={14} />
                         <Text style={tailwind('text-brand-gray-700 text-xs font-medium ml-2')}>
-                                Add your banking informtion here. Information provided here will be used to make payout. 
+                                Add your banking informtion here. Information provided here will be used to make payout.
                             </Text>
-                           
+
                        </View>
                     </View>
 
@@ -116,15 +116,15 @@ export function PaymentSettings (): JSX.Element {
                                 </View>
                                 <View style={tailwind('flex flex-col mt-5 w-full')}>
                                     <View style={tailwind(' flex w-full border-0.5 border-brand-gray-400 rounded-lg py-3 px-4 bg-white')}>
-                                        <BankInfoItem 
+                                        <BankInfoItem
                                             title="Bank Name"
                                             text={profile.settings.payment.bankName}
                                         />
-                                         <BankInfoItem 
+                                         <BankInfoItem
                                             title="Bank Account name"
                                             text={profile.settings.payment.bankAccountName}
                                         />
-                                         <BankInfoItem 
+                                         <BankInfoItem
                                             title="Bank Account number"
                                             text={`${profile.settings.payment.bankAccountNumber.substring(0, 4)}*****`}
                                         />
@@ -138,8 +138,8 @@ export function PaymentSettings (): JSX.Element {
                                 </View>
                             </View>
                     )}
-                   <AddBankModal  
-                   enablePanDownToClose 
+                   <AddBankModal
+                   enablePanDownToClose
                    promptModalName={MODAL_NAME}
                     modalRef={bottomSheetModalRef}
                     onDismiss={() => setModalIsOpen(false) }
