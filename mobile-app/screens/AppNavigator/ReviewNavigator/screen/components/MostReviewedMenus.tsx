@@ -2,10 +2,10 @@ import {ScrollView, Text, View} from "react-native";
 import {tailwind} from '@tailwind'
 import {IconComponent} from "@components/commons/IconComponent";
 import {NumericFormat as NumberFormat} from "react-number-format";
-import {Review} from "@store/reviews.reducer";
+import {ReviewI} from "@imagyne/eatlater-types";
 
 
-export function MostReviewedMenus (props: {reviews: Review[]  }): JSX.Element {
+export function MostReviewedMenus (props: {reviews: ReviewI[]  }): JSX.Element {
 
     if (props.reviews.length <= 0) {
         return <></>
@@ -16,7 +16,7 @@ export function MostReviewedMenus (props: {reviews: Review[]  }): JSX.Element {
            <Text style={tailwind('text-brand-black-500 text-lg font-medium')}>Top rated menus</Text>
            <ScrollView horizontal style={tailwind('px-2')} showsHorizontalScrollIndicator={false}>
                {props.reviews.map((review, index) => (
-                   <MostReviewedMenusItem name={review.reviewListingName} key={`review_top_menu_${index}`} reviews={review.reviewRating} rating={review.reviewRating} />
+                   <MostReviewedMenusItem name={review.listingId.name} key={`review_top_menu_${index}`} reviews={review.reviewBody} rating={review.reviewStars.toString()} />
                ))}
 
            </ScrollView>

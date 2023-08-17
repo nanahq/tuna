@@ -1,4 +1,4 @@
-import {StyleProp, Text, TextProps, View, ViewProps} from 'react-native'
+import {StyleProp, Text, TextProps, View, ViewProps, ViewStyle} from 'react-native'
 import {tailwind} from '@tailwind'
 import {PropsWithChildren} from "react";
 
@@ -20,7 +20,7 @@ interface OrderItemRowProps{
 }
 
 
-export function OrderSection (props:PropsWithChildren<{width?: StyleProp<ViewProps>, heading: string, fullWidth?: boolean}>): JSX.Element {
+export function OrderSection (props:PropsWithChildren<{width?: StyleProp<ViewStyle>, heading: string, fullWidth?: boolean}>): JSX.Element {
     const {heading , children, fullWidth = true} = props
     return (
         <View style={[tailwind('flex flex-col', {

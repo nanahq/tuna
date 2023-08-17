@@ -1,4 +1,4 @@
-import {StyleProp, Text, TextInput, TextInputProps, View} from 'react-native'
+import {StyleProp, Text, TextInput, TextInputProps, View, ViewStyle} from 'react-native'
 import {getColor, tailwind} from "@tailwind";
 import {forwardRef, useState} from 'react'
 import * as Device from 'expo-device'
@@ -7,7 +7,7 @@ import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 
 export interface TextInputWithLabelProps extends TextInputProps {
     labelStyle?:StyleProp<TextInputProps>
-    containerStyle?:StyleProp<TextInputProps>
+    containerStyle?:StyleProp<ViewStyle>
     label: string
     labelTestId: string
     moreInfo?: string,
