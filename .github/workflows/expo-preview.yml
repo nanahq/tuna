@@ -43,4 +43,3 @@ jobs:
 
             Built with commit ${{ github.sha }}
 
-            https://expo.io/@defichain/wallet?release-channel=pr-preview-${{ github.event.number }}
