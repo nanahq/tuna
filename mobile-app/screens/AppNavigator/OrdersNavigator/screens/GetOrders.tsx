@@ -58,7 +58,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
         <SafeAreaView style={tailwind('bg-white')}>
             <ScrollView style={tailwind('px-5 pb-5 h-full bg-white')}>
                 <GoBackButton  onPress={goBack}/>
-                <OrderSection heading='Order details' testId='GetOrder.OrderDetails'>
+                <OrderSection heading='Order details'>
                 <OrderSection.Row title='Item name: ' text={params.order.listing.name}  titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} containerStyle={tailwind('mb-2')}/>
                   <View style={tailwind('flex flex-row items-center justify-between w-full mb-2')}>
                       <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} title='Quantity:' text='2' />
@@ -67,7 +67,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
                     <OrderSection.Row   titleStyle={tailwind('font-medium')} textStyle={tailwind(' text-lg font-bold')} title='Special Note:' text='Please do not make it super spicy' />
                 </OrderSection>
                <View style={tailwind('flex flex-row w-full mt-5')}>
-                   <OrderSection heading='Options' testId='GetOrder.Addons' fullWidth={false} width={tailwind('w-1/2')}>
+                   <OrderSection heading='Options' fullWidth={false} width={tailwind('w-1/2')}>
                        {params.order.options.map(option => (
                        <OrderSection.Row title='-' key={option} text={option}  containerStyle={tailwind('mb-2')}/>
                        ))}
@@ -81,7 +81,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
                 </View>
                 <View style={tailwind('flex flex-row w-full items-center justify-center mt-12')}>
                 {params.order.orderStatus === OrderStatus.PROCESSED && (
-                      <GenericButton 
+                      <GenericButton
                       onPress={updateOrder}
                       loading={loading}
                       disabled={loading}

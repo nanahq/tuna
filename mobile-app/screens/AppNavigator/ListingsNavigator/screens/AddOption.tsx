@@ -1,4 +1,13 @@
-import {Dimensions, KeyboardAvoidingView, ScrollView, StyleProp, Text, View, ViewProps} from 'react-native'
+import {
+    Dimensions,
+    KeyboardAvoidingView,
+    ScrollView,
+    ScrollViewProps,
+    StyleProp,
+    Text,
+    View,
+    ViewProps, ViewStyle
+} from 'react-native'
 import {tailwind} from '@tailwind'
 import {ModalTextInput} from "@components/commons/inputs/TextInputWithLabel";
 import {PropsWithChildren, useEffect, useRef, useState} from "react";
@@ -236,7 +245,7 @@ return true
 }
 
 
-export function SectionWithAddButton (props: PropsWithChildren<{onPress: () => void, sectionName: string, height?: number, style?: StyleProp<ViewProps>}>): JSX.Element {
+export function SectionWithAddButton (props: PropsWithChildren<{onPress: () => void, sectionName: string, height?: number, style?: StyleProp<ViewStyle>}>): JSX.Element {
     return (
         <ScrollView style={[tailwind(' border-0.5 border-brand-black-500 px-3'), {height: props.height ?? '100%' }, props.style]}>
             <View style={[tailwind('flex flex-row items-center w-full justify-between p-2 border-b-0.5  border-brand-black-500'), {

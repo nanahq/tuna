@@ -1,5 +1,5 @@
 import {PropsWithChildren} from "react";
-import {StyleProp, Text, TouchableOpacity, TouchableOpacityProps, View} from 'react-native'
+import {StyleProp, Text, TouchableOpacity, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import { NotComplete } from "./NotCompleted";
 
@@ -15,7 +15,7 @@ export function SettingsSection (props: PropsWithChildren<{title: string}>):JSX.
 }
 
 
-function Item (props: {onPress: () => void,  disabled?: boolean, isComplete?: boolean,  subtitle?: string, title: string, style?: StyleProp<TouchableOpacityProps>, hasBorder?: boolean}): JSX.Element {
+function Item (props: {onPress: () => void,  disabled?: boolean, isComplete?: boolean,  subtitle?: string, title: string, style?: StyleProp<any>, hasBorder?: boolean}): JSX.Element {
    const { title, disabled = false,  hasBorder = true,  style, ...rest} = props
     return (
         <TouchableOpacity
