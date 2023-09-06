@@ -25,14 +25,14 @@ export function OnboardingScreen (): JSX.Element {
         testID="OnboardingScreen.View"
        >
           <OnboardingCover />
-           <View style={tailwind('bg-brand-black-500 flex w-full py-8 px-9 h-full')}>
-               <Text testID='OnboardingScreen.Heading' style={tailwind('font-medium text-white text-center text-lg', {
+           <View style={tailwind('bg-white flex w-full py-8 px-9 h-full')}>
+               <Text testID='OnboardingScreen.Heading' style={tailwind('font-bold text-black text-center text-lg', {
                    'mt-9': Device.osName === 'iOS',
                    'mt-5': Device.osName === 'Android'
                })}>
                    Drive sales by reaching out to wider audience
                </Text>
-               <Text  testID='OnboardingScreen.Text' style={tailwind('font-normal text-white text-center text-sm pt-2.5', {
+               <Text  testID='OnboardingScreen.Text' style={tailwind('font-normal text-black text-center text-sm pt-2.5', {
                    'mt-10': Device.osName === 'iOS',
                    'mt-8': Device.osName === 'Android'
                })}>
@@ -41,7 +41,7 @@ export function OnboardingScreen (): JSX.Element {
                 <GenericButton
                     onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}
                     label="Join us!"
-                    labelColor={tailwind('text-white text-base font-normal')}
+                    labelColor={tailwind('text-white text-base font-bold')}
                     backgroundColor={tailwind('bg-primary-500')}
                     style={tailwind({
                         'mt-28': Device.osName === 'iOS',

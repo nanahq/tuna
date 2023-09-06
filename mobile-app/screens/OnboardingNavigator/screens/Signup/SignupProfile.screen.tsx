@@ -41,7 +41,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
     }
 
     const  dismissKeyboard = (): void =>  Keyboard.dismiss()
-    
+
 
     return (
         <KeyboardAwareScrollView style={tailwind('flex w-full px-5')}>
@@ -158,7 +158,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     backgroundColor={tailwind('bg-brand-black-500')}
                     testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
                 />
-            <LoginButtonWithText style={tailwind('text-primary-700 font-semibold')} />
+            <LoginButtonWithText style={tailwind('text-black font-semibold')} />
         </KeyboardAwareScrollView>
     )
 }

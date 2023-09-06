@@ -20,16 +20,20 @@ import {OrderI} from '@imagyne/eatlater-types'
 
 
 export enum OrderStatus {
-    PROCESSED = "ORDER_PLACED",
-    COLLECTED = "COLLECTED_FROM_VENDOR",
-    IN_ROUTE = "OUT_FOR_DELIVERY",
-    FULFILLED = "DELIVERED_TO_CUSTOMER"
+    PROCESSED = 'ORDER_PLACED', // default order status
+    ACCEPTED = 'ORDER_ACCEPTED', // default
+    COLLECTED = 'COLLECTED_FROM_VENDOR', // Only vendors can updated/use this
+    IN_ROUTE = 'OUT_FOR_DELIVERY', // Only admin/rider can update/use this
+    FULFILLED = 'DELIVERED_TO_CUSTOMER',
+    PAYMENT_PENDING = 'PAYMENT_PENDING',
+    COURIER_PICKUP = 'COURIER_PICKUP'
 }
+
+
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const DATA  = [
     {key: 'demand', title: 'Instant'},
     {key: 'pre', title: 'Pre order'},
-    {key: 'pickup', title: 'Courier pickup'},
     {key: 'route', title: 'In-transit'},
     {key: 'delivered', title: 'Delivered'},
 ]
@@ -66,10 +70,6 @@ export function OrdersScreen (): JSX.Element {
         return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
-    const getCourierPickupOrders =  useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.PROCESSED)
-    }, [hasFetchedOrders, orders])
-
 
     const ordersInTransit = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.IN_ROUTE)
@@ -87,16 +87,12 @@ export function OrdersScreen (): JSX.Element {
         />,
         pre:  () => <OrderCategory
         orders={getPreOrders()}
-        type={OrderStatus.COLLECTED}
+        type={'PRE_ORDER'}
     />,
     demand:  () => <OrderCategory
     orders={getOnDemandOrders()}
-    type={OrderStatus.COLLECTED}
-/>,
- pickup:  () => <OrderCategory
- orders={getCourierPickupOrders()}
- type={OrderStatus.COLLECTED}
-/>,
+    type={'ON_DEMAND'}
+/>
    });
 
     useEffect(() => {

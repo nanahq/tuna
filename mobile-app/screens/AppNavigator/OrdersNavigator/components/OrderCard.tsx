@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 import { calculatePreorderDate } from "../../../../../utils/date";
 
 export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (order: OrderI) => void, style?: StyleProp<any>}): JSX.Element {
-  
+
     return (
         <TouchableOpacity
             onPress={() => {
@@ -28,7 +28,7 @@ export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (
                         })}/>
                         <Text style={tailwind('text-sm font-bold text-brand-black-500 ml-3')}>{order.listing.name}</Text>
                     </View>
-                    <Text style={tailwind('text-sm font-semibold text-brand-black-500')}>{`₦${order.listing.price}`}</Text>
+                    <Text style={tailwind('text-sm font-semibold text-brand-black-500')}>{`₦${order.totalOrderValue}`}</Text>
             </View>
             <View style={tailwind('flex flex-col w-full border-t-0.5  mt-2 py-2 border-gray-300')}>
             <View style={tailwind('flex flex-row w-full justify-between items-center mb-2')}>
@@ -44,24 +44,24 @@ export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (
                        </Text>
                     </View>
                 </OrderCardItem>
-                <OrderCardItem 
-                    title="Status"
-                    text={order.orderStatus}
+                <OrderCardItem
+                    title="Quantity"
+                    text={order.quantity}
                 />
             </View>
-            <OrderCardItem 
+            <OrderCardItem
                  title="Pick up time"
                     >
                         <View style={tailwind('flex flex-row items-center')}>
                         <Text style={tailwind('font-semibold text-xs text-brand-black-500 mr-3')}>
                         {
-                            order.orderType === 'PRE_ORDER' ? calculatePreorderDate('2023-03-03T19:00:00.000Z')
-                            :  calculatePreorderDate('2023-03-03T19:00:00.000Z')
+                            order.orderType === 'PRE_ORDER' ? calculatePreorderDate(order.orderDeliveryScheduledTime)
+                            :  calculatePreorderDate(order.orderDeliveryScheduledTime)
                         }
                     </Text>
                     <View style={tailwind('bg-gray-300 rounded-full flex flex-row items-center justify-center w-7 h-7 ')}>
                              <IconComponent iconType="MaterialIcons" name='delivery-dining' size={22} style={tailwind('text-brand-black-500')} />
-                    </View> 
+                    </View>
                         </View>
                     </OrderCardItem>
             </View>
@@ -101,13 +101,13 @@ export function OrderCardItem (props: PropsWithChildren<{text?: string, title: s
     return (
         <View style={tailwind('flex flex-col')}>
         <Text style={[tailwind('font-semibold text-sm'), props.titleStyle]}>{props.title}</Text>
-           {props.children !== undefined ? 
+           {props.children !== undefined ?
             props.children
            : (
             <Text style={[tailwind('font-semibold text-xs'), props.textStyle]}>
             {props.text}
            </Text>
            )}
-     </View>      
+     </View>
     )
 }

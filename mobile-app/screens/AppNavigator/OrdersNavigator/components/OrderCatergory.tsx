@@ -10,10 +10,13 @@ import { OrderI, OrderType } from '@imagyne/eatlater-types';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export enum OrderStatus {
-    PROCESSED = "ORDER_PLACED",
-    COLLECTED = "COLLECTED_FROM_VENDOR",
-    IN_ROUTE = "OUT_FOR_DELIVERY",
-    FULFILLED = "DELIVERED_TO_CUSTOMER"
+    PROCESSED = 'ORDER_PLACED', // default order status
+    ACCEPTED = 'ORDER_ACCEPTED', // default
+    COLLECTED = 'COLLECTED_FROM_VENDOR', // Only vendors can updated/use this
+    IN_ROUTE = 'OUT_FOR_DELIVERY', // Only admin/rider can update/use this
+    FULFILLED = 'DELIVERED_TO_CUSTOMER',
+    PAYMENT_PENDING = 'PAYMENT_PENDING',
+    COURIER_PICKUP = 'COURIER_PICKUP'
 }
 export type CategoryType = 'PENDING' | 'DELIVERED'
 

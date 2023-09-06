@@ -180,7 +180,7 @@ export function PaymentSettings (): JSX.Element {
                            labelColor={tailwind('text-white')}
                            onPress={() => updateProfile()}
                            label={submitting ? PaymentSettingsInteraction.ADDING_BANK_INT : PaymentSettingsInteraction.ADD_BANK_BTN}
-                           backgroundColor={tailwind('bg-primary-700')}
+                           backgroundColor={tailwind('bg-primary-500')}
                            testId="Accountprofile.editButton"
                        />
                    </AddBankModal>

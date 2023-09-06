@@ -5,17 +5,18 @@ import { showToastStandard } from "@components/commons/Toast";
 import {cookieParser} from "../../utils/cookieParser";
 
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
-    const environment = process.env.NODE_ENV
+    const environment = 'production'
 
     let url: string
 
-    if (environment === '') {
-        url =   `${NetworkMapper.PLAYGROUND}:${PlaygroundServicePort[gateway]}/${ApiRoute[gateway]}/v1`
-    } else  {
-        url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
-    }
+    // if (environment === 'development') {
+    //     url =   `${NetworkMapper.PLAYGROUND}:${PlaygroundServicePort[gateway]}/${ApiRoute[gateway]}/v1`
+    // } else  {
+    //     url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
+    // }
 
-    // return `https://86ed-197-210-70-209.ngrok-free.app/vendor-gateway/v1`
+    url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
+
     return url
 }
 

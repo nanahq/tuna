@@ -48,7 +48,7 @@ export function ControlledTextInputWithLabel(props: ControlledTextInputWithLabel
                     <Text
                         testID={labelTestId}
                         style={[tailwind('font-medium text-sm text-brand-black-500', {
-                            'text-primary-700': inputFocus
+                            'text-primary-500 font-bold': inputFocus
                         }), labelStyle]}>
                         {label}
                     </Text>
@@ -69,9 +69,9 @@ export function ControlledTextInputWithLabel(props: ControlledTextInputWithLabel
                     onFocus={() => setInputFocus(true)}
                     onBlur={() => setInputFocus(false)}
                     placeholderTextColor={getColor('brand-gray-800')}
-                    style={[tailwind('rounded-lg bg-brand-blue-200  px-3 text-xs font-medium text-brand-black-500', {
+                    style={[tailwind('rounded-lg bg-primary-200 flex flex-row items-center justify-center w-full p-3 text-xs font-medium text-black', {
                         'text-sm': Device.osName === 'iOS',
-                        'border-0.5 border-primary-700': inputFocus
+                        'border-0.5 border-primary-500': inputFocus
                     }), {
                         height: 50
                     }, style]}

@@ -1,4 +1,5 @@
 module.exports = {
+  content: ['/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -24,10 +25,10 @@ module.exports = {
         },
         primary: {
           100: '#edf8ee',
-          200: '#c8e9cd',
+          200: '#DFE5E7',
           300: '#a3dbac',
           400: '#7fcd8b',
-          500: '#5cbf6b',
+          500: '#00C2E8',
           600: '#41a550',
           700: '#32803e',
           800: '#32803e',
