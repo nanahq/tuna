@@ -30,7 +30,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.nanaapp.nanavendorsapp"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -39,7 +40,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nanaapp.nanavendorsapp"
     },
     "web": {
       "favicon": "./assets/app-config/favicon.png"
