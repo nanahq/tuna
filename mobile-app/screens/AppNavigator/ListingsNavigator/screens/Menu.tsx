@@ -1,4 +1,4 @@
-import {Image, Pressable, Text, View} from 'react-native'
+ import {Image, Pressable, Text, View} from 'react-native'
 // import {} from 'expo-image'
 import {EmptyMenu} from "@components/Empty/Listings";
 import {ListingMenuI} from "@imagyne/eatlater-types";
@@ -61,7 +61,7 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
 export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (menu: ListingMenuI) => void}) {
     return (
         <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full px-2 mb-4 rounded-lg overflow-hidden'), {
-         
+
         }]}>
             <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500  rounded-lg')}>
                 <View style={tailwind('w-full h-20')}>

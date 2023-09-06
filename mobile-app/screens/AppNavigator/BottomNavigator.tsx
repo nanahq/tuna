@@ -43,11 +43,11 @@ export function BottomTabNavigator ():JSX.Element {
         if (profile.settings?.operations === undefined) {
             setProfileComplete(false)
             return
-        } 
+        }
          if (profile.settings?.payment === undefined)   {
             setProfileComplete(false)
             return
-         } 
+         }
 
          setProfileComplete(true)
 
@@ -60,7 +60,7 @@ export function BottomTabNavigator ():JSX.Element {
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: tailwind(
                     "px-5 py-2 h-24 border-t-0.5 border-brand-black-500 "),
-                tabBarActiveTintColor: getColor("primary-800"),
+                tabBarActiveTintColor: getColor("primary-500"),
                 tabBarInactiveTintColor: getColor("brand-gray-400"),
                 tabBarItemStyle: tailwind({ "pb-6 pt-2": Device.osName === 'iOS'}),
             }}
@@ -85,7 +85,7 @@ export function BottomTabNavigator ():JSX.Element {
                 component={WalletNavigator}
                 name={AppScreenName.WALLET}
                 options={{
-                  
+
                     tabBarTestID: "BottomTabHome",
                     tabBarIcon: ({ color }) => (
                         <IconComponent iconType='Feather' name="credit-card"  size={24} color={color}/>

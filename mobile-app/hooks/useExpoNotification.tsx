@@ -1,20 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from "expo-constants";
 import {ExpoPushToken} from "expo-notifications";
 
-
-
 export async function registerForPushNotificationsAsync(): Promise<ExpoPushToken | undefined> {
-    Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-            shouldShowAlert: true,
-            shouldPlaySound: false,
-            shouldSetBadge: false,
-        }),
-    });
 
     let token;
     if (Device.isDevice) {
@@ -36,14 +27,6 @@ export async function registerForPushNotificationsAsync(): Promise<ExpoPushToken
         alert('Must use physical device for Push Notifications');
     }
 
-    if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-        });
-    }
 
     return token
 }

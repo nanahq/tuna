@@ -2,7 +2,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {getColor, tailwind} from '@tailwind'
 import {OrdersStats} from "@screens/AppNavigator/OrdersNavigator/components/OrdersStats";
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {RootState, useAppSelector} from "@store/index";
+import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
@@ -48,7 +48,7 @@ export function OrdersScreen (): JSX.Element {
     const [routes] = useState<Array<{key: string, title: string}>>(DATA);
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
     const bottomSheetModalRef = useRef<any>(null)
-
+    const dispatch = useAppDispatch()
     const { dismiss } = useBottomSheetModal();
 
 
@@ -103,8 +103,8 @@ export function OrdersScreen (): JSX.Element {
         checkProfileCompleteStatus()
     }, [hasFetchedProfile])
 
-    async function requestLocation (): Promise<void> {
 
+    async function requestLocation (): Promise<void> {
         const { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status !== 'granted') {

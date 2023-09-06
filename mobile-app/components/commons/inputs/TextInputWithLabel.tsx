@@ -49,11 +49,12 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
                     onBlur={() => setInputFocus(false)}
                     placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
                     ref={ref}
-                    style={[tailwind('rounded-lg bg-brand-blue-200 py-1 px-3 font-medium text-lg text-brand-black-500', {
+                    style={[tailwind('rounded-lg bg-primary-200 flex w-full items-center px-3 font-medium  text-lg text-brand-black-500', {
                         'text-base': Device.osName === 'iOS',
-                        'border-0.5 border-brand-black-500': inputFocus
+                        'border-0.5 border-primary-500': inputFocus
                     }), {
-                        height: 50
+                        height: 50,
+                        lineHeight: 15
                     } ,style]}
                     {...rest}
                 />
@@ -105,10 +106,10 @@ export function ModalTextInput (props: ModalTextInputProps): JSX.Element {
                 placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
                 onFocus={() => setInputFocus(true)}
                 onBlur={() => setInputFocus(false)}
-                style={[tailwind('rounded-lg bg-brand-blue-200 py-3.5 px-3 font-medium text-lg text-brand-black-500', {
+                style={[tailwind('rounded-lg bg-primary-200 py-3.5 px-3 font-medium text-lg text-brand-black-500', {
                     'text-base': Device.osName === 'iOS',
                     'border-0.5 border-brand-black-500': inputFocus
-                }), style]}
+                }),{lineHeight: 15, height: 50}, style]}
                 {...rest}
             />
         </View>

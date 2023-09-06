@@ -7,7 +7,7 @@ export function CompleteProfileMsg (): JSX.Element {
         <View style={tailwind('flex flex-col   w-full rounded-lg py-4 px-3 bg-warning-200')}>
            <View style={tailwind('flex w-full  flex-row items-center')}>
            <IconComponent iconType='Feather' name='alert-triangle' />
-            <Text style={tailwind('text-xs text-brand-black-500 ml-1')}>Complete your vendor's profile to start selling on EatLater.</Text>
+            <Text style={tailwind('text-xs text-brand-black-500 ml-1')}>Complete your vendor's profile to start selling on Nana.</Text>
            </View>
         </View>
     )

@@ -1,7 +1,7 @@
-import {tailwind} from "@tailwind";
+import {getColor, tailwind} from "@tailwind";
 import {Image, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
 import {ScrolledView} from "@components/views/ScrolledView";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
@@ -20,7 +20,8 @@ import uuid from 'react-native-uuid'
 import { useToast } from "react-native-toast-notifications";
 import { TextWithMoreInfo } from "@components/Text/TextWithMoreInfo";
 import { ListingsPhotosUploadButton } from "@screens/AppNavigator/ListingsNavigator/screens/components/ListingsPhotosUploadButton";
-
+import LogoPlaceholder from '@assets/app/logo-placeholder.png'
+import {LoaderComponent} from "@components/commons/LoaderComponent";
 
 const RestaurantProfileInteraction = {
     UPDATING_PROFILE_MESSAGE: 'Updating profile',
@@ -47,6 +48,8 @@ export function RestaurantProfile (): JSX.Element {
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
     const [gettingLocation, setGettingLocation] = useState<boolean>(false)
     const [logo, setLogo] = useState<string | undefined>(undefined)
+    const [updatingLogo, setUpdatingLogo] = useState<boolean>(false)
+    const [updatingImage, setUpdatingImage] = useState<boolean>(false)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_restaurantImage, _setRestaurantImage] = useState<string | undefined>(undefined)
     const {control, handleSubmit, formState: { errors}, setValue} = useForm<RestaurantProfileForm>({
@@ -82,6 +85,7 @@ export function RestaurantProfile (): JSX.Element {
         const payload = new FormData()
         payload.append('logo', imagePayload)
         try {
+            setUpdatingLogo(true)
             const photo = ( await _api.requestData({
                 method: 'put',
                 url: 'vendor/logo',
@@ -92,8 +96,11 @@ export function RestaurantProfile (): JSX.Element {
                 data: payload
             })).data
             setLogo(photo)
+            showTost(toast, 'Image updated!', 'success')
         } catch (error) {
             showTost(toast, 'failed to upload image', 'error')
+        } finally {
+            setUpdatingLogo(false)
         }
     }
 
@@ -110,6 +117,7 @@ export function RestaurantProfile (): JSX.Element {
         payload.append('image', imagePayload)
 
         try {
+            setUpdatingImage(true)
             const photo = ( await _api.requestData({
                 method: 'put',
                 url: 'vendor/image',
@@ -120,8 +128,12 @@ export function RestaurantProfile (): JSX.Element {
                 data: payload
             })).data
             _setRestaurantImage(photo)
+            showTost(toast, 'Image updated!', 'success')
         } catch (error) {
+            console.log({error})
             showTost(toast, 'failed to upload image', 'error')
+        } finally {
+            setUpdatingImage(false)
         }
     }
 
@@ -190,8 +202,6 @@ export function RestaurantProfile (): JSX.Element {
         if (!result.canceled) {
          await  cb(result?.assets[0])
         }
-
-        showTost(toast, 'Image updated!', 'success')
     };
 
     return (
@@ -204,15 +214,14 @@ export function RestaurantProfile (): JSX.Element {
                                 <Image source={{uri: logo}} resizeMode="cover" style={tailwind('rounded-xl w-28 h-28')} />
                             </View>
                         ):  (
-                            <View style={tailwind('rounded-xl w-28 h-28 bg-brand-gray-400 flex flex-row justify-center items-center') }>
-                                <Text style={tailwind('text-lg font-bold text-white text-center')}>logo</Text>
-                                </View>
+                            <View style={tailwind('rounded-xl w-28 h-28')}>
+                                <Image source={LogoPlaceholder} resizeMode="cover" style={tailwind('rounded-xl w-28 h-28')} />
+                            </View>
                         )}
-                        <TouchableOpacity onPress={() => pickImage(updateBusinessLogo)} style={tailwind('absolute bottom-0 w-28 py-0.5 flex flex-row justify-center rounded-b-xl', {
-                            'bg-brand-gray-400': logo !== undefined,
+                        <TouchableOpacity disabled={updatingLogo} onPress={() => pickImage(updateBusinessLogo)} style={tailwind('absolute mt-2 -bottom-0 w-28 py-0.5 bg-brand-gray-400 flex flex-row justify-center', {
                             'bg-brand-black-500': logo !== undefined
                         })}>
-                            <Text style={tailwind('text-white font-semibold text-lg')}>edit</Text>
+                            {updatingLogo ? <LoaderComponent size='small' color={getColor('black')} style={tailwind('pl-2 text-black')} /> : <Text style={tailwind('text-black font-semibold text-lg')}>edit</Text>}
                         </TouchableOpacity>
                     </View>
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
@@ -284,10 +293,10 @@ export function RestaurantProfile (): JSX.Element {
                         text="Add a restaurant image"
                         containerStyle={tailwind('mb-4')}
                     />
-                    <ListingsPhotosUploadButton onPress={() => pickImage(updateBusinessImage)} disabled={false}  />
+                    <ListingsPhotosUploadButton onPress={() => pickImage(updateBusinessImage)} disabled={updatingImage}  />
                 </View>
                 {!editProfileState && (
-                    <View  style={tailwind('flex w-full flex-col mt-16')}>
+                    <View  style={tailwind('flex w-full flex-col my-16')}>
                         <View style={tailwind('flex flex-col w-full')}>
                             <Text style={tailwind('text-lg font-medium text-brand-black-500 mb-2')}>Update Location</Text>
                             <InfoHover  />

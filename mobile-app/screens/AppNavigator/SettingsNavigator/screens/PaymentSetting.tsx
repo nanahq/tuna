@@ -72,7 +72,8 @@ export function PaymentSettings (): JSX.Element {
          dispatch(fetchProfile())
         showTost(toast, PaymentSettingsInteraction.ADD_BANK_SUCCESS_MSG, 'success')
         } catch (error: any) {
-        showTost(toast, typeof error?.message === 'string' ? error.messase : error.message[0], 'error')
+            console.log(error.message)
+        showTost(toast, typeof error?.message === 'string' ? error.message : error.message[0], 'error')
 
         } finally {
             setSubmitting(false)
@@ -180,7 +181,7 @@ export function PaymentSettings (): JSX.Element {
                            labelColor={tailwind('text-white')}
                            onPress={() => updateProfile()}
                            label={submitting ? PaymentSettingsInteraction.ADDING_BANK_INT : PaymentSettingsInteraction.ADD_BANK_BTN}
-                           backgroundColor={tailwind('bg-primary-500')}
+                           backgroundColor={tailwind('bg-brand-black-500')}
                            testId="Accountprofile.editButton"
                        />
                    </AddBankModal>
