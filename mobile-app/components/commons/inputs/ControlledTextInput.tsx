@@ -73,7 +73,8 @@ export function ControlledTextInputWithLabel(props: ControlledTextInputWithLabel
                         'text-sm': Device.osName === 'iOS',
                         'border-0.5 border-primary-500': inputFocus
                     }), {
-                        height: 50
+                        height: 50,
+                        lineHeight:15
                     }, style]}
                 />
                 {error && errorMessage !== undefined && <FieldErrorText>{errorMessage}</FieldErrorText>}

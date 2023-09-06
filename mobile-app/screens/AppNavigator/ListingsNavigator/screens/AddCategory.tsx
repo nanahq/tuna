@@ -40,7 +40,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
     const [tags, setTags] = useState<string[]>([])
     const dispatch = useAppDispatch()
     const toast = useToast()
-    
+
     const {control, setValue, handleSubmit, getValues} = useForm<any>()
 
     const [menu, setMenu] = useState<ListingMenuI[]>([])
@@ -179,7 +179,7 @@ return true
                 </View>
 
                 {checkDirty()  && menu.length <= 0 && (
-                    <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-primary-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
+                    <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-brand-black-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
                 )}
                 {menu.length >= 1 ? (
                     <View style={tailwind('my-6 flex flex-col')}>
@@ -194,7 +194,7 @@ return true
                   <EmptyMenu title="Empty" type="CATEGORY" />
                 )}
                 {checkDirty() && (
-                    <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-primary-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
+                    <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-brand-black-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
                 )}
             </View>
 

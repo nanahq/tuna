@@ -85,6 +85,7 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     }
     return (
         <BottomSheetModal
+            enableContentPanningGesture={true}
         onDismiss={props.onDismiss}
             enableHandlePanningGesture={enablePanDownToClose}
             handleComponent={EmptyHandleComponent}

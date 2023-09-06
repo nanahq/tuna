@@ -51,11 +51,10 @@ export function RestaurantSettings (): JSX.Element {
         cutoffTime: new Date(),
         placementTime: '',
         preparationTime: '',
-        minOrder: 0
+        minOrder: '0'
     })
 
 
-    // const [] = useStateWithCallback()
 
     useEffect(() => {
         if (profile?.settings?.operations !== undefined) {
@@ -72,10 +71,6 @@ export function RestaurantSettings (): JSX.Element {
             setType(ops.deliveryType)
         }
     }, [])
-
-    // const [showStartTimePicker, setShowStartTimePicker]  = useState<boolean>(false)
-
-    // const [showEndTimePicker, setShowEndTimePicker] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -209,13 +204,13 @@ export function RestaurantSettings (): JSX.Element {
                             </Text>
                         <View style={tailwind('flex flex-row items-center w-full')}>
                             {operations.map(type => (
-                                <TouchableOpacity style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
+                                <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
                                     'border-primary-800': type.value === operationType
                                 })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>
                                     <Text >{type.label}</Text>
                                     <View
                                         style={tailwind('rounded-full w-2 h-2 absolute bottom-1 right-1', {
-                                            'bg-primary-800': type.value === operationType,
+                                            'bg-primary-500': type.value === operationType,
                                             'border-0.5 border-brand-gray-400': type.value !== operationType
                                         })}
                                     />

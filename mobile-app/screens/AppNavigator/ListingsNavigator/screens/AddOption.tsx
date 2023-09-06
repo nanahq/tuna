@@ -221,7 +221,7 @@ return true
                         style={tailwind('mt-10')}
                         onPress={handleAddOption}
                         label="Add option"
-                        backgroundColor={tailwind('bg-primary-700')}
+                        backgroundColor={tailwind('bg-brand-black-500')}
                         testId=""
                         labelColor={tailwind('text-white')}
                         disabled={checkNullState()}
@@ -235,7 +235,7 @@ return true
                     style={tailwind('mb-5')}
                     onPress={handleSubmit(addOrUpdateOption)}
                     label={route?.params?.option !== undefined ? 'Update option group' : 'Add option'}
-                    backgroundColor={tailwind('bg-primary-700')}
+                    backgroundColor={tailwind('bg-brand-black-500')}
                     testId=""
                     labelColor={tailwind('text-white')}
                 />

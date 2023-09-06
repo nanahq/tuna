@@ -104,7 +104,7 @@ export const deleteMenu = createAsyncThunk(
                 data: {isDeleted: true, menuId: id}
             })
             await dispatch(fetchMenus())
-            
+
     }
 )
 

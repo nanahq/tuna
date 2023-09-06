@@ -47,8 +47,8 @@ export const fetchProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
     AppActions.UPDATE_PROFILE,
-    async (data: Partial<VendorI>): Promise<ResponseWithStatus> => {
-        return (await _api.requestData<Partial<VendorI>>({
+    async (data: Partial<any>): Promise<ResponseWithStatus> => {
+        return (await _api.requestData<Partial<any>>({
             method: 'PUT',
             url: 'vendor/profile',
             data
@@ -76,6 +76,7 @@ export const profile = createSlice({
         ).addCase(
             fetchProfile.rejected,
             (_, _payload) => {
+                console.log(_payload)
                     showToastStandard('Can not fetch profile', 'error')
                     if (_payload.error.message === 'Unauthorized') {
                         void clearOnAuthError()

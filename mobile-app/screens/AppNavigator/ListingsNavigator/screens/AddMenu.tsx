@@ -134,7 +134,7 @@ export function AddMenu (): JSX.Element {
         payload.append('categoryId', category.id)
         payload.append('optionGroups', optionsString.join(','))
 
-        payload.append('listingImage', imagePayload )
+        payload.append('image', imagePayload )
       try {
           setLoading(true)
          const res = (await _api.requestData({
@@ -154,7 +154,8 @@ export function AddMenu (): JSX.Element {
               }, 3000)
           }
       } catch (error: any){
-        showTost(  toast, error.message !== 'string' ? error.message[0] : error.message, 'error')
+            console.log({error})
+        showTost(  toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
 
       } finally {
           setLoading(false)
@@ -268,15 +269,15 @@ export function AddMenu (): JSX.Element {
 
                     </Modal>
                 </View>
-                <View style={tailwind('flex flex-col mt-10')}> 
+                <View style={tailwind('flex flex-col mt-10')}>
                     <TextWithMoreInfo
-                        moreInfo="Add option(s) to menu to allow your customers to customize their order. For example, Main Protein or Sauce type. This is entirly optional" 
-                        text="Menu options" 
-                    /> 
-                    <OptionHeader navigation={navigation} /> 
-                    <View style={tailwind('border-0.5 border-brand-black-500 flex w-full mt-3')}>    
+                        moreInfo="Add option(s) to menu to allow your customers to customize their order. For example, Main Protein or Sauce type. This is entirly optional"
+                        text="Menu options"
+                    />
+                    <OptionHeader navigation={navigation} />
+                    <View style={tailwind('border-0.5 border-brand-black-500 flex w-full mt-3')}>
         <View style={tailwind('flex flex-row  w-full justify-between items-center bg-brand-gray-500 border-b-0.5 border-brand-black-500')}>
-            <TextInput 
+            <TextInput
                 // value={searchQuery}
                 // onChangeText={(value) => setSearchQuery(value)}
                 style={tailwind('py-3 px-3')}
@@ -293,7 +294,7 @@ export function AddMenu (): JSX.Element {
                 return  (
                     <TouchableOpacity key={option._id} onPress={() => handleOptionSelection(option._id,  isSelected ? 'UNSELECT': 'SELECT')} style={tailwind('flex flex-row px-2 w-full items-center justify-between border-0.5 mb-2 border-brand-black-500 py-3 ')}>
                     <Text style={tailwind('text-brand-black-500 text-sm font-medium')}>{option.name}</Text>
-                    <View   
+                    <View
                         style={tailwind('w-3 h-3 border-0.5 border-brand-black-500', {
                             'bg-brand-black-500':  isSelected
                         })}
@@ -304,7 +305,7 @@ export function AddMenu (): JSX.Element {
             </ScrollView>
 
         </View>
-                 </View> 
+                 </View>
                 <View style={tailwind('flex flex-row items-center mt-10')}>
                     <View style={tailwind('flex flex-col w-1/2')}>
                         <Text style={tailwind('text-brand-black-500 font-medium text-sm')}>Live</Text>
@@ -331,7 +332,7 @@ export function AddMenu (): JSX.Element {
                         value={menuForm.isAvailable}
                     />
                 </View>
-                <GenericButton loading={loading} onPress={handleSubmit(onSubmitCb)} label='Add Menu' backgroundColor={tailwind({'bg-primary-700': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
+                <GenericButton loading={loading} onPress={handleSubmit(onSubmitCb)} label='Add Menu' backgroundColor={tailwind({'bg-brand-black-500': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
             </ScrollView>
         </KeyboardAvoidingView>
     )
