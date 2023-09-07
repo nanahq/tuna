@@ -93,7 +93,7 @@ export function PaymentSettings (): JSX.Element {
 
     return (
         <SafeAreaView style={tailwind('flex-1')}>
-            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 bg-brand-gray-500')}>
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 bg-white')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Bank information" editable={false}>
 

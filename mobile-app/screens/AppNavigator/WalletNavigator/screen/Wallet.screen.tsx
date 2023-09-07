@@ -12,23 +12,23 @@ import { EmptyAnimation } from '@components/lottie/Empty';
 
 export function WalletScreen (): JSX.Element {
     const {payouts, overview, hasFetchedWallet} = useSelector((state: RootState) => state.wallet )
-    
+
     if (!hasFetchedWallet) {
         return (
             <LoaderComponentScreen />
         )
     }
-    
+
     return (
-        <View style={tailwind('px-5 flex-1 flex bg-brand-gray-500')}>
-            <EarningsOVerview overview={overview} />  
+        <View style={tailwind('px-5 flex-1 flex bg-white')}>
+            <EarningsOVerview overview={overview} />
 
             <Text style={tailwind('text-lg font-semibold text-brand-black-500 mt-4 mb-2')}>Payouts</Text>
             {payouts.length < 1  ? (
                 <EmptyAnimation text='No transaction has been made' />
             ): (
                 <PayoutHistory payouts={payouts} />
-            )}  
+            )}
         </View>
     )
 }

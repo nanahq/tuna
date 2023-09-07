@@ -15,12 +15,12 @@ jobs:
         with:
           node-version: 16
 
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
 
       - uses: expo/expo-github-action@f98a64c8874c4a163514273f34306f403e962350 # tag=v7.2.0
         with:
           expo-version: 4.x
-          packager: npm
+          packager: yarn
 
       - run: npx expo-cli upgrade
 

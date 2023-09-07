@@ -16,12 +16,14 @@ import { ToastProvider } from "react-native-toast-notifications"
 
 export default function App() {
   const isLoaded = useCachedResource()
-   const logger = useLogger()
+ const logger = useLogger()
 
 
  // delay splashscreen till cached resources are loaded
   if (!isLoaded) {
-    SplashScreen.preventAutoHideAsync().catch(logger.error);
+    setTimeout(() => {
+        SplashScreen.preventAutoHideAsync().catch(logger.error);
+    }, 2000)
     return null;
   }
 

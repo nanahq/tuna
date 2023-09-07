@@ -276,7 +276,7 @@ export function AddMenu (): JSX.Element {
                     />
                     <OptionHeader navigation={navigation} />
                     <View style={tailwind('border-0.5 border-brand-black-500 flex w-full mt-3')}>
-        <View style={tailwind('flex flex-row  w-full justify-between items-center bg-brand-gray-500 border-b-0.5 border-brand-black-500')}>
+        <View style={tailwind('flex flex-row  w-full justify-between items-center bg-white border-b-0.5 border-brand-black-500')}>
             <TextInput
                 // value={searchQuery}
                 // onChangeText={(value) => setSearchQuery(value)}

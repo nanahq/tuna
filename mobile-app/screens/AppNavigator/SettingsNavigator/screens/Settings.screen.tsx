@@ -33,9 +33,9 @@ export function SettingsScreen ({navigation}: SettingsScreenProps): JSX.Element 
 function checkProfileCompleteStatus (): void {
     if (!hasFetchedProfile ) {
         setProfileComplete(true)
-        return 
+        return
     }
-    
+
     if (profile.settings?.operations === undefined) {
         setProfileComplete(false)
     }
@@ -56,8 +56,8 @@ if (!hasFetchedProfile) {
   return   <LoaderComponentScreen />
 }
     return (
-        <View style={tailwind('flex-1 bg-brand-gray-500')}>
-            <View style={tailwind(' w-full flex flex-row items-center px-5 py-8 mb-2 bg-white ')}>
+        <View style={tailwind('flex-1 bg-white')}>
+            <View style={tailwind(' w-full flex flex-row items-center px-5 py-8 mb-2 bg-white')}>
                     {profile.businessLogo !== undefined && (  <Image source={{uri: profile.businessLogo}} resizeMode='contain' style={tailwind('w-12 h-12 rounded-full')} />)}
                         <View style={tailwind('flex flex-col ml-4')}>
                             <Text style={tailwind('text-xl font-bold text-brand-black-500')}>Hi, {profile.businessName} </Text>
@@ -85,7 +85,7 @@ if (!hasFetchedProfile) {
                         isComplete={profile.settings?.operations !== undefined}
                         subtitle="Restaurant operation "
                         title="Restaurant Settings" onPress={() => navigation.navigate('RestaurantSettings')}  />
-                        
+
                     <SettingsSection.Item
                         subtitle="Update app, version"
                         title="App Settings" hasBorder={false} onPress={() => navigation.navigate('AccountProfile')} disabled  />

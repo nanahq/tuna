@@ -14,7 +14,7 @@ import { _api } from "@api/_request";
 import { fetchProfile } from "@store/profile.reducer";
 import { useToast } from "react-native-toast-notifications";
 
-
+import {OrderI} from '@nanahq/sticky'
 export interface AccountProfileForm {
     firstName: string
     lastName: string
@@ -55,7 +55,7 @@ export function AccountProfile (): JSX.Element {
         </View>
     }
 
- 
+
    async function updateProfile (data: AccountProfileForm): Promise<void> {
     setSubmitting(true)
        try {
@@ -78,7 +78,7 @@ export function AccountProfile (): JSX.Element {
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={tailwind('flex-1')}>
             <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 pt-5 bg-white')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
@@ -157,12 +157,12 @@ export function AccountProfile (): JSX.Element {
                         labelColor={tailwind('text-white')}
                         onPress={handleSubmit(updateProfile)}
                         label="Update profile"
-                        backgroundColor={tailwind('bg-primary-700')}
-                        testId="Accountprofile.editButton" 
+                        backgroundColor={tailwind('bg-brand-black-500')}
+                        testId="Accountprofile.editButton"
                         loading={submitting}
                         />
                     )}
-    
+
             </ScrolledView>
         </SafeAreaView>
     )

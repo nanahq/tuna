@@ -132,7 +132,7 @@ export function RestaurantSettings (): JSX.Element {
 
     return (
         <SafeAreaView style={tailwind('flex-1')}>
-            <ScrollView style={tailwind('flex w-full bg-brand-gray-500 px-5 mt-5')}>
+            <ScrollView style={tailwind('flex w-full bg-white px-5 mt-5')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Operations">
                     <View style={tailwind('flex flex-row  w-full items-center')}>

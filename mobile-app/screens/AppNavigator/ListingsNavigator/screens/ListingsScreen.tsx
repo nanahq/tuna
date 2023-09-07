@@ -35,7 +35,7 @@ export function ListingsScreen (): JSX.Element {
         return <LoaderComponentScreen />
     }
     return (
-        <View style={tailwind('w-full bg-brand-gray-500 h-full flex-col flex pb-5 relative')}>
+        <View style={tailwind('w-full bg-white h-full flex-col flex pb-5 relative')}>
             <TabView
                 renderTabBar={(props) => (
                     <TabBar

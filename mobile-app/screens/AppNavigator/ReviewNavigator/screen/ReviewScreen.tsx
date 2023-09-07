@@ -18,11 +18,11 @@ export function ReviewScreen (): JSX.Element {
     const {hasFetchedReviews, reviews, overview} = useSelector((state: RootState) => state.reviews)
 
     const dispatch = useAppDispatch()
-    
+
     useEffect(() => {
         if (!hasFetchedProfile) {
 return
-} 
+}
         void dispatch(fetchReviews(profile._id))
     }, [])
 
@@ -34,7 +34,7 @@ return
     }
 
     return  (
-            <View style={tailwind('flex-1 bg-brand-gray-500')}>
+            <View style={tailwind('flex-1 bg-white')}>
                 <ReviewsHeader overview={overview} />
                 <View style={tailwind('px-3')}>
                     <View style={tailwind('mt-5')}>

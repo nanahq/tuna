@@ -281,7 +281,7 @@ export function RestaurantProfile (): JSX.Element {
                         labelColor={tailwind('text-white')}
                         onPress={handleSubmit(updateProfile)}
                         label="Update profile"
-                        backgroundColor={tailwind('bg-primary-500')}
+                        backgroundColor={tailwind('bg-brand-black-500')}
                         testId="Accountprofile.editButton"
                         loading={submitting}
                         />

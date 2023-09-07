@@ -112,7 +112,7 @@ export function LoginScreen (): JSX.Element {
                 />
 
             </View>
-            <LogoutButtonWithText style={tailwind('text-primary-500 font-semibold')} />
+            <LogoutButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
         </View>
     )
 }

@@ -155,7 +155,7 @@ export function OrdersScreen (): JSX.Element {
     return (
      <>
          <SafeAreaView
-             style={tailwind('w-full bg-brand-gray-500 h-full flex-col flex pb-5')}
+             style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
                 <OrderHeaderStatus status={profile.status as any} />
