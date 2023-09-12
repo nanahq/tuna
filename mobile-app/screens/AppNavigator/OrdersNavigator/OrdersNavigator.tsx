@@ -5,7 +5,7 @@ import {PendingOrders} from "@screens/AppNavigator/OrdersNavigator/screens/Pendi
 import {DeliveredOrders} from "@screens/AppNavigator/OrdersNavigator/screens/DeliveredOrders";
 import {GetOrder} from "@screens/AppNavigator/OrdersNavigator/screens/GetOrders";
 import {tailwind} from "@tailwind";
-import { OrderI } from "@imagyne/eatlater-types";
+import { OrderI } from "@nanahq/sticky";
 
 
 export interface OrderParamsList {

@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
-import { ReviewI, VendorReviewOverview } from "@imagyne/eatlater-types";
+import { ReviewI, VendorReviewOverview } from "@nanahq/sticky";
 import { showToastStandard } from "@components/commons/Toast";
 
 export interface ReviewState {

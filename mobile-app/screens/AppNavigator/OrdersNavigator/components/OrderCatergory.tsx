@@ -5,27 +5,18 @@ import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavig
 import {PropsWithChildren} from "react";
 
 import {DeliveredOrderCard, OrdersCard} from "@screens/AppNavigator/OrdersNavigator/components/OrderCard";
-import { EmptyAnimation } from "@components/lottie/Empty";
-import { OrderI, OrderType } from '@imagyne/eatlater-types';
-import { ScrollView } from 'react-native-gesture-handler';
-
-export enum OrderStatus {
-    PROCESSED = 'ORDER_PLACED', // default order status
-    ACCEPTED = 'ORDER_ACCEPTED', // default
-    COLLECTED = 'COLLECTED_FROM_VENDOR', // Only vendors can updated/use this
-    IN_ROUTE = 'OUT_FOR_DELIVERY', // Only admin/rider can update/use this
-    FULFILLED = 'DELIVERED_TO_CUSTOMER',
-    PAYMENT_PENDING = 'PAYMENT_PENDING',
-    COURIER_PICKUP = 'COURIER_PICKUP'
-}
-export type CategoryType = 'PENDING' | 'DELIVERED'
+import {EmptyAnimation} from "@components/lottie/Empty";
+import {OrderI, OrderStatus, OrderType, VendorSettingsI} from '@nanahq/sticky';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface OrderCatergoryProps {
+    vendorSetting?: VendorSettingsI
     orders: OrderI[]
     type: OrderStatus | OrderType
 }
 export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): JSX.Element {
     const navigation = useNavigation<NavigationProp<OrderParamsList>>()
+
     const onPress = (order: OrderI): void => navigation.navigate("GetOrder", {order})
 
     return (
@@ -41,10 +32,11 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
                     switch (props.type) {
                         case OrderStatus.PROCESSED:
                         case OrderStatus.COLLECTED:
+                        case OrderStatus.COURIER_PICKUP:
                         case 'ON_DEMAND':
                         case 'PRE_ORDER':
                             return (
-                                    <OrdersCard  order={order} key={order.refId} onPress={onPress}/>
+                                    <OrdersCard vendorSettings={props.vendorSetting}  order={order} key={order.refId} onPress={onPress}/>
                             )
                         case OrderStatus.FULFILLED:
                             return (

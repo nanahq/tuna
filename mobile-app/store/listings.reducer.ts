@@ -22,7 +22,6 @@ const initialState: ListingsState = {
 export const fetchAllListings = createAsyncThunk(
     AppActions.FETCH_ALL_LISTINGS,
     async (): Promise<Omit<ListingsState, 'hasFetchedListings' | 'fetchingListings'>> => {
-
         const [{data: listingsMenu}, {data:listingsCategory  }, {data: listingsOptionGroup}] = await Promise.all([
             _api.requestData<undefined>({
                 method: 'get',
@@ -37,6 +36,7 @@ export const fetchAllListings = createAsyncThunk(
                 url: 'listing/options'
             })
         ])
+
         return {
             listingsCategory,
             listingsMenu,
@@ -194,6 +194,7 @@ export const listings = createSlice({
         ).addCase(
             fetchMenus.fulfilled,
             (state, {payload}: PayloadAction<ListingMenuI[]>) => {
+                console.log(payload)
                 state.listingsMenu = payload
             }
         ).addCase(

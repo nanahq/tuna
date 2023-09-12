@@ -58,7 +58,7 @@ export function RestaurantSettings (): JSX.Element {
 
     useEffect(() => {
         if (profile?.settings?.operations !== undefined) {
-            const ops = profile.settings.operations
+            const ops = profile?.settings?.operations
             setOperationForm((prev: any) => ({
                 ...prev,
                     startTime: new Date(ops.startTime as string),
@@ -203,7 +203,7 @@ export function RestaurantSettings (): JSX.Element {
                                 What type of service do you deliver?
                             </Text>
                         <View style={tailwind('flex flex-row items-center w-full')}>
-                            {operations.map(type => (
+                            {operations?.map(type => (
                                 <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
                                     'border-primary-800': type.value === operationType
                                 })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>

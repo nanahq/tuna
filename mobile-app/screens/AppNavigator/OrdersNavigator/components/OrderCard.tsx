@@ -1,11 +1,11 @@
 import {Image, StyleProp, Text, TouchableOpacity, View} from "react-native";
 import {tailwind} from "@tailwind";
 import {IconComponent} from "@components/commons/IconComponent";
-import { OrderI } from "@imagyne/eatlater-types";
+import {OrderI, VendorSettingsI} from "@nanahq/sticky";
 import { PropsWithChildren } from "react";
-import { calculatePreorderDate } from "../../../../../utils/date";
+import { calculatePreorderDate, calculateOnDemandDeliveryDate } from "../../../../../utils/date";
 
-export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (order: OrderI) => void, style?: StyleProp<any>}): JSX.Element {
+export function OrdersCard ({order, onPress, style, vendorSettings}: {order: OrderI, vendorSettings?: VendorSettingsI,  onPress?: (order: OrderI) => void, style?: StyleProp<any>}): JSX.Element {
 
     return (
         <TouchableOpacity
@@ -24,11 +24,10 @@ export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (
                         <Image source={{uri: order.listing.photo}} style={tailwind('rounded-full  h-12 w-12 border-2', {
                             'border-success-500 ': order.orderType === 'PRE_ORDER',
                             'border-blue-500 ': order.orderType === 'ON_DEMAND'
-
                         })}/>
                         <Text style={tailwind('text-sm font-bold text-brand-black-500 ml-3')}>{order.listing.name}</Text>
                     </View>
-                    <Text style={tailwind('text-sm font-semibold text-brand-black-500')}>{`₦${order.totalOrderValue}`}</Text>
+                    <Text style={tailwind('text-sm font-semibold text-brand-black-500')}>{`₦${order.orderBreakDown.orderCost}`}</Text>
             </View>
             <View style={tailwind('flex flex-col w-full border-t-0.5  mt-2 py-2 border-gray-300')}>
             <View style={tailwind('flex flex-row w-full justify-between items-center mb-2')}>
@@ -56,7 +55,7 @@ export function OrdersCard ({order, onPress, style}: {order: OrderI, onPress?: (
                         <Text style={tailwind('font-semibold text-xs text-brand-black-500 mr-3')}>
                         {
                             order.orderType === 'PRE_ORDER' ? calculatePreorderDate(order.orderDeliveryScheduledTime)
-                            :  calculatePreorderDate(order.orderDeliveryScheduledTime)
+                            :  calculateOnDemandDeliveryDate(vendorSettings?.operations?.preparationTime ?? 0, order.createdAt)
                         }
                     </Text>
                     <View style={tailwind('bg-gray-300 rounded-full flex flex-row items-center justify-center w-7 h-7 ')}>

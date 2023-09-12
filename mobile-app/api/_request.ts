@@ -4,20 +4,19 @@ import {persistence} from "@api/persistence";
 import { showToastStandard } from "@components/commons/Toast";
 import {cookieParser} from "../../utils/cookieParser";
 
+type Environment = 'production' | 'development'
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
-    const environment = 'production'
+    const environment: Environment | any = process.env.NODE_ENV ?? 'production'
 
     let url: string
 
-    // if (environment === 'development') {
-    //     url =   `${NetworkMapper.PLAYGROUND}:${PlaygroundServicePort[gateway]}/${ApiRoute[gateway]}/v1`
-    // } else  {
-    //     url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
-    // }
+    if (environment === 'development') {
+        url =   `${NetworkMapper.PLAYGROUND}:${PlaygroundServicePort[gateway]}/${ApiRoute[gateway]}/v1`
+    } else  {
+        url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
+    }
 
-    url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
-
-    return url
+    return 'http://k8s-default-nanahydr-874b0d28d1-561484973.af-south-1.elb.amazonaws.com/vendor-gateway/v1'
 }
 
 const config = {

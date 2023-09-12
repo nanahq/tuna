@@ -1,7 +1,7 @@
 import {Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {IconComponent} from "@components/commons/IconComponent";
-import { ReviewI } from '@imagyne/eatlater-types';
+import { ReviewI } from '@nanahq/sticky';
 import days from 'dayjs'
 
 

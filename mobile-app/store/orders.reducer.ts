@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
-import { OrderI} from '@imagyne/eatlater-types'
+import { OrderI} from '@nanahq/sticky'
 
 export interface OrdersState {
     orders: OrderI[]

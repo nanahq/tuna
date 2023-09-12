@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
-import {ResponseWithStatus, VendorI} from '@imagyne/eatlater-types'
+import {ResponseWithStatus, VendorI} from '@nanahq/sticky'
 import { showToastStandard } from "@components/commons/Toast";
 
 export interface ProfileState {
@@ -19,7 +19,6 @@ const initialState: ProfileState = {
         firstName: '',
         lastName: '',
         email: '',
-        password: '' ,
         phone: '',
         isValidated: false,
         status: 'ONLINE',
@@ -30,7 +29,10 @@ const initialState: ProfileState = {
         businessLogo: '',
         location: undefined,
         createdAt: '',
-        updatedAt: ''
+        updatedAt: '',
+        restaurantImage: '',
+        expoNotificationToken: '',
+        isDeleted: false
     },
     hasFetchedProfile: true
 };

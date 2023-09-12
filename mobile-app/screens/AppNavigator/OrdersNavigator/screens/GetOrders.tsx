@@ -5,7 +5,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {tailwind} from '@tailwind'
 import {OrderSection} from "@screens/AppNavigator/OrdersNavigator/components/OrderItemRow";
 
-import {OrderStatus} from "@typings/Orders.type";
+import {OrderStatus} from "@nanahq/sticky";
 import {OrderQrCode} from "@screens/AppNavigator/OrdersNavigator/components/OrderQrCode";
 import { ScrollView } from "react-native-gesture-handler";
 import { GoBackButton } from "@screens/AppNavigator/SettingsNavigator/components/Goback";
@@ -16,7 +16,7 @@ import { useAppDispatch } from "@store/index";
 import { fetchOrders } from "@store/orders.reducer";
 import { showTost } from "@components/commons/Toast";
 import { GenericButton } from "@components/commons/buttons/GenericButton";
-import { calculatePreorderDate } from "../../../../../utils/date";
+import {calculateOnDemandDeliveryDate, calculatePreorderDate} from "../../../../../utils/date";
 
 
 type GetOrderProps = StackScreenProps<OrderParamsList, "GetOrder">
@@ -40,7 +40,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
                 url: 'order/update',
                 data: {
                     orderId: params.order._id,
-                    status: OrderStatus.COLLECTED
+                    status: OrderStatus.COURIER_PICKUP
                 }
             })
 
@@ -62,7 +62,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
                 <OrderSection.Row title='Item name: ' text={params.order.listing.name}  titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} containerStyle={tailwind('mb-2')}/>
                   <View style={tailwind('flex flex-row items-center justify-between w-full mb-2')}>
                       <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} title='Quantity:' text='2' />
-                      <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')}  title='Pickup time:' text={(params.order.orderType as any) === 'PRE_ORDER ' ? calculatePreorderDate('2023-03-03T19:00:00.000Z') :  calculatePreorderDate('2023-03-03T19:00:00.000Z')} />
+                      <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')}  title='Pickup time:' text={(params.order.orderType as any) === 'PRE_ORDER ' ? calculatePreorderDate(params.order.orderDeliveryScheduledTime) :  calculateOnDemandDeliveryDate(30, params.order.createdAt)} />
                   </View>
                     <OrderSection.Row   titleStyle={tailwind('font-medium')} textStyle={tailwind(' text-lg font-bold')} title='Special Note:' text='Please do not make it super spicy' />
                 </OrderSection>
@@ -85,7 +85,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
                       onPress={updateOrder}
                       loading={loading}
                       disabled={loading}
-                      label='Complete order'
+                      label='Ready for pickup'
                       backgroundColor={tailwind('bg-brand-black-500')}
                       labelColor={tailwind('text-white')}
                       testId=""

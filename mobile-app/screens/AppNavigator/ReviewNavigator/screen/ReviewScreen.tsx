@@ -8,7 +8,7 @@ import {useCallback, useEffect, useRef} from "react";
 import {ReviewCard} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewCard";
 import { fetchReviews} from "@store/reviews.reducer";
 import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
-import {ReviewI} from '@imagyne/eatlater-types'
+import {ReviewI} from '@nanahq/sticky'
 import { EmptyAnimation } from '@components/lottie/Empty';
 
 

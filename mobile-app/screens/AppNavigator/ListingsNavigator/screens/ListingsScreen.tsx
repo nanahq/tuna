@@ -24,6 +24,8 @@ export function ListingsScreen (): JSX.Element {
 
     const {listingsCategory, listingsMenu, listingsOptionGroup, fetchingListings}  = useAppSelector((state: RootState) => state.listings)
 
+
+    console.log(listingsMenu[0])
     const renderScene = SceneMap<any>({
         AddListing: () =><ListingsMenu menu={listingsMenu} state={fetchingListings}/>,
         AddCategory:  () =>  <ListingsCategory categories={listingsCategory} state={fetchingListings} />,

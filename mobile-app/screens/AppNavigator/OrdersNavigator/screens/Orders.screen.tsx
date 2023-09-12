@@ -2,7 +2,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {getColor, tailwind} from '@tailwind'
 import {OrdersStats} from "@screens/AppNavigator/OrdersNavigator/components/OrdersStats";
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {RootState, useAppDispatch, useAppSelector} from "@store/index";
+import {RootState, useAppSelector} from "@store/index";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
@@ -16,24 +16,16 @@ import { ShowToast } from "@components/commons/Toast";
 import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
-import {OrderI} from '@imagyne/eatlater-types'
+import {OrderI, OrderStatus} from '@nanahq/sticky'
 
 
-export enum OrderStatus {
-    PROCESSED = 'ORDER_PLACED', // default order status
-    ACCEPTED = 'ORDER_ACCEPTED', // default
-    COLLECTED = 'COLLECTED_FROM_VENDOR', // Only vendors can updated/use this
-    IN_ROUTE = 'OUT_FOR_DELIVERY', // Only admin/rider can update/use this
-    FULFILLED = 'DELIVERED_TO_CUSTOMER',
-    PAYMENT_PENDING = 'PAYMENT_PENDING',
-    COURIER_PICKUP = 'COURIER_PICKUP'
-}
 
 
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const DATA  = [
     {key: 'demand', title: 'Instant'},
     {key: 'pre', title: 'Pre order'},
+    {key: 'courier', title: 'Ready for pickup'},
     {key: 'route', title: 'In-transit'},
     {key: 'delivered', title: 'Delivered'},
 ]
@@ -48,7 +40,6 @@ export function OrdersScreen (): JSX.Element {
     const [routes] = useState<Array<{key: string, title: string}>>(DATA);
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
     const bottomSheetModalRef = useRef<any>(null)
-    const dispatch = useAppDispatch()
     const { dismiss } = useBottomSheetModal();
 
 
@@ -70,26 +61,40 @@ export function OrdersScreen (): JSX.Element {
         return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
+    console.log({profile})
 
     const ordersInTransit = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.IN_ROUTE)
     }, [hasFetchedOrders, orders])
 
+    const readyForPickup = useCallback(() => {
+        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.COURIER_PICKUP)
+    },[hasFetchedOrders, orders])
     const renderScene = SceneMap<any>({
 
         delivered:  () => <OrderCategory
+            vendorSetting={profile.settings}
             orders={getFulfilledOrders()}
             type={OrderStatus.FULFILLED}
         />,
+        courier:  () => <OrderCategory
+            vendorSetting={profile.settings}
+            orders={readyForPickup()}
+            type={OrderStatus.COURIER_PICKUP}
+        />,
         route:  () => <OrderCategory
+            vendorSetting={profile.settings}
             orders={ordersInTransit()}
             type={OrderStatus.IN_ROUTE}
         />,
         pre:  () => <OrderCategory
+            vendorSetting={profile.settings}
+
         orders={getPreOrders()}
         type={'PRE_ORDER'}
     />,
     demand:  () => <OrderCategory
+        vendorSetting={profile.settings}
     orders={getOnDemandOrders()}
     type={'ON_DEMAND'}
 />
