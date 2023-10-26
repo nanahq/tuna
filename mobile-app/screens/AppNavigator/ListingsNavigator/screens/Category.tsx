@@ -4,7 +4,7 @@ import {EmptyMenu} from "@components/Empty/Listings";
 import {CategoryCard} from "@screens/AppNavigator/ListingsNavigator/screens/components/CategoryCard";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
-import {ListingCategoryI} from "@imagyne/eatlater-types";
+import {ListingCategoryI} from "@nanahq/sticky";
 import {LoaderComponent} from "@components/commons/LoaderComponent";
 import {useCallback} from "react";
 import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";

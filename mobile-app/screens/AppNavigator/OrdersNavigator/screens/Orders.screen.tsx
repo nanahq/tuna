@@ -2,7 +2,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {getColor, tailwind} from '@tailwind'
 import {OrdersStats} from "@screens/AppNavigator/OrdersNavigator/components/OrdersStats";
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {RootState, useAppSelector} from "@store/index";
+import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
@@ -17,6 +17,7 @@ import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
 import {OrderI, OrderStatus} from '@nanahq/sticky'
+import {fetchDeliveries} from "@store/delivery.reducer";
 
 
 
@@ -35,13 +36,15 @@ export function OrdersScreen (): JSX.Element {
     // State selectors
     const {orders, hasFetchedOrders} = useAppSelector((state: RootState) => state.orders )
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
-    const layout = useWindowDimensions();
+
     const [index, setIndex] = useState<number>(0);
     const [routes] = useState<Array<{key: string, title: string}>>(DATA);
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
-    const bottomSheetModalRef = useRef<any>(null)
-    const { dismiss } = useBottomSheetModal();
 
+    const bottomSheetModalRef = useRef<any>(null)
+    const layout = useWindowDimensions();
+
+    const { dismiss } = useBottomSheetModal();
 
     const getFulfilledOrders = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.FULFILLED)
@@ -61,15 +64,15 @@ export function OrdersScreen (): JSX.Element {
         return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
-    console.log({profile})
-
     const ordersInTransit = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.IN_ROUTE)
+        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.COLLECTED)
     }, [hasFetchedOrders, orders])
 
     const readyForPickup = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.COURIER_PICKUP)
     },[hasFetchedOrders, orders])
+
+
     const renderScene = SceneMap<any>({
 
         delivered:  () => <OrderCategory
@@ -85,7 +88,7 @@ export function OrdersScreen (): JSX.Element {
         route:  () => <OrderCategory
             vendorSetting={profile.settings}
             orders={ordersInTransit()}
-            type={OrderStatus.IN_ROUTE}
+            type={OrderStatus.COLLECTED}
         />,
         pre:  () => <OrderCategory
             vendorSetting={profile.settings}
@@ -168,7 +171,7 @@ export function OrdersScreen (): JSX.Element {
                  <OrdersStats
                      hasFetchedOrders={hasFetchedOrders}
                      completed={getFulfilledOrders().length}
-                     cancelled={ordersInTransit().length}
+                     cancelled={0}
                      pending={getPendingOrders().length}
                  />
              </View>

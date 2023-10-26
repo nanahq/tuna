@@ -36,7 +36,7 @@ export function LoginScreen (): JSX.Element {
            const {cookies} = await _api.requestData<LoginForm>({
                 method: 'POST',
                 url: 'auth/login',
-                data: data
+                data: {...data, email: data.email.toLowerCase()}
             })
             await  setToken(cookieParser(cookies[0]))
         } catch (error: any) {

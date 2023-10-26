@@ -7,7 +7,9 @@ export enum AppActions {
     FETCH_ALL_LISTINGS = 'app/fetchAllListings',
     FETCH_MENUS = 'app/fetchMenus',
     FETCH_OPTIONS = 'app/fetchOptions',
+    FETCH_DELIVERIES = 'app/fetchDeliveries',
     FETCH_CATEGORIES = 'app/fetchCategories',
+
 //    update
 
     UPDATE_PROFILE = 'app/updateProfile',
@@ -19,5 +21,7 @@ export enum AppActions {
     DELETE_MENU = 'app/deleteMenu',
 
 //    Add
-    ADD_MENU = 'app/addMenu'
+    ADD_MENU = 'app/addMenu',
+
+    FETCH_SCHEDULED = 'app/fetchScheduled'
 }

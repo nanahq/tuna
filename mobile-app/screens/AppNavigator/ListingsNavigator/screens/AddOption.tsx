@@ -22,7 +22,7 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
 import {useForm} from "react-hook-form";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
-import {ListingOption} from "@imagyne/eatlater-types";
+import {ListingOption} from "@nanahq/sticky";
 import {useAppDispatch} from "@store/index";
 import {updateOptionGroup} from "@store/listings.reducer";
 import Toast from "react-native-toast-message";

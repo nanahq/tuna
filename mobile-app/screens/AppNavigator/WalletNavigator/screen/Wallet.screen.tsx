@@ -5,7 +5,7 @@ import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {PayoutCard} from "@screens/AppNavigator/WalletNavigator/component/PayoutCard";
 import {useSelector} from "react-redux";
 import {RootState} from "@store/index";
-import { VendorPayoutI } from '@imagyne/eatlater-types';
+import { VendorPayoutI } from '@nanahq/sticky';
 import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
 import { EmptyAnimation } from '@components/lottie/Empty';
 

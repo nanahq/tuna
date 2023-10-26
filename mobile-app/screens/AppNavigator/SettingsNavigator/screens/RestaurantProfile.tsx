@@ -62,7 +62,7 @@ export function RestaurantProfile (): JSX.Element {
         setValue('businessAddress', profile.businessAddress)
         setValue('businessEmail', profile.businessEmail)
         setLogo(profile.businessLogo)
-        // setRestaurantImage(profile.restaurantImage)
+        _setRestaurantImage(profile.restaurantImage)
     }, [])
 
 
@@ -88,7 +88,7 @@ export function RestaurantProfile (): JSX.Element {
             setUpdatingLogo(true)
             const photo = ( await _api.requestData({
                 method: 'put',
-                url: 'vendor/logo',
+                url: 'vendor/image/logo',
                 headers:{
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Origin': '*'
@@ -103,7 +103,6 @@ export function RestaurantProfile (): JSX.Element {
             setUpdatingLogo(false)
         }
     }
-
 
     async function updateBusinessImage (data: ImagePicker.ImagePickerAsset): Promise<void> {
         const extension = data?.fileName?.split('.')[1]
@@ -120,7 +119,7 @@ export function RestaurantProfile (): JSX.Element {
             setUpdatingImage(true)
             const photo = ( await _api.requestData({
                 method: 'put',
-                url: 'vendor/image',
+                url: 'vendor/image/restaurant',
                 headers:{
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Origin': '*'
@@ -130,7 +129,6 @@ export function RestaurantProfile (): JSX.Element {
             _setRestaurantImage(photo)
             showTost(toast, 'Image updated!', 'success')
         } catch (error) {
-            console.log({error})
             showTost(toast, 'failed to upload image', 'error')
         } finally {
             setUpdatingImage(false)
@@ -158,7 +156,7 @@ export function RestaurantProfile (): JSX.Element {
             await _api.requestData({
                 method: 'put',
                 url: 'vendor/profile',
-                data: { coordinates: [`${longitude}`, `${latitude}`]}
+                data: { location: {type: "Point", coordinates: [`${longitude}`, `${latitude}`]}}
             })
         } catch (error) {
             showTost(toast, 'failed to update location', 'error')
@@ -221,7 +219,7 @@ export function RestaurantProfile (): JSX.Element {
                         <TouchableOpacity disabled={updatingLogo} onPress={() => pickImage(updateBusinessLogo)} style={tailwind('absolute mt-2 -bottom-0 w-28 py-0.5 bg-brand-gray-400 flex flex-row justify-center', {
                             'bg-brand-black-500': logo !== undefined
                         })}>
-                            {updatingLogo ? <LoaderComponent size='small' color={getColor('black')} style={tailwind('pl-2 text-black')} /> : <Text style={tailwind('text-black font-semibold text-lg')}>edit</Text>}
+                            {updatingLogo ? <LoaderComponent size='small' color={getColor('black')} style={tailwind('pl-2 text-black')} /> : <Text style={tailwind('text-white font-semibold text-lg')}>edit</Text>}
                         </TouchableOpacity>
                     </View>
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
@@ -288,12 +286,17 @@ export function RestaurantProfile (): JSX.Element {
                     )}
 
                     <View style={tailwind('my-10 border-brand-gray-700 border-0.5 border-dashed px-3 py-5 rounded')}>
-                    <TextWithMoreInfo
+                        {_restaurantImage && (
+                            <View style={tailwind('rounded-xl w-full')}>
+                                <Image source={{uri: _restaurantImage}} resizeMode="cover" style={tailwind('rounded-xl w-full h-28')} />
+                            </View>
+                        )}
+                        <TextWithMoreInfo
                         moreInfo="Amazing image of your signature dish. "
-                        text="Add a restaurant image"
+                        text={_restaurantImage ? "" : "Add a restaurant image"}
                         containerStyle={tailwind('mb-4')}
                     />
-                    <ListingsPhotosUploadButton onPress={() => pickImage(updateBusinessImage)} disabled={updatingImage}  />
+                    <ListingsPhotosUploadButton loading={updatingImage} onPress={() => pickImage(updateBusinessImage)} disabled={updatingImage}  />
                 </View>
                 {!editProfileState && (
                     <View  style={tailwind('flex w-full flex-col my-16')}>

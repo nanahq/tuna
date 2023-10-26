@@ -2,7 +2,7 @@ import {ScrollView, Text, View} from "react-native";
 import {tailwind} from '@tailwind'
 import {IconComponent} from "@components/commons/IconComponent";
 import {NumericFormat as NumberFormat} from "react-number-format";
-import {ReviewI} from "@imagyne/eatlater-types";
+import {ReviewI} from "@nanahq/sticky";
 
 
 export function MostReviewedMenus (props: {reviews: ReviewI[]  }): JSX.Element {

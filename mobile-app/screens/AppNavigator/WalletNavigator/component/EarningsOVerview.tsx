@@ -1,7 +1,7 @@
 import {Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {NumericFormat as NumberFormat} from "react-number-format";
-import { PayoutOverview } from '@imagyne/eatlater-types';
+import { PayoutOverview } from '@nanahq/sticky';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -30,23 +30,23 @@ export function EarningsOVerview ({overview}: {overview: PayoutOverview}): JSX.E
             />
            </View>
            <View style={[tailwind(' border-t-0.5 border-brand-black-500 flex flex-row items-center mt-3'), {width: 120}]}>
-            <EarningTimeLine 
-                isFocused={view === '24_hours'} 
-                onPress={() => handleViewChange('24_hours')} 
-                text='24h' 
+            <EarningTimeLine
+                isFocused={view === '24_hours'}
+                onPress={() => handleViewChange('24_hours')}
+                text='24h'
                 border
                 style={tailwind('rounded-bl-lg')}
             />
             <EarningTimeLine
                 isFocused={view === '7_days'}
-                onPress={() => handleViewChange('7_days')} 
-                text='7d' 
+                onPress={() => handleViewChange('7_days')}
+                text='7d'
                 border
             />
-            <EarningTimeLine 
+            <EarningTimeLine
                 isFocused={view === '30_days'}
-                onPress={() => handleViewChange('30_days')} 
-                text='30d' 
+                onPress={() => handleViewChange('30_days')}
+                text='30d'
                 border
             />
            </View>

@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
-import {VendorSettingsI} from '@imagyne/eatlater-types'
+import {VendorSettingsI} from '@nanahq/sticky'
 
 export interface SettingsState {
     settings: VendorSettingsI

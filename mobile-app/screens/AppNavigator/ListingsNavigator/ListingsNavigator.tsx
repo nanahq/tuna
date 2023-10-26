@@ -7,8 +7,9 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {AddCategory} from "@screens/AppNavigator/ListingsNavigator/screens/AddCategory";
 import {AddOption} from "@screens/AppNavigator/ListingsNavigator/screens/AddOption";
 import {AddMenu} from "@screens/AppNavigator/ListingsNavigator/screens/AddMenu";
-import {ListingCategoryI, ListingMenuI, ListingOptionGroupI} from "@imagyne/eatlater-types";
+import {ListingCategoryI, ListingMenuI, ListingOptionGroupI} from "@nanahq/sticky";
 import {SingleMenu} from "@screens/AppNavigator/ListingsNavigator/screens/SingleMenu";
+import {AddScheduledListing} from "@screens/AppNavigator/ListingsNavigator/screens/AddScheduledListing";
 
 
 export interface ListingsParams {
@@ -59,6 +60,7 @@ export function ListingsNavigator(): JSX.Element {
                 }}
             />
 
+
             <ListingsStack.Screen
                 component={SingleListingScreen}
                 name={ListingsScreenName.GET_LISTING}
@@ -76,6 +78,14 @@ export function ListingsNavigator(): JSX.Element {
                 }}
             />
 
+            <ListingsStack.Screen
+                component={AddScheduledListing}
+                name={ListingsScreenName.SCHEDULED}
+                options={{
+                    headerShown: true,
+                    headerTitle: 'New Scheduled Listing'
+                }}
+            />
             <ListingsStack.Screen
                 component={AddOption}
                 name={ListingsScreenName.ADD_OPTION}

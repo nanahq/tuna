@@ -12,6 +12,7 @@ import * as Notifications from "expo-notifications";
 import * as Device from 'expo-device'
 import {Notification} from "expo-notifications";
 import Constants from "expo-constants";
+import {fetchDeliveries} from "@store/delivery.reducer";
 
 const App = createStackNavigator<AppParamList>()
 
@@ -71,6 +72,7 @@ export function AppNavigator(): JSX.Element {
         dispatch(fetchOrders() as any)
         dispatch(fetchAllListings())
         dispatch(fetchWallet())
+        dispatch(fetchDeliveries())
     }, [])
 
 

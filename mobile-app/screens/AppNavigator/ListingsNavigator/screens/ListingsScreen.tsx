@@ -9,8 +9,10 @@ import {ListingsMenu} from "@screens/AppNavigator/ListingsNavigator/screens/Menu
 import {ListingsOptions} from "@screens/AppNavigator/ListingsNavigator/screens/Options";
 import {RootState, useAppSelector} from "@store/index";
 import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
+import {ScheduledListings} from "@screens/AppNavigator/ListingsNavigator/screens/ScheduledListings";
 
 const DATA = [
+    {key: 'AddScheduledListing', title: 'Scheduled'},
     {key: 'AddListing', title: 'Menu'},
     {key: 'AddCategory', title: 'Categories'},
     {key: 'AddOption', title: 'Options'},
@@ -22,15 +24,13 @@ export function ListingsScreen (): JSX.Element {
     const [index, setIndex] = useState<number>(0);
     const [routes] = useState<Array<{key: string, title: string}>>(DATA);
 
-    const {listingsCategory, listingsMenu, listingsOptionGroup, fetchingListings}  = useAppSelector((state: RootState) => state.listings)
+    const {listingsCategory, listingsMenu, listingsOptionGroup, fetchingListings, scheduledListings}  = useAppSelector((state: RootState) => state.listings)
 
-
-    console.log(listingsMenu[0])
     const renderScene = SceneMap<any>({
         AddListing: () =><ListingsMenu menu={listingsMenu} state={fetchingListings}/>,
+        AddScheduledListing: () =><ScheduledListings listings={scheduledListings} state={fetchingListings}/>,
         AddCategory:  () =>  <ListingsCategory categories={listingsCategory} state={fetchingListings} />,
         AddOption:  () =>  <ListingsOptions options={listingsOptionGroup} state={fetchingListings}/>
-
     });
 
     if (fetchingListings) {

@@ -1,16 +1,16 @@
 import {StyleProp, Text, TouchableOpacity, View} from 'react-native'
 import { tailwind} from '@tailwind'
-import {VendorReviewOverview} from '@imagyne/eatlater-types'
+import {VendorReviewOverview} from '@nanahq/sticky'
 import { IconComponent } from '@components/commons/IconComponent';
 
 export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}: {overview: VendorReviewOverview}): JSX.Element {
-    
+
     return (
         <View style={[tailwind('py-2 px-3 mt-2 overflow-hidden'), {
-            
+
         }]}>
            <View style={tailwind('flex flex-row w-full justify-center')}>
-           <TotalReviews 
+           <TotalReviews
                 total={numberOfReviews}
                 style={tailwind('mr-1')}
             />
@@ -18,11 +18,11 @@ export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}
                 rating={parseFloat(rating)}
                 style={tailwind('mr-1')}
             />
-             <RiskFactor 
+             <RiskFactor
                 risk={riskFactor}
             />
            </View>
-            <TouchableOpacity style={tailwind('mt-4 rounded-full w-10 h-10 bg-white flex items-center justify-center flex-row')}> 
+            <TouchableOpacity style={tailwind('mt-4 rounded-full w-10 h-10 bg-white flex items-center justify-center flex-row')}>
                 <IconComponent
                     name='share-2'
                     size={16}
@@ -87,17 +87,17 @@ function Satisfaction (props: {rating: number, style?: StyleProp<any>}): JSX.Ele
 
 function RiskFactor (props: {risk: 'HIGH' | 'MEDIUM' | 'LOW', style?: any}): JSX.Element {
     let style: string = ''
-   
+
     switch (props.risk) {
-        case 'HIGH': 
+        case 'HIGH':
             style='text-error-500'
         break;
 
-        case 'LOW': 
+        case 'LOW':
             style='text-success-500'
         break;
 
-        case 'MEDIUM': 
+        case 'MEDIUM':
             style='text-warning-500'
         break;
     }
@@ -109,5 +109,5 @@ function RiskFactor (props: {risk: 'HIGH' | 'MEDIUM' | 'LOW', style?: any}): JSX
             </View>
         </View>
     )
-    
+
 }

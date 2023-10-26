@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
-import {VendorPayoutI, PayoutOverview} from '@imagyne/eatlater-types'
+import {VendorPayoutI, PayoutOverview} from '@nanahq/sticky'
 
 export interface WalletState {
     overview: PayoutOverview
@@ -16,7 +16,7 @@ const initialState: WalletState = {
         '24_hours': 0,
         '7_days': 0,
         '30_days': 0
-    }, 
+    },
     payouts: [],
     hasFetchedWallet: false
 };

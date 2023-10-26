@@ -1,7 +1,7 @@
  import {Image, Pressable, Text, View} from 'react-native'
 // import {} from 'expo-image'
 import {EmptyMenu} from "@components/Empty/Listings";
-import {ListingMenuI} from "@imagyne/eatlater-types";
+import {ListingMenuI} from "@nanahq/sticky";
 import {tailwind} from "@tailwind";
 import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {LoaderComponent} from "@components/commons/LoaderComponent";

@@ -4,7 +4,7 @@ import {useCallback} from "react";
 import { Text, View, TouchableOpacity} from 'react-native'
 import {EmptyMenu} from "@components/Empty/Listings";
 
-import {ListingOptionGroupI} from "@imagyne/eatlater-types";
+import {ListingOptionGroupI} from "@nanahq/sticky";
 import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {useNavigation} from "@react-navigation/native";
 import {LoaderComponent} from "@components/commons/LoaderComponent";
@@ -25,7 +25,7 @@ export function ListingsOptions (props: {options: ListingOptionGroupI[], state: 
             option={item}
         />
     }, [])
-    
+
 
     if (props.options.length <= 0) {
         return (
@@ -40,7 +40,7 @@ export function ListingsOptions (props: {options: ListingOptionGroupI[], state: 
 
     }
 
-   
+
 
 
     return (

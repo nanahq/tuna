@@ -12,7 +12,7 @@ export function LoginButtonWithText (props: {style?: StyleProp<TextStyle>}): JSX
     }
     return (
         <TouchableOpacity onPress={goToLogin} testID="LoginButtonWithText.Button" style={tailwind(' mt-8')}>
-            <Text testID="LoginButtonWithText.Text" style={[tailwind('text-white font-normal text-sm text-center'), props.style]}>Do you have an account? Login</Text>
+            <Text testID="LoginButtonWithText.Text" style={[tailwind('font-normal text-sm text-center'), props.style]}>Do you have an account? Login</Text>
         </TouchableOpacity>
     )
 }

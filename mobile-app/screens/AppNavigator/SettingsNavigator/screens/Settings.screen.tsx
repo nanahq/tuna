@@ -14,7 +14,8 @@ import { useToast } from 'react-native-toast-notifications';
 type SettingsScreenProps = StackScreenProps<SettingsParamsList, any>
 
 export function SettingsScreen ({navigation}: SettingsScreenProps): JSX.Element {
-    const {profile: {profile, hasFetchedProfile}, orders: {orders}} = useAppSelector((state: RootState) => state)
+    const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile)
+    const {orders} = useAppSelector((state: RootState) => state.orders)
     const toast = useToast()
     const [profileComplete, setProfileComplete] = useState<boolean>(true)
 

@@ -13,7 +13,7 @@ import {EmptyOrder} from "@screens/AppNavigator/OrdersNavigator/components/Empty
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
 import { _api } from "@api/_request";
-import { PaymentInfo } from "@imagyne/eatlater-types";
+import { PaymentInfo } from "@nanahq/sticky";
 import { showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
 import { ModalTextInput } from "@components/commons/inputs/TextInputWithLabel";

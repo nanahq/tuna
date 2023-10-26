@@ -4,7 +4,7 @@ import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel"
 import {getColor, tailwind} from "@tailwind";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState} from "react";
-import {VendorOperationSetting} from '@imagyne/eatlater-types'
+import {VendorOperationSetting} from '@nanahq/sticky'
 
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
 import { LoaderComponent } from "@components/commons/LoaderComponent";
@@ -61,14 +61,14 @@ export function RestaurantSettings (): JSX.Element {
             const ops = profile?.settings?.operations
             setOperationForm((prev: any) => ({
                 ...prev,
-                    startTime: new Date(ops.startTime as string),
-                    cutoffTime:new Date(ops.cutoffTime as string),
-                    placementTime: String(ops.placementTime),
-                    minOrder: String(ops.minOrder),
-                    preparationTime: String(ops.preparationTime)
+                    startTime: ops?.startTime !== undefined ? new Date(ops?.startTime) : new Date(),
+                    cutoffTime:ops?.cutoffTime !== undefined ? new Date(ops?.cutoffTime) : new Date(),
+                    placementTime: String(ops?.placementTime ?? ''),
+                    minOrder: String(ops?.minOrder ?? ''),
+                    preparationTime: String(ops?.preparationTime ?? '')
             }))
 
-            setType(ops.deliveryType)
+            setType(ops?.deliveryType ?? '')
         }
     }, [])
 
@@ -132,7 +132,7 @@ export function RestaurantSettings (): JSX.Element {
 
     return (
         <SafeAreaView style={tailwind('flex-1')}>
-            <ScrollView style={tailwind('flex w-full bg-white px-5 mt-5')}>
+            <ScrollView style={tailwind('flex w-full bg-white px-5 pt-5')}>
                 <GoBackButton onPress={() => navigation.goBack()} />
                 <ProfileSection sectionName="Operations">
                     <View style={tailwind('flex flex-row  w-full items-center')}>
@@ -169,9 +169,9 @@ export function RestaurantSettings (): JSX.Element {
                     </View>
                     <TextInputWithLabel
                         containerStyle={tailwind('mt-6 w-2/3')}
-                        placeholder="1 hour"
+                        placeholder="30"
                         label="Minimum Order placement time"
-                        moreInfo='Minimum time in hours between operation time and order delivery time'
+                        moreInfo='Minimum time (in minutes) between operation time and order delivery time'
                         labelTestId="min.place"
                         value={operationForm.placementTime}
                         keyboardType='number-pad'

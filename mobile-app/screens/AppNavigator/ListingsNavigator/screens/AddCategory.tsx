@@ -1,3 +1,4 @@
+
 import { Pressable, ScrollView, Switch, Text, View} from "react-native";
 import {getColor, tailwind} from '@tailwind'
 import {useEffect, useState} from "react";
@@ -10,19 +11,31 @@ import {IconComponent} from "@components/commons/IconComponent";
 import {TextWithMoreInfo} from "@components/Text/TextWithMoreInfo";
 import {useForm} from "react-hook-form";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
-import { ListingMenuI} from "@imagyne/eatlater-types";
+import { ListingMenuI} from "@nanahq/sticky";
 import {IconButton} from "@components/commons/buttons/IconButton";
 import {useAppDispatch} from "@store/index";
 import {addOrUpdateCategory} from "@store/listings.reducer";
 import Toast from "react-native-toast-message";
 import { showTost } from "@components/commons/Toast";
 import { useToast } from "react-native-toast-notifications";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 type AddCategoryNavProps = StackScreenProps<ListingsParams, "AddCategory">
 enum TagSelection {
     'SELECT'= 'SELECT',
     'UNSELECT' = 'UNSELECT'
 }
+
+const operations = [
+    {
+        label: 'Pre order',
+        value: 'PRE_ORDER'
+    },
+    {
+        label: 'On demand',
+        value: 'ON_DEMAND'
+    }
+]
 export const CAT_TAGS = [
     'african',
     'lunch',
@@ -37,6 +50,7 @@ export const CAT_TAGS = [
 
 export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Element {
     const [isLive, setIsLive] = useState<boolean>(false)
+    const [operationType,setType ] = useState<string>('');
     const [tags, setTags] = useState<string[]>([])
     const dispatch = useAppDispatch()
     const toast = useToast()
@@ -51,6 +65,8 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         setMenu(route?.params?.category.listingsMenu)
          setIsLive(route?.params?.category.isLive)
         setTags(route?.params?.category.tags)
+            //@ts-ignore
+            setType(route?.params?.category?.type)
         }
     }, [])
 
@@ -58,7 +74,13 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         setIsLive((prev) => !prev)
     }
 
-
+    const handleSelectOperationType = (value: string, type: 'SELECT' | 'UNSELECT'): void => {
+        if (type === 'UNSELECT') {
+            setType('')
+        } else {
+            setType(value)
+        }
+    }
 
     function selectTags (tag: string, action: TagSelection): void  {
         switch (action) {
@@ -93,6 +115,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                 name: data.name,
                 isLive,
                 tags,
+                type: operationType
             }
         }
 
@@ -102,16 +125,10 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
            const res =  await dispatch(addOrUpdateCategory({payload, type})).unwrap()
 
            if (res.status === 1) {
-               Toast.show({
-                   type: 'success',
-                   text1: 'Operation successful',
-                   autoHide: true,
-               })
-
                showTost(toast, 'Category added!', 'success')
                setTimeout(() => {
                    void navigation.goBack()
-               }, 3000)
+               }, 2000)
            }
        } catch (error: any) {
           showTost(toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
@@ -138,6 +155,11 @@ return true
         if (category.listingsMenu.length !== menu.length) {
 return true
 }
+
+        // @ts-ignore
+        if(operations !== category?.type) {
+            return true
+        }
         return false
     }
     return (
@@ -164,6 +186,21 @@ return true
                         onValueChange={toggleSwitch}
                         value={isLive}
                     />
+                </View>
+                <View style={tailwind('flex flex-row items-center w-full mt-5')}>
+                    {operations?.map(type => (
+                        <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
+                            'border-primary-500': type.value === operationType
+                        })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>
+                            <Text >{type.label}</Text>
+                            <View
+                                style={tailwind('rounded-full w-2 h-2 absolute bottom-1 right-1', {
+                                    'bg-primary-500': type.value === operationType,
+                                    'border-0.5 border-brand-gray-400': type.value !== operationType
+                                })}
+                            />
+                        </TouchableOpacity>
+                    ))}
                 </View>
                 <View>
                     <TextWithMoreInfo

@@ -17,7 +17,7 @@ import {
 } from "@screens/AppNavigator/ListingsNavigator/screens/components/ListingsPhotosUploadButton";
 import * as ImagePicker from "expo-image-picker";
 import {useForm} from "react-hook-form";
-import {ListingCategoryI, ListingMenuI} from "@imagyne/eatlater-types";
+import {ListingCategoryI, ListingMenuI} from "@nanahq/sticky";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import { fetchMenus} from "@store/listings.reducer";
@@ -58,7 +58,7 @@ export function AddMenu (): JSX.Element {
         photo: null,
         isLive: true,
         isAvailable: true,
-        categoryId: ''
+        categoryId: '',
     })
 
     const [category, setCategory] = useState<{name: string, id: string}>({

@@ -16,10 +16,7 @@ export function ReviewCard ({review}: {review: ReviewI}): JSX.Element {
                 </View>
                 <View style={tailwind('flex flex-col items-end')}>
                     <Text style={tailwind('text-sm text-brand-black-500 mb-1')}>{days(review.createdAt).format('ddd MMM YYYY')}</Text>
-                    <View style={tailwind('flex flex-row items-center')}>
-                        <IconComponent iconType='Feather' style={tailwind('text-brand-green-500')} name="thumbs-up" size={18} />
-                        <Text style={tailwind('text-sm text-brand-black-500')}>{review.reviewStars}</Text>
-                    </View>
+                   <Stars stars={review.reviewStars} />
                 </View>
             </View>
             <View style={tailwind('flex flex-row items-center w-full justify-center mt-2')}>
@@ -27,6 +24,34 @@ export function ReviewCard ({review}: {review: ReviewI}): JSX.Element {
                 <Text style={tailwind('text-base font-light text-brand-black-500')}>{review.reviewBody}</Text>
                 <IconComponent iconType='MaterialCommunityIcons' name="format-quote-close" size={14} />
             </View>
+        </View>
+    )
+}
+
+
+function Stars (props: {stars: number}): JSX.Element {
+    const empty = Array((5 - props.stars)).fill(5)
+    const given = Array((props.stars)).fill(5)
+    return (
+        <View style={tailwind('flex flex-row items-center')}>
+            {given.map((_, index) => (
+                <IconComponent
+                    key={index}
+                    name='star'
+                    iconType='MaterialCommunityIcons'
+                    style={tailwind('text-warning-500')}
+                    size={18}
+                />
+            ))}
+            {empty.map((_, index) => (
+                <IconComponent
+                    key={index}
+                    name='star'
+                    iconType='Feather'
+                    style={tailwind('text-brand-black-500')}
+                    size={18}
+                />
+            ))}
         </View>
     )
 }

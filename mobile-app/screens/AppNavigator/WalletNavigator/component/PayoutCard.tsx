@@ -2,7 +2,7 @@ import {Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {NumericFormat as NumberFormat} from "react-number-format";
 import {IconComponent} from "@components/commons/IconComponent";
-import { VendorPayoutI } from '@imagyne/eatlater-types';
+import { VendorPayoutI } from '@nanahq/sticky';
 import days  from 'dayjs'
 import { IconButton } from '@components/commons/buttons/IconButton';
 import * as ClipBoard from 'expo-clipboard'
@@ -11,7 +11,7 @@ import { showTost } from '@components/commons/Toast';
 
 export function PayoutCard ({payout, index}: {payout: VendorPayoutI, index: number}): JSX.Element {
 
-    const pDay = days(payout.updatedAt).format('ddd MMM YYYY')
+    const pDay = days(payout.updatedAt).format('ddd Do MMM YYYY')
 
     const toast = useToast()
 

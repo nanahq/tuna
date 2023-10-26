@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native'
+import {ScrollView, Text, View} from 'react-native'
 import {tailwind} from "@tailwind";
 import * as SplashScreen from 'expo-splash-screen'
 import {useEffect} from 'react'
@@ -21,7 +21,7 @@ export function OnboardingScreen (): JSX.Element {
         SplashScreen.hideAsync().catch(logger.error);
     }, []);
     return (
-       <View
+       <ScrollView
         testID="OnboardingScreen.View"
        >
           <OnboardingCover />
@@ -51,6 +51,6 @@ export function OnboardingScreen (): JSX.Element {
                 />
                 <LoginButtonWithText />
            </View>
-       </View>
+       </ScrollView>
     )
 }

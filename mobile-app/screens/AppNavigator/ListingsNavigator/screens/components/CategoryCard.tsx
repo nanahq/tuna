@@ -1,7 +1,7 @@
 import {Pressable, Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {IconButton} from "@components/commons/buttons/IconButton";
-import {ListingCategoryI} from "@imagyne/eatlater-types";
+import {ListingCategoryI} from "@nanahq/sticky";
 
 export interface CategoryCardProps {
  category: ListingCategoryI

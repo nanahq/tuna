@@ -81,68 +81,84 @@ export function BottomTabNavigator ():JSX.Element {
                     ),
                 }}
             />
-            <BottomTab.Screen
-                component={WalletNavigator}
-                name={AppScreenName.WALLET}
-                options={{
+                <BottomTab.Screen
+                    component={WalletNavigator}
+                    name={AppScreenName.WALLET}
+                        listeners={{
+                            tabPress: (e) => {
+                                !profileComplete && e.preventDefault()
+                            }
+                        }}
+                    options={{
+                        tabBarTestID: "BottomTabHome",
+                        tabBarIcon: ({ color }) => (
+                            <IconComponent iconType='Feather' name="credit-card"  size={24} color={color}/>
+                        ),
 
-                    tabBarTestID: "BottomTabHome",
-                    tabBarIcon: ({ color }) => (
-                        <IconComponent iconType='Feather' name="credit-card"  size={24} color={color}/>
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                component={ListingsNavigator}
-                name={AppScreenName.LISTINGS}
-                options={{
-                    tabBarLabel: ({ focused, color }) =>
-                        getTabBarLabel({
-                            focused,
-                            color,
-                            title: 'Listings',
-                        }),
-                    tabBarTestID: "BottomTabHome",
-                    tabBarIcon: ({ color }) => (
-                        <IconComponent iconType='Feather' name="list"  size={24} color={color}/>
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                component={ReviewNavigator}
-                name={AppScreenName.REVIEWS}
-                options={{
-                    tabBarLabel: ({ focused, color }) =>
-                        getTabBarLabel({
-                            focused,
-                            color,
-                            title: 'Reviews',
-                        }),
-                    tabBarTestID: "BottomTabHome",
-                    tabBarIcon: ({ color }) => (
-                        <IconComponent iconType='Feather' name="message-circle"  size={24} color={color}/>
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                component={SettingsNavigator}
-                name={AppScreenName.SETTINGS}
-                options={{
-                    tabBarLabel: ({ focused, color }) =>
-                        getTabBarLabel({
-                            focused,
-                            color,
-                            title: 'Profile',
-                        }),
-                    tabBarTestID: "BottomTabHome",
-                    tabBarIcon: ({ color }) => (
-                       <View style={tailwind('relative')}>
-                         <IconComponent style={tailwind()} iconType='MaterialCommunityIcons' name="account-circle-outline"  size={24} color={color}/>
-                         {!profileComplete && (<View style={tailwind('absolute z-50 w-2 h-2 rounded-full bg-red-500 top-0 right-0 ')}  />)}
-                       </View>
-                    ),
-                }}
-            />
+                    }}
+                />
+                <BottomTab.Screen
+                    component={ListingsNavigator}
+                    name={AppScreenName.LISTINGS}
+                    listeners={{
+                        tabPress: (e) => {
+                            !profileComplete && e.preventDefault()
+                        }
+                    }}
+                    options={{
+
+                        tabBarLabel: ({ focused, color }) =>
+                            getTabBarLabel({
+                                focused,
+                                color,
+                                title: 'Listings',
+                            }),
+                        tabBarTestID: "BottomTabHome",
+                        tabBarIcon: ({ color }) => (
+                            <IconComponent iconType='Feather' name="list"  size={24} color={color}/>
+                        ),
+                    }}
+                />
+                <BottomTab.Screen
+                    component={ReviewNavigator}
+                    name={AppScreenName.REVIEWS}
+                    listeners={{
+                        tabPress: (e) => {
+                            !profileComplete && e.preventDefault()
+                        }
+                    }}
+                    options={{
+                        tabBarLabel: ({ focused, color }) =>
+                            getTabBarLabel({
+                                focused,
+                                color,
+                                title: 'Reviews',
+                            }),
+                        tabBarTestID: "BottomTabHome",
+                        tabBarIcon: ({ color }) => (
+                            <IconComponent iconType='Feather' name="message-circle"  size={24} color={color}/>
+                        ),
+                    }}
+                />
+                <BottomTab.Screen
+                    component={SettingsNavigator}
+                    name={AppScreenName.SETTINGS}
+                    options={{
+                        tabBarLabel: ({ focused, color }) =>
+                            getTabBarLabel({
+                                focused,
+                                color,
+                                title: 'Profile',
+                            }),
+                        tabBarTestID: "BottomTabHome",
+                        tabBarIcon: ({ color }) => (
+                            <View style={tailwind('relative')}>
+                                <IconComponent style={tailwind()} iconType='MaterialCommunityIcons' name="account-circle-outline"  size={24} color={color}/>
+                                {!profileComplete && (<View style={tailwind('absolute z-50 w-2 h-2 rounded-full bg-red-500 top-0 right-0 ')}  />)}
+                            </View>
+                        ),
+                    }}
+                />
         </BottomTab.Navigator>
     )
 }

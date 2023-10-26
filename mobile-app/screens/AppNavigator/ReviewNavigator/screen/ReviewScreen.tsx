@@ -11,7 +11,6 @@ import { LoaderComponentScreen } from '@components/commons/LoaderComponent';
 import {ReviewI} from '@nanahq/sticky'
 import { EmptyAnimation } from '@components/lottie/Empty';
 
-
 export function ReviewScreen (): JSX.Element {
     const {hasFetchedProfile, profile} = useSelector((state: RootState) => state.profile)
 
@@ -21,8 +20,8 @@ export function ReviewScreen (): JSX.Element {
 
     useEffect(() => {
         if (!hasFetchedProfile) {
-return
-}
+        return
+    }
         void dispatch(fetchReviews(profile._id))
     }, [])
 
@@ -37,7 +36,7 @@ return
             <View style={tailwind('flex-1 bg-white')}>
                 <ReviewsHeader overview={overview} />
                 <View style={tailwind('px-3')}>
-                    <View style={tailwind('mt-5')}>
+                    <View style={tailwind('mt-2')}>
                         <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-3')}>Recent Reviews</Text>
                         <RecentViews reviews={reviews} />
                     </View>
@@ -60,7 +59,7 @@ function RecentViews (props: {reviews: ReviewI[]}): JSX.Element {
     );
     return (
         <GenericFlashList
-            contentContainerStyle={tailwind("pb-20")}
+            contentContainerStyle={tailwind("pb-96")}
             data={props.reviews}
             ref={ref}
             estimatedItemSize={30}

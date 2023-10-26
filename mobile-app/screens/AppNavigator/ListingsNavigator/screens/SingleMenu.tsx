@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {getColor, tailwind} from '@tailwind'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
-import {ListingMenuI, ListingOptionGroupI} from '@imagyne/eatlater-types'
+import {ListingMenuI, ListingOptionGroupI} from '@nanahq/sticky'
 import {useForm} from "react-hook-form";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
