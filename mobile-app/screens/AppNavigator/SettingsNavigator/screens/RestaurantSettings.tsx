@@ -2,7 +2,7 @@ import { SafeAreaView, ScrollView, Text, View} from "react-native";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {getColor, tailwind} from "@tailwind";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState} from "react";
 import {VendorOperationSetting} from '@nanahq/sticky'
 
@@ -16,7 +16,8 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useToast } from "react-native-toast-notifications";
 import { GoBackButton } from "../components/Goback";
-
+import * as Device from 'expo-device'
+import {AndroidPicker} from "@screens/AppNavigator/SettingsNavigator/components/AndroidPicker";
 
 const operations = [
   {
@@ -54,6 +55,25 @@ export function RestaurantSettings (): JSX.Element {
         minOrder: '0'
     })
 
+
+    const showTimePickerAndriodCutoff = () => {
+        DateTimePickerAndroid.open({
+            is24Hour: true,
+            value:operationForm.cutoffTime,
+            mode:'time',
+            onChange: (_, value) => updateTime('cutoffTime', value)
+        })
+    }
+
+
+    const showTimePickerAndriodStartTime = () => {
+        DateTimePickerAndroid.open({
+            is24Hour: true,
+            value:operationForm.startTime,
+            mode:'time',
+            onChange: (_, value) => updateTime('startTime', value)
+        })
+    }
 
 
     useEffect(() => {
@@ -130,6 +150,9 @@ export function RestaurantSettings (): JSX.Element {
             }
     }
 
+
+    console.log(Device.osName)
+
     return (
         <SafeAreaView style={tailwind('flex-1')}>
             <ScrollView style={tailwind('flex w-full bg-white px-5 pt-5')}>
@@ -142,15 +165,20 @@ export function RestaurantSettings (): JSX.Element {
                                 Time you start operation. This will be used to prevent customer from ordering before you start working
                             </Text>
                         </View>
-                        <DateTimePicker
+                        {Device.osName === 'Android' ? (
+                            <AndroidPicker time={operationForm.startTime} onPress={showTimePickerAndriodStartTime} />
+                        ) : (
+                            <DateTimePicker
                             style={tailwind('w-1/3')}
                             is24Hour
                             value={operationForm.startTime}
                             mode='time'
                             onChange={(_, value) => {
-                                 updateTime('startTime',value)
-                            }}
-                        />
+                            updateTime('startTime',value)
+                        }}
+                            />
+                        )}
+
                     </View>
                     <View style={tailwind('flex flex-row  w-full items-center')}>
                         <View style={tailwind('w-2/3 mt-6')}>
@@ -159,13 +187,19 @@ export function RestaurantSettings (): JSX.Element {
                                 Customers won't be able to place order after this time
                             </Text>
                         </View>
-                        <DateTimePicker
-                            style={tailwind('w-1/3 mt-6')}
-                            is24Hour
-                            value={operationForm.cutoffTime}
-                            mode='time'
-                            onChange={(_, value) => updateTime('cutoffTime', value)}
-                        />
+                        {Device.osName === 'Android' ? (
+                            <AndroidPicker time={operationForm.cutoffTime} onPress={showTimePickerAndriodCutoff} />
+                        ) : (
+                            <DateTimePicker
+                                style={tailwind('w-1/3')}
+                                is24Hour
+                                value={operationForm.cutoffTime}
+                                mode='time'
+                                onChange={(_, value) => {
+                                    updateTime('cutoffTime',value)
+                                }}
+                            />
+                        )}
                     </View>
                     <TextInputWithLabel
                         containerStyle={tailwind('mt-6 w-2/3')}
