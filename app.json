@@ -4,7 +4,7 @@
     "description": "Reach a wider audience and sell more with Nana",
     "slug": "nana-vendors-app",
     "owner": "nana-app",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/app-config/icon.png",
     "scheme": "myapp",
@@ -32,7 +32,7 @@
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.nanaapp.nanavendorsapp",
-      "versionCode": 490020000
+      "versionCode": 490020001
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -43,7 +43,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nanaapp.nanavendorsapp",
-      "buildNumber": "2.0.0"
+      "buildNumber": "2.0.1"
     },
     "web": {
       "favicon": "./assets/app-config/favicon.png"
