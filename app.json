@@ -4,7 +4,7 @@
     "description": "Reach a wider audience and sell more with Nana",
     "slug": "nana-vendors-app",
     "owner": "nana-app",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/app-config/icon.png",
     "scheme": "myapp",
@@ -14,6 +14,14 @@
       "policy": "sdkVersion"
     },
     "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
       [
         "expo-image-picker",
         {
@@ -35,7 +43,7 @@
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.nanaapp.nanavendorsapp",
-      "versionCode": 490020100
+      "versionCode": 490010101
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -46,7 +54,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.nanaapp.nanavendorsapp",
-      "buildNumber": "2.1.0"
+      "buildNumber": "1.1.1"
     },
     "web": {
       "favicon": "./assets/app-config/favicon.png"
