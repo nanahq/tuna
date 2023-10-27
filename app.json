@@ -32,12 +32,12 @@
     "splash": {
       "image": "./assets/app-config/splash.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#E3834C"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/app-config/adaptive-icon.png",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#E3834C"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
