@@ -2,17 +2,11 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {LinkingOptions, NavigationContainer} from "@react-navigation/native";
 import {AppLinking, BottomTabNavigator} from "@screens/AppNavigator/BottomNavigator";
 import * as Linking from "expo-linking"
-import {useEffect, useRef, useState} from "react";
-import {fetchProfile, updateUserProfile} from "@store/profile.reducer";
-import {fetchOrders} from "@store/orders.reducer";
-import { useAppDispatch} from "@store/index";
-import {fetchAllListings} from "@store/listings.reducer";
-import { fetchWallet } from "@store/wallet.reducer";
+import { useRef, useState} from "react";
 import * as Notifications from "expo-notifications";
 import * as Device from 'expo-device'
 import {Notification} from "expo-notifications";
 import Constants from "expo-constants";
-import {fetchDeliveries} from "@store/delivery.reducer";
 
 const App = createStackNavigator<AppParamList>()
 
@@ -44,36 +38,25 @@ export function AppNavigator(): JSX.Element {
     const notificationListener = useRef<any>();
     const responseListener = useRef<any>();
 
+    // useEffect(() => {
+    //     registerForPushNotificationsAsync().then(token => {
+    //         dispatch(updateUserProfile({expoNotificationToken: token}))
+    //     });
+    //
+    //     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //         setNotification(notification);
+    //     });
+    //
+    //     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //         console.log(response);
+    //     });
+    //
+    //     return () => {
+    //         Notifications.removeNotificationSubscription(notificationListener.current);
+    //         Notifications.removeNotificationSubscription(responseListener.current);
+    //     };
+    // }, []);
 
-    useEffect(() => {
-        registerForPushNotificationsAsync().then(token => {
-            dispatch(updateUserProfile({expoNotificationToken: token}))
-        });
-
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            console.log({notification})
-            setNotification(notification);
-        });
-
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-        });
-
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
-        };
-    }, []);
-
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(fetchProfile() as any)
-        dispatch(fetchOrders() as any)
-        dispatch(fetchAllListings())
-        dispatch(fetchWallet())
-        dispatch(fetchDeliveries())
-    }, [])
 
 
 

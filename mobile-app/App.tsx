@@ -19,7 +19,7 @@ export default function App() {
  const logger = useLogger()
 
 
- // delay splashscreen till cached resources are loaded
+ // delay splash screen till cached resources are loaded
   if (!isLoaded) {
     setTimeout(() => {
         SplashScreen.preventAutoHideAsync().catch(logger.error);
