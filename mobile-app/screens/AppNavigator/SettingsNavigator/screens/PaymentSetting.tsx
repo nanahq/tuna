@@ -72,7 +72,6 @@ export function PaymentSettings (): JSX.Element {
          dispatch(fetchProfile())
         showTost(toast, PaymentSettingsInteraction.ADD_BANK_SUCCESS_MSG, 'success')
         } catch (error: any) {
-            console.log(error.message)
         showTost(toast, typeof error?.message === 'string' ? error.message : error.message[0], 'error')
 
         } finally {

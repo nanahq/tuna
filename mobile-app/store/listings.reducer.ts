@@ -214,7 +214,6 @@ export const listings = createSlice({
         ).addCase(
             fetchMenus.fulfilled,
             (state, {payload}: PayloadAction<ListingMenuI[]>) => {
-                console.log(payload)
                 state.listingsMenu = payload
             }
         ).addCase(
