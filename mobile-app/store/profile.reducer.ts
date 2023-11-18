@@ -78,7 +78,6 @@ export const profile = createSlice({
         ).addCase(
             fetchProfile.rejected,
             (_, _payload) => {
-                console.log(_payload)
                     showToastStandard('Can not fetch profile', 'error')
                     if (_payload.error.message === 'Unauthorized') {
                         void clearOnAuthError()

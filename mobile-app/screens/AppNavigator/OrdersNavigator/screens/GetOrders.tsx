@@ -3,7 +3,7 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {tailwind} from '@tailwind'
-import {OrderSection} from "@screens/AppNavigator/OrdersNavigator/components/OrderItemRow";
+import {OrderListingItem, OrderSection} from "@screens/AppNavigator/OrdersNavigator/components/OrderItemRow";
 
 import {OrderStatus} from "@nanahq/sticky";
 import {OrderQrCode} from "@screens/AppNavigator/OrdersNavigator/components/OrderQrCode";
@@ -59,25 +59,21 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
             <ScrollView style={tailwind('px-5 pb-5 h-full bg-white')}>
                 <GoBackButton  onPress={goBack}/>
                 <OrderSection heading='Order details'>
-                <OrderSection.Row title='Item name: ' text={params.order.listing.name}  titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} containerStyle={tailwind('mb-2')}/>
-                  <View style={tailwind('flex flex-row items-center justify-between w-full mb-2')}>
-                      <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')} title='Quantity:' text='2' />
-                      <OrderSection.Row   titleStyle={tailwind('font-bold')} textStyle={tailwind(' text-lg font-bold')}  title='Pickup time:' text={(params.order.orderType as any) === 'PRE_ORDER ' ? calculatePreorderDate(params.order.orderDeliveryScheduledTime) :  calculateOnDemandDeliveryDate(30, params.order.createdAt)} />
-                  </View>
-                    <OrderSection.Row   titleStyle={tailwind('font-medium')} textStyle={tailwind(' text-lg font-bold')} title='Special Note:' text='Please do not make it super spicy' />
-                </OrderSection>
-               <View style={tailwind('flex flex-row w-full mt-5')}>
-                   <OrderSection heading='Options' fullWidth={false} width={tailwind('w-1/2')}>
-                       {params.order.options.map(option => (
-                       <OrderSection.Row title='-' key={option} text={option}  containerStyle={tailwind('mb-2')}/>
-                       ))}
-                   </OrderSection>
-               </View>
-                <View style={tailwind('flex flex-row items-center justify-between w-full mt-5')}>
-                    <OrderSection.Row title="Order Value" text={String(params.order.orderBreakDown.orderCost)} titleStyle={tailwind('font-semibold')} />
-                    <View style={tailwind('bg-success-600 rounded-lg py-2 px-2 flex justify-center items-center')}>
-                        <Text style={tailwind('text-white text-xs font-bold text-center')}>{params.order.orderStatus}</Text>
+                    <View style={tailwind('flex flex-col')}>
+                        {params.order.listing.map((listing) => (
+                            <OrderListingItem quantities={params.order.quantity as any} key={listing._id} options={params.order.options} listing={listing} />
+                        ) )}
                     </View>
+                </OrderSection>
+
+                <View style={tailwind('flex flex-col border-t-0.5 border-brand-gray-700 mt-5 py-2')}>
+                    <OrderSection.Row   titleStyle={tailwind('')} textStyle={tailwind(' text-lg')}  title='Pickup time:' text={(params.order.orderType as any) === 'PRE_ORDER ' ? calculatePreorderDate(params.order.orderDeliveryScheduledTime) :  calculateOnDemandDeliveryDate(30, params.order.createdAt)} />
+                    <OrderSection.Row   titleStyle={tailwind('')} textStyle={tailwind(' text-lg ')} title='Special Note:' text={params.order.specialNote ?? ''} />
+                </View>
+
+                <View style={tailwind('flex flex-col border-t-0.5 border-brand-gray-700 mt-5 py-2')}>
+                <OrderSection.Row title="Order Value:" text={String(params.order.orderBreakDown.orderCost)} textStyle={tailwind('font-bold')} />
+                <OrderSection.Row title="Order Ref Id:" text={params.order.refId + ''} textStyle={tailwind('font-bold')} />
                 </View>
                 <View style={tailwind('flex flex-row w-full items-center justify-center mt-12')}>
                 {params.order.orderStatus === OrderStatus.PROCESSED && (

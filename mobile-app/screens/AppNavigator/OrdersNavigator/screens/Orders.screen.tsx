@@ -1,12 +1,11 @@
 import {SafeAreaView} from "react-native-safe-area-context";
 import {getColor, tailwind} from '@tailwind'
-import {OrdersStats} from "@screens/AppNavigator/OrdersNavigator/components/OrdersStats";
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {RootState, useAppDispatch, useAppSelector} from "@store/index";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {RootState, useAppSelector} from "@store/index";
+import {ReactElement, useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
-import {useWindowDimensions, View} from "react-native";
+import {useWindowDimensions, View, Text} from "react-native";
 import * as Location from "expo-location";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import { AddBankModal as LocationModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
@@ -17,17 +16,12 @@ import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
 import {OrderI, OrderStatus} from '@nanahq/sticky'
-import {fetchDeliveries} from "@store/delivery.reducer";
-
-
-
 
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const DATA  = [
     {key: 'demand', title: 'Instant'},
     {key: 'pre', title: 'Pre order'},
-    {key: 'courier', title: 'Ready for pickup'},
-    {key: 'route', title: 'In-transit'},
+    {key: 'courier', title: 'Ready'},
     {key: 'delivered', title: 'Delivered'},
 ]
 
@@ -50,11 +44,6 @@ export function OrdersScreen (): JSX.Element {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.FULFILLED)
     }, [hasFetchedOrders, orders])
 
-    const getPendingOrders = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.PROCESSED)
-    }, [hasFetchedOrders, orders])
-
-
     const getOnDemandOrders = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderType === 'ON_DEMAND' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
@@ -64,9 +53,6 @@ export function OrdersScreen (): JSX.Element {
         return orders.filter((order: OrderI) =>  order.orderType === 'PRE_ORDER' && order.orderStatus === OrderStatus.PROCESSED)
     }, [hasFetchedOrders, orders])
 
-    const ordersInTransit = useCallback(() => {
-        return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.COLLECTED)
-    }, [hasFetchedOrders, orders])
 
     const readyForPickup = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.COURIER_PICKUP)
@@ -85,11 +71,7 @@ export function OrdersScreen (): JSX.Element {
             orders={readyForPickup()}
             type={OrderStatus.COURIER_PICKUP}
         />,
-        route:  () => <OrderCategory
-            vendorSetting={profile.settings}
-            orders={ordersInTransit()}
-            type={OrderStatus.COLLECTED}
-        />,
+
         pre:  () => <OrderCategory
             vendorSetting={profile.settings}
 
@@ -102,6 +84,8 @@ export function OrdersScreen (): JSX.Element {
     type={'ON_DEMAND'}
 />
    });
+
+
 
     useEffect(() => {
         void openModal()
@@ -166,26 +150,25 @@ export function OrdersScreen (): JSX.Element {
              style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
-                <OrderHeaderStatus status={profile.status as any} />
+                 <View style={tailwind('flex flex-col w-full')}>
+                     <Text style={tailwind('font-bold text-2xl')}>Orders</Text>
+                     <OrderHeaderStatus status={profile.status as any} />
+                 </View>
                  {showProfileCompleteMsg && (<CompleteProfileMsg />)}
-                 <OrdersStats
-                     hasFetchedOrders={hasFetchedOrders}
-                     completed={getFulfilledOrders().length}
-                     cancelled={0}
-                     pending={getPendingOrders().length}
-                 />
              </View>
              <TabView
                  renderTabBar={(props) => (
                      <TabBar
                          {...props}
-                         indicatorStyle={tailwind('bg-primary-500')}
+                         indicatorStyle={tailwind('hidden')}
                          scrollEnabled
+                         tabStyle={tailwind('bg-white mb-2 mx-1 border-0.5 border-black rounded')}
                          style={tailwind('bg-white w-full')}
-                         labelStyle={tailwind('text-brand-black-500 font-semibold text-sm')}
+                         labelStyle={tailwind('text-black font-bold capitalize text-xs')}
                          activeColor={getColor('primary-500')}
                      />
                  )}
+                 style={tailwind('')}
                  navigationState={{ index, routes }}
                  renderScene={renderScene}
                  onIndexChange={setIndex}

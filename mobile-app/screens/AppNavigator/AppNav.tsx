@@ -51,7 +51,6 @@ export function AppNavigator(): JSX.Element {
         });
 
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            console.log({notification})
             setNotification(notification);
         });
 

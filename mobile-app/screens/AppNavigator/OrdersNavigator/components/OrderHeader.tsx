@@ -26,7 +26,7 @@ export function OrderHeaderStatus (props:{status: 'ONLINE' | 'OFFLINE'}): JSX.El
         })
     }
     return (
-            <View style={tailwind(' flex flex-row justify-end mb-3')}>
+            <View style={tailwind('flex flex-row justify-end mb-3')}>
             <View style={tailwind('flex flex-row items-center  rounded-lg w-2/3')}>
             <Pressable  onPress={() => onToggle('ONLINE')}  disabled={loading.state} style={tailwind('flex flex-row justify-center items-center  pr-1 w-1/2  py-1 px-1 rounded-l-lg', {
                 'bg-primary-500  border-0.5 border-primary-500 border-r-0': props.status === 'ONLINE',

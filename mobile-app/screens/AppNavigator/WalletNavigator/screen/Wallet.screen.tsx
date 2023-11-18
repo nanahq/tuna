@@ -1,6 +1,6 @@
 import {Dimensions, Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
-import {EarningsOVerview} from "@screens/AppNavigator/WalletNavigator/component/EarningsOVerview";
+import {EarningsOverview} from "@screens/AppNavigator/WalletNavigator/component/EarningsOVerview";
 import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {PayoutCard} from "@screens/AppNavigator/WalletNavigator/component/PayoutCard";
 import {useSelector} from "react-redux";
@@ -21,7 +21,7 @@ export function WalletScreen (): JSX.Element {
 
     return (
         <View style={tailwind('px-5 flex-1 flex bg-white')}>
-            <EarningsOVerview overview={overview} />
+            <EarningsOverview overview={overview} />
 
             <Text style={tailwind('text-lg font-semibold text-brand-black-500 mt-4 mb-2')}>Payouts</Text>
             {payouts.length < 1  ? (

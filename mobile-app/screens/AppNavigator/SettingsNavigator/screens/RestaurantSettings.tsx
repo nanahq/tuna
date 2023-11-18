@@ -149,10 +149,6 @@ export function RestaurantSettings (): JSX.Element {
                 setType(value)
             }
     }
-
-
-    console.log(Device.osName)
-
     return (
         <SafeAreaView style={tailwind('flex-1')}>
             <ScrollView style={tailwind('flex w-full bg-white px-5 pt-5')}>

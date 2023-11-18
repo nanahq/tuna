@@ -1,6 +1,6 @@
 import {Image, View} from 'react-native'
 
-import OnboardingCoverImage from '@assets/onboarding/onboarding_cover.jpg'
+import OnboardingCoverImage from '@assets/app-config/Icon-white-ios1024.png'
 
 
 export function OnboardingCover (): JSX.Element {

@@ -24,7 +24,7 @@ export function PayoutCard ({payout, index}: {payout: VendorPayoutI, index: numb
            <View style={tailwind('flex flex-row w-full items-center justify-between')}>
             <Text
                     style={tailwind('text-xs text-brand-black-500 ')}
-                >{`Payout#00${index}`}</Text>
+                >{`Payout #${payout.refId}`}</Text>
                 <NumberFormat
                     prefix='₦'
                     value={payout.earnings}

@@ -6,7 +6,7 @@ import { IconComponent } from '@components/commons/IconComponent';
 export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}: {overview: VendorReviewOverview}): JSX.Element {
 
     return (
-        <View style={[tailwind('py-2 px-3 mt-2 overflow-hidden'), {
+        <View style={[tailwind('py-2 px-4 mt-2 overflow-hidden'), {
 
         }]}>
            <View style={tailwind('flex flex-row w-full justify-center')}>

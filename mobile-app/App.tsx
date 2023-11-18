@@ -13,7 +13,7 @@ import ConnectionBoundary from '@components/commons/ConnectionBoundary';
 import { AppToast } from '@components/commons/AppToast';
 import { ToastProps } from "react-native-toast-notifications/lib/typescript/toast";
 import { ToastProvider } from "react-native-toast-notifications"
-
+import 'expo-dev-client';
 export default function App() {
   const isLoaded = useCachedResource()
  const logger = useLogger()

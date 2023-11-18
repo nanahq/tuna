@@ -2,7 +2,7 @@ import {tailwind} from '@tailwind'
 
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
-import {PropsWithChildren, useCallback} from "react";
+import {PropsWithChildren, useCallback, useMemo} from "react";
 
 import {DeliveredOrderCard, OrdersCard} from "@screens/AppNavigator/OrdersNavigator/components/OrderCard";
 import {EmptyAnimation} from "@components/lottie/Empty";
@@ -19,7 +19,6 @@ interface OrderCatergoryProps {
 export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): JSX.Element {
     const navigation = useNavigation<NavigationProp<OrderParamsList>>()
     const {deliveries, hasFetchedDeliveries} = useAppSelector((state: RootState) => state.deliveries )
-
     const onPress = (order: OrderI): void => navigation.navigate("GetOrder", {order})
 
     const findDeliveryInfo = useCallback<(id: string) => DeliveryI | undefined>((id: string) => {

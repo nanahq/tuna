@@ -78,7 +78,6 @@ export function AddScheduledListing (): JSX.Element {
                 }, 3000)
             }
         } catch (error: any){
-            console.log({error})
             showTost(  toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
 
         } finally {

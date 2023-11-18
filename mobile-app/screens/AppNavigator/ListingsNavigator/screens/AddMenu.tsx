@@ -132,10 +132,13 @@ export function AddMenu (): JSX.Element {
         payload.append('isLive', `${menuForm.isLive}`)
         payload.append('isAvailable', `${menuForm.isAvailable}`)
         payload.append('categoryId', category.id)
-        payload.append('optionGroups', optionsString.join(','))
 
+        if(optionsString.length > 0) {
+            payload.append('optionGroups', optionsString.join(',') )
+        }
         payload.append('image', imagePayload )
-      try {
+
+        try {
           setLoading(true)
          const res = (await _api.requestData({
               method: 'post',
@@ -154,7 +157,6 @@ export function AddMenu (): JSX.Element {
               }, 3000)
           }
       } catch (error: any){
-            console.log({error})
         showTost(  toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
 
       } finally {
@@ -332,7 +334,7 @@ export function AddMenu (): JSX.Element {
                         value={menuForm.isAvailable}
                     />
                 </View>
-                <GenericButton loading={loading} onPress={handleSubmit(onSubmitCb)} label='Add Menu' backgroundColor={tailwind({'bg-brand-black-500': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
+                <GenericButton loading={loading} disabled={category.id === ''} onPress={handleSubmit(onSubmitCb)} label='Add Menu' backgroundColor={tailwind({'bg-brand-black-500': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
             </ScrollView>
         </KeyboardAvoidingView>
     )
