@@ -52,17 +52,17 @@ export function BottomTabNavigator ():JSX.Element {
          setProfileComplete(true)
 
     }, [hasFetchedProfile])
+
     return (
         <BottomTab.Navigator
             initialRouteName={AppScreenName.ORDERS}
             screenOptions={{
                 headerShown: false,
                 tabBarLabelPosition: "below-icon",
-                tabBarStyle: tailwind(
-                    "px-5 py-2 h-24 border-t-0.5 border-brand-black-500 "),
+                tabBarStyle: tailwind("px-5 py-2 h-24 border-t-0.5 border-brand-black-500 "),
                 tabBarActiveTintColor: getColor("primary-500"),
                 tabBarInactiveTintColor: getColor("brand-gray-400"),
-                tabBarItemStyle: tailwind({ "pb-6 pt-2": Device.osName === 'iOS'}),
+                tabBarItemStyle: tailwind({ "py-4": Device.osName === 'iOS'}),
             }}
         >
             <BottomTab.Screen
@@ -132,11 +132,11 @@ export function BottomTabNavigator ():JSX.Element {
                             getTabBarLabel({
                                 focused,
                                 color,
-                                title: 'Reviews',
+                                title: 'Insights',
                             }),
                         tabBarTestID: "BottomTabHome",
                         tabBarIcon: ({ color }) => (
-                            <IconComponent iconType='Feather' name="message-circle"  size={24} color={color}/>
+                            <IconComponent iconType='Ionicons' name="stats-chart-outline"  size={24} color={color}/>
                         ),
                     }}
                 />

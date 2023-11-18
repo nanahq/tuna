@@ -26,7 +26,7 @@ export function ReviewNavigator(): JSX.Element {
                 name={ReviewsScreenName.REVIEWS}
                 options={{
                     headerShown: true,
-                    headerTitle: "Reviews and ratings"
+                    headerTitle: "Rating & Insights"
                 }}
             />
             <ReviewStack.Screen

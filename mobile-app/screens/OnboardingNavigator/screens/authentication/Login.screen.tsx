@@ -1,6 +1,6 @@
 import {Image, Text, View} from 'react-native'
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import AppLogo from '@assets/onboarding/app-logo.png'
+import AppLogo from '@assets/onboarding/nana-logo.png'
 import {tailwind} from "@tailwind";
 import {useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
@@ -62,7 +62,7 @@ export function LoginScreen (): JSX.Element {
             style={{padding: 20, paddingTop: topInsert + 28}}
         >
             <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
-                <Image source={AppLogo} style={tailwind('w-14  h-14 rounded-lg')} />
+                <Image source={AppLogo} resizeMode="contain" style={tailwind('w-16 h-16 rounded-lg')} />
             </View>
             <View style={tailwind('mt-10')}>
                 <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-5')}>Welcome back</Text>

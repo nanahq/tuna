@@ -3,10 +3,9 @@
     "name": "Nana Vendors",
     "description": "Reach a wider audience and sell more with Nana",
     "slug": "nana-vendors-app",
-    "owner": "nana-app",
-    "version": "1.1.1",
+    "owner": "nana_logistics",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-config/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "jsEngine": "hermes",
@@ -30,14 +29,15 @@
       ]
     ],
     "splash": {
-      "image": "./assets/app-config/splash.jpg",
-      "resizeMode": "contain",
-      "backgroundColor": "#E3834C"
+      "image": "./assets/app-config/nana-splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
     },
     "android": {
+      "icon": "./assets/app-config/Icon-Android-512px-White.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/app-config/adaptive-icon.png",
-        "backgroundColor": "#E3834C"
+        "foregroundImage": "./assets/app-config/Icon-Android-512px-White.png",
+        "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
@@ -52,6 +52,7 @@
       "**/*"
     ],
     "ios": {
+      "icon": "./assets/app-config/Icon-white-ios1024.png",
       "supportsTablet": false,
       "bundleIdentifier": "com.nanaapp.nanavendorsapp",
       "buildNumber": "1.1.1"

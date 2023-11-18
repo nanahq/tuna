@@ -17,14 +17,9 @@ export function WalletNavigator(): JSX.Element {
             initialRouteName={WalletScreenName.WALLET}
             screenOptions={{
                 headerLeft: () => <></>,
-                headerTitle: 'Wallet & Earnings',
-                headerTitleAlign: 'left',
-                headerLeftContainerStyle: tailwind('pl-5'),
-                headerTitleStyle: tailwind('font-semibold text-brand-black-500 text-lg'),
-                headerStyle: [tailwind(''), {
-                    shadowOpacity: 8,
-                    height: insets.top + 40
-                }],
+                headerTitle: 'Wallet',
+                headerTitleAlign: 'center',
+                headerTitleStyle: tailwind('font-semibold text-brand-black-500 text-2xl'),
                 headerBackTitleVisible: false,
                 headerShown: true
             }}
@@ -35,7 +30,6 @@ export function WalletNavigator(): JSX.Element {
                 name={WalletScreenName.WALLET}
                 options={{
                     headerShown: true,
-                    headerTitle:''
                 }}
             />
 
