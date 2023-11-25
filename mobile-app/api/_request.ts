@@ -16,7 +16,7 @@ export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
         url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
     }
 
-    return 'http://k8s-default-nanahydr-874b0d28d1-561484973.af-south-1.elb.amazonaws.com/vendor-gateway/v1'
+    return url
 }
 
 const config = {

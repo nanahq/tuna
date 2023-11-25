@@ -7,6 +7,7 @@ import {tailwind} from "@tailwind";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {PaymentSettings} from "@screens/AppNavigator/SettingsNavigator/screens/PaymentSetting";
 import {RestaurantSettings} from "@screens/AppNavigator/SettingsNavigator/screens/RestaurantSettings";
+import {NotificationSettings} from "@screens/AppNavigator/SettingsNavigator/screens/NotificationSettings";
 
 export interface SettingsParamsList {
     AccountProfile: undefined,
@@ -77,6 +78,14 @@ export function SettingsNavigator(): JSX.Element {
                 options={{
                     headerShown: true,
                     headerTitle: 'Business Operations'
+                }}
+            />
+            <SettingsStack.Screen
+                component={NotificationSettings}
+                name={SettingsScreenName.NOTIFICATION_SETTING}
+                options={{
+                    headerShown: true,
+                    headerTitle: 'Notification Settings'
                 }}
             />
         </SettingsStack.Navigator>

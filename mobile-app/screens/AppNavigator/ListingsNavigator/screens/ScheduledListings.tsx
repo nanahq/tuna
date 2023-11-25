@@ -6,7 +6,6 @@ import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {LoaderComponent} from "@components/commons/LoaderComponent";
 import {useCallback} from "react";
 import {IconButton} from "@components/commons/buttons/IconButton";
-import {useNavigation} from "@react-navigation/native";
 import moment from "moment";
 
 export function ScheduledListings (props: {listings: ScheduledListingI[], state: boolean}): JSX.Element {
@@ -58,19 +57,25 @@ export function ScheduledListings (props: {listings: ScheduledListingI[], state:
 export function ListingCard ({listing, onPress}: {listing:ScheduledListingI, onPress: (listing: ScheduledListingI) => void}) {
     const date = moment(listing.availableDate).format('ddd Do MMMM')
     return (
-        <Pressable onPress={() => onPress(listing)} style={[tailwind('flex w-full h-full px-2 mb-4 rounded-lg overflow-hidden'), {
+        <Pressable onPress={() => onPress(listing)} style={[tailwind(' flex w-full h-full px-2 mb-4 rounded-lg overflow-hidden'), {
 
         }]}>
-            <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500  rounded-lg')}>
+            <View style={tailwind('overflow-hidden relative bg-white border-0.5 border-brand-black-500  rounded-lg')}>
                 <View style={tailwind('p-4')}>
                     <View style={tailwind('flex flex-row justify-between w-full items-center')}>
                         <Text style={tailwind('font-semibold text-lg text-brand-black-500')}>{listing.listing.name}</Text>
                         <IconButton iconName="more-horizontal" iconType="Feather" iconSize={24} iconStyle={tailwind('text-brand-gray-700')} />
                     </View>
                     <View style={tailwind('flex flex-col  w-full')}>
-                        <View style={tailwind('flex flex-row items-center')}>
-                            <Text style={tailwind('text-lg font-medium text-brand-black-500 mr-4')}>Quantity</Text>
-                            <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing.quantity}</Text>
+                        <View style={tailwind('flex flex-row items-center w-full justify-between')}>
+                            <View style={tailwind('flex flex-row items-center')}>
+                                <Text style={tailwind('text-lg font-medium text-brand-black-500 mr-4')}>Quantity remaining</Text>
+                                <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing.remainingQuantity}</Text>
+                            </View>
+                            <View style={tailwind('flex flex-row items-center')}>
+                                <Text style={tailwind('text-lg font-medium text-brand-black-500 mr-4')}>Quantity Sold</Text>
+                                <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing.quantity - listing.remainingQuantity }</Text>
+                            </View>
                         </View>
                         <View style={tailwind('flex flex-row items-center')}>
                             <Text style={tailwind('text-lg font-medium text-brand-black-500 mr-5')}>Available Date</Text>
@@ -78,7 +83,13 @@ export function ListingCard ({listing, onPress}: {listing:ScheduledListingI, onP
                         </View>
                     </View>
                 </View>
+                {listing.soldOut && (
+                    <View style={tailwind('absolute top-0 right-0  py-1 w-28 bg-green-500')}>
+                        <Text style={tailwind('text-white text-center')}>Sold out</Text>
+                    </View>
+                )}
             </View>
+
         </Pressable>
     )
 }

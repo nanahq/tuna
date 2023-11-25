@@ -55,7 +55,7 @@
       "icon": "./assets/app-config/Icon-white-ios1024.png",
       "supportsTablet": false,
       "bundleIdentifier": "com.nanaapp.nanavendorsapp",
-      "buildNumber": "1.1.1"
+      "buildNumber": "1.1.0"
     },
     "web": {
       "favicon": "./assets/app-config/favicon.png"

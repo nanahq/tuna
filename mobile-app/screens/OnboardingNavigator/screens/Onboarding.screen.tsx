@@ -22,7 +22,7 @@ export function OnboardingScreen (): JSX.Element {
     }, []);
     return (
        <ScrollView
-           style={tailwind('flex flex-1')}
+           style={tailwind('flex flex-1 bg-white')}
         testID="OnboardingScreen.View"
        >
           <OnboardingCover />

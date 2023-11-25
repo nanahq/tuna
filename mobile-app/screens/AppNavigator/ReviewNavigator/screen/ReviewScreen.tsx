@@ -62,8 +62,8 @@ export function ReviewScreen (): JSX.Element {
     return  (
             <View style={tailwind('flex-1 bg-primary-200')}>
                 <View style={tailwind('px-4 py-3')}>
-                    <View style={tailwind('bg-white mb-3 px-3 py-2 rounded flex flex-col w-full')}>
-                        <Text style={tailwind('text-lg mb-2')}>Total Sales</Text>
+                    <View style={tailwind('bg-white mb-3 px-3  border-0.5 border-brand-black-500 rounded-lg py-2 flex flex-col w-full')}>
+                        <Text style={tailwind('text-lg mb-2 text-gray-400')}>Total Sales</Text>
                         <View style={tailwind('flex flex-row items-baseline self-end')}>
                             <Text style={tailwind('text-lg mr-1')}>₦</Text>
                             <NumberFormat
@@ -79,21 +79,21 @@ export function ReviewScreen (): JSX.Element {
                         </View>
                     </View>
                     <View style={tailwind('flex flex-row items-center')}>
-                        <View style={tailwind('bg-white px-3 py-2 rounded flex flex-col flex-grow mr-2')}>
-                            <Text style={tailwind('text-lg mb-2 text-center')}>Approved Listing</Text>
+                        <View style={tailwind('bg-white px-3 py-2 border-0.5 border-brand-black-500 rounded-lg flex flex-col flex-grow mr-2')}>
+                            <Text style={tailwind('text-lg mb-2 text-center text-gray-400')}>Approved Listing</Text>
                             <NumberFormat
                                 value={numberOfListings}
                                 thousandSeparator
                                 displayType='text'
                                 renderText={(value) => (
-                                    <Text style={tailwind('text-2xl mr-3 flex self-center font-bold')}>
+                                    <Text style={tailwind('text-2xl mr-3  flex self-center font-bold')}>
                                         {value}
                                     </Text>
                                 )}
                             />
                         </View>
-                        <View style={tailwind('bg-white px-3 py-2 rounded flex flex-grow flex-col ml-2')}>
-                            <Text style={tailwind('text-lg mb-2 text-center')}>Delivered orders</Text>
+                        <View style={tailwind('bg-white px-3 py-2 border-0.5 rounded-lg  border-brand-black-500 flex flex-grow flex-col ml-2')}>
+                            <Text style={tailwind('text-lg mb-2 text-gray-400 text-center')}>Delivered orders</Text>
                             <NumberFormat
                                 value={numberOfOrders}
                                 thousandSeparator

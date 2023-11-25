@@ -3,5 +3,7 @@ export enum SettingsScreenName {
     ACCOUNT_PROFILE= 'AccountProfile',
     RESTAURANT_PROFILE= 'RestaurantProfile',
     PAYMENT_PROFILE= 'PaymentProfile',
-    RESTAURANT_SETTINGS= 'RestaurantSettings'
+    RESTAURANT_SETTINGS= 'RestaurantSettings',
+
+    NOTIFICATION_SETTING = 'NotificationSettings'
 }

@@ -10,6 +10,7 @@ import { CompleteProfileMsg } from '@components/commons/CompleteProfileMsg';
 import {  LoaderComponentScreen } from '@components/commons/LoaderComponent';
 import { showTost } from '@components/commons/Toast';
 import { useToast } from 'react-native-toast-notifications';
+import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/SettingsScreenName.enum";
 
 type SettingsScreenProps = StackScreenProps<SettingsParamsList, any>
 
@@ -84,8 +85,12 @@ if (!hasFetchedProfile) {
                         title="Payment Settings" onPress={() => navigation.navigate('PaymentProfile')}  />
                     <SettingsSection.Item
                         isComplete={profile.settings?.operations !== undefined}
-                        subtitle="Restaurant operation "
+                        subtitle="Restaurant operation, business hours, minimum order"
                         title="Restaurant Settings" onPress={() => navigation.navigate('RestaurantSettings')}  />
+
+                    <SettingsSection.Item
+                        subtitle="Notifications, Alert users of new listing"
+                        title="Notifications" onPress={() => navigation.navigate(SettingsScreenName.NOTIFICATION_SETTING)}  />
 
                     <SettingsSection.Item
                         subtitle="Update app, version"
