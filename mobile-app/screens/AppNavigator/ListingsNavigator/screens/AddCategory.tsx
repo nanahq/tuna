@@ -13,12 +13,13 @@ import {useForm} from "react-hook-form";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 import { ListingMenuI} from "@nanahq/sticky";
 import {IconButton} from "@components/commons/buttons/IconButton";
-import {useAppDispatch} from "@store/index";
+import {useAppDispatch, useAppSelector} from "@store/index";
 import {addOrUpdateCategory} from "@store/listings.reducer";
 import Toast from "react-native-toast-message";
 import { showTost } from "@components/commons/Toast";
 import { useToast } from "react-native-toast-notifications";
 import {TouchableOpacity} from "react-native-gesture-handler";
+import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 
 type AddCategoryNavProps = StackScreenProps<ListingsParams, "AddCategory">
 enum TagSelection {
@@ -37,31 +38,32 @@ const operations = [
     }
 ]
 export const CAT_TAGS = [
-    'african',
-    'lunch',
+    'Burgers',
+    'Ice Cream',
     'Traditional',
-    'Gluten free',
-    'Halal',
-    'Vegan',
-    'meat',
-    'italian',
+    'Chicken',
+    'Snacks',
+    'Shawarma',
+    'Rice',
+    'Drinks',
 ]
 
 
 export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Element {
+    const {profile} = useAppSelector(state => state.profile)
+
     const [isLive, setIsLive] = useState<boolean>(false)
-    const [operationType,setType ] = useState<string>('');
+    const [operationType,setType ] = useState<string | undefined>(undefined);
     const [tags, setTags] = useState<string[]>([])
     const dispatch = useAppDispatch()
     const toast = useToast()
 
-    const {control, setValue, handleSubmit, getValues} = useForm<any>()
-
     const [menu, setMenu] = useState<ListingMenuI[]>([])
+    const [name, setName] = useState<string>('')
     const [loading, setIsLoading] = useState<boolean>(false)
     useEffect(() => {
         if (route?.params?.category !== undefined) {
-         setValue('name', route?.params?.category.name)
+         setName( route?.params?.category.name)
         setMenu(route?.params?.category.listingsMenu)
          setIsLive(route?.params?.category.isLive)
         setTags(route?.params?.category.tags)
@@ -85,6 +87,10 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
     function selectTags (tag: string, action: TagSelection): void  {
         switch (action) {
             case TagSelection.SELECT:
+                if(tags.length === 3) {
+                    showTost(toast, 'Can not select more than 3 tags', 'warning')
+                    break;
+                }
                 setTags((prevState) => [...prevState, tag])
                 break;
             case TagSelection.UNSELECT:
@@ -98,13 +104,13 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         setMenu((prev) => prev.filter(m => m._id !== menu._id))
     }
 
-   async function onSubmit (data: any) {
+   async function onSubmit () {
         let type: string = 'CREATE'
         let payload;
         if (route?.params?.category !== undefined) {
             type = 'UPDATE'
             payload = {
-                name: data.name,
+                name,
                 isLive,
                 tags,
                 listingsMenu: menu.map((m) => m._id),
@@ -112,13 +118,12 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
             }
         } else {
             payload = {
-                name: data.name,
+                name,
                 isLive,
                 tags,
-                type: operationType
+                type: operationType ?? profile?.settings?.operations?.deliveryType
             }
         }
-
 
        setIsLoading(true)
        try {
@@ -128,7 +133,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                showTost(toast, 'Category added!', 'success')
                setTimeout(() => {
                    void navigation.goBack()
-               }, 2000)
+               }, 500)
            }
        } catch (error: any) {
           showTost(toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
@@ -143,7 +148,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         if (category === undefined) {
 return true
 }
-        if (getValues('name') !== category.name) {
+        if (name !== category.name) {
 return true
 }
         if (category.isLive !== isLive) {
@@ -166,10 +171,10 @@ return true
         <ScrollView style={tailwind('h-full px-5')}>
             <GoBackButton onPress={() => navigation.goBack()}  style={tailwind('mt-5 mb-1')}/>
             <View style={tailwind('flex flex-col mt-5')}>
-                <ControlledTextInputWithLabel
+                <TextInputWithLabel
+                    defaultValue={name}
+                    onChangeText={value => setName(value)}
                     label="Category Name"
-                    name="name"
-                    control={control}
                     labelTestId="AddCategory.Name"
                     moreInfo='Eg African Cuisine, Lunch - Must not be less than 5 characters'
                 />
@@ -188,25 +193,27 @@ return true
                     />
                 </View>
                 <View style={tailwind('flex flex-row items-center w-full mt-5')}>
-                    {operations?.map(type => (
-                        <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
-                            'border-primary-500': type.value === operationType
-                        })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>
-                            <Text >{type.label}</Text>
-                            <View
-                                style={tailwind('rounded-full w-2 h-2 absolute bottom-1 right-1', {
-                                    'bg-primary-500': type.value === operationType,
-                                    'border-0.5 border-brand-gray-400': type.value !== operationType
-                                })}
-                            />
-                        </TouchableOpacity>
-                    ))}
+                    {  profile?.settings?.operations?.deliveryType === 'PRE_AND_INSTANT' && operations?.map(type => {
+                        return (
+                            <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
+                                'border-primary-500': type.value === operationType
+                            })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>
+                                <Text >{type.label}</Text>
+                                <View
+                                    style={tailwind('rounded-full w-2 h-2 absolute bottom-1 right-1', {
+                                        'bg-primary-500': type.value === operationType,
+                                        'border-0.5 border-brand-gray-400': type.value !== operationType
+                                    })}
+                                />
+                            </TouchableOpacity>
+                        )
+                    })}
                 </View>
                 <View>
                     <TextWithMoreInfo
                         containerStyle={tailwind('mt-5')}
                         text="Tags"
-                        moreInfo='Add keywords relevant to menus in this category. Optional'
+                        moreInfo='Add tags relevant to menus in this category.This will help your business appear on customer searches. choose up to 3'
                      />
                     <View style={tailwind('border-0.5 border-dashed border-brand-gray-700 py-4 px-3 flex flex-row items-center flex-wrap')}>
                         {CAT_TAGS.map(tag => (
@@ -216,7 +223,7 @@ return true
                 </View>
 
                 {checkDirty()  && menu.length <= 0 && (
-                    <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-brand-black-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
+                    <GenericButton loading={loading} onPress={onSubmit} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-brand-black-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
                 )}
                 {menu.length >= 1 ? (
                     <View style={tailwind('my-6 flex flex-col')}>
@@ -231,7 +238,7 @@ return true
                   <EmptyMenu title="Empty" type="CATEGORY" />
                 )}
                 {checkDirty() && (
-                    <GenericButton loading={loading} onPress={handleSubmit(onSubmit)} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-brand-black-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
+                    <GenericButton loading={loading} onPress={onSubmit} label={route?.params?.category !== undefined ? 'Update category' : 'Add category'} backgroundColor={tailwind('bg-brand-black-500')} labelColor={tailwind('text-white')} style={tailwind('my-5')} testId="" />
                 )}
             </View>
 

@@ -4,9 +4,8 @@ import {persistence} from "@api/persistence";
 import { showToastStandard } from "@components/commons/Toast";
 import {cookieParser} from "../../utils/cookieParser";
 
-type Environment = 'production' | 'development'
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
-    const environment: Environment | any = process.env.NODE_ENV ?? 'production'
+    const environment: string = 'production'
 
     let url: string
 
@@ -34,6 +33,9 @@ interface baseParamProps<T> {
     data?: T
     type?: 'requestData'
     headers?: any
+    transformRequest?: any
+
+    baseUrl?: string
 }
 
 async function base<T>(param: baseParamProps<T>) {
@@ -42,9 +44,10 @@ async function base<T>(param: baseParamProps<T>) {
     setTimeout(() => {
         source.cancel();
     }, 50000);
+    console.log(param.data)
     return await axios({
         method: param.method,
-        baseURL: config.baseUrl,
+        baseURL: param.baseUrl ?? config.baseUrl,
         url: param.url,
         headers: param.headers !== undefined ?  param.headers : config.headers,
         cancelToken: source.token,
@@ -57,6 +60,7 @@ async function base<T>(param: baseParamProps<T>) {
             });
         })
         .catch((err: any) => {
+            console.error(err)
             if (err.message.includes('401')) {
                 return Promise.reject(err.response?.data);
             }
@@ -80,8 +84,8 @@ async function request<T> (method: Method, url: string): Promise<{data: any, coo
         .catch(err => Promise.reject(err));
 }
 
-async function requestData<T> ({method, url, data}: baseParamProps<T>): Promise<{data: any, cookies: string[]}> {
-    return await base<T>({method, url, data})
+async function requestData<T> (params: baseParamProps<T>): Promise<{data: any, cookies: string[]}> {
+    return await base<T>(params)
         .then(res => Promise.resolve<{data: any, cookies: string[]}>(res))
         .catch(err => Promise.reject(err));
 }

@@ -31,9 +31,9 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
 
     const getSnapPoints = (): string[] => {
         if (Device.osName === "iOS") {
-            return ["40%"]; // ios measures space without keyboard
+            return ["50%"]; // ios measures space without keyboard
         } else if (Device.osName === "Android") {
-            return ["40%"]; // android measure space by including keyboard
+            return ["50%"]; // android measure space by including keyboard
         }
         return [];
     }

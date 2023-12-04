@@ -9,7 +9,7 @@ import {IconComponent} from "@components/commons/IconComponent";
 
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 
-import {ListingCategoryI} from "@nanahq/sticky";
+import {ListingApprovalStatus, ListingCategoryI} from "@nanahq/sticky";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {_api} from "@api/_request";
 
@@ -52,11 +52,18 @@ export function AddScheduledListing (): JSX.Element {
     const preOrderListingsCategories = useMemo(() =>{
         return listingsCategory.filter((li) => li.type === 'PRE_ORDER')
             .flatMap(cat => cat.listingsMenu)
+            .filter(li => li.status === ListingApprovalStatus.APPROVED)
     }, [listingsCategory])
 
 
     const [loading, setLoading] = useState<boolean>(false)
     async function onSubmitCb (): Promise<void>  {
+        const data = {...menuForm, availableDate: menuForm.availableDate.getTime(), quantity: +menuForm.quantity}
+
+        if(Object.values(menuForm).includes('')) {
+            showTost(toast, 'fill all the fields', 'warning')
+            return
+        }
 
         try {
             setLoading(true)
@@ -64,19 +71,21 @@ export function AddScheduledListing (): JSX.Element {
                 method: 'post',
                 url: 'listing/scheduled',
                 headers:{
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 },
-                data: {...menuForm, availableDate: menuForm.availableDate.getTime()}
+                data
             })).data
 
-            await dispatch(fetchScheduled())
             if (res.status === 1) {
                 showTost(toast, 'Scheduled Listing!', 'success')
                 setTimeout(() => {
                     void navigation.goBack()
-                }, 3000)
+                }, 500)
+
+                dispatch(fetchScheduled())
             }
+
         } catch (error: any){
             showTost(  toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
 
@@ -87,6 +96,7 @@ export function AddScheduledListing (): JSX.Element {
 
     }
 
+    console.log(menuForm)
 
     return (
         <KeyboardAvoidingView style={tailwind('px-5 bg-white flex-1')}>

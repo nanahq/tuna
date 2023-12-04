@@ -5,6 +5,7 @@ export enum AppActions {
     FETCH_REVIEWS = 'app/fetchReviews',
     FETCH_SETTINGS = 'app/fetchSettings',
     FETCH_ALL_LISTINGS = 'app/fetchAllListings',
+    FETCH_SUBSCRIPTION = 'app/fetchSubscription',
     FETCH_MENUS = 'app/fetchMenus',
     FETCH_OPTIONS = 'app/fetchOptions',
     FETCH_DELIVERIES = 'app/fetchDeliveries',

@@ -15,7 +15,7 @@ import { ShowToast } from "@components/commons/Toast";
 import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
-import {OrderI, OrderStatus} from '@nanahq/sticky'
+import {OrderI, OrderStatus, VendorApprovalStatusEnum} from '@nanahq/sticky'
 
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const DATA  = [
@@ -34,6 +34,7 @@ export function OrdersScreen (): JSX.Element {
     const [index, setIndex] = useState<number>(0);
     const [routes] = useState<Array<{key: string, title: string}>>(DATA);
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
+    const [showAccountApprovalMsg, setShowAccountApprovalMsg]  = useState<boolean>(false)
 
     const bottomSheetModalRef = useRef<any>(null)
     const layout = useWindowDimensions();
@@ -111,7 +112,6 @@ export function OrdersScreen (): JSX.Element {
             latitude
         }
 
-
         await AsyncStorage.setItem('LOCATION_COORDS', JSON.stringify(obj))
         dismiss(LOCATION_MODAL_NAME)
     }
@@ -138,6 +138,10 @@ export function OrdersScreen (): JSX.Element {
         if (profile.settings?.payment === undefined) {
             setShowProfileCompleteMsg(true)
         }
+
+        if((profile as any).acc_status === VendorApprovalStatusEnum.PENDING){
+            setShowAccountApprovalMsg(true)
+        }
     }
 
     if (!hasFetchedOrders) {
@@ -154,7 +158,8 @@ export function OrdersScreen (): JSX.Element {
                      <Text style={tailwind('font-bold text-2xl')}>Orders</Text>
                      <OrderHeaderStatus status={profile.status as any} />
                  </View>
-                 {showProfileCompleteMsg && (<CompleteProfileMsg />)}
+                 {showProfileCompleteMsg && (<CompleteProfileMsg type="PROFILE" />)}
+                 {showAccountApprovalMsg && (<CompleteProfileMsg type="ACCOUNT" />)}
              </View>
              <TabView
                  renderTabBar={(props) => (

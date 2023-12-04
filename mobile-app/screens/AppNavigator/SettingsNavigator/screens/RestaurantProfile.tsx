@@ -9,20 +9,20 @@ import {useNavigation} from "@react-navigation/native";
 import * as Location from 'expo-location'
 import * as ImagePicker from "expo-image-picker";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
-import { useForm } from "react-hook-form";
 import { ShowToast, showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
 import { _api } from "@api/_request";
 import * as Device from 'expo-device'
-import { ControlledTextInputWithLabel } from "@components/commons/inputs/ControlledTextInput";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from 'react-native-uuid'
 import { useToast } from "react-native-toast-notifications";
 import { TextWithMoreInfo } from "@components/Text/TextWithMoreInfo";
 import { ListingsPhotosUploadButton } from "@screens/AppNavigator/ListingsNavigator/screens/components/ListingsPhotosUploadButton";
 import LogoPlaceholder from '@assets/app/logo-placeholder.png'
-import {LoaderComponent} from "@components/commons/LoaderComponent";
-
+import {LoaderComponent, LoaderComponentScreen} from "@components/commons/LoaderComponent";
+import mime from "mime";
+import * as FileSystem from 'expo-file-system'
+import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 const RestaurantProfileInteraction = {
     UPDATING_PROFILE_MESSAGE: 'Updating profile',
     GETTING_LOCATION_MESSAGE: 'Getting location',
@@ -52,15 +52,15 @@ export function RestaurantProfile (): JSX.Element {
     const [updatingImage, setUpdatingImage] = useState<boolean>(false)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_restaurantImage, _setRestaurantImage] = useState<string | undefined>(undefined)
-    const {control, handleSubmit, formState: { errors}, setValue} = useForm<RestaurantProfileForm>({
-        criteriaMode: 'all'
+    const [form, setForm] = useState<RestaurantProfileForm>({
+        businessAddress: '',
+        businessEmail: '',
+        businessName: ''
     })
 
 
     useEffect(() => {
-        setValue('businessName', profile.businessName)
-        setValue('businessAddress', profile.businessAddress)
-        setValue('businessEmail', profile.businessEmail)
+        setForm(prev => ({...prev, 'businessName':profile.businessName, businessEmail: profile.businessEmail, businessAddress: profile.businessAddress}))
         setLogo(profile.businessLogo)
         _setRestaurantImage(profile.restaurantImage)
     }, [])
@@ -68,18 +68,28 @@ export function RestaurantProfile (): JSX.Element {
 
 
     if (!hasFetchedProfile) {
-        return <View>
-            <Text>Fetching</Text>
-        </View>
+        return (
+            <LoaderComponentScreen />
+        )
     }
 
 
     async function updateBusinessLogo (data: ImagePicker.ImagePickerAsset): Promise<void> {
-        const extension = data?.fileName?.split('.')[1]
+        let uri = ''
+        if (Device.osName === 'Android') {
+            const path = await FileSystem.getInfoAsync(data.uri)
+            console.log(path)
+            uri = path.uri
+        } else {
+            uri = data?.uri.replace('file://', '')
+        }
+
+        const type = mime.getType(uri)
+
         const imagePayload = {
-            uri: Device.osName === 'Andriod' ?  data?.uri : data?.uri.replace('file://', ''),
-            name: `${uuid.v4()}.${extension}`,
-            type: `image/${extension}`
+            uri,
+            type,
+            name: `${uuid.v4()}.${type}`,
         } as any
 
         const payload = new FormData()
@@ -93,6 +103,9 @@ export function RestaurantProfile (): JSX.Element {
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Origin': '*'
                 },
+                transformRequest: (data: any) => {
+                    return data
+                },
                 data: payload
             })).data
             setLogo(photo)
@@ -105,11 +118,21 @@ export function RestaurantProfile (): JSX.Element {
     }
 
     async function updateBusinessImage (data: ImagePicker.ImagePickerAsset): Promise<void> {
-        const extension = data?.fileName?.split('.')[1]
+        let uri = ''
+        if (Device.osName === 'Android') {
+            const path = await FileSystem.getInfoAsync(data.uri)
+            console.log(path)
+            uri = path.uri
+        } else {
+            uri = data?.uri.replace('file://', '')
+        }
+
+            const type = mime.getType(uri)
+
         const imagePayload = {
-            uri: Device.osName === 'Andriod' ?  data?.uri : data?.uri.replace('file://', ''),
-            name: `${uuid.v4()}.${extension}`,
-            type: `image/${extension}`
+            uri,
+            type,
+            name: `${uuid.v4()}.${type}`,
         } as any
 
         const payload = new FormData()
@@ -124,11 +147,16 @@ export function RestaurantProfile (): JSX.Element {
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Origin': '*'
                 },
+                transformRequest: (data: any) => {
+                    return data
+                },
                 data: payload
             })).data
             _setRestaurantImage(photo)
             showTost(toast, 'Image updated!', 'success')
+            dispatch(fetchProfile())
         } catch (error) {
+            console.error(error)
             showTost(toast, 'failed to upload image', 'error')
         } finally {
             setUpdatingImage(false)
@@ -152,25 +180,26 @@ export function RestaurantProfile (): JSX.Element {
 
         showTost(toast, RestaurantProfileInteraction.COORD_UPDATE, 'success')
 
+        console.log([longitude, latitude])
         try {
             await _api.requestData({
                 method: 'put',
                 url: 'vendor/profile',
-                data: { location: {type: "Point", coordinates: [`${longitude}`, `${latitude}`]}}
+                data: { location: {type: "Point", coordinates: [latitude, longitude]}}
             })
+            dispatch(fetchProfile())
         } catch (error) {
             showTost(toast, 'failed to update location', 'error')
         }
     }
 
-   async function updateProfile (data: RestaurantProfileForm): Promise<void> {
-    toast.hideAll();
+   async function updateProfile (): Promise<void> {
     setSubmitting(true)
        try {
          await _api.requestData<RestaurantProfileForm>({
             method: 'put',
             url: 'vendor/profile',
-            data
+            data: {...form}
         })
 
        setSubmitting(false)
@@ -189,16 +218,21 @@ export function RestaurantProfile (): JSX.Element {
 
 
     const pickImage = async (cb: (assets: any) => Promise<void>) => {
-        const result = await ImagePicker.launchImageLibraryAsync({
-            allowsMultipleSelection: true,
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            aspect: [4, 3],
-            quality: 1,
-            selectionLimit: 1,
-        });
+        try {
+            await ImagePicker.requestMediaLibraryPermissionsAsync()
+            const result = await ImagePicker.launchImageLibraryAsync({
+                allowsMultipleSelection: false,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [4, 3],
+                quality: 1,
+                selectionLimit: 1,
+            });
 
-        if (!result.canceled) {
-         await  cb(result?.assets[0])
+            if (!result.canceled) {
+                await  cb(result?.assets[0])
+            }
+        } catch (error) {
+            console.log(error)
         }
     };
 
@@ -224,7 +258,9 @@ export function RestaurantProfile (): JSX.Element {
                     </View>
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
                         <View style={tailwind('flex flex-row items-center justify-between w-full')}>
-                            <ControlledTextInputWithLabel
+                            <TextInputWithLabel
+                                defaultValue={form.businessName}
+                                onChangeText={value => setForm(prev => ({...prev, businessName: value}))}
                                 editable={editProfileState}
                                 label='Business Name'
                                 testID='AccountProfile.FirstName.Input'
@@ -232,52 +268,36 @@ export function RestaurantProfile (): JSX.Element {
                                     width: 160
                                 }}
                                 labelTestId="AccountProfile.FirstName.Label"
-                                control={control}
-                                name="businessName"
-                                rules={{required: {
-                                    value: true,
-                                    message: "Required"
-                                }}}
-                            error={errors.businessName !== undefined}
-                            errorMessage={errors.businessName?.message}
+                                error={false}
+                                 errorMessage="Required"
                             />
-
                         </View>
-                        <ControlledTextInputWithLabel
-                                editable={editProfileState}
-                                label='Business Email'
-                                testID='AccountProfile.LastName.Input'
-                                labelTestId="AccountProfile.LastName.Label"
-                                control={control}
-                                name="businessEmail"
-                                rules={{required: {
-                                    value: true,
-                                    message: "Required"
-                                }}}
-                            error={errors.businessEmail !== undefined}
-                            errorMessage={errors.businessEmail?.message}
-                            />
-                        <ControlledTextInputWithLabel
+                        <TextInputWithLabel
+                            editable={editProfileState}
+                            label='Business Email'
+                            defaultValue={form.businessEmail}
+                            onChangeText={value => setForm(prev => ({...prev, businessEmail: value}))}
+                            testID='AccountProfile.FirstName.Input'
+                            labelTestId="AccountProfile.FirstName.Label"
+                            error={false}
+                            errorMessage="Required"
+                        />
+                        <TextInputWithLabel
                             editable={editProfileState}
                             label='Business Address'
-                            testID='AccountProfile.PhoneNumber.Input'
-                            labelTestId="AccountProfile.PhoneNumber.Label"
-                            containerStyle={tailwind('w-full mt-5')}
-                            control={control}
-                            name="businessAddress"
-                            rules={{required: {
-                                value: true,
-                                message: "Required"
-                            }}}
-                        error={errors.businessAddress !== undefined}
-                        errorMessage={errors.businessAddress?.message}
-                    />
+                            defaultValue={form.businessAddress}
+                            onChangeText={value => setForm(prev => ({...prev, businessAddress: value}))}
+                            testID='AccountProfile.FirstName.Input'
+                            labelTestId="AccountProfile.FirstName.Label"
+                            error={false}
+                            errorMessage="Required"
+                        />
                     </ProfileSection>
                     {editProfileState && (
                         <GenericButton
                         style={tailwind('mt-4')}
-                        labelColor={tailwind('text-white')}
-                        onPress={handleSubmit(updateProfile)}
+                        labelColor={tailwind('text-white font-medium')}
+                        onPress={updateProfile}
                         label="Update profile"
                         backgroundColor={tailwind('bg-brand-black-500')}
                         testId="Accountprofile.editButton"
@@ -285,21 +305,26 @@ export function RestaurantProfile (): JSX.Element {
                         />
                     )}
 
-                    <View style={tailwind('my-10 border-brand-gray-700 border-0.5 border-dashed px-3 py-5 rounded')}>
+
+                <View style={tailwind('my-10')}>
+                    {profile.restaurantImage === undefined && <Text style={tailwind('text-sm mb-1 text-warning-600')}>Missing restaurant banner image</Text>}
+                    <View style={tailwind(' border-brand-gray-700 border-0.5 border-dashed px-3 py-5 rounded')}>
                         {_restaurantImage && (
                             <View style={tailwind('rounded-xl w-full')}>
-                                <Image source={{uri: _restaurantImage}} resizeMode="cover" style={tailwind('rounded-xl w-full h-28')} />
+                                <Image source={{uri: _restaurantImage, cache: 'force-cache'}} resizeMode="cover" style={tailwind('rounded-xl w-full h-28')} />
                             </View>
                         )}
                         <TextWithMoreInfo
-                        moreInfo="Amazing image of your signature dish. "
-                        text={_restaurantImage ? "" : "Add a restaurant image"}
-                        containerStyle={tailwind('mb-4')}
-                    />
-                    <ListingsPhotosUploadButton loading={updatingImage} onPress={() => pickImage(updateBusinessImage)} disabled={updatingImage}  />
+                            moreInfo="Amazing image of your signature dish. "
+                            text={_restaurantImage ? "" : "Add a restaurant image"}
+                            containerStyle={tailwind('mb-4')}
+                        />
+                        <ListingsPhotosUploadButton loading={updatingImage} onPress={() => pickImage(updateBusinessImage)} disabled={updatingImage}  />
+                    </View>
                 </View>
                 {!editProfileState && (
                     <View  style={tailwind('flex w-full flex-col my-16')}>
+                        {(profile.location?.coordinates[0] === 0 as any) && <Text style={tailwind('text-sm mb-1 text-warning-600')}>Please update location</Text>}
                         <View style={tailwind('flex flex-col w-full')}>
                             <Text style={tailwind('text-lg font-medium text-brand-black-500 mb-2')}>Update Location</Text>
                             <InfoHover  />
@@ -321,8 +346,9 @@ export function RestaurantProfile (): JSX.Element {
 
 function InfoHover (): JSX.Element {
     return (
-       <View style={tailwind('flex flex-row justify-between w-full items-center')}>
+       <View style={tailwind('flex flex-col justify-between w-full ')}>
         <Text style={tailwind('text-xs text-brand-gray-400')}>We use precise location of your restaurant calculate distance and provide ETA to customers</Text>
+        <Text style={tailwind('text-sm font-bold text-brand-gray-400 mt-2')}>Make sure you are at your place of business before updating this</Text>
        </View>
     )
 }

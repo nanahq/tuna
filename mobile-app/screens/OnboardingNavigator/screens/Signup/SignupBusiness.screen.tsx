@@ -1,4 +1,4 @@
-import { View} from 'react-native'
+import {SafeAreaView, ScrollView, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {useRef, useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
@@ -14,6 +14,10 @@ import Toast from "react-native-toast-message";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {useForm} from "react-hook-form";
 import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
+import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
+import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+import {useToast} from "react-native-toast-notifications";
+import {showTost} from "@components/commons/Toast";
 
 interface SignupBusinessForm {
     businessEmail: string
@@ -32,41 +36,65 @@ type SignupBusinessProps = StackScreenProps<OnboardingParamsList, any>
 export function SignupBusinessScreen ({route }: SignupBusinessProps): JSX.Element {
     const bottomSheetModalRef = useRef<any>(null)
     const [_loading, _setLoading] = useState<boolean>(false)
-
+    const toast = useToast()
     const  openModal = (): void =>  bottomSheetModalRef.current?.present();
 
-    // form
-    const {control, formState: {errors}, handleSubmit} = useForm<SignupBusinessForm>({
-        criteriaMode: 'all',
-        mode: 'onTouched'
+    const [form, setForm] = useState<SignupBusinessForm>({
+        businessAddress: '',
+        businessEmail: '',
+        businessName: ''
+    })
+
+    const [errors, setErrors] =  useState<Record<keyof SignupBusinessForm, boolean>>({
+        businessAddress: false,
+        businessEmail: false,
+        businessName: false
     })
 
 
-    async function onContinuePress (data: SignupBusinessForm): Promise<void> {
-try {
+    function checkForErrors (): void {
+        if(form.businessName === '') {
+            setErrors(prev => ({...prev, businessName: true}))
+            return
+        }
+
+        if(form.businessEmail === '') {
+            setErrors(prev => ({...prev, businessEmail: true}))
+            return
+        }
+
+        if(form.businessAddress === '') {
+            setErrors(prev => ({...prev, businessAddress: true}))
+            return
+        }
+    }
+
+    async function onContinuePress (): Promise<void> {
+        setErrors({
+            businessAddress: false,
+            businessEmail: false,
+            businessName: false
+        })
+
+
+        checkForErrors()
+
+        try {
             _setLoading(true)
             await _api.requestData<SignupPayload>({
                 method: 'POST',
                 url: 'vendor/register',
                 data: {
                     ...route.params as Omit<SignupProfileForm, 'confirmPassword'>,
-                    ...data
+                    ...form
                 }
             })
             openModal()
         } catch (error: any) {
             if (Number(error?.statusCode) === 500) {
-                Toast.show({
-                    type: 'error',
-                    text1: 'Something went wrong. Login failed',
-                    autoHide: true,
-                })
+                showTost(toast, 'Something went wrong. can not create new account', 'error')
             } else {
-                Toast.show({
-                    type: 'error',
-                    text1: typeof error.message !== 'string' ? error.message[0] : error.message,
-                    autoHide: true,
-                })
+                showTost(toast, typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
             }
         } finally {
             _setLoading(false)
@@ -74,72 +102,60 @@ try {
     }
 
     return (
-        <KeyboardAwareScrollView>
-            <View testID="SignupBusiness.View" style={tailwind('pb-8 px-5 h-full')}>
-                <ControlledTextInputWithLabel
-                    label='Business Name'
-                    name='businessName'
-                    testID='SignupBusiness.name.Input'
-                    labelTestId="SignupBusiness.name.Label"
-                    containerStyle={tailwind('w-full mt-5')}
-                    control={control}
-                    rules={{required: {
-                            value: true,
-                            message: "Required"
-                        }}}
-                    error={errors.businessName !== undefined}
-                    errorMessage={errors.businessName?.message}
-                />
-                <ControlledTextInputWithLabel
-                    label='Business email'
-                    moreInfo='We use this for business related updates'
-                    testID='SignupBusiness.email.Input'
-                    labelTestId="SignupBusiness.email.Label"
-                    containerStyle={tailwind('w-full mt-5')}
-                    name='businessEmail'
-                    control={control}
-                    rules={{required: {
-                            value: true,
-                            message: "Required"
-                        }}}
-                    error={errors.businessEmail !== undefined}
-                    errorMessage={errors.businessEmail?.message}
 
-                />
-                <ControlledTextInputWithLabel
-                    label='Business Address'
-                    testID='SignupBusiness.address.Input'
-                    labelTestId="SignupBusiness.address.Label"
-                    containerStyle={tailwind('w-full mt-5')}
-                    name='businessAddress'
-                    control={control}
-                    rules={{required: {
-                            value: true,
-                            message: "Required"
-                        }}}
-                    error={errors.businessAddress !== undefined}
-                    errorMessage={errors.businessAddress?.message}
-
-                />
-                <TermsAndConditionsSection />
-                <GenericButton
-                    style={tailwind({
-                        'mt-10': Device.osName === 'Android',
-                        'mt-20': Device.osName === 'iOS'
-                    })}
-                    onPress={handleSubmit(onContinuePress)}
-                    labelColor={tailwind('text-white')}
-                    label={_loading ? 'Creating your account' : 'Create account'}
-                    backgroundColor={tailwind('bg-brand-black-500')}
-                    testId="OnboardingScreen.SignupBusinessScreen.ContinueButton"
-                    loading={_loading}
-                />
-                {!_loading && (
-                        <LoginButtonWithText style={tailwind('text-brand-black-500')} />
-                )}
-            </View>
-            <WelcomeButtonSheet  promptModalName='WELCOME_MODAL' modalRef={bottomSheetModalRef} />
-        </KeyboardAwareScrollView>
-
+            <SafeAreaView style={tailwind('flex-1 bg-white')}>
+                <ScrollView style={tailwind(' pb-8 px-5')}>
+                    <SignupHeader page='Restaurant' showBackButton />
+                    <View testID="SignupBusiness.View" style={tailwind('flex flex-col')}>
+                        <TextInputWithLabel
+                            defaultValue={form.businessName}
+                            onChangeText={(value) => setForm((prev) => ({...prev, businessName: value}))}
+                            error={errors.businessName}
+                            errorMessage="Required"
+                            label='What is the name of your restaurant/business?'
+                            testID='SignupProfileScreen.FirstName.Input'
+                            containerStyle={tailwind('mt-5')}
+                            labelTestId="SignupProfileScreen.FirstName.Label"
+                        />
+                        <TextInputWithLabel
+                            defaultValue={form.businessEmail}
+                            onChangeText={(value) => setForm((prev) => ({...prev, businessEmail: value}))}
+                            error={errors.businessEmail}
+                            errorMessage="Required"
+                            label='Email to receive business updates about your account'
+                            testID='SignupProfileScreen.FirstName.Input'
+                            containerStyle={tailwind('mt-5')}
+                            labelTestId="SignupProfileScreen.FirstName.Label"
+                        />
+                        <TextInputWithLabel
+                            defaultValue={form.businessAddress}
+                            onChangeText={(value) => setForm((prev) => ({...prev, businessAddress: value}))}
+                            error={errors.businessAddress}
+                            errorMessage="Required"
+                            label='Address of your business'
+                            testID='SignupProfileScreen.FirstName.Input'
+                            containerStyle={tailwind('mt-5')}
+                            labelTestId="SignupProfileScreen.FirstName.Label"
+                        />
+                        <TermsAndConditionsSection />
+                        <GenericButton
+                            style={tailwind({
+                                'mt-10': Device.osName === 'Android',
+                                'mt-20': Device.osName === 'iOS'
+                            })}
+                            onPress={onContinuePress}
+                            labelColor={tailwind('text-white')}
+                            label={_loading ? 'Creating your account' : 'Create account'}
+                            backgroundColor={tailwind('bg-primary-500')}
+                            testId="OnboardingScreen.SignupBusinessScreen.ContinueButton"
+                            loading={_loading}
+                        />
+                        {!_loading && (
+                            <LoginButtonWithText style={tailwind('text-brand-black-500')} />
+                        )}
+                    </View>
+                </ScrollView>
+                <WelcomeButtonSheet  promptModalName='WELCOME_MODAL' modalRef={bottomSheetModalRef} />
+            </SafeAreaView>
     )
 }

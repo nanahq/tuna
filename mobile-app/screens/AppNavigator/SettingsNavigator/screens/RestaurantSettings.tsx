@@ -40,6 +40,7 @@ export function RestaurantSettings (): JSX.Element {
     const {profile,  hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
     const dispatch = useAppDispatch()
 
+    console.log(profile.settings)
     const toast = useToast()
 
     const startTimeRef = useRef<any>(null)
@@ -127,14 +128,14 @@ export function RestaurantSettings (): JSX.Element {
                 method: 'post',
                 url: 'vendor/settings',
                 data: {
-                    payment: profile.settings?.payment,
+                    payment: profile?.settings?.payment,
                     operations: payload
                 }
             })
         dispatch(fetchProfile())
         showTost(toast,  'Settings updated!', 'success')
         } catch (error: any) {
-        showTost(toast,   typeof error?.message === 'string' ? error.messase : error.message[0], 'error')
+        showTost(toast,   typeof error?.message === 'string' ? error.message : error.message[0], 'error')
 
         } finally {
             setLoading(false)
@@ -234,8 +235,8 @@ export function RestaurantSettings (): JSX.Element {
                             </Text>
                         <View style={tailwind('flex flex-row items-center w-full')}>
                             {operations?.map(type => (
-                                <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
-                                    'border-primary-800': type.value === operationType
+                                <TouchableOpacity key={type.value} style={tailwind('flex px-5 flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2  mr-1 relative', {
+                                    'border-primary-500': type.value === operationType
                                 })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>
                                     <Text >{type.label}</Text>
                                     <View

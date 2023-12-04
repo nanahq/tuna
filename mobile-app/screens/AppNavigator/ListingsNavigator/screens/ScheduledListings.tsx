@@ -63,18 +63,18 @@ export function ListingCard ({listing, onPress}: {listing:ScheduledListingI, onP
             <View style={tailwind('overflow-hidden relative bg-white border-0.5 border-brand-black-500  rounded-lg')}>
                 <View style={tailwind('p-4')}>
                     <View style={tailwind('flex flex-row justify-between w-full items-center')}>
-                        <Text style={tailwind('font-semibold text-lg text-brand-black-500')}>{listing.listing.name}</Text>
+                        <Text style={tailwind('font-semibold text-lg text-brand-black-500')}>{listing?.listing?.name}</Text>
                         <IconButton iconName="more-horizontal" iconType="Feather" iconSize={24} iconStyle={tailwind('text-brand-gray-700')} />
                     </View>
                     <View style={tailwind('flex flex-col  w-full')}>
                         <View style={tailwind('flex flex-row items-center w-full justify-between')}>
                             <View style={tailwind('flex flex-row items-center')}>
                                 <Text style={tailwind('text-lg font-medium text-brand-black-500 mr-4')}>Quantity remaining</Text>
-                                <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing.remainingQuantity}</Text>
+                                <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing?.remainingQuantity}</Text>
                             </View>
                             <View style={tailwind('flex flex-row items-center')}>
                                 <Text style={tailwind('text-lg font-medium text-brand-black-500 mr-4')}>Quantity Sold</Text>
-                                <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing.quantity - listing.remainingQuantity }</Text>
+                                <Text style={tailwind('text-lg font-medium text-brand-black-500 font-bold')}>{listing?.quantity - listing?.remainingQuantity }</Text>
                             </View>
                         </View>
                         <View style={tailwind('flex flex-row items-center')}>

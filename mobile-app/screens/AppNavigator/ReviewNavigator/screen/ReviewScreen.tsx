@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native'
+import {ScrollView, Text, View} from 'react-native'
 import {ReviewsHeader} from "@screens/AppNavigator/ReviewNavigator/screen/components/ReviewsHeader";
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "@store/index";
@@ -13,7 +13,7 @@ import {EmptyAnimation} from '@components/lottie/Empty';
 import {NumericFormat as NumberFormat} from "react-number-format";
 
 export function ReviewScreen (): JSX.Element {
-    const {hasFetchedProfile, profile} = useSelector((state: RootState) => state.profile)
+    const {hasFetchedProfile, profile, hasFetchedSubscriptions, subscription} = useSelector((state: RootState) => state.profile)
     const {hasFetchedOrders, orders} = useSelector((state: RootState) => state.orders)
     const {hasFetchedListings, listingsMenu} = useSelector((state: RootState) => state.listings)
 
@@ -59,8 +59,9 @@ export function ReviewScreen (): JSX.Element {
         )
     }
 
+    console.log({subscription})
     return  (
-            <View style={tailwind('flex-1 bg-primary-200')}>
+            <ScrollView style={tailwind('flex-1 bg-gray-50')}>
                 <View style={tailwind('px-4 py-3')}>
                     <View style={tailwind('bg-white mb-3 px-3  border-0.5 border-brand-black-500 rounded-lg py-2 flex flex-col w-full')}>
                         <Text style={tailwind('text-lg mb-2 text-gray-400')}>Total Sales</Text>
@@ -78,7 +79,7 @@ export function ReviewScreen (): JSX.Element {
                             />
                         </View>
                     </View>
-                    <View style={tailwind('flex flex-row items-center')}>
+                    <View style={tailwind('flex mb-3 flex-row items-center')}>
                         <View style={tailwind('bg-white px-3 py-2 border-0.5 border-brand-black-500 rounded-lg flex flex-col flex-grow mr-2')}>
                             <Text style={tailwind('text-lg mb-2 text-center text-gray-400')}>Approved Listing</Text>
                             <NumberFormat
@@ -106,6 +107,22 @@ export function ReviewScreen (): JSX.Element {
                             />
                         </View>
                     </View>
+                    <View style={tailwind('bg-white px-3  border-0.5 border-brand-black-500 rounded-lg py-2 flex flex-col w-full')}>
+                        <Text style={tailwind('text-lg mb-2 text-gray-400')}>Subscribers</Text>
+                        <View style={tailwind('flex flex-row items-baseline self-end')}>
+
+                            <NumberFormat
+                                value={hasFetchedSubscriptions ? (subscription?.subscribers?.length  ?? 0) : 0}
+                                thousandSeparator
+                                displayType='text'
+                                renderText={(value) => (
+                                    <Text style={tailwind('text-2xl mr-3 flex  font-bold')}>
+                                        {value}
+                                    </Text>
+                                )}
+                            />
+                        </View>
+                    </View>
                 </View>
                 <ReviewsHeader overview={overview} />
                 <View style={tailwind('px-4')}>
@@ -114,7 +131,7 @@ export function ReviewScreen (): JSX.Element {
                         <RecentViews reviews={reviews} />
                     </View>
                 </View>
-            </View>
+            </ScrollView>
     )
 }
 

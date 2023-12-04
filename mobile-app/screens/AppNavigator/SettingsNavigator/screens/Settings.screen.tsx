@@ -31,6 +31,17 @@ export function SettingsScreen ({navigation}: SettingsScreenProps): JSX.Element 
      await clearToken()
 }
 
+    const restaurantProfileCheck = () => {
+        if(profile.restaurantImage === undefined) {
+            return false
+        } else if (profile.businessLogo === undefined) {
+            return false
+        } else  if(profile.location?.coordinates[0] === 0 as any) {
+            return false
+        }
+
+        return true
+    }
 
 function checkProfileCompleteStatus (): void {
     if (!hasFetchedProfile ) {
@@ -75,6 +86,7 @@ if (!hasFetchedProfile) {
                         onPress={() => navigation.navigate('AccountProfile')}
                     />
                     <SettingsSection.Item
+                        isComplete={restaurantProfileCheck()}
                         subtitle="Restaurant location, name, photos"
                         title="Restaurant Profile" hasBorder={false} onPress={() => navigation.navigate('RestaurantProfile')}  />
                 </SettingsSection>

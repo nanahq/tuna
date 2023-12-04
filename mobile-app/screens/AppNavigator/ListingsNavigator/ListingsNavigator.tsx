@@ -91,7 +91,10 @@ export function ListingsNavigator(): JSX.Element {
                 name={ListingsScreenName.ADD_OPTION}
                 options={{
                     headerShown: true,
-                    headerTitle: 'Add Option'
+                    headerTitle: 'Add Menu Option',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: tailwind('text-xl'),
                 }}
             />
 

@@ -1,6 +1,6 @@
 import {StyleProp, Text, TextInput, TextInputProps, View, ViewStyle} from 'react-native'
 import {getColor, tailwind} from "@tailwind";
-import {forwardRef, useState} from 'react'
+import {forwardRef, PropsWithChildren, useState} from 'react'
 import * as Device from 'expo-device'
 import {BottomSheetTextInputProps} from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetTextInput";
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
@@ -11,6 +11,10 @@ export interface TextInputWithLabelProps extends TextInputProps {
     label: string
     labelTestId: string
     moreInfo?: string,
+
+    error?: boolean
+
+    errorMessage?: string
 }
 
 export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
@@ -22,6 +26,8 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
             labelTestId,
             containerStyle,
             style,
+            error,
+            errorMessage,
             ...rest
         } = props
 
@@ -49,7 +55,7 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
                     onBlur={() => setInputFocus(false)}
                     placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
                     ref={ref}
-                    style={[tailwind('rounded-lg bg-primary-200 flex w-full items-center px-3 font-medium  text-lg text-brand-black-500', {
+                    style={[tailwind('rounded-lg bg-primary-200 flex w-full items-center px-3 py-3 font-medium  text-lg text-brand-black-500', {
                         'text-base': Device.osName === 'iOS',
                         'border-0.5 border-primary-500': inputFocus
                     }), {
@@ -58,6 +64,7 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
                     } ,style]}
                     {...rest}
                 />
+                {errorMessage !== undefined && <FieldErrorText>{error ? errorMessage : ''}</FieldErrorText>}
             </View>
         )
     }
@@ -113,5 +120,13 @@ export function ModalTextInput (props: ModalTextInputProps): JSX.Element {
                 {...rest}
             />
         </View>
+    )
+}
+
+function FieldErrorText (props: PropsWithChildren<{}>): JSX.Element {
+    return (
+        <Text style={tailwind('text-xs text-red-500')}>
+            {props.children}
+        </Text>
     )
 }

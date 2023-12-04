@@ -1,5 +1,4 @@
-import {Image, Text, View} from 'react-native'
-import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {Image, SafeAreaView, Text, View} from 'react-native'
 import AppLogo from '@assets/onboarding/nana-logo.png'
 import {tailwind} from "@tailwind";
 import {useState} from "react";
@@ -8,10 +7,10 @@ import * as Device from "expo-device";
 import {_api} from "@api/_request";
 import {useAuthPersistence} from "@contexts/AuthPersistenceProvider";
 import {LogoutButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
-import Toast from "react-native-toast-message";
-import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
-import {useForm} from "react-hook-form";
 import {cookieParser} from '../../../../../utils/cookieParser';
+import {useToast} from "react-native-toast-notifications";
+import {showTost} from "@components/commons/Toast";
+import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 
 
 interface LoginForm {
@@ -20,99 +19,102 @@ interface LoginForm {
 }
 export function LoginScreen (): JSX.Element {
     const {setToken} = useAuthPersistence()
-    const {top: topInsert} = useSafeAreaInsets()
 
     const [_loading, _setLoading] = useState<boolean>(false)
 
+    const toast = useToast()
 
-    const {control, formState: {errors}, handleSubmit} = useForm<LoginForm>({
-        criteriaMode: 'all',
-        mode: 'onTouched'
+    const [form, setForm] = useState<LoginForm>({
+        email: '',
+        password: ''
     })
 
-    async function onContinuePress (data: LoginForm): Promise<void> {
+    const [error,setError] = useState<Record<keyof LoginForm , boolean>>({
+        email: false,
+        password: false
+    })
+
+    const checkForm = (): void => {
+        if(form.email === '') {
+            setError(prev => ({...prev, email: true}))
+            return
+        }
+
+        if(form.password === '') {
+            setError(prev => ({...prev, password: true}))
+            return
+        }
+    }
+
+    async function onContinuePress (): Promise<void> {
+        setError({
+            email: false,
+            password: false
+        })
+        checkForm()
         try {
             _setLoading(true)
            const {cookies} = await _api.requestData<LoginForm>({
                 method: 'POST',
                 url: 'auth/login',
-                data: {...data, email: data.email.toLowerCase()}
+                data: {...form, email: form.email.toLowerCase()}
             })
             await  setToken(cookieParser(cookies[0]))
         } catch (error: any) {
             if (Number(error?.statusCode) === 500) {
-               Toast.show({
-                   type: 'error',
-                   text1: 'Something went wrong. Login failed',
-                   autoHide: true,
-               })
+                showTost(toast,'Can not login at this time. Try again in a bit', 'error')
             } else {
-                Toast.show({
-                    type: 'error',
-                    text1: typeof error.message !== 'string' ? error.message[0] : error.message,
-                    autoHide: true,
-                })
+                showTost(toast,typeof error.message !== 'string' ? error.message[0] : error.message, 'error')
             }
         } finally {
             _setLoading(false)
         }
     }
     return (
-        <View
-            style={{padding: 20, paddingTop: topInsert + 28}}
-        >
-            <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
-                <Image source={AppLogo} resizeMode="contain" style={tailwind('w-16 h-16 rounded-lg')} />
+        <SafeAreaView style={tailwind('flex-1 bg-white')}>
+            <View style={tailwind('flex flex-col px-5 pt-12 ')}>
+                <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
+                    <Image source={AppLogo} resizeMode="contain" style={tailwind('w-16 h-16 rounded-lg')} />
+                </View>
+                <View style={tailwind('mt-10')}>
+                    <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-5')}>Welcome back</Text>
+                    <TextInputWithLabel
+                        defaultValue={form.email}
+                        onChangeText={(value) => setForm((prev) => ({...prev, email: value}))}
+                        error={error.email}
+                        errorMessage="Required"
+                        label='Business Email'
+                        testID='SignupProfileScreen.FirstName.Input'
+                        containerStyle={tailwind('mt-5')}
+                        labelTestId="SignupProfileScreen.FirstName.Label"
+                    />
+                    <TextInputWithLabel
+                        defaultValue={form.password}
+                        onChangeText={(value) => setForm((prev) => ({...prev, password: value}))}
+                        error={error.password}
+                        errorMessage="Required"
+                        label='Password'
+                        testID='SignupProfileScreen.FirstName.Input'
+                        containerStyle={tailwind('mt-5')}
+                        labelTestId="SignupProfileScreen.FirstName.Label"
+                    />
+
+                    <GenericButton
+                        style={tailwind({
+                            'mt-1': Device.osName === 'Android',
+                            'mt-2': Device.osName === 'iOS'
+                        })}
+                        onPress={onContinuePress}
+                        labelColor={tailwind('text-white')}
+                        label={_loading ? 'Login in...' : 'Log in'}
+                        backgroundColor={tailwind('bg-primary-500')}
+                        testId="LoginScreen.LoginButton"
+                        loading={_loading}
+                    />
+
+                </View>
+                <LogoutButtonWithText style={tailwind('text-brand-black-500')} />
             </View>
-            <View style={tailwind('mt-10')}>
-                <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-5')}>Welcome back</Text>
-                <ControlledTextInputWithLabel
-                    label="Email"
-                    labelTestId="LoginScreen.Phone.Label"
-                    testID="LoginScreen.Phone.Input"
-                    containerStyle={tailwind('w-full mb-4')}
-                    placeholder='your@email.com'
-                    name='email'
-                    control={control}
-                    rules={{required: {
-                            value: true,
-                            message: "Required"
-                        }}}
-                    error={errors.email !== undefined}
-                    errorMessage={errors.email?.message}
-                />
-
-                <ControlledTextInputWithLabel
-                    label="Password"
-                    labelTestId="LoginScreen.Password.Label"
-                    testID="LoginScreen.Phone.Password"
-                    containerStyle={tailwind('w-full mb-20')}
-                    name="password"
-                    control={control}
-                    rules={{required: {
-                            value: true,
-                            message: "Required"
-                        }}}
-                    error={errors.password !== undefined}
-                    errorMessage={errors.password?.message}
-                    secureTextEntry
-                />
-
-                <GenericButton
-                    style={tailwind({
-                        'mt-1': Device.osName === 'Android',
-                        'mt-2': Device.osName === 'iOS'
-                    })}
-                    onPress={handleSubmit(onContinuePress)}
-                    labelColor={tailwind('text-white')}
-                    label={_loading ? 'Login in...' : 'Log in'}
-                    backgroundColor={tailwind('bg-brand-black-500')}
-                    testId="LoginScreen.LoginButton"
-                    loading={_loading}
-                />
-
-            </View>
-            <LogoutButtonWithText style={tailwind('text-brand-black-500 font-semibold')} />
-        </View>
+        </SafeAreaView>
     )
 }

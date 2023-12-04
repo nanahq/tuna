@@ -40,7 +40,23 @@ export function BottomTabNavigator ():JSX.Element {
     const [profileComplete, setProfileComplete] = useState<boolean>(true)
 
     useEffect(() => {
-        if (profile.settings?.operations === undefined) {
+        const restaurantProfileCheck = () => {
+            if(profile.restaurantImage === undefined) {
+                return false
+            } else if (profile.businessLogo === undefined) {
+                return false
+            } else  if(profile.location?.coordinates[0] === 0 as any) {
+                return false
+            }
+
+            return true
+        }
+
+        if(!restaurantProfileCheck()) {
+            setProfileComplete(false)
+            return
+        }
+        if (profile.settings?.operations === undefined ) {
             setProfileComplete(false)
             return
         }

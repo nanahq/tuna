@@ -40,10 +40,16 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
       ],
-      "package": "com.nanaapp.nanavendorsapp",
-      "versionCode": 490010101
+      "package": "com.nanaeats.nana_vendors",
+      "versionCode": 490010101,
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -54,7 +60,7 @@
     "ios": {
       "icon": "./assets/app-config/Icon-white-ios1024.png",
       "supportsTablet": false,
-      "bundleIdentifier": "com.nanaapp.nanavendorsapp",
+      "bundleIdentifier": "com.nanaeats.nanavendors",
       "buildNumber": "1.1.0"
     },
     "web": {

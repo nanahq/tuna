@@ -2,12 +2,16 @@ import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
 import {clearOnAuthError} from "@store/common";
-import {ResponseWithStatus, VendorI} from '@nanahq/sticky'
+import {ResponseWithStatus, VendorI, SubscriptionNotificationI} from '@nanahq/sticky'
 import { showToastStandard } from "@components/commons/Toast";
 
 export interface ProfileState {
   profile: VendorI
+
+    subscription:SubscriptionNotificationI | undefined
   hasFetchedProfile: boolean
+
+    hasFetchedSubscriptions: boolean
 }
 
 const initialState: ProfileState = {
@@ -34,7 +38,9 @@ const initialState: ProfileState = {
         expoNotificationToken: '',
         isDeleted: false
     },
-    hasFetchedProfile: true
+    subscription: undefined,
+    hasFetchedProfile: true,
+    hasFetchedSubscriptions: false
 };
 
 export const fetchProfile = createAsyncThunk(
@@ -58,6 +64,16 @@ export const updateUserProfile = createAsyncThunk(
     }
 );
 
+
+export const fetchUserSubscription = createAsyncThunk(
+    AppActions.FETCH_SUBSCRIPTION,
+    async (): Promise<any> => {
+        return (await _api.requestData({
+            method: 'GET',
+            url: 'vendor/subscription'
+        })).data
+    }
+);
 
 export const profile = createSlice({
     name: "profile",
@@ -88,6 +104,18 @@ export const profile = createSlice({
             }
         ).addCase(fetchProfile.pending, (state) => {
             state.hasFetchedProfile = false
-        })
+        }).addCase(
+            fetchUserSubscription.fulfilled,
+            (state, {payload}: any) => {
+              state.subscription = payload
+                state.hasFetchedSubscriptions = true
+            }
+        ).addCase(
+            fetchUserSubscription.rejected,
+            (_, payload: any) => {
+                console.error(payload)
+            }
+        )
     },
 });
+

@@ -221,7 +221,12 @@ export const listings = createSlice({
             (state, {payload}: PayloadAction<ListingCategoryI[]>) => {
                 state.listingsCategory = payload
             }
-        )
+        ).addCase(
+            fetchScheduled.fulfilled,
+            (state, {payload}: PayloadAction<ScheduledListingI[]>) => {
+                state.scheduledListings = payload
+            }
+         )
     },
 });
 

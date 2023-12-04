@@ -14,6 +14,7 @@ import { AppToast } from '@components/commons/AppToast';
 import { ToastProps } from "react-native-toast-notifications/lib/typescript/toast";
 import { ToastProvider } from "react-native-toast-notifications"
 import 'expo-dev-client';
+import {SafeAreaProvider} from "react-native-safe-area-context";
 export default function App() {
   const isLoaded = useCachedResource()
  const logger = useLogger()
@@ -47,11 +48,13 @@ export default function App() {
                    <GestureHandlerRootView
                        style={tailwind('flex-1')}
                    >
-                       <BottomSheetModalProvider>
-                          <ToastProvider renderType={customToast}>
-                          <MainScreen />
-                          </ToastProvider>
-                       </BottomSheetModalProvider>
+                     <SafeAreaProvider>
+                         <BottomSheetModalProvider>
+                             <ToastProvider renderType={customToast}>
+                                 <MainScreen />
+                             </ToastProvider>
+                         </BottomSheetModalProvider>
+                     </SafeAreaProvider>
                    </GestureHandlerRootView>
                 </ConnectionBoundary>
                </StoreProvider>

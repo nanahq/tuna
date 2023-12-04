@@ -1,7 +1,7 @@
- import {Image, Pressable, Text, View} from 'react-native'
+import {Image, Pressable, Text, View} from 'react-native'
 // import {} from 'expo-image'
 import {EmptyMenu} from "@components/Empty/Listings";
-import {ListingMenuI} from "@nanahq/sticky";
+import {ListingApprovalStatus, ListingMenuI} from "@nanahq/sticky";
 import {tailwind} from "@tailwind";
 import {FlashList, ListRenderItemInfo} from "@shopify/flash-list";
 import {LoaderComponent} from "@components/commons/LoaderComponent";
@@ -60,12 +60,12 @@ export function ListingsMenu (props: {menu: ListingMenuI[], state: boolean}): JS
 
 export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (menu: ListingMenuI) => void}) {
     return (
-        <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full px-2 mb-4 rounded-lg overflow-hidden'), {
+        <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full  px-2 mb-4 rounded-lg overflow-hidden'), {
 
         }]}>
-            <View style={tailwind('overflow-hidden  bg-white border-0.5 border-brand-black-500  rounded-lg')}>
+            <View style={tailwind('relative overflow-hidden  bg-white border-0.5 border-brand-black-500  rounded-lg')}>
                 <View style={tailwind('w-full h-20')}>
-                    <Image source={{uri: menu.photo }} resizeMode='cover'   style={tailwind('w-full h-full')} />
+                    <Image source={{uri: menu.photo , cache: 'force-cache'}} resizeMode='cover'   style={tailwind('w-full h-full')} />
                 </View>
                <View style={tailwind('p-4')}>
                   <View style={tailwind('flex flex-row justify-between w-full items-center')}>
@@ -89,6 +89,11 @@ export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (
                        </View>
                    </View>
                </View>
+                {menu.status === ListingApprovalStatus.PENDING && (
+                    <View style={tailwind('absolute top-0 right-0 bg-warning-200 px-3 py-1')}>
+                        <Text style={tailwind('text-brand-black-500')}>Pending Approval</Text>
+                    </View>
+                )}
             </View>
         </Pressable>
     )

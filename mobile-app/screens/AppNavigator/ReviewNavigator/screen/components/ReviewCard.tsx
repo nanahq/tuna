@@ -1,17 +1,17 @@
 import {Text, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {IconComponent} from "@components/commons/IconComponent";
-import { ReviewI } from '@nanahq/sticky';
+// import { ReviewI } from '@nanahq/sticky';
 import days from 'dayjs'
 
 
 
-export function ReviewCard ({review}: {review: ReviewI}): JSX.Element {
+export function ReviewCard ({review}: {review: any}): JSX.Element {
     return (
         <View style={tailwind('flex flex-col w-full py-2 bg-white px-3 border-brand-black-500 border-0.5 mb-3 rounded-sm')}>
             <View style={tailwind('flex flex-row items-center w-full justify-between mb-1')}>
                 <View style={tailwind('flex flex-col')}>
-                    <Text style={tailwind('text-lg text-brand-black-500 font-semibold')}>{review.listingId.name}</Text>
+                    <Text style={tailwind('text-lg text-brand-black-500 font-semibold')}>{review.listing.name}</Text>
                     <Text style={tailwind('text-sm text-brand-black-500')}>{review.reviewerName}</Text>
                 </View>
                 <View style={tailwind('flex flex-col items-end')}>

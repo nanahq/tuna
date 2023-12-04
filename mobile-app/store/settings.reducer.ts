@@ -13,7 +13,7 @@ export interface SettingsState {
 const initialState: SettingsState = {
     settings: {
         _id: '',
-        vendorId: '',
+        vendor: {} as any,
         payment: undefined,
         operations: undefined
     },
@@ -44,6 +44,7 @@ export const settings = createSlice({
             .addCase(
                 fetchSettings.fulfilled,
                 (state, {payload: {data}}: PayloadAction<{data: VendorSettingsI, cookies: any}>) => {
+                    console.log(data)
                     state.settings = {...data}
                     state.hasFetchedSettings = true
                 }

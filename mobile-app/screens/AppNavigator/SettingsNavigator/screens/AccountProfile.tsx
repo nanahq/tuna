@@ -13,8 +13,9 @@ import {  showTost } from "@components/commons/Toast";
 import { _api } from "@api/_request";
 import { fetchProfile } from "@store/profile.reducer";
 import { useToast } from "react-native-toast-notifications";
+import {LoaderComponentScreen} from "@components/commons/LoaderComponent";
+import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 
-import {OrderI} from '@nanahq/sticky'
 export interface AccountProfileForm {
     firstName: string
     lastName: string
@@ -37,38 +38,47 @@ export function AccountProfile (): JSX.Element {
     const [submitting, setSubmitting] = useState<boolean>(false)
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
 
-    const {control, handleSubmit, formState: { errors}, setValue} = useForm<AccountProfileForm>({
-        criteriaMode: 'all'
+    const [form, setForm] = useState<AccountProfileForm>({
+       email: '',
+        firstName: '',
+        lastName: '',
+        phone: ''
     })
 
     useEffect(() => {
-        setValue('firstName', profile.firstName)
-        setValue('lastName', profile.lastName)
-        setValue('email', profile.email)
-        setValue('phone', profile.phone)
+        const {firstName, lastName, phone, email } = profile
+        setForm(prev => ({
+            ...prev,
+            email,
+            phone,
+            lastName,
+            firstName
+        }))
     }, [])
 
 
     if (!hasFetchedProfile) {
-        return <View>
-            <Text>Fetching</Text>
-        </View>
+        return <LoaderComponentScreen />
     }
 
 
-   async function updateProfile (data: AccountProfileForm): Promise<void> {
+   async function updateProfile (): Promise<void> {
+
+        if(Object.values(form).includes('')) {
+            showTost(toast, 'Make sure all fields are complete', 'warning')
+            return
+        }
     setSubmitting(true)
        try {
          await _api.requestData<AccountProfileForm>({
             method: 'put',
             url: 'vendor/profile',
-            data
+            data: form
         })
        setSubmitting(false)
         setEditProfileState(false)
         showTost(toast, 'Profile Updated', 'success')
         await dispatch(fetchProfile())
-
        } catch (error: any) {
         showTost(toast,  error.message !== 'string' ? error.message[0] : error.message, 'error' )
        } finally {
@@ -83,71 +93,42 @@ export function AccountProfile (): JSX.Element {
                 <GoBackButton onPress={() => navigation.goBack()} />
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
                         <View style={tailwind('flex flex-row items-center justify-between w-full')}>
-                            <ControlledTextInputWithLabel
+                            <TextInputWithLabel
                                 editable={editProfileState}
                                 label='First Name'
                                 testID='AccountProfile.FirstName.Input'
-                                style={{
-                                    width: 160
-                                }}
+                                containerStyle={tailwind('w-5/12')}
+                                defaultValue={form.firstName}
+                                onChangeText={value => setForm(prev => ({...prev, firstName: value}))}
                                 labelTestId="AccountProfile.FirstName.Label"
-                                control={control}
-                                name="firstName"
-                                rules={{required: {
-                                    value: true,
-                                    message: "Required"
-                                }}}
-                            error={errors.firstName !== undefined}
-                            errorMessage={errors.firstName?.message}
                             />
-                            <ControlledTextInputWithLabel
+                            <TextInputWithLabel
                                 editable={editProfileState}
                                 label='Last Name'
                                 testID='AccountProfile.LastName.Input'
                                 labelTestId="AccountProfile.LastName.Label"
-                                style={{
-                                    width: 160
-                                }}
-                                control={control}
-                                name="lastName"
-                                rules={{required: {
-                                    value: true,
-                                    message: "Required"
-                                }}}
-                            error={errors.lastName !== undefined}
-                            errorMessage={errors.lastName?.message}
+                                containerStyle={tailwind('w-5/12')}
+                                defaultValue={form.lastName}
+                                onChangeText={value => setForm(prev => ({...prev, lastName: value}))}
                             />
                         </View>
-                        <ControlledTextInputWithLabel
+                        <TextInputWithLabel
                             editable={editProfileState}
-                            label='Phone Number'
-                            testID='AccountProfile.PhoneNumber.Input'
-                            labelTestId="AccountProfile.PhoneNumber.Label"
-                            containerStyle={tailwind('w-full mt-5')}
-                            control={control}
-                            name="phone"
-                            rules={{required: {
-                                value: true,
-                                message: "Required"
-                            }}}
-                        error={errors.phone !== undefined}
-                        errorMessage={errors.phone?.message}
-
+                            label='Phone'
+                            testID='AccountProfile.LastName.Input'
+                            labelTestId="AccountProfile.LastName.Label"
+                            containerStyle={tailwind('mt-5')}
+                            defaultValue={form.phone}
+                            onChangeText={value => setForm(prev => ({...prev, phone: value}))}
                         />
-                        <ControlledTextInputWithLabel
+                        <TextInputWithLabel
                             editable={editProfileState}
                             label='Email'
-                            testID='AccountProfile.Email.Input'
-                            labelTestId="AccountProfile.Email.Label"
-                            containerStyle={tailwind('w-full mt-5')}
-                            control={control}
-                                name="email"
-                                rules={{required: {
-                                    value: true,
-                                    message: "Required"
-                                }}}
-                            error={errors.email !== undefined}
-                            errorMessage={errors.email?.message}
+                            testID='AccountProfile.LastName.Input'
+                            labelTestId="AccountProfile.LastName.Label"
+                            containerStyle={tailwind('mt-5')}
+                            defaultValue={form.email}
+                            onChangeText={value => setForm(prev => ({...prev, email: value}))}
                         />
                     </ProfileSection>
 
@@ -155,7 +136,7 @@ export function AccountProfile (): JSX.Element {
                         <GenericButton
                         style={tailwind('mt-4')}
                         labelColor={tailwind('text-white')}
-                        onPress={handleSubmit(updateProfile)}
+                        onPress={updateProfile}
                         label="Update profile"
                         backgroundColor={tailwind('bg-brand-black-500')}
                         testId="Accountprofile.editButton"

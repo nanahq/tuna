@@ -10,7 +10,7 @@ export function SignupHeader (props: {page: string, showBackButton?: boolean}): 
     const navigation = useNavigation()
     const { top: topInsert} = useSafeAreaInsets()
     return (
-        <View style={[tailwind('flex flex-col w-full px-5 pb-3'), {paddingTop: topInsert + 24}]}>
+        <View style={[tailwind('flex flex-1 bg-white flex-col w-full px-5 pb-3'), {paddingTop: topInsert + 24}]}>
             <Text testID='signupProfileScreen.GetStarted' style={tailwind('font-semibold text-xl text-brand-black-500')}>Get started</Text>
             {!showBackButton && (<Text  testID='signupProfileScreen.Page'  style={tailwind('self-end text-sm text-brand-black-500 font-medium')}>{props.page} Details</Text>
             )}

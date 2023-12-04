@@ -1,9 +1,9 @@
-import {createStackNavigator} from "@react-navigation/stack";
+import {CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
 import {LinkingOptions, NavigationContainer} from "@react-navigation/native";
 import {AppLinking, BottomTabNavigator} from "@screens/AppNavigator/BottomNavigator";
 import * as Linking from "expo-linking"
 import {useEffect, useRef, useState} from "react";
-import {fetchProfile, updateUserProfile} from "@store/profile.reducer";
+import {fetchProfile, fetchUserSubscription, updateUserProfile} from "@store/profile.reducer";
 import {fetchOrders} from "@store/orders.reducer";
 import { useAppDispatch} from "@store/index";
 import {fetchAllListings} from "@store/listings.reducer";
@@ -11,13 +11,23 @@ import { fetchWallet } from "@store/wallet.reducer";
 import * as Notifications from "expo-notifications";
 import * as Device from 'expo-device'
 import {Notification} from "expo-notifications";
-import Constants from "expo-constants";
 import {fetchDeliveries} from "@store/delivery.reducer";
+import {ModalScreenName} from "@screens/AppNavigator/ModalNavigator/ModalScreenName";
+import {AddBankAccontScreen} from "@screens/AppNavigator/ModalNavigator/AddBankAccont.Screen";
+import Constants from "expo-constants";
+import {AddOptionModal} from "@screens/AppNavigator/ModalNavigator/AddOptionNavigator";
 
 const App = createStackNavigator<AppParamList>()
 
 export interface AppParamList {
     App: undefined
+    [ModalScreenName.ADD_BANK_ACCOUNT_SCREEN]: {
+        callback?: () => void
+    }
+
+    [ModalScreenName.ADD_OPTION_SCREEN]: {
+        callback?: () => void
+    }
     [key: string]: undefined | Object
 }
 
@@ -43,7 +53,7 @@ export function AppNavigator(): JSX.Element {
     const [notification, setNotification] = useState<Notification | undefined>(undefined);
     const notificationListener = useRef<any>();
     const responseListener = useRef<any>();
-
+    const isAndroid = Device.osName === 'Android'
 
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => {
@@ -72,14 +82,39 @@ export function AppNavigator(): JSX.Element {
         dispatch(fetchAllListings())
         dispatch(fetchWallet())
         dispatch(fetchDeliveries())
+        dispatch(fetchUserSubscription() as any)
     }, [])
-
-
 
     return (
         <NavigationContainer linking={LinkingConfiguration}>
             <App.Navigator   screenOptions={{ headerShown: false}}>
-                <App.Screen component={BottomTabNavigator} name="App" />
+                <App.Group screenOptions={{
+                    cardStyleInterpolator: isAndroid ? CardStyleInterpolators.forRevealFromBottomAndroid : CardStyleInterpolators.forHorizontalIOS,
+                    cardShadowEnabled: true,
+                    cardOverlayEnabled: true,
+                    animationEnabled: true,
+                }}>
+                    <App.Screen component={BottomTabNavigator} name="App" />
+                </App.Group>
+                <App.Group
+                    screenOptions={{
+                        headerShown: false,
+                        presentation: 'modal',
+                        cardShadowEnabled: true,
+                        cardOverlayEnabled: true,
+                        animationEnabled: true,
+                    }}
+                >
+                    <App.Screen
+                        name={ModalScreenName.ADD_BANK_ACCOUNT_SCREEN}
+                        component={AddBankAccontScreen}
+                    />
+
+                    <App.Screen
+                        name={ModalScreenName.ADD_OPTION_SCREEN}
+                        component={AddOptionModal}
+                    />
+                </App.Group>
             </App.Navigator>
         </NavigationContainer>
     );

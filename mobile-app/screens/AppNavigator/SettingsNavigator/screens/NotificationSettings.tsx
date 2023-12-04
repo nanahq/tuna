@@ -2,41 +2,27 @@ import {View, Text} from "react-native";
 import {getColor, tailwind} from "@tailwind";
 import {useEffect, useState} from "react";
 import {LoaderComponentScreen} from "@components/commons/LoaderComponent";
-import {_api} from "@api/_request";
-import {showTost} from "@components/commons/Toast";
-import {useToast} from "react-native-toast-notifications";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import {useNavigation} from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
+import {useAppSelector} from "@store/index";
 
 export const NotificationSettings = () => {
-    const [loading, setLoading] = useState(true)
+    const {hasFetchedSubscriptions, subscription} = useAppSelector(state => state.profile)
     const [listingNotification, setListingNotification] = useState<boolean | undefined>(undefined)
-    const toast = useToast()
     const navigation = useNavigation()
+
     useEffect(() => {
 
-        void fetchSettings()
-    }, [])
+        if(subscription !== undefined) {
+            setListingNotification(subscription.enabledByVendor)
+        }
+
+    }, [hasFetchedSubscriptions, subscription])
     const saveSettings = () => {
         setListingNotification((prev) => !prev)
     }
-    async function fetchSettings (): Promise<void> {
-        try {
-            const scheduledListingsNotifications = (await _api.requestData({
-                method: 'GET',
-                url: 'vendor/subscription'
-            })).data as any
-            setListingNotification(scheduledListingsNotifications.enabledByVendor)
-        } catch (error) {
-            showTost(toast, 'something went wrong fetching settings', 'error')
-        } finally {
-            setLoading(false)
-        }
-
-    }
-
-    if(loading) {
+    if(!hasFetchedSubscriptions) {
         return <LoaderComponentScreen />
     }
 

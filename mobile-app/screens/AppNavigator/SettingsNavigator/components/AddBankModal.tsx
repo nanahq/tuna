@@ -26,9 +26,9 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
         const {enablePanDownToClose = false} = props
     const getSnapPoints = (): string[] => {
         if (Device.osName === "iOS") {
-            return ["50%"]; // ios measures space without keyboard
+            return ["60%"]; // ios measures space without keyboard
         } else if (Device.osName === "Android") {
-            return ["40%"]; // android measure space by including keyboard
+            return ["60%"]; // android measure space by including keyboard
         }
         return [];
     }
@@ -49,7 +49,7 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     if (isWeb) {
         return (
             <SafeAreaView
-                style={tailwind("w-full h-full flex-col absolute z-50 top-0 left-0")}
+                style={tailwind("flex-1 bg-white flex-col absolute z-50 top-0 left-0")}
                 ref={containerRef}
             >
                 <Modal
@@ -76,7 +76,7 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
                         bottom: "0",
                     }} // array as value crashes Web Modal
                 >
-                    <View style={tailwind('bg-white rounded-t-xl p-5 h-full')}>
+                    <View style={tailwind('bg-white flex-1 rounded-t-xl p-5')}>
                         {props.children}
                     </View>
                 </Modal>
@@ -85,8 +85,10 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
     }
     return (
         <BottomSheetModal
+            style={tailwind('flex-1 bg-white rounded-t-3xl')}
+
             enableContentPanningGesture={true}
-        onDismiss={props.onDismiss}
+          onDismiss={props.onDismiss}
             enableHandlePanningGesture={enablePanDownToClose}
             handleComponent={EmptyHandleComponent}
             enablePanDownToClose={enablePanDownToClose}
@@ -101,17 +103,17 @@ export function AddBankModal(props: PropsWithChildren<WelcomeModalProps>): JSX.E
             backdropComponent={(backdropProps: BottomSheetBackdropProps) => (
                 <View
                     {...backdropProps}
-                    style={[backdropProps.style, tailwind("bg-black bg-opacity-60")]}
+                    style={[backdropProps.style, tailwind("bg-black flex-1 bg-opacity-60")]}
                 />
             )}
             backgroundComponent={(backgroundProps: BottomSheetBackgroundProps) => (
                 <View
                     {...backgroundProps}
-                    style={tailwind('bg-brand-blue-200 rounded-t-xl')}
+                    style={tailwind('bg-brand-blue-200 flex-1 rounded-t-xl')}
                 />
             )}
         >
-            <View style={tailwind('bg-white rounded-t-3xl p-5 h-full')}>
+            <View style={tailwind('bg-white flex-1 rounded-t-3xl p-5')}>
                 {props.children}
             </View>
         </BottomSheetModal>

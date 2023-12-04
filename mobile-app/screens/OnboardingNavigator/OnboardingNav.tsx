@@ -60,26 +60,19 @@ export function OnboardingNagivator (): JSX.Element {
                 <OnboardingStack.Screen
                     component={LoginScreen}
                     name={OnboardingScreenName.LOGIN}
-                    // options={{
-                    //     headerShown: true,
-                    //     header: () => <SignupHeader page='Profile' />
-                    // }}
                 />
                 <OnboardingStack.Screen
                     component={SignupProfileScreen}
                     name={OnboardingScreenName.SIGN_UP_PROFILE}
                     options={{
-                        headerShown: true,
-                        header: () => <SignupHeader page='Profile' />
-
+                        headerShown: false,
                     }}
                 />
                 <OnboardingStack.Screen
                     component={SignupBusinessScreen}
                     name={OnboardingScreenName.SIGN_UP_BUSINESS}
                     options={{
-                        headerShown: true,
-                        header: () => <SignupHeader page='Restaurant' showBackButton />
+                        headerShown: false,
                     }}
                 />
 

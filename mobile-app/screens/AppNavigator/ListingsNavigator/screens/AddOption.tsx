@@ -1,15 +1,14 @@
 import {
     Dimensions,
-    KeyboardAvoidingView,
+     SafeAreaView,
     ScrollView,
-    ScrollViewProps,
     StyleProp,
     Text,
     View,
-    ViewProps, ViewStyle
+     ViewStyle
 } from 'react-native'
 import {tailwind} from '@tailwind'
-import {ModalTextInput} from "@components/commons/inputs/TextInputWithLabel";
+import {ModalTextInput, TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {PropsWithChildren, useEffect, useRef, useState} from "react";
 import {IconButton} from "@components/commons/buttons/IconButton";
 import {AddBankModal as OptionModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
@@ -17,11 +16,8 @@ import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {CloseModalButton} from "@components/commons/buttons/CloseModal";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
-import {useNavigation} from "@react-navigation/native";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
-import {useForm} from "react-hook-form";
-import {ControlledTextInputWithLabel} from "@components/commons/inputs/ControlledTextInput";
 import {ListingOption} from "@nanahq/sticky";
 import {useAppDispatch} from "@store/index";
 import {updateOptionGroup} from "@store/listings.reducer";
@@ -40,16 +36,19 @@ interface OptionFormI {
     min: string
     max: string
 }
-export function AddOption ({route}: AddOptionNavProps): JSX.Element {
+export function AddOption ({route, navigation}: AddOptionNavProps): JSX.Element {
     const bottomSheetModalRef = useRef<any>(null)
-    const navigation = useNavigation()
     const { dismiss } = useBottomSheetModal()
     const dispatch = useAppDispatch()
     const toast = useToast()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // Form
-    const {control, setValue, handleSubmit, getValues, formState: { errors}} = useForm<OptionFormI>()
+    const [form, setForm] = useState<OptionFormI>({
+        name: '',
+        max: '',
+        min: ''
+    })
 
     const [options, setOptions] = useState<ListingOption[]>([])
 
@@ -63,9 +62,11 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
     useEffect(() => {
         if (route?.params?.option !== undefined) {
             const op = route?.params?.option
-            setValue('name', op.name)
-            setValue('min', `${ op.min}`)
-            setValue('max',  `${op.max}`)
+            setForm({
+                name: op.name,
+                max: String(op.max ),
+                min: String(op.min )
+            })
             setOptions(op.options)
         }
     }, [])
@@ -101,23 +102,24 @@ export function AddOption ({route}: AddOptionNavProps): JSX.Element {
     }
 
     const checkDirty = (): boolean => {
-        if (getValues('name') !== route?.params?.option.name) {
+        if (form.name !== route?.params?.option.name) {
 return true
 }
-        if (getValues('min') !== route?.params?.option.min.toString()) {
+        if (form.min !== route?.params?.option.min.toString()) {
 return true
 }
-        if (getValues('max') !== route?.params?.option.max.toString()) {
+        if (form.max !== route?.params?.option.max.toString()) {
 return true
 }
         return options.length !== route?.params?.option.options.length;
     }
 
-    const addOrUpdateOption = async (data: OptionFormI): Promise<void> => {
+    const addOrUpdateOption = async (): Promise<void> => {
         let payload: any = {
-            ...data,
+            ...form,
             options: [...options],
         }
+
         const type = route?.params?.option._id !== undefined ? 'update' : 'new'
 
         if (type === 'update') {
@@ -148,99 +150,96 @@ return true
 
 
     return (
-        <KeyboardAvoidingView style={tailwind('flex-1 h-full px-5 mt-10 overflow-hidden')}>
-            <GoBackButton style={tailwind('mb-1')} onPress={() => navigation.goBack()} />
-            <View>
-                <ControlledTextInputWithLabel
-                    placeholder='Sauces'
-                    label="Option Group Name"
-                    labelTestId="AddOption.Name"
-                    control={control}
-                    name='name'
-                />
-            </View>
-            <View style={tailwind('flex flex-row items-center  mt-5')}>
-                <ControlledTextInputWithLabel
-                    keyboardType='number-pad'
-                    moreInfo="Minimum options a customer can select"
-                    label="Min Select"
-                    labelTestId=""
-                    containerStyle={tailwind('w-1/3 mr-5')}
-                    control={control}
-                    name='min'
-                    error={errors.min !== undefined}
-                    errorMessage={errors.min?.message}
-                    rules={{
-                        validate: (value) => Number(value) < Number(getValues('max')) || 'Minimum selection should be less than max selection'
-                    }}
-                />
-                <ControlledTextInputWithLabel
-                    keyboardType='number-pad'
-                    moreInfo="Maximum  options a customer can select"
-                    label="Max Select"
-                    labelTestId=""
-                    containerStyle={tailwind('w-1/3')}
-                    control={control}
-                    name='max'
-                />
-            </View>
-            <SectionWithAddButton
-                sectionName='Options'
-                onPress={openModal}
-                height={screenHeight}
-                style={tailwind('mt-10 mb-5')}
-            >
-                {options ? options.map((option, index) => (
-                    <OptionCard key={`${index}-${option.price}`} delete={handleOptionDelete} index={index} name={option.name} price={option.price} />
-                )): (
-                    <View style={tailwind('flex flex-row justify-center h-full items-center w-full')}>
-                        <Text style={tailwind('text-brand-gray-700 font-medium text-xl')}>No option added</Text>
-                    </View>
-                )}
-            </SectionWithAddButton>
-            <OptionModal promptModalName={OPTION_MODAL_NAME} modalRef={bottomSheetModalRef}>
-                <CloseModalButton modalName={OPTION_MODAL_NAME}/>
-                <View style={tailwind('h-full')}>
-                    <ModalTextInput
-                        label="Option name"
-                        placeholder='Goat meat'
-                        labelTestId=""
-                        containerStyle={tailwind('mb-6')}
-                        onChangeText={(value) =>handleInputChange( value, 'name')}
-                    />
-                    <ModalTextInput
-                        label="Option Price"
-                        moreInfo='Put zero if option is free. All figures are in Naira'
-                        placeholder='₦200'
-                        labelTestId=""
-                        keyboardType='number-pad'
-                        containerStyle={tailwind('mb-6')}
-                        onChangeText={(value) =>handleInputChange(value, 'price')}
-                    />
-                    <GenericButton
-                        style={tailwind('mt-10')}
-                        onPress={handleAddOption}
-                        label="Add option"
-                        backgroundColor={tailwind('bg-brand-black-500')}
-                        testId=""
-                        labelColor={tailwind('text-white')}
-                        disabled={checkNullState()}
-                    />
-                </View>
-            </OptionModal>
-            {checkDirty()  && (
-                <GenericButton
-                    disabled={isLoading}
-                    loading={isLoading}
-                    style={tailwind('mb-5')}
-                    onPress={handleSubmit(addOrUpdateOption)}
-                    label={route?.params?.option !== undefined ? 'Update option group' : 'Add option'}
-                    backgroundColor={tailwind('bg-brand-black-500')}
-                    testId=""
-                    labelColor={tailwind('text-white')}
-                />
-            )}
-        </KeyboardAvoidingView>
+        <SafeAreaView style={tailwind('flex-1 bg-white')}>
+           <ScrollView showsVerticalScrollIndicator={false} style={tailwind('px-5')}>
+               <GoBackButton style={tailwind('mb-1')} onPress={() => navigation.goBack()} />
+               <View>
+                   <TextInputWithLabel
+                       defaultValue={form.name}
+                       placeholder='Sauces'
+                       label="Option Group Name"
+                       labelTestId="AddOption.Name"
+                       onChangeText={(value) => setForm(prev => ({...prev, name: value}))}
+                   />
+               </View>
+               <View style={tailwind('flex flex-row items-center  mt-5')}>
+                   <TextInputWithLabel
+                       defaultValue={form.min}
+                       onChangeText={(value) => setForm(prev => ({...prev, min: value}))}
+                       keyboardType='number-pad'
+                       moreInfo="Minimum options a customer can select"
+                       label="Min Select"
+                       labelTestId=""
+                       containerStyle={tailwind('w-1/3 mr-5')}
+                   />
+                   <TextInputWithLabel
+                       defaultValue={form.max}
+                       onChangeText={(value) => setForm(prev => ({...prev, max: value}))}
+                       keyboardType='number-pad'
+                       moreInfo="Maximum  options a customer can select"
+                       label="Max Select"
+                       labelTestId=""
+                       containerStyle={tailwind('w-1/3')}
+                   />
+               </View>
+               <SectionWithAddButton
+                   sectionName='Options'
+                   onPress={openModal}
+                   height={screenHeight / 2 - 100}
+                   style={tailwind('mt-10 mb-5')}
+               >
+                   {options ? options.map((option, index) => (
+                       <OptionCard key={`${index}-${option.price}`} delete={handleOptionDelete} index={index} name={option.name} price={option.price} />
+                   )): (
+                       <View style={tailwind('flex flex-row justify-center h-full items-center w-full')}>
+                           <Text style={tailwind('text-brand-gray-700 font-medium text-xl')}>No option added</Text>
+                       </View>
+                   )}
+               </SectionWithAddButton>
+               <OptionModal promptModalName={OPTION_MODAL_NAME} modalRef={bottomSheetModalRef}>
+                   <CloseModalButton modalName={OPTION_MODAL_NAME}/>
+                   <View style={tailwind('flex-1')}>
+                       <ModalTextInput
+                           label="Option name"
+                           placeholder='Goat meat'
+                           labelTestId=""
+                           containerStyle={tailwind('mb-6')}
+                           onChangeText={(value) =>handleInputChange( value, 'name')}
+                       />
+                       <ModalTextInput
+                           label="Option Price"
+                           moreInfo='Put zero if option is free. All figures are in Naira'
+                           placeholder='₦200'
+                           labelTestId=""
+                           keyboardType='number-pad'
+                           containerStyle={tailwind('mb-6')}
+                           onChangeText={(value) =>handleInputChange(value, 'price')}
+                       />
+                       <GenericButton
+                           style={tailwind('mt-10')}
+                           onPress={handleAddOption}
+                           label="Add option"
+                           backgroundColor={tailwind('bg-brand-black-500')}
+                           testId=""
+                           labelColor={tailwind('text-white')}
+                           disabled={checkNullState()}
+                       />
+                   </View>
+               </OptionModal>
+               {checkDirty()  && (
+                   <GenericButton
+                       disabled={isLoading}
+                       loading={isLoading}
+                       style={tailwind('mb-5')}
+                       onPress={addOrUpdateOption}
+                       label={route?.params?.option !== undefined ? 'Update option group' : 'Add option'}
+                       backgroundColor={tailwind('bg-brand-black-500')}
+                       testId=""
+                       labelColor={tailwind('text-white')}
+                   />
+               )}
+           </ScrollView>
+        </SafeAreaView>
     )
 }
 
