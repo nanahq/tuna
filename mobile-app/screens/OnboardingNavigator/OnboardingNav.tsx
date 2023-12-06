@@ -3,7 +3,7 @@ import {LinkingOptions, NavigationContainer, NavigationContainerRef,} from "@rea
 import {createStackNavigator} from "@react-navigation/stack";
 
 import * as Linking from "expo-linking";
-import {useRef} from "react";
+import React, {useRef} from "react";
 import {SignupProfileScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupProfile.screen";
 import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
 import {SignupBusinessScreen} from "@screens/OnboardingNavigator/screens/Signup/SignupBusiness.screen";
@@ -65,14 +65,16 @@ export function OnboardingNagivator (): JSX.Element {
                     component={SignupProfileScreen}
                     name={OnboardingScreenName.SIGN_UP_PROFILE}
                     options={{
-                        headerShown: false,
+                        headerShown: true,
+                        header: () => <SignupHeader page="Profile"  />
                     }}
                 />
                 <OnboardingStack.Screen
                     component={SignupBusinessScreen}
                     name={OnboardingScreenName.SIGN_UP_BUSINESS}
                     options={{
-                        headerShown: false,
+                        headerShown: true,
+                        header: () => <SignupHeader page="Restaurant" showBackButton />
                     }}
                 />
 

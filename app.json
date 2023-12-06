@@ -60,7 +60,7 @@
     "ios": {
       "icon": "./assets/app-config/Icon-white-ios1024.png",
       "supportsTablet": false,
-      "bundleIdentifier": "com.nanaeats.nanavendors",
+      "bundleIdentifier": "com.nanaeats.nana_vendors",
       "buildNumber": "1.1.0"
     },
     "web": {

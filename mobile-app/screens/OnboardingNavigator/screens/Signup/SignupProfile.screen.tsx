@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, View} from 'react-native'
+import { ScrollView, View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import * as Device from 'expo-device'
@@ -10,6 +10,7 @@ import {useForm} from "react-hook-form";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {useState} from "react";
 import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export interface SignupProfileForm {
     firstName: string
@@ -108,7 +109,6 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white w-full ')}>
             <ScrollView showsVerticalScrollIndicator={false} style={tailwind('px-5 ')}>
-                <SignupHeader page='Profile' />
                 <View style={tailwind('pb-10')}>
                     <View style={tailwind('flex flex-row items-center justify-between')}>
                         <TextInputWithLabel

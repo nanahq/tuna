@@ -2,7 +2,7 @@ import { SafeAreaView, ScrollView, Text, View} from "react-native";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 import {getColor, tailwind} from "@tailwind";
-import DateTimePicker, {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
+import DateTimePicker, {AndroidNativeProps, DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState} from "react";
 import {VendorOperationSetting} from '@nanahq/sticky'
 
@@ -39,8 +39,6 @@ export function RestaurantSettings (): JSX.Element {
     const navigation = useNavigation()
     const {profile,  hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
     const dispatch = useAppDispatch()
-
-    console.log(profile.settings)
     const toast = useToast()
 
     const startTimeRef = useRef<any>(null)
@@ -56,25 +54,33 @@ export function RestaurantSettings (): JSX.Element {
         minOrder: '0'
     })
 
-
-    const showTimePickerAndriodCutoff = () => {
-        DateTimePickerAndroid.open({
+    const showTimePickerAndriodCutoff = async () => {
+        await DateTimePickerAndroid.open({
             is24Hour: true,
-            value:operationForm.cutoffTime,
-            mode:'time',
-            onChange: (_, value) => updateTime('cutoffTime', value)
-        })
-    }
+            value: operationForm.cutoffTime,
+            mode: 'time',
+            onChange: (_, value) => {
+                void dismissPickerAndroid();
+                updateTime('cutoffTime', value);
+            },
+        });
+    };
 
+    const dismissPickerAndroid = async (mode: AndroidNativeProps['mode'] = 'time') => {
+        await DateTimePickerAndroid.dismiss(mode);
+    };
 
-    const showTimePickerAndriodStartTime = () => {
-        DateTimePickerAndroid.open({
+    const showTimePickerAndriodStartTime = async () => {
+        await DateTimePickerAndroid.open({
             is24Hour: true,
-            value:operationForm.startTime,
-            mode:'time',
-            onChange: (_, value) => updateTime('startTime', value)
-        })
-    }
+            value: operationForm.startTime,
+            mode: 'time',
+            onChange: (_, value) => {
+                void dismissPickerAndroid();
+                updateTime('startTime', value);
+            },
+        });
+    };
 
 
     useEffect(() => {
@@ -107,6 +113,8 @@ export function RestaurantSettings (): JSX.Element {
             </View>
         )
     }
+
+
 
     const updateTime = (name: keyof VendorOperationSetting, value: Date | undefined ) => {
         const currentTime = value
@@ -143,6 +151,7 @@ export function RestaurantSettings (): JSX.Element {
         }
     }
 
+
     const handleSelectOperationType = (value: string, type: 'SELECT' | 'UNSELECT'): void => {
             if (type === 'UNSELECT') {
                 setType('')
@@ -162,9 +171,10 @@ export function RestaurantSettings (): JSX.Element {
                                 Time you start operation. This will be used to prevent customer from ordering before you start working
                             </Text>
                         </View>
-                        {Device.osName === 'Android' ? (
+                        {Device.osName === 'Android' && (
                             <AndroidPicker time={operationForm.startTime} onPress={showTimePickerAndriodStartTime} />
-                        ) : (
+                        )}
+                        {Device.osName !== 'Android' && (
                             <DateTimePicker
                             style={tailwind('w-1/3')}
                             is24Hour
@@ -184,13 +194,14 @@ export function RestaurantSettings (): JSX.Element {
                                 Customers won't be able to place order after this time
                             </Text>
                         </View>
-                        {Device.osName === 'Android' ? (
+                        {Device.osName === 'Android' && (
                             <AndroidPicker time={operationForm.cutoffTime} onPress={showTimePickerAndriodCutoff} />
-                        ) : (
+                        )}
+                        {Device.osName !== 'Android' && (
                             <DateTimePicker
                                 style={tailwind('w-1/3')}
                                 is24Hour
-                                value={operationForm.cutoffTime}
+                                value={operationForm.startTime}
                                 mode='time'
                                 onChange={(_, value) => {
                                     updateTime('cutoffTime',value)

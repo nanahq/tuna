@@ -159,7 +159,7 @@ export function OrdersScreen (): JSX.Element {
                      <OrderHeaderStatus status={profile.status as any} />
                  </View>
                  {showProfileCompleteMsg && (<CompleteProfileMsg type="PROFILE" />)}
-                 {showAccountApprovalMsg && (<CompleteProfileMsg type="ACCOUNT" />)}
+                 {showAccountApprovalMsg  && !showAccountApprovalMsg && (<CompleteProfileMsg type="ACCOUNT" />)}
              </View>
              <TabView
                  renderTabBar={(props) => (

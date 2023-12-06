@@ -84,6 +84,7 @@ export function LoginScreen (): JSX.Element {
                         error={error.email}
                         errorMessage="Required"
                         label='Business Email'
+                        keyboardType="email-address"
                         testID='SignupProfileScreen.FirstName.Input'
                         containerStyle={tailwind('mt-5')}
                         labelTestId="SignupProfileScreen.FirstName.Label"
