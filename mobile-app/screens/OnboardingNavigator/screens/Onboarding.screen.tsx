@@ -34,7 +34,7 @@ export function OnboardingScreen(): JSX.Element {
                     colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0)']} // Adjust the overlay color and opacity here
                     style={tailwind('absolute top-0 left-0 right-0 bottom-0')}
                 />
-                <View style={tailwind('w-full  flex-1 mt-16 px-4')}>
+                <View style={tailwind('w-full  flex-1 px-4')}>
                    <View style={tailwind('flex flex-col flex-grow w-full')}>
                        <Image
                            source={AppLogo}
@@ -47,7 +47,7 @@ export function OnboardingScreen(): JSX.Element {
                        </View>
                    </View>
 
-                    <View style={tailwind('flex-1 mt-10')}>
+                    <View style={tailwind('flex-1')}>
                         <GenericButton
                             onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}
                             label="Sign up"
@@ -56,7 +56,7 @@ export function OnboardingScreen(): JSX.Element {
                             testId="GenericButton.Onboarding.Continue"
                         />
                         <GenericButton
-                            style={tailwind('mt-5')}
+                            style={tailwind('mt-3')}
                             onPress={() => navigator.navigate(OnboardingScreenName.LOGIN)}
                             label="Log in"
                             labelColor={tailwind('text-white text-2xl font-normal')}

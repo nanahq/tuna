@@ -10,7 +10,7 @@ export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
     let url: string
 
     if (environment === 'development') {
-        url =   `${NetworkMapper.PLAYGROUND}:${PlaygroundServicePort[gateway]}/${ApiRoute[gateway]}/v1`
+        url =   `https://588a-197-210-53-185.ngrok-free.app/${ApiRoute[gateway]}/v1`
     } else  {
         url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
     }

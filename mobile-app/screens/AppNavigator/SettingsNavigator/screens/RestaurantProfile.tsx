@@ -9,7 +9,7 @@ import {useNavigation} from "@react-navigation/native";
 import * as Location from 'expo-location'
 import * as ImagePicker from "expo-image-picker";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";
-import { ShowToast, showTost } from "@components/commons/Toast";
+import {  showTost } from "@components/commons/Toast";
 import { fetchProfile } from "@store/profile.reducer";
 import { _api } from "@api/_request";
 import * as Device from 'expo-device'
@@ -169,7 +169,9 @@ export function RestaurantProfile (): JSX.Element {
         const { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status !== 'granted') {
-        ShowToast('error', RestaurantProfileInteraction.GET_LOCATION_FAILED)
+        showTost(toast, RestaurantProfileInteraction.GET_LOCATION_FAILED, 'error')
+            setGettingLocation(false)
+            return
     }
     const {coords: {longitude, latitude}} = await Location.getCurrentPositionAsync({
         accuracy: 6
@@ -180,7 +182,6 @@ export function RestaurantProfile (): JSX.Element {
 
         showTost(toast, RestaurantProfileInteraction.COORD_UPDATE, 'success')
 
-        console.log([longitude, latitude])
         try {
             await _api.requestData({
                 method: 'put',

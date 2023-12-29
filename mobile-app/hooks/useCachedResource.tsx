@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import {Logger} from '@api/logging.util'
 import * as Font from 'expo-font'
-import {MaterialIcons, MaterialCommunityIcons} from '@expo/vector-icons'
+import { MaterialCommunityIcons} from '@expo/vector-icons'
 import NanaOmnesBold from '@assets/app/fonts/nana-font-bold.otf'
 import NanaOmnesRegular from '@assets/app/fonts/nana-font.otf'
+
+
 /**
  * Delaying splash screen to load additional resources prior to rendering the app
  * @return boolean when loading complete

@@ -201,7 +201,7 @@ export function RestaurantSettings (): JSX.Element {
                             <DateTimePicker
                                 style={tailwind('w-1/3')}
                                 is24Hour
-                                value={operationForm.startTime}
+                                value={operationForm.cutoffTime}
                                 mode='time'
                                 onChange={(_, value) => {
                                     updateTime('cutoffTime',value)

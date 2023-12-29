@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {TextInput, View} from 'react-native';
+import {TextInput, View, ScrollView} from 'react-native';
 import { tailwind } from '@tailwind';
 import { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -103,7 +103,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
 
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white')}>
-            <View style={tailwind('flex-1 px-5')}>
+            <ScrollView style={tailwind('flex-1 px-5')}>
                     <View testID="SignupBusiness.View" style={tailwind('flex-col flex-grow')}>
                         <TextInputWithLabel
                             ref={businessNameRef}
@@ -149,7 +149,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
                         />
                         {!_loading && <LoginButtonWithText style={tailwind('text-brand-black-500')} />}
                     </View>
-            </View>
+            </ScrollView>
             <WelcomeButtonSheet promptModalName="WELCOME_MODAL" modalRef={bottomSheetModalRef} />
         </SafeAreaView>
     );
