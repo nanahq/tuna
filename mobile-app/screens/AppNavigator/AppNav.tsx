@@ -5,7 +5,7 @@ import * as Linking from "expo-linking"
 import {useEffect, useRef, useState} from "react";
 import {fetchProfile, fetchUserSubscription, updateUserProfile} from "@store/profile.reducer";
 import {fetchOrders} from "@store/orders.reducer";
-import { useAppDispatch} from "@store/index";
+import {useAppDispatch, useAppSelector} from "@store/index";
 import {fetchAllListings} from "@store/listings.reducer";
 import { fetchWallet } from "@store/wallet.reducer";
 import * as Notifications from "expo-notifications";
@@ -16,6 +16,7 @@ import {ModalScreenName} from "@screens/AppNavigator/ModalNavigator/ModalScreenN
 import {AddBankAccontScreen} from "@screens/AppNavigator/ModalNavigator/AddBankAccont.Screen";
 import Constants from "expo-constants";
 import {AddOptionModal} from "@screens/AppNavigator/ModalNavigator/AddOptionNavigator";
+import {useAnalytics} from "@segment/analytics-react-native";
 
 const App = createStackNavigator<AppParamList>()
 
@@ -51,9 +52,30 @@ if (Device.osName === 'Android') {
 
 export function AppNavigator(): JSX.Element {
     const [notification, setNotification] = useState<Notification | undefined>(undefined);
+    const {profile} = useAppSelector(state => state.profile)
     const notificationListener = useRef<any>();
     const responseListener = useRef<any>();
+
+    const analytics = useAnalytics()
+
     const isAndroid = Device.osName === 'Android'
+
+
+    useEffect(() => {
+        if(profile !== undefined) {
+            void analytics.identify(profile._id, {
+                name: profile.businessName,
+                phone: profile.phone,
+                email: profile.email,
+                device: {
+                    version: Device.osVersion,
+                    os: Device.osName,
+                    brand: Device.brand,
+                    type: Device.deviceName
+                }
+            })
+        }
+    }, [profile._id])
 
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => {

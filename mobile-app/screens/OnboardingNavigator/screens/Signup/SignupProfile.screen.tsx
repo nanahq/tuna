@@ -6,11 +6,10 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {OnboardingParamsList} from "@screens/OnboardingNavigator/OnboardingNav";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 import {LoginButtonWithText} from "@screens/OnboardingNavigator/screens/components/LoginButtonWithText";
-import {useForm} from "react-hook-form";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
-import {useState} from "react";
-import {SignupHeader} from "@screens/OnboardingNavigator/screens/components/SignupHeader";
+import {useEffect, useState} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {useAnalytics} from "@segment/analytics-react-native";
 
 export interface SignupProfileForm {
     firstName: string
@@ -25,10 +24,6 @@ export interface SignupProfileForm {
 type SignupProfileScreenProps = StackScreenProps<OnboardingParamsList, any>
 
 export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JSX.Element {
-    const {control, formState: handleSubmit, register, getValues} = useForm<SignupProfileForm>({
-        criteriaMode: 'all',
-        mode: 'onBlur'
-    })
 
     const [form, setForm] = useState<SignupProfileForm>({
         phone: '',
@@ -48,7 +43,12 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
         phone: false
     })
 
+    const analytics = useAnalytics()
 
+
+    useEffect(() => {
+        void analytics.screen(OnboardingScreenName.SIGN_UP_PROFILE)
+    }, [])
     function onContinuePress (): void {
         setErrors({
             confirmPassword: false,
@@ -100,11 +100,13 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
             },
             merge: true
         })
+
+        void analytics.track('EVENT:SIGNUP-FORM-PROFILE')
     }
 
 
     const hasErrors = (fields: Array<boolean>): boolean => {
-        return fields.some(f => f === true)
+        return fields.some(f => f)
     }
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white w-full ')}>

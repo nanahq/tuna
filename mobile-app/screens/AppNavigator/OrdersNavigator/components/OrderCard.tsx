@@ -50,7 +50,7 @@ export function OrdersCard ({order, onPress, style, vendorSettings, deliveryInfo
                             <Text style={tailwind('text-brand-black-500 mr-3')}>
                                 {
                                     order.orderType === 'PRE_ORDER' ? calculatePreorderDate(order.orderDeliveryScheduledTime)
-                                        :  calculateOnDemandDeliveryDate(vendorSettings?.operations?.preparationTime ?? 0, order.createdAt)
+                                        :  calculateOnDemandDeliveryDate(Number(vendorSettings?.operations?.preparationTime ?? 0), order.createdAt)
                                 }
                             </Text>
                             <IconComponent iconType="AntDesign" name='clockcircleo' size={22} style={tailwind('text-brand-black-500')} />

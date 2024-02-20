@@ -13,6 +13,8 @@ import { showTost } from '@components/commons/Toast';
 import { OnboardingParamsList } from '@screens/OnboardingNavigator/OnboardingNav';
 import { _api } from '@api/_request';
 import {SignupProfileForm} from "@screens/OnboardingNavigator/screens/Signup/SignupProfile.screen";
+import {useAnalytics} from "@segment/analytics-react-native";
+import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 
 interface SignupBusinessForm {
     businessEmail: string;
@@ -33,9 +35,11 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
     const [_loading, _setLoading] = useState<boolean>(false);
     const toast = useToast();
     const businessNameRef = useRef<TextInput>(null)
+    const analytics = useAnalytics()
     const openModal = (): void => bottomSheetModalRef.current?.present();
 
     useEffect(() => {
+        void analytics.screen(OnboardingScreenName.SIGN_UP_BUSINESS)
         const focusTextInput = setTimeout(() => {
             businessNameRef?.current?.focus();
         }, 500);
@@ -90,6 +94,10 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
                 },
             });
             openModal();
+            void analytics.track('EVENT:SIGNUP', {
+                email: form.businessEmail,
+                business: form.businessName
+            })
         } catch (error: any) {
             if (Number(error?.statusCode) === 500) {
                 showTost(toast, 'Something went wrong. cannot create a new account', 'error');

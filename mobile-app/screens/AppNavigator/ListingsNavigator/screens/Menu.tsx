@@ -1,5 +1,4 @@
 import {Image, Pressable, Text, View} from 'react-native'
-// import {} from 'expo-image'
 import {EmptyMenu} from "@components/Empty/Listings";
 import {ListingApprovalStatus, ListingMenuI} from "@nanahq/sticky";
 import {tailwind} from "@tailwind";

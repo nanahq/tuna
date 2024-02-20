@@ -5,7 +5,7 @@ return moment(date).subtract(30, 'minutes').format('HH:mm on ddd, DD MMM')
 }
 
 function calculateOnDemandDeliveryDate (preparationTime: number, orderCreationDate: string): string {
-    return moment(orderCreationDate).add(preparationTime, "minutes").format('HH:mm on ddd, DD MMM')
+    return moment(orderCreationDate).add(preparationTime + 5, "minutes").format('HH:mm on ddd, DD MMM')
 }
 export {
     calculatePreorderDate,

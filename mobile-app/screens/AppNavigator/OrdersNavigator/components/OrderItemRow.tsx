@@ -44,7 +44,7 @@ export const OrderListingItem: React.FC<{
     }[],
     options: OrderOptions[]}> = (props) => {
     const options = useMemo(() => {
-        return (props.options.filter(op => op.listing === props.listing._id)).map(op => op.options)
+        return (props.options.filter(op => op.listing === props.listing._id)).flatMap(op => op.options).join(', ')
     }, [props.options])
 
     const quantity = useMemo(() => {

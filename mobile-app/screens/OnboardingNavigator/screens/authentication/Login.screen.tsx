@@ -1,7 +1,7 @@
 import {Image, SafeAreaView, Text, View} from 'react-native'
 import AppLogo from '@assets/onboarding/nana-logo.png'
 import {tailwind} from "@tailwind";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import * as Device from "expo-device";
 import {_api} from "@api/_request";
@@ -11,6 +11,8 @@ import {cookieParser} from '../../../../../utils/cookieParser';
 import {useToast} from "react-native-toast-notifications";
 import {showTost} from "@components/commons/Toast";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+import {useAnalytics} from "@segment/analytics-react-native";
+import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 
 
 interface LoginForm {
@@ -23,6 +25,7 @@ export function LoginScreen (): JSX.Element {
     const [_loading, _setLoading] = useState<boolean>(false)
 
     const toast = useToast()
+    const analytics = useAnalytics()
 
     const [form, setForm] = useState<LoginForm>({
         email: '',
@@ -33,6 +36,11 @@ export function LoginScreen (): JSX.Element {
         email: false,
         password: false
     })
+
+
+    useEffect(() => {
+        void analytics.screen(OnboardingScreenName.LOGIN)
+    }, [])
 
     const checkForm = (): void => {
         if(form.email === '') {
@@ -60,6 +68,9 @@ export function LoginScreen (): JSX.Element {
                 data: {...form, email: form.email.toLowerCase()}
             })
             await  setToken(cookieParser(cookies[0]))
+            await analytics.track('EVENT:LOGIN', {
+                email: form.email.toLowerCase()
+            })
         } catch (error: any) {
             if (Number(error?.statusCode) === 500) {
                 showTost(toast,'Can not login at this time. Try again in a bit', 'error')
