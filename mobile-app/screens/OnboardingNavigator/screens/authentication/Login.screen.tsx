@@ -109,6 +109,7 @@ export function LoginScreen (): JSX.Element {
                         testID='SignupProfileScreen.FirstName.Input'
                         containerStyle={tailwind('mt-5')}
                         labelTestId="SignupProfileScreen.FirstName.Label"
+                        secureTextEntry={true as any}
                     />
 
                     <GenericButton
@@ -118,7 +119,7 @@ export function LoginScreen (): JSX.Element {
                         })}
                         onPress={onContinuePress}
                         labelColor={tailwind('text-white')}
-                        label={_loading ? 'Login in...' : 'Log in'}
+                        label="Log in"
                         backgroundColor={tailwind('bg-primary-500')}
                         testId="LoginScreen.LoginButton"
                         loading={_loading}

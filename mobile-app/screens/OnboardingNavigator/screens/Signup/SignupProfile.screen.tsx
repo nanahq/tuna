@@ -183,7 +183,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                             'mt-10': Device.osName === 'Android',
                             'mt-20': Device.osName === 'iOS'
                         })}
-                        disabled={hasErrors(Object.values(form))}
+                        disabled={hasErrors(Object.values(errors))}
                         onPress={onContinuePress}
                         labelColor={tailwind('text-white')}
                         label='Continue'

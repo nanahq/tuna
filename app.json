@@ -44,10 +44,11 @@
         "android.permission.POST_NOTIFICATIONS",
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE"
+        "android.permission.FOREGROUND_SERVICE",
+        "com.google.android.gms.permission.AD_ID"
       ],
       "package": "com.nanaeats.nana_vendors",
-      "versionCode": 490010101,
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true
     },
@@ -60,7 +61,7 @@
     "ios": {
       "icon": "./assets/app-config/Icon-white-ios1024.png",
       "supportsTablet": false,
-      "bundleIdentifier": "com.nanaeats.nana_vendors",
+      "bundleIdentifier": "com.nanaeats.nana-vendors",
       "buildNumber": "1.1.0"
     },
     "web": {
