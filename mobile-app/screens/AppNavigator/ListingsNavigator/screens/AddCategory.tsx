@@ -72,6 +72,13 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         }
     }, [])
 
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
+    }, [])
+
     const toggleSwitch = (): void => {
         setIsLive((prev) => !prev)
     }
@@ -168,8 +175,7 @@ return true
         return false
     }
     return (
-        <ScrollView style={tailwind('h-full px-5')}>
-            <GoBackButton onPress={() => navigation.goBack()}  style={tailwind('mt-5 mb-1')}/>
+        <ScrollView style={tailwind('flex-1 bg-white px-5')}>
             <View style={tailwind('flex flex-col mt-5')}>
                 <TextInputWithLabel
                     defaultValue={name}

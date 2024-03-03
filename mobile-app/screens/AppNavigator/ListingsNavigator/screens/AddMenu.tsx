@@ -1,5 +1,5 @@
 import {Dimensions, KeyboardAvoidingView, Pressable, ScrollView, Switch, Text, View} from 'react-native'
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 import {getColor, tailwind} from '@tailwind'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
@@ -30,9 +30,11 @@ import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel"
 import * as Device from "expo-device";
 import * as FileSystem from "expo-file-system";
 import {CategoryPickerModal} from "@screens/AppNavigator/ListingsNavigator/screens/components/CategoryPickerModal";
+import {StackNavigationProp, StackScreenProps} from "@react-navigation/stack";
+import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
+import {ListingsScreenName} from "@screens/AppNavigator/ListingsNavigator/ListingsScreenName.enum";
 
 export const CATEGORY_PICKER_MODAL = 'CAT_MENU_MODAL'
-export const OPTION_PICKER_MODAL = 'OPTION_MENU_MODAL'
 
 
 const MAX_SELECTION_LIMIT = 1
@@ -49,11 +51,11 @@ interface MenuFormInterface {
 
     serving: string
 }
-export function AddMenu (): JSX.Element {
-    const navigation = useNavigation<any>()
-    const bottomSheetModalRef = useRef<any>(null)
-   const height = Dimensions.get('screen').height
 
+type AddMenuNavigationProps = StackScreenProps<ListingsParams, ListingsScreenName.ADD_LISTING>
+export const AddMenu: React.FC<AddMenuNavigationProps>  = ({navigation}) => {
+   const height = Dimensions.get('screen').height
+    const bottomSheetModalRef = useRef<any>()
     const { dismiss } = useBottomSheetModal()
 
     const {listingsCategory, listingsOptionGroup} = useAppSelector((state: RootState) => state.listings)
@@ -87,6 +89,13 @@ export function AddMenu (): JSX.Element {
         navigation.navigate("AddCategory" as unknown as never)
 
     }
+
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
+    }, [])
 
     async function pickImage(): Promise<void> {
         await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -198,9 +207,8 @@ export function AddMenu (): JSX.Element {
 
 
     return (
-        <KeyboardAvoidingView style={tailwind('px-5 flex-1 bg-white')}>
+        <KeyboardAvoidingView style={tailwind('p-5  flex-1 bg-white')}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <GoBackButton onPress={() => navigation.goBack()} />
                 <TextInputWithLabel
                     label="Menu Name"
                     labelTestId=""

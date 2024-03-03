@@ -1,8 +1,7 @@
-import {SafeAreaView} from "react-native-safe-area-context";
 import {getColor, tailwind} from '@tailwind'
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
 import {RootState, useAppSelector} from "@store/index";
-import {ReactElement, useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {useWindowDimensions, View, Text} from "react-native";
@@ -150,12 +149,11 @@ export function OrdersScreen (): JSX.Element {
 
     return (
      <>
-         <SafeAreaView
+         <View
              style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
                  <View style={tailwind('flex flex-col w-full')}>
-                     <Text style={tailwind('font-bold text-2xl')}>Orders</Text>
                      <OrderHeaderStatus status={profile.status as any} />
                  </View>
                  {showProfileCompleteMsg && (<CompleteProfileMsg type="PROFILE" />)}
@@ -167,9 +165,9 @@ export function OrdersScreen (): JSX.Element {
                          {...props}
                          indicatorStyle={tailwind('hidden')}
                          scrollEnabled
-                         tabStyle={tailwind('bg-white mb-2 mx-1 border-0.5 border-black rounded')}
+                         tabStyle={tailwind('bg-white mb-2 mx-1 border-0.5 border-gray-500 rounded')}
                          style={tailwind('bg-white w-full')}
-                         labelStyle={tailwind('text-black font-bold capitalize text-xs')}
+                         labelStyle={tailwind('text-black capitalize text-xs')}
                          activeColor={getColor('primary-500')}
                      />
                  )}
@@ -179,7 +177,7 @@ export function OrdersScreen (): JSX.Element {
                  onIndexChange={setIndex}
                  initialLayout={{ width: layout.width }}
              />
-         </SafeAreaView>
+         </View>
          <LocationModal promptModalName={LOCATION_MODAL_NAME} modalRef={bottomSheetModalRef}>
              <LocationModalContent requestLocation={requestLocation} />
          </LocationModal>

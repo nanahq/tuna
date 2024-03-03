@@ -41,6 +41,7 @@ export default function App() {
   const customToast = {
     app_toast_success: (toast: ToastProps) => <AppToast  type="success" toast={toast} />,
     app_toast_error: (toast: ToastProps) => <AppToast type="error" toast={toast} />,
+    app_toast_warning: (toast: ToastProps) => <AppToast type="warning" toast={toast} />,
   };
 
   return (

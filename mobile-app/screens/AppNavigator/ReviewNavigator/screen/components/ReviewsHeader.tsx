@@ -6,7 +6,7 @@ import { IconComponent } from '@components/commons/IconComponent';
 export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}: {overview: VendorReviewOverview}): JSX.Element {
 
     return (
-        <View style={[tailwind('py-2 px-4 mt-2 overflow-hidden'), {
+        <View style={[tailwind(' mt-2 '), {
 
         }]}>
            <View style={tailwind('flex flex-row w-full justify-center')}>
@@ -27,7 +27,7 @@ export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}
                     name='share-2'
                     size={16}
                     iconType='Feather'
-                    style={tailwind('text-sm text-brand-black-500')}
+                    style={tailwind('text-sm text-black')}
                 />
             </TouchableOpacity>
         </View>
@@ -38,7 +38,7 @@ export function ReviewsHeader ({overview: {numberOfReviews, riskFactor, rating}}
 
 function TotalReviews(props: {total: number | string, style?: any}): JSX.Element {
     return (
-        <View style={[tailwind('border-0.5 bg-white border-brand-black-500 flex flex-col items-center  rounded-lg p-1 px-2 h-24 w-1/3'), props.style]}>
+        <View style={[tailwind('border-0.5 bg-white border-gray-300 flex flex-col items-center  rounded-lg p-1 px-2 h-24 w-1/3'), props.style]}>
             <IconComponent
                 name='star'
                 iconType='MaterialCommunityIcons'
@@ -46,7 +46,7 @@ function TotalReviews(props: {total: number | string, style?: any}): JSX.Element
                 size={34}
             />
             <View style={tailwind('flex flex-col items-center ')}>
-                <Text style={tailwind('font-bold text-lg text-brand-black-500')}>{props.total}</Text>
+                <Text style={tailwind('font-bold text-lg text-black')}>{props.total}</Text>
                 <Text style={tailwind('text-gray-400')}>Reviews</Text>
             </View>
         </View>
@@ -70,7 +70,7 @@ function Satisfaction (props: {rating: number, style?: StyleProp<any>}): JSX.Ele
     }
 
     return (
-        <View style={[tailwind('border-0.5 bg-white border-brand-black-500 flex flex-col items-center  rounded-lg p-1 px-2  h-24 w-1/3'), props.style]}>
+        <View style={[tailwind('border-0.5 bg-white border-gray-300 flex flex-col items-center  rounded-lg p-1 px-2  h-24 w-1/3'), props.style]}>
             <IconComponent
                 name={iconName}
                 iconType='Feather'
@@ -78,7 +78,7 @@ function Satisfaction (props: {rating: number, style?: StyleProp<any>}): JSX.Ele
                 size={34}
             />
             <View style={tailwind('flex flex-col items-center ')}>
-                <Text style={tailwind('font-bold text-lg text-brand-black-500')}>{props.rating}/5</Text>
+                <Text style={tailwind('font-bold text-lg text-black')}>{props.rating}/5</Text>
                 <Text style={tailwind('text-gray-400')}>Rating</Text>
             </View>
         </View>
@@ -102,7 +102,7 @@ function RiskFactor (props: {risk: 'HIGH' | 'MEDIUM' | 'LOW', style?: any}): JSX
         break;
     }
     return (
-        <View style={[tailwind('border-0.5 bg-white border-brand-black-500 flex flex-col items-center  justify-center rounded-lg p-1 px-2 h-24 w-1/3 '), props.style]}>
+        <View style={[tailwind('border-0.5 bg-white border-gray-300 flex flex-col items-center  justify-center rounded-lg p-1 px-2 h-24 w-1/3 '), props.style]}>
            <Text style={tailwind(` font-bold text-lg ${style}`)}>{props.risk}</Text>
             <View style={tailwind('flex flex-col items-center')}>
                 <Text style={tailwind('text-gray-400')}>Risk factor</Text>

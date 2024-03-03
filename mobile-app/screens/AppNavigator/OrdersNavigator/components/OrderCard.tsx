@@ -20,16 +20,16 @@ export function OrdersCard ({order, onPress, style, vendorSettings, deliveryInfo
                 }
             }}
             style={[
-            tailwind('flex p-3  bg-white flex-col  rounded-lg  my-2 w-full border-0.5 border-brand-black-500', {
+            tailwind('flex p-3  bg-white flex-col  rounded-lg  my-2 w-full border-0.5 border-gray-300', {
             }),
             style
         ]}>
             <View style={tailwind('flex flex-row items-center justify-between  w-full')}>
                     <View style={tailwind('flex flex-row items-center')}>
-                       <Text style={tailwind('text-lg font-bold')}>{listingsName}</Text>
+                       <Text style={tailwind('text-lg ')}>{listingsName}</Text>
                     </View>
-                <View style={tailwind('bg-brand-gray-700 p-1 rounded-lg')}>
-                    <Text style={tailwind('text-brand-black-500 text-white')}>{`₦${order.orderBreakDown.orderCost}`}</Text>
+                <View style={tailwind('bg-primary-500 p-1 rounded-lg')}>
+                    <Text style={tailwind('text-black text-white')}>{`₦${order.orderBreakDown.orderCost}`}</Text>
                 </View>
             </View>
             {deliveryInfo?.driver === undefined ? (
@@ -47,13 +47,13 @@ export function OrdersCard ({order, onPress, style, vendorSettings, deliveryInfo
                         title="Pick up time"
                     >
                         <View style={tailwind('flex flex-row items-center')}>
-                            <Text style={tailwind('text-brand-black-500 mr-3')}>
+                            <Text style={tailwind('text-black mr-3')}>
                                 {
                                     order.orderType === 'PRE_ORDER' ? calculatePreorderDate(order.orderDeliveryScheduledTime)
                                         :  calculateOnDemandDeliveryDate(Number(vendorSettings?.operations?.preparationTime ?? 0), order.createdAt)
                                 }
                             </Text>
-                            <IconComponent iconType="AntDesign" name='clockcircleo' size={22} style={tailwind('text-brand-black-500')} />
+                            <IconComponent iconType="AntDesign" name='clockcircleo' size={18} style={tailwind('text-black')} />
                         </View>
                     </OrderCardItem>
                 </View>
@@ -77,7 +77,7 @@ export function DeliveredOrderCard (props: { order: OrderI, onPress?: (order: Or
                 }
             }}
             style={[
-            tailwind('flex p-3 flex-row my-2  bg-white justify-between items-center w-full border-0.5 border-brand-black-500'),
+            tailwind('flex p-3 flex-row my-2  bg-white justify-between items-center w-full border-0.5 border-black'),
             props.style
         ]}>
             <View style={tailwind('flex flex-col w-1/2')}>
@@ -98,11 +98,11 @@ export function DeliveredOrderCard (props: { order: OrderI, onPress?: (order: Or
 export function OrderCardItem (props: PropsWithChildren<{text?: string, title: string, titleStyle?: any, textStyle?: any}>): JSX.Element {
     return (
         <View style={tailwind('flex flex-col')}>
-        <Text style={[tailwind('text-lg'), props.titleStyle]}>{props.title}</Text>
+        <Text style={[tailwind(''), props.titleStyle]}>{props.title}</Text>
            {props.children !== undefined ?
             props.children
            : (
-            <Text style={[tailwind('text-lg'), props.textStyle]}>
+            <Text style={[tailwind(''), props.textStyle]}>
             {props.text}
            </Text>
            )}

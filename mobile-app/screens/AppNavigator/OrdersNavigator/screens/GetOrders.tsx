@@ -10,7 +10,7 @@ import {OrderQrCode} from "@screens/AppNavigator/OrdersNavigator/components/Orde
 import { ScrollView } from "react-native-gesture-handler";
 import { GoBackButton } from "@screens/AppNavigator/SettingsNavigator/components/Goback";
 import { useToast } from "react-native-toast-notifications";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { _api } from "@api/_request";
 import { useAppDispatch } from "@store/index";
 import { fetchOrders } from "@store/orders.reducer";
@@ -30,6 +30,17 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
           navigation.goBack()
       }
 
+
+      useEffect(() => {
+          navigation.setOptions({
+              headerShown: true,
+              headerTitle: `Order #${params.order.refId}`,
+              headerBackTitleVisible: false,
+              headerTitleAlign: 'left',
+              headerTitleStyle: tailwind('text-xl'),
+              headerLeft: () => <GoBackButton  onPress={goBack}/>
+          })
+      }, [])
 
       const updateOrder =async  (): Promise<void> => {
         toast.hideAll()
@@ -55,9 +66,7 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
       }
 
     return (
-        <SafeAreaView style={tailwind('bg-white')}>
-            <ScrollView style={tailwind('px-5 pb-5 h-full bg-white')}>
-                <GoBackButton  onPress={goBack}/>
+            <ScrollView style={tailwind('px-5 pb-5 flex-1 bg-white')}>
                 <OrderSection heading='Order details'>
                     <View style={tailwind('flex flex-col')}>
                         {params.order.listing.map((listing) => (
@@ -89,10 +98,9 @@ export function GetOrder ({route: {params}, navigation}: GetOrderProps ): JSX.El
                     />
                 )}
                 </View>
-                <View style={tailwind('flex flex-row justify-center items-center w-full mt-10')}>
+                <View style={tailwind('flex flex-row justify-center items-center w-full mt-5')}>
                     <OrderQrCode orderId={ params.order._id ?? 'INVALID_ORDER'} />
                 </View>
             </ScrollView>
-        </SafeAreaView>
     )
 }

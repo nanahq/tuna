@@ -12,42 +12,41 @@ export function EarningsOverview ({overview}: {overview: PayoutOverview}): JSX.E
     }
     return  (
        <View style={tailwind('mt-3')}>
-         <View style={tailwind('flex  flex-col w-full  border-2 mb-3 px-4  py-4 border-primary-500 bg-primary-500 rounded-lg')}>
-             <Text style={tailwind('text-lg text-white')}>Earnings</Text>
-             <View style={tailwind('flex flex-row items-baseline')}>
-                   <Text style={tailwind('text-lg text-white mr-1')}>₦</Text>
+           <View style={tailwind('bg-brand-black-500  w-full rounded-lg py-4 px-3 ')}>
+               <View style={tailwind('flex flex-col w-full')}>
+                   <Text style={tailwind('text-sm text-white mb-5')}>Earnings Overview</Text>
                    <NumberFormat
+                       prefix="₦ "
                        value={overview[view]}
                        thousandSeparator
-                       displayType='text'
+                       displayType="text"
                        renderText={(value) => (
-                           <Text style={tailwind('text-4xl text-white font-bold mb-2')}>
-                               {value}
-                           </Text>
+                           <Text style={tailwind("font-normal text-4xl text-white")}>{value}</Text>
                        )}
                    />
+                   <View style={[tailwind(' flex flex-row items-center mt-10 self-end'), {width: 300}]}>
+                       <EarningTimeLine
+                           isFocused={view === '24_hours'}
+                           onPress={() => handleViewChange('24_hours')}
+                           text='Yesterday'
+                           border
+                       />
+                       <EarningTimeLine
+                           isFocused={view === '7_days'}
+                           onPress={() => handleViewChange('7_days')}
+                           text='Past 7 days'
+                           border
+                       />
+                       <EarningTimeLine
+                           isFocused={view === '30_days'}
+                           onPress={() => handleViewChange('30_days')}
+                           text='Last 30 days'
+                           border
+                       />
+                   </View>
                </View>
-        </View>
-           <View style={[tailwind(' flex flex-row items-center my-3'), {width: 300}]}>
-               <EarningTimeLine
-                   isFocused={view === '24_hours'}
-                   onPress={() => handleViewChange('24_hours')}
-                   text='Yesterday'
-                   border
-               />
-               <EarningTimeLine
-                   isFocused={view === '7_days'}
-                   onPress={() => handleViewChange('7_days')}
-                   text='Past 7 days'
-                   border
-               />
-               <EarningTimeLine
-                   isFocused={view === '30_days'}
-                   onPress={() => handleViewChange('30_days')}
-                   text='Last 30 days'
-                   border
-               />
            </View>
+
        </View>
     )
 }
@@ -55,11 +54,11 @@ export function EarningsOverview ({overview}: {overview: PayoutOverview}): JSX.E
 export function EarningTimeLine ({onPress, text, isFocused, style}: {onPress: () => void, text:string, isFocused: boolean, border?: boolean, style?: any}): JSX.Element {
     return (
         <TouchableOpacity onPress={onPress}
-            style={[tailwind(' py-1 px-2 border-0.5 border-black', {
-                'bg-black': isFocused}), style]}
+            style={[tailwind('py-1 px-2', {
+                'bg-white': isFocused}), style]}
         >
-        <Text style={tailwind('text-center text-base text-black', {
-            'text-white': isFocused
+        <Text style={tailwind('text-center text-base text-white', {
+            'text-black': isFocused
         })}>{text}</Text>
     </TouchableOpacity>
     )

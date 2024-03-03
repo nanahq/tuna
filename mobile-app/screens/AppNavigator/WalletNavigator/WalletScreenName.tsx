@@ -1,3 +1,5 @@
 export enum WalletScreenName {
-    WALLET = 'WalletHome'
+    WALLET = 'WalletHome',
+
+    WALLET_PAYOUT = 'WALLET_PAYOUT'
 }

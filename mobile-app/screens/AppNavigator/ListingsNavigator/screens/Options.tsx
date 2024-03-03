@@ -63,18 +63,14 @@ export interface OptionCardProps {
 export function OptionCard ({option, onPress}: OptionCardProps): JSX.Element {
     return (
         <TouchableOpacity onPress={() => onPress(option)} style={[tailwind('flex flex-col w-full px-2 mb-4 bg-transparent'),{
-            // shadowColor: '#171717',
-            // shadowOffset: {width: -2, height: 4},
-            // shadowOpacity: 0.2,
-            // shadowRadius: 3,
+
         }]}>
-           <View style={tailwind('border-0.5 border-brand-black-500 bg-white p-3 rounded-lg')}>
+           <View style={tailwind('border-0.5 border-gray-300 bg-white p-3 rounded-lg')}>
                <View style={tailwind('flex flex-row w-full items-start justify-between ')}>
-                   <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-5')}>{option.name}</Text>
-                   <IconButton iconName="more-horizontal" iconType="Feather" iconSize={18} iconStyle={tailwind('text-brand-gray-700')} />
+                   <Text style={tailwind('text-black mb-2')}>{option.name}</Text>
                </View>
                <View style={tailwind('flex flex-row w-full items-center justify-between')}>
-                   <Text style={tailwind('text-brand-black-500 font-medium text-sm')} >{`No. of options: ${option.options.length} `}</Text>
+                   <Text style={tailwind('text-black  text-sm')} >{`No. of options: ${option.options.length} `}</Text>
                </View>
            </View>
         </TouchableOpacity>

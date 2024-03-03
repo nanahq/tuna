@@ -69,16 +69,15 @@ if (!hasFetchedProfile) {
   return   <LoaderComponentScreen />
 }
     return (
-        <View style={tailwind('flex-1 bg-white')}>
-            <View style={tailwind(' w-full flex flex-row items-center px-5 py-8 mb-2 bg-white')}>
+        <ScrollView style={tailwind('flex-1 bg-white px-5')}>
+            <View style={tailwind(' w-full flex flex-row items-center py-8 mb-2')}>
                     {profile.businessLogo !== undefined && (  <Image source={{uri: profile.businessLogo}} resizeMode='contain' style={tailwind('w-12 h-12 rounded-full')} />)}
                         <View style={tailwind('flex flex-col ml-4')}>
-                            <Text style={tailwind('text-xl font-bold text-brand-black-500')}>Hi, {profile.businessName} </Text>
-                            <Text style={tailwind('text-sm text-brand-black-500 font-medium')}>{ordersDelivered()}</Text>
+                            <Text style={tailwind('text-xl text-black')}>Hi, {profile.businessName} </Text>
+                            <Text style={tailwind('text-sm text-black font-medium')}>{ordersDelivered()}</Text>
                         </View>
             </View>
-            <ScrollView style={tailwind('p-5 pt-0 ')}>
-             {!profileComplete && (<CompleteProfileMsg />)}
+             {!profileComplete && (<CompleteProfileMsg type="PROFILE" />)}
                 <SettingsSection title="Profiles">
                     <SettingsSection.Item
                         subtitle="phone number, emails, password"
@@ -117,15 +116,14 @@ if (!hasFetchedProfile) {
                     <SettingsSection.Item title="Submit Request To Developers" hasBorder={false} onPress={() => navigation.navigate('RestaurantProfile')} disabled />
                 </SettingsSection>
             <View style={tailwind('flex flex-col w-full my-5')}>
-            <Pressable onPress={onLogoutPress} style={tailwind('flex flex-row items-center border-b-0.5 border-brand-black-500 px-3 py-2')} >
-                            <Text style={tailwind('font-bold text-brand-black-500 text-lg')}> Logout</Text>
+            <Pressable onPress={onLogoutPress} style={tailwind('flex flex-row items-center border-b-0.5 border-black px-3 py-2')} >
+                            <Text style={tailwind('text-black')}> Logout</Text>
                         </Pressable>
                         <Pressable onPress={onLogoutPress} style={tailwind('flex flex-row items-center mt-1 px-3 py-2')} >
-                            <Text style={tailwind('font-bold text-red-600 text-lg')}> Delete Account</Text>
+                            <Text style={tailwind('text-red-600')}> Delete Account</Text>
                         </Pressable>
             </View>
-            </ScrollView>
-        </View>
+        </ScrollView>
     )
 }
 

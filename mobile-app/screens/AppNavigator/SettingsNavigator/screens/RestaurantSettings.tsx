@@ -36,7 +36,7 @@ const operations = [
 
 
 export function RestaurantSettings (): JSX.Element {
-    const navigation = useNavigation()
+    const navigation = useNavigation<any>()
     const {profile,  hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
     const dispatch = useAppDispatch()
     const toast = useToast()
@@ -54,7 +54,14 @@ export function RestaurantSettings (): JSX.Element {
         minOrder: '0'
     })
 
-    const showTimePickerAndriodCutoff = async () => {
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
+    }, [])
+
+    const showTimePickerAndroidCutoff = async () => {
         await DateTimePickerAndroid.open({
             is24Hour: true,
             value: operationForm.cutoffTime,
@@ -160,9 +167,7 @@ export function RestaurantSettings (): JSX.Element {
             }
     }
     return (
-        <SafeAreaView style={tailwind('flex-1')}>
-            <ScrollView style={tailwind('flex w-full bg-white px-5 pt-5')}>
-                <GoBackButton onPress={() => navigation.goBack()} />
+            <ScrollView style={tailwind('flex-1 w-full bg-white px-5 pt-5')}>
                 <ProfileSection sectionName="Operations">
                     <View style={tailwind('flex flex-row  w-full items-center')}>
                         <View style={tailwind('w-2/3')}>
@@ -195,7 +200,7 @@ export function RestaurantSettings (): JSX.Element {
                             </Text>
                         </View>
                         {Device.osName === 'Android' && (
-                            <AndroidPicker time={operationForm.cutoffTime} onPress={showTimePickerAndriodCutoff} />
+                            <AndroidPicker time={operationForm.cutoffTime} onPress={showTimePickerAndroidCutoff} />
                         )}
                         {Device.osName !== 'Android' && (
                             <DateTimePicker
@@ -272,6 +277,5 @@ export function RestaurantSettings (): JSX.Element {
                     />
                 </ProfileSection>
             </ScrollView>
-        </SafeAreaView>
     )
 }

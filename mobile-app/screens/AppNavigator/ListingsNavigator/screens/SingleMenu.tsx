@@ -53,6 +53,11 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
             setImage(menu.photo)
             setOptions(listingsOptionGroup.filter(group => !(group._id in menu.optionGroups)))
         }
+
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />,
+            headerTitle: route?.params?.menu.name ?? 'Menu'
+        })
     }, [])
 
     const handleDeleteListing = async () => {
@@ -107,7 +112,6 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     return (
         <KeyboardAvoidingView style={tailwind('px-5 bg-white')}>
             <ScrollView showsVerticalScrollIndicator={false} >
-                <GoBackButton onPress={() => navigation.goBack()} />
                 <ControlledTextInputWithLabel
                     label="Menu Name"
                     labelTestId=""

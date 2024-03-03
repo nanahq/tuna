@@ -69,6 +69,10 @@ export function AddOption ({route, navigation}: AddOptionNavProps): JSX.Element 
             })
             setOptions(op.options)
         }
+
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
     }, [])
 
     function openModal (): void {
@@ -131,11 +135,6 @@ return true
         try {
            const res = await dispatch(updateOptionGroup({payload, type})).unwrap()
            if (res.status === 1) {
-               Toast.show({
-                   type: 'success',
-                   text1: 'Operation successful',
-                   autoHide: true,
-               })
                showTost(toast, 'Option added!', 'success')
                setTimeout(() => {
                   void navigation.goBack()
@@ -150,9 +149,7 @@ return true
 
 
     return (
-        <SafeAreaView style={tailwind('flex-1 bg-white')}>
-           <ScrollView showsVerticalScrollIndicator={false} style={tailwind('px-5')}>
-               <GoBackButton style={tailwind('mb-1')} onPress={() => navigation.goBack()} />
+           <ScrollView showsVerticalScrollIndicator={false} style={tailwind('flex-1 py-5 bg-white px-5')}>
                <View>
                    <TextInputWithLabel
                        defaultValue={form.name}
@@ -239,7 +236,6 @@ return true
                    />
                )}
            </ScrollView>
-        </SafeAreaView>
     )
 }
 

@@ -33,8 +33,14 @@ export function OrderNavigator(): JSX.Element {
                 component={OrdersScreen}
                 name={OrderScreenName.ORDERS}
                 options={{
-                    headerTitleStyle: tailwind('hidden'),
-                   headerShown: false,
+                    headerLeft: () => <></>,
+                    headerTitle: 'My Orders',
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: tailwind('text-xl'),
+                    headerStyle: [tailwind(''), {
+                        shadowOpacity: 8,
+                    }],
+                    headerShown: true
                 }}
             />
 
