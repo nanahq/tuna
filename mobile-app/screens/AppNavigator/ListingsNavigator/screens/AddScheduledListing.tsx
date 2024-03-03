@@ -1,9 +1,9 @@
 import { KeyboardAvoidingView, Pressable, ScrollView, Text, View} from 'react-native'
-import {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Picker} from '@react-native-picker/picker'
 import { tailwind} from '@tailwind'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
-import {NavigationProp, useNavigation} from "@react-navigation/native";
+import {NavigationProp} from "@react-navigation/native";
 
 import {IconComponent} from "@components/commons/IconComponent";
 
@@ -21,9 +21,12 @@ import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel"
 import {fetchScheduled} from "@store/listings.reducer";
 import * as Device from 'expo-device'
 import {AndroidPickerListing} from "@screens/AppNavigator/ListingsNavigator/screens/components/AndroidPicker";
+import { StackScreenProps} from "@react-navigation/stack";
+import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNavigator";
+import {ListingsScreenName} from "@screens/AppNavigator/ListingsNavigator/ListingsScreenName.enum";
 
-export function AddScheduledListing (): JSX.Element {
-    const navigation = useNavigation()
+type AddScheduledListingNavigationProps = StackScreenProps<ListingsParams, ListingsScreenName.SCHEDULED>
+export const AddScheduledListing:React.FC<AddScheduledListingNavigationProps> =  ({navigation}) => {
     const dispatch = useAppDispatch()
 
     const {listingsCategory} = useAppSelector((state: RootState) => state.listings)
@@ -35,7 +38,15 @@ export function AddScheduledListing (): JSX.Element {
         listing: "",
         quantity: '' as any
     })
+    const [loading, setLoading] = useState<boolean>(false)
 
+
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
+    }, [])
 
 
     const showDatePickerAndriod = () => {
@@ -56,7 +67,7 @@ export function AddScheduledListing (): JSX.Element {
     }, [listingsCategory])
 
 
-    const [loading, setLoading] = useState<boolean>(false)
+
     async function onSubmitCb (): Promise<void>  {
         const data = {...menuForm, availableDate: menuForm.availableDate.getTime(), quantity: +menuForm.quantity}
 
@@ -96,12 +107,10 @@ export function AddScheduledListing (): JSX.Element {
 
     }
 
-    console.log(menuForm)
 
     return (
         <KeyboardAvoidingView style={tailwind('px-5 bg-white flex-1')}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <GoBackButton onPress={() => navigation.goBack()} />
                 <View>
                     <View style={tailwind('w-2/3 mt-6')}>
                         <Text  style={tailwind('font-medium text-sm text-brand-black-500')}>Menu</Text>

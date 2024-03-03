@@ -28,7 +28,6 @@ export function OrderCategory (props: PropsWithChildren<OrderCatergoryProps>): J
     return (
 
             <ScrollView style={[tailwind('px-3 h-full'),{
-
             }]}>
                 {props.orders.length === 0 && (
                     <EmptyAnimation text='No orders yet.' />

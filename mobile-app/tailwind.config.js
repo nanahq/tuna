@@ -3,6 +3,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'nana-lime': '#4ADE80',
         blue: {
           50: "#F7FBFE",
           100: "#EFF6FD",

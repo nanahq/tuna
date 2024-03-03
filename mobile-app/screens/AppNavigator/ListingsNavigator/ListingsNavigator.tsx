@@ -40,13 +40,10 @@ export function ListingsNavigator(): JSX.Element {
                 headerLeft: () => <></>,
                 headerTitle: 'Listings',
                 headerTitleAlign: 'left',
-                headerLeftContainerStyle: tailwind('pl-5'),
-                headerTitleStyle: tailwind('font-semibold text-brand-black-500 text-lg'),
+                headerTitleStyle: tailwind('text-xl'),
                 headerStyle: [tailwind(''), {
                     shadowOpacity: 8,
-                    height: insets.top + 40
                 }],
-                headerBackTitleVisible: false,
                 headerShown: true
             }}
         >
@@ -74,7 +71,10 @@ export function ListingsNavigator(): JSX.Element {
                 name={ListingsScreenName.ADD_CATEGORY}
                 options={{
                     headerShown: true,
-                    headerTitle: 'New Category'
+                    headerTitle: 'Add Category',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: tailwind('text-xl'),
                 }}
             />
 
@@ -83,7 +83,9 @@ export function ListingsNavigator(): JSX.Element {
                 name={ListingsScreenName.SCHEDULED}
                 options={{
                     headerShown: true,
-                    headerTitle: 'New Scheduled Listing'
+                    headerTitle: 'New Scheduled Listing',
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: tailwind('text-xl'),
                 }}
             />
             <ListingsStack.Screen
@@ -93,7 +95,7 @@ export function ListingsNavigator(): JSX.Element {
                     headerShown: true,
                     headerTitle: 'Add Menu Option',
                     headerBackTitleVisible: false,
-                    headerTitleAlign: 'center',
+                    headerTitleAlign: 'left',
                     headerTitleStyle: tailwind('text-xl'),
                 }}
             />
@@ -103,7 +105,10 @@ export function ListingsNavigator(): JSX.Element {
                 name={ListingsScreenName.ADD_LISTING}
                 options={{
                     headerShown: true,
-                    headerTitle: 'Add Menu'
+                    headerTitle: 'Add Menu',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: tailwind('text-xl'),
                 }}
             />
             <ListingsStack.Screen

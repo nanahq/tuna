@@ -1,20 +1,20 @@
 import { tailwind} from "@tailwind";
-import {SafeAreaView, View, Text} from "react-native";
+import { View} from "react-native";
 import {ScrolledView} from "@components/views/ScrolledView";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
-import {useNavigation} from "@react-navigation/native";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
-import { useForm } from "react-hook-form";
-import { ControlledTextInputWithLabel } from "@components/commons/inputs/ControlledTextInput";
 import {  showTost } from "@components/commons/Toast";
 import { _api } from "@api/_request";
 import { fetchProfile } from "@store/profile.reducer";
 import { useToast } from "react-native-toast-notifications";
 import {LoaderComponentScreen} from "@components/commons/LoaderComponent";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+import {StackScreenProps} from "@react-navigation/stack";
+import {SettingsParamsList} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
+import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/SettingsScreenName.enum";
 
 export interface AccountProfileForm {
     firstName: string
@@ -28,11 +28,10 @@ export interface PasswordForm {
 }
 
 
-
-export function AccountProfile (): JSX.Element {
+type AccountProfileProps = StackScreenProps<SettingsParamsList, SettingsScreenName.ACCOUNT_PROFILE>
+export const AccountProfile: React.FC<AccountProfileProps> = ({navigation}) => {
     const {hasFetchedProfile, profile } = useAppSelector((state: RootState) => state.profile)
     const dispatch = useAppDispatch()
-    const navigation = useNavigation()
     const toast = useToast()
 
     const [submitting, setSubmitting] = useState<boolean>(false)
@@ -54,6 +53,10 @@ export function AccountProfile (): JSX.Element {
             lastName,
             firstName
         }))
+
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
     }, [])
 
 
@@ -88,9 +91,7 @@ export function AccountProfile (): JSX.Element {
 
 
     return (
-        <SafeAreaView style={tailwind('flex-1')}>
-            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full px-5 pt-5 bg-white')}>
-                <GoBackButton onPress={() => navigation.goBack()} />
+            <ScrolledView testId="AccountProfile.View" style={tailwind('flex w-full flex-1 px-5 pt-5 bg-white')}>
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>
                         <View style={tailwind('flex flex-row items-center justify-between w-full')}>
                             <TextInputWithLabel
@@ -145,6 +146,5 @@ export function AccountProfile (): JSX.Element {
                     )}
 
             </ScrolledView>
-        </SafeAreaView>
     )
 }

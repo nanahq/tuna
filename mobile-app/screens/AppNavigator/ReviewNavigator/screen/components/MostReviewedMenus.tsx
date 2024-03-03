@@ -16,7 +16,7 @@ export function MostReviewedMenus (props: {reviews: ReviewI[]  }): JSX.Element {
            <Text style={tailwind('text-brand-black-500 text-lg font-medium')}>Top rated menus</Text>
            <ScrollView horizontal style={tailwind('px-2')} showsHorizontalScrollIndicator={false}>
                {props.reviews.map((review, index) => (
-                   <MostReviewedMenusItem name={review.listingId.name} key={`review_top_menu_${index}`} reviews={review.reviewBody} rating={review.reviewStars.toString()} />
+                   <MostReviewedMenusItem name={review.listing.name} key={`review_top_menu_${index}`} reviews={review.reviewBody} rating={review.reviewStars.toString()} />
                ))}
 
            </ScrollView>

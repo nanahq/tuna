@@ -59,12 +59,11 @@ export function ReviewScreen (): JSX.Element {
         )
     }
 
-    console.log({subscription})
     return  (
-            <ScrollView style={tailwind('flex-1 bg-gray-50')}>
-                <View style={tailwind('px-4 py-3')}>
-                    <View style={tailwind('bg-white mb-3 px-3  border-0.5 border-brand-black-500 rounded-lg py-2 flex flex-col w-full')}>
-                        <Text style={tailwind('text-lg mb-2 text-gray-400')}>Total Sales</Text>
+            <ScrollView style={tailwind('flex-1 bg-white p-5')}>
+                <View style={tailwind('')}>
+                    <View style={tailwind('bg-white mb-3 px-3  border-0.5 border-gray-300 rounded-lg py-2 flex flex-col w-full')}>
+                        <Text style={tailwind('text-lg mb-2 text-black')}>Total Sales</Text>
                         <View style={tailwind('flex flex-row items-baseline self-end')}>
                             <Text style={tailwind('text-lg mr-1')}>₦</Text>
                             <NumberFormat
@@ -80,8 +79,8 @@ export function ReviewScreen (): JSX.Element {
                         </View>
                     </View>
                     <View style={tailwind('flex mb-3 flex-row items-center')}>
-                        <View style={tailwind('bg-white px-3 py-2 border-0.5 border-brand-black-500 rounded-lg flex flex-col flex-grow mr-2')}>
-                            <Text style={tailwind('text-lg mb-2 text-center text-gray-400')}>Approved Listing</Text>
+                        <View style={tailwind('bg-white px-3 py-2 border-0.5 border-gray-300 rounded-lg flex flex-col flex-grow mr-2')}>
+                            <Text style={tailwind('text-lg mb-2 text-center text-black')}>Approved Listing</Text>
                             <NumberFormat
                                 value={numberOfListings}
                                 thousandSeparator
@@ -93,8 +92,8 @@ export function ReviewScreen (): JSX.Element {
                                 )}
                             />
                         </View>
-                        <View style={tailwind('bg-white px-3 py-2 border-0.5 rounded-lg  border-brand-black-500 flex flex-grow flex-col ml-2')}>
-                            <Text style={tailwind('text-lg mb-2 text-gray-400 text-center')}>Delivered orders</Text>
+                        <View style={tailwind('bg-white px-3 py-2 border-0.5 rounded-lg  border-gray-300 flex flex-grow flex-col ml-2')}>
+                            <Text style={tailwind('text-lg mb-2 text-black text-center')}>Delivered orders</Text>
                             <NumberFormat
                                 value={numberOfOrders}
                                 thousandSeparator
@@ -107,8 +106,8 @@ export function ReviewScreen (): JSX.Element {
                             />
                         </View>
                     </View>
-                    <View style={tailwind('bg-white px-3  border-0.5 border-brand-black-500 rounded-lg py-2 flex flex-col w-full')}>
-                        <Text style={tailwind('text-lg mb-2 text-gray-400')}>Subscribers</Text>
+                    <View style={tailwind('bg-white px-3  border-0.5 border-gray-300 rounded-lg py-2 flex flex-col w-full')}>
+                        <Text style={tailwind('text-lg mb-2 text-black')}>Subscribers</Text>
                         <View style={tailwind('flex flex-row items-baseline self-end')}>
 
                             <NumberFormat
@@ -124,13 +123,13 @@ export function ReviewScreen (): JSX.Element {
                         </View>
                     </View>
                 </View>
-                <ReviewsHeader overview={overview} />
-                <View style={tailwind('px-4')}>
+                <View>
+                    <ReviewsHeader overview={overview} />
+                </View>
                     <View style={tailwind('mt-2')}>
-                        <Text style={tailwind('text-brand-black-500 font-semibold text-lg mb-3')}>Recent Reviews</Text>
+                        <Text style={tailwind('text-black text-lg mb-3')}>Recent Reviews</Text>
                         <RecentViews reviews={reviews} />
                     </View>
-                </View>
             </ScrollView>
     )
 }

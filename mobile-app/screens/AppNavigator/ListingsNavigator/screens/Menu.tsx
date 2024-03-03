@@ -62,25 +62,25 @@ export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (
         <Pressable onPress={() => onPress(menu)} style={[tailwind('flex w-full h-full  px-2 mb-4 rounded-lg overflow-hidden'), {
 
         }]}>
-            <View style={tailwind('relative overflow-hidden  bg-white border-0.5 border-brand-black-500  rounded-lg')}>
-                <View style={tailwind('w-full h-20')}>
+            <View style={tailwind('relative overflow-hidden  bg-white border-0.5 border-gray-300 rounded-lg')}>
+                <View style={tailwind('w-full h-28')}>
                     <Image source={{uri: menu.photo , cache: 'force-cache'}} resizeMode='cover'   style={tailwind('w-full h-full')} />
                 </View>
-               <View style={tailwind('p-4')}>
+               <View style={tailwind('p-2')}>
                   <View style={tailwind('flex flex-row justify-between w-full items-center')}>
-                      <Text style={tailwind('font-semibold text-lg text-brand-black-500')}>{menu.name}</Text>
+                      <Text style={tailwind('text-lg text-black')}>{menu.name}</Text>
                       <IconButton iconName="more-horizontal" iconType="Feather" iconSize={24} iconStyle={tailwind('text-brand-gray-700')} />
                   </View>
                    <View style={tailwind('flex flex-row items-center justify-between w-full')}>
                        <View style={tailwind('flex flex-row items-center')}>
-                           <Text style={tailwind('text-lg font-medium text-brand-black-500')}>{menu.isAvailable ? 'Available' : 'Not Available'}</Text>
+                           <Text style={tailwind('text-lg font-medium text-black')}>{menu.isAvailable ? 'Available' : 'Not Available'}</Text>
                            <View style={tailwind('rounded-full ml-1 h-2 w-2', {
-                               'bg-green-500': menu.isAvailable,
+                               'bg-nana-lime': menu.isAvailable,
                                'bg-brand-gray-700': !menu.isAvailable
                            })} />
                        </View>
                        <View style={tailwind('flex flex-row items-center')}>
-                           <Text style={tailwind('text-lg font-medium text-brand-black-500')}>{menu.isLive ? 'Live': 'Not Live'}</Text>
+                           <Text style={tailwind('text-lg font-medium text-black')}>{menu.isLive ? 'Live': 'Not Live'}</Text>
                            <View style={tailwind('rounded-full ml-1 h-2 w-2', {
                                'bg-green-500': menu.isLive,
                                'bg-brand-gray-700': !menu.isLive
@@ -90,7 +90,7 @@ export function ListingMenuCard ({menu, onPress}: {menu:ListingMenuI, onPress: (
                </View>
                 {menu.status === ListingApprovalStatus.PENDING && (
                     <View style={tailwind('absolute top-0 right-0 bg-warning-200 px-3 py-1')}>
-                        <Text style={tailwind('text-brand-black-500')}>Pending Approval</Text>
+                        <Text style={tailwind('text-black')}>Pending Approval</Text>
                     </View>
                 )}
             </View>

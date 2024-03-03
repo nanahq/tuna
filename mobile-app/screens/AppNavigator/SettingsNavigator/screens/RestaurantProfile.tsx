@@ -23,6 +23,9 @@ import {LoaderComponent, LoaderComponentScreen} from "@components/commons/Loader
 import mime from "mime";
 import * as FileSystem from 'expo-file-system'
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+import {StackScreenProps} from "@react-navigation/stack";
+import {SettingsParamsList} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
+import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/SettingsScreenName.enum";
 const RestaurantProfileInteraction = {
     UPDATING_PROFILE_MESSAGE: 'Updating profile',
     GETTING_LOCATION_MESSAGE: 'Getting location',
@@ -38,10 +41,10 @@ export interface RestaurantProfileForm {
     businessEmail: string
 }
 
-export function RestaurantProfile (): JSX.Element {
+type RestaurantProfileProps = StackScreenProps<SettingsParamsList, SettingsScreenName.RESTAURANT_PROFILE>
+export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}) => {
     const {hasFetchedProfile, profile } = useAppSelector((state: RootState) => state.profile)
     const dispatch = useAppDispatch()
-    const navigation  = useNavigation()
 
     const toast = useToast()
     const [submitting, setSubmitting] = useState<boolean>(false)
@@ -63,6 +66,10 @@ export function RestaurantProfile (): JSX.Element {
         setForm(prev => ({...prev, 'businessName':profile.businessName, businessEmail: profile.businessEmail, businessAddress: profile.businessAddress}))
         setLogo(profile.businessLogo)
         _setRestaurantImage(profile.restaurantImage)
+
+        navigation.setOptions({
+            headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
+        })
     }, [])
 
 
@@ -238,9 +245,7 @@ export function RestaurantProfile (): JSX.Element {
     };
 
     return (
-        <SafeAreaView style={tailwind('flex-1 ')}>
-            <ScrolledView testId="AccountProfile.View" style={tailwind('w-full px-5 pt-5 bg-white')}>
-            <GoBackButton onPress={() => navigation.goBack()} />
+            <ScrolledView testId="AccountProfile.View" style={tailwind('w-full flex-1 px-5 pt-5 bg-white')}>
                     <View style={tailwind('flex flex-row w-full justify-center relative')}>
                         {logo !== undefined ? (
                             <View style={tailwind('rounded-xl w-28 h-28')}>
@@ -340,7 +345,6 @@ export function RestaurantProfile (): JSX.Element {
                     </View>
                 )}
             </ScrolledView>
-        </SafeAreaView>
     )
 }
 

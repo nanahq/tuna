@@ -87,8 +87,9 @@ export function LoginScreen (): JSX.Element {
                     <Image source={AppLogo} resizeMode="contain" style={tailwind('w-16 h-16 rounded-lg')} />
                 </View>
                 <View style={tailwind('mt-10')}>
-                    <Text testID="LoginScreen.WelcomeText" style={tailwind('font-semibold text-xl text-brand-black-500 mb-5')}>Welcome back</Text>
+                    <Text testID="LoginScreen.WelcomeText" style={tailwind('text-xl text-black mb-5')}>Welcome back</Text>
                     <TextInputWithLabel
+                        placeholder="Email"
                         defaultValue={form.email}
                         onChangeText={(value) => setForm((prev) => ({...prev, email: value}))}
                         error={error.email}
@@ -100,6 +101,7 @@ export function LoginScreen (): JSX.Element {
                         labelTestId="SignupProfileScreen.FirstName.Label"
                     />
                     <TextInputWithLabel
+                        placeholder="Password"
                         defaultValue={form.password}
                         onChangeText={(value) => setForm((prev) => ({...prev, password: value}))}
                         error={error.password}

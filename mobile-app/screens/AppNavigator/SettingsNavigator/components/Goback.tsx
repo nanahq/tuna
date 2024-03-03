@@ -7,9 +7,9 @@ export function GoBackButton ({onPress, style}: {onPress: () => void, style?: St
         <IconButton
             iconName='arrow-left'
             iconType='Feather'
-            iconSize={24}
-            iconStyle={tailwind('text-brand-black-500')}
-            style={[tailwind('my-2 bg-gray-200 p-2 rounded-full h-10 w-10'), style]}
+            iconSize={34}
+            iconStyle={tailwind('text-black')}
+            style={[tailwind('ml-2'), style]}
             onPress={onPress}
         />
     )
