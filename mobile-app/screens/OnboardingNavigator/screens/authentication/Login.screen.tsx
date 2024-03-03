@@ -14,7 +14,6 @@ import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel"
 import {useAnalytics} from "@segment/analytics-react-native";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 
-
 interface LoginForm {
     email: string
     password: string
