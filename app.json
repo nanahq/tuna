@@ -48,7 +48,7 @@
         "com.google.android.gms.permission.AD_ID"
       ],
       "package": "com.nanaeats.nana_vendors",
-      "versionCode": 1,
+      "versionCode": 490010101,
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true
     },
