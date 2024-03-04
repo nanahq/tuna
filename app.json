@@ -4,7 +4,7 @@
     "description": "Reach a wider audience and sell more with Nana",
     "slug": "nana-vendors-app",
     "owner": "nana_logistics",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -48,7 +48,6 @@
         "com.google.android.gms.permission.AD_ID"
       ],
       "package": "com.nanaeats.nana_vendors",
-      "versionCode": 490010101,
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true
     },
@@ -61,8 +60,7 @@
     "ios": {
       "icon": "./assets/app-config/Icon-white-ios1024.png",
       "supportsTablet": false,
-      "bundleIdentifier": "com.nanaeats.nana-vendors",
-      "buildNumber": "1.1.0"
+      "bundleIdentifier": "com.nanaeats.nana-vendors"
     },
     "web": {
       "favicon": "./assets/app-config/favicon.png"
