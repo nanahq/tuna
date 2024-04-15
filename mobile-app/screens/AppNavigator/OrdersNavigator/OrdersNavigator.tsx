@@ -32,16 +32,6 @@ export function OrderNavigator(): JSX.Element {
             <OrderStack.Screen
                 component={OrdersScreen}
                 name={OrderScreenName.ORDERS}
-                options={{
-                    headerLeft: () => <></>,
-                    headerTitle: 'My Orders',
-                    headerTitleAlign: 'left',
-                    headerTitleStyle: tailwind('text-xl'),
-                    headerStyle: [tailwind(''), {
-                        shadowOpacity: 8,
-                    }],
-                    headerShown: true
-                }}
             />
 
             <OrderStack.Screen

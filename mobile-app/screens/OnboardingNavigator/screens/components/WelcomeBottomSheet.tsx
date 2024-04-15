@@ -54,54 +54,6 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
         closeModal()
         navigation.navigate(OnboardingScreenName.LOGIN)
     }
-    if (isWeb) {
-        return (
-            <SafeAreaView
-                style={tailwind("w-full h-full flex-col absolute z-50 top-0 left-0")}
-                ref={containerRef}
-            >
-                <Modal
-                    container={containerRef}
-                    show
-                    renderBackdrop={() => (
-                        <View
-                            style={{
-                                position: "absolute",
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: 0,
-                                backgroundColor: "black",
-                                opacity: 0.6,
-                            }}
-                        />
-                    )}
-                    style={{
-                        position: "absolute",
-                        height: "450px",
-                        width: "375px",
-                        zIndex: 50,
-                        bottom: "0",
-                    }} // array as value crashes Web Modal
-                >
-                    <View style={tailwind('bg-white rounded-t-xl p-5 flex flex-1')}>
-                        <View style={tailwind('flex w-full flex-col justify-center')}>
-                            <IconComponent iconType='Feather' name='check-circle' size={100} style={tailwind('text-primary-500 text-center')} />
-                            <Text style={tailwind('font-semibold mt-3 text-lg text-center text-brand-black-500')}>Account successfully Created!</Text>
-                            <GenericButton
-                                style={tailwind('mt-4')}
-                                onPress={goToLogin}
-                                labelColor={tailwind('text-white py-3 text-sm')}
-                                label='Log into your account'
-                                backgroundColor={tailwind('bg-primary-500')}
-                                testId="WelcomeModal.ContinueButton"
-                            />
-                        </View>
-                    </View>
-                </Modal>
-            </SafeAreaView>
-        )
-    }
     return (
         <BottomSheetModal
             onChange={(index) => {
@@ -121,16 +73,21 @@ export function WelcomeButtonSheet(props: WelcomeModalProps): JSX.Element {
             backgroundComponent={(backgroundProps: BottomSheetBackgroundProps) => (
               <View
                   {...backgroundProps}
-                style={tailwind('bg-brand-blue-200 rounded-t-xl')}
+                style={tailwind('bg-brand-blue-200')}
               />
             )}
         >
-            <View style={tailwind('bg-white rounded-t-xl p-5 h-full')}>
-               <View style={tailwind('flex w-full flex-col justify-center')}>
-                   <IconComponent iconType='Feather' name='check-circle' size={70} style={tailwind('text-primary-500 text-center')} />
-                   <Text style={tailwind('font-semibold mt-3 text-lg text-center text-brand-black-500')}>Account successfully Created!</Text>
+            <View style={tailwind('bg-white p-5 h-full')}>
+               <View style={tailwind('flex flex-1 w-full flex-col justify-center')}>
+                  <View style={tailwind('flex flex-col w-full')}>
+                      <IconComponent iconType='Feather' name='check-circle' size={120} style={tailwind('text-green-500 text-center')} />
+                      <Text style={tailwind('font-semibold mt-3 text-lg text-center text-brand-black-500')}>Welcome to Nana!</Text>
+                      <Text style={tailwind('my-5 text-lg text-center text-brand-black-500')}>
+                          Log into your account and add your listing menus to get started with Nana.
+                      </Text>
+                  </View>
                    <GenericButton
-                       style={tailwind('mt-4')}
+                       style={tailwind('mt-4 flex-shrink')}
                        onPress={goToLogin}
                        labelColor={tailwind('text-white py-4 text-sm')}
                        label='Log into your account'

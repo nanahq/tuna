@@ -5,12 +5,15 @@ import { OrderI} from '@nanahq/sticky'
 
 export interface OrdersState {
     orders: OrderI[]
-    hasFetchedOrders: boolean
+    hasFetchedOrders: boolean,
+
+    fetchingOrders: boolean
 }
 
 const initialState: OrdersState = {
     orders: [],
-    hasFetchedOrders: false
+    hasFetchedOrders: false,
+    fetchingOrders: false
 };
 
 export const fetchOrders = createAsyncThunk(
@@ -38,8 +41,21 @@ export const orders = createSlice({
                 (state, {payload: {data}}: PayloadAction<{data: OrderI[], cookies: any}>) => {
                     state.orders = data
                     state.hasFetchedOrders = true
+                    state.fetchingOrders = false
                 }
-            );
+            )
+    .addCase(
+            fetchOrders.pending,
+            (state) => {
+                state.fetchingOrders = true
+            }
+        )
+            .addCase(
+                fetchOrders.rejected,
+                (state) => {
+                    state.fetchingOrders = false
+                }
+            )
     },
 });
 

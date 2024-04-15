@@ -1,10 +1,10 @@
 import {getColor, tailwind} from '@tailwind'
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {RootState, useAppSelector} from "@store/index";
+import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import { useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
-import {useWindowDimensions, View, Text} from "react-native";
+import {useWindowDimensions, View, Text, ScrollView, RefreshControl} from "react-native";
 import * as Location from "expo-location";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import { AddBankModal as LocationModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
@@ -14,24 +14,41 @@ import { ShowToast } from "@components/commons/Toast";
 import { CompleteProfileMsg } from "@components/commons/CompleteProfileMsg";
 import { LoaderComponentScreen } from "@components/commons/LoaderComponent";
 
-import {OrderI, OrderStatus, VendorApprovalStatusEnum} from '@nanahq/sticky'
+import {OrderI, OrderStatus, VendorApprovalStatusEnum, VendorOperationType} from '@nanahq/sticky'
+import {StackScreenProps} from "@react-navigation/stack";
+import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
+import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
+import {fetchOrders} from "@store/orders.reducer";
 
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
-const DATA  = [
-    {key: 'demand', title: 'Instant'},
-    {key: 'pre', title: 'Pre order'},
-    {key: 'courier', title: 'Ready'},
-    {key: 'delivered', title: 'Delivered'},
-]
+const DATA = (type: VendorOperationType)  => {
+    const defaultData = [
+
+    ]
 
 
-export function OrdersScreen (): JSX.Element {
+    if(type === 'ON_DEMAND') {
+        defaultData.push({key: 'demand', title: 'Instant'})
+    } else if (type === 'PRE_ORDER') {
+        defaultData.push({key: 'pre', title: 'Pre order'})
+    } else if (type === 'PRE_AND_INSTANT') {
+        defaultData.push({key: 'pre', title: 'Pre order'}, {key: 'demand', title: 'Instant'})
+    }
+
+    return [...defaultData,
+        {key: 'courier', title: 'Ready'},
+        {key: 'delivered', title: 'Delivered'},
+    ]
+}
+
+type OrdersScreenNavigationProps = StackScreenProps<OrderParamsList, OrderScreenName.ORDERS>
+export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.Element {
     // State selectors
-    const {orders, hasFetchedOrders} = useAppSelector((state: RootState) => state.orders )
+    const {orders, hasFetchedOrders, fetchingOrders} = useAppSelector((state: RootState) => state.orders )
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
-
-    const [index, setIndex] = useState<number>(0);
-    const [routes] = useState<Array<{key: string, title: string}>>(DATA);
+    const dispatch = useAppDispatch()
+    const [index, setIndex] = useState<number>(DATA(profile.settings?.operations?.deliveryType ?? 'PRE_ORDER').findIndex(d => d.key.includes('pre') || d.key.includes('demand') ));
+    const [routes] = useState<Array<{key: string, title: string}>>(DATA(profile.settings?.operations?.deliveryType ?? 'PRE_ORDER'));
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
     const [showAccountApprovalMsg, setShowAccountApprovalMsg]  = useState<boolean>(false)
 
@@ -39,6 +56,25 @@ export function OrdersScreen (): JSX.Element {
     const layout = useWindowDimensions();
 
     const { dismiss } = useBottomSheetModal();
+
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => <></>,
+            headerRight: () => (
+                <View style={tailwind('mx-3 w-full')}>
+                    <OrderHeaderStatus status={profile.status as any} />
+                </View>
+            ),
+            headerTitle: 'My Orders',
+            headerTitleAlign: 'left',
+            headerTitleStyle: tailwind('text-xl'),
+            headerStyle: [tailwind(''), {
+                shadowOpacity: 8,
+            }],
+            headerShown: true
+        })
+    }, [profile.status])
 
     const getFulfilledOrders = useCallback(() => {
         return orders.filter((order: OrderI) =>  order.orderStatus === OrderStatus.FULFILLED)
@@ -147,15 +183,18 @@ export function OrdersScreen (): JSX.Element {
         return <LoaderComponentScreen />
     }
 
+    const handleRefresh = () => {
+        dispatch(fetchOrders())
+    }
+
+
     return (
      <>
-         <View
+         <ScrollView
+             refreshControl={<RefreshControl refreshing={fetchingOrders} onRefresh={handleRefresh} />}
              style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
-                 <View style={tailwind('flex flex-col w-full')}>
-                     <OrderHeaderStatus status={profile.status as any} />
-                 </View>
                  {showProfileCompleteMsg && (<CompleteProfileMsg type="PROFILE" />)}
                  {showAccountApprovalMsg  && !showAccountApprovalMsg && (<CompleteProfileMsg type="ACCOUNT" />)}
              </View>
@@ -177,7 +216,7 @@ export function OrdersScreen (): JSX.Element {
                  onIndexChange={setIndex}
                  initialLayout={{ width: layout.width }}
              />
-         </View>
+         </ScrollView>
          <LocationModal promptModalName={LOCATION_MODAL_NAME} modalRef={bottomSheetModalRef}>
              <LocationModalContent requestLocation={requestLocation} />
          </LocationModal>

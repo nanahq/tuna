@@ -43,7 +43,7 @@ export function OrderHeaderStatus (props:{status: 'ONLINE' | 'OFFLINE'}): JSX.El
                 <Text style={tailwind('text-sm text-center ', {
                     'text-brand-black-500': props.status === 'OFFLINE',
                     'text-white': props.status === 'ONLINE'
-                   })}> Accepting order</Text>
+                   })}>Accepting</Text>
               )}
             </Pressable>
             <Pressable disabled={loading.state} onPress={() => onToggle('OFFLINE')}   style={tailwind('flex flex-row items-center w-1/2 justify-center rounded-r-lg py-1', {
@@ -56,7 +56,7 @@ export function OrderHeaderStatus (props:{status: 'ONLINE' | 'OFFLINE'}): JSX.El
                 <Text style={tailwind('text-sm text-center ', {
                     'text-brand-black-500': props.status === 'ONLINE',
                     'text-white': props.status === 'OFFLINE'
-                   })}>  Unavailable</Text>
+                   })}>Unavailable</Text>
                 )}
             </Pressable>
         </View>

@@ -9,8 +9,8 @@ import { OnboardingParamsList } from "@screens/OnboardingNavigator/OnboardingNav
 import { OnboardingScreenName } from "@screens/OnboardingNavigator/ScreenName.enum";
 import { ImageBackground, Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import OnboardingCoverImage from '@assets/onboarding/small-1.jpg';
-import AppLogo from '@assets/onboarding/nana-logo.png'
+import OnboardingCoverImage from '@assets/onboarding/onboarding-2.jpg';
+
 export function OnboardingScreen(): JSX.Element {
     const navigator = useNavigation<NavigationProp<OnboardingParamsList>>();
     const logger = useLogger();
@@ -28,39 +28,30 @@ export function OnboardingScreen(): JSX.Element {
             <ImageBackground
                 source={OnboardingCoverImage}
                 contentFit="cover"
-                style={tailwind('flex-1 ')}
+                style={tailwind('flex-1')}
             >
                 <LinearGradient
-                    colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0)']} // Adjust the overlay color and opacity here
+                    colors={['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)']} // Adjust the overlay color and opacity here
                     style={tailwind('absolute top-0 left-0 right-0 bottom-0')}
                 />
-                <View style={tailwind('w-full  flex-1 px-4')}>
-                   <View style={tailwind('flex flex-col flex-grow w-full')}>
-                       <Image
-                           source={AppLogo}
-                           contentFit="contain"
-                           style={[tailwind('flex flex-row w-full justify-start'), {width: 200, aspectRatio:1}]}
-                       />
-                       <View style={tailwind('flex flex-col w-2/3')}>
-                           <Text numberOfLines={2} style={tailwind('text-2xl font-bold text-white')}>Drive Sales and grow your business</Text>
-                           <Text style={tailwind('text-primary-500 text-3xl font-bold')}>With Nana</Text>
-                       </View>
-                   </View>
-
-                    <View style={tailwind('flex-1')}>
+                <View style={tailwind('flex-1 justify-end px-4')}>
+                    <View style={tailwind('mb-10')}>
+                        <Text style={tailwind(' text-gray-100 text-3xl text-center')}>Boost sales and grow your business with Nana.</Text>
+                    </View>
+                    <View style={tailwind('flex flex-row justify-center items-center mb-20')}>
                         <GenericButton
                             onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}
                             label="Sign up"
-                            labelColor={tailwind('text-black text-2xl  font-normal')}
-                            backgroundColor={tailwind('bg-white')}
+                            labelColor={tailwind('text-white text-2xl w-full font-normal')}
+                            backgroundColor={tailwind('bg-black w-1/2')}
                             testId="GenericButton.Onboarding.Continue"
                         />
+                        <View style={tailwind('w-4')} />
                         <GenericButton
-                            style={tailwind('mt-3')}
                             onPress={() => navigator.navigate(OnboardingScreenName.LOGIN)}
                             label="Log in"
-                            labelColor={tailwind('text-white text-2xl font-normal')}
-                            backgroundColor={tailwind('bg-black')}
+                            labelColor={tailwind('text-black text-2xl font-normal')}
+                            backgroundColor={tailwind('bg-white w-1/2')}
                             testId="GenericButton.Onboarding.Continue"
                         />
                     </View>
