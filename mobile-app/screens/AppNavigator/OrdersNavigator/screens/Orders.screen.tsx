@@ -1,10 +1,10 @@
 import {getColor, tailwind} from '@tailwind'
 import {OrderCategory} from "@screens/AppNavigator/OrdersNavigator/components/OrderCatergory";
-import {RootState, useAppDispatch, useAppSelector} from "@store/index";
+import {RootState, useAppSelector} from "@store/index";
 import { useCallback, useEffect, useRef, useState} from "react";
 import {OrderHeaderStatus} from "@screens/AppNavigator/OrdersNavigator/components/OrderHeader";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
-import {useWindowDimensions, View, Text, ScrollView, RefreshControl} from "react-native";
+import {useWindowDimensions, View} from "react-native";
 import * as Location from "expo-location";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 import { AddBankModal as LocationModal} from "@screens/AppNavigator/SettingsNavigator/components/AddBankModal";
@@ -18,14 +18,10 @@ import {OrderI, OrderStatus, VendorApprovalStatusEnum, VendorOperationType} from
 import {StackScreenProps} from "@react-navigation/stack";
 import {OrderParamsList} from "@screens/AppNavigator/OrdersNavigator/OrdersNavigator";
 import {OrderScreenName} from "@screens/AppNavigator/OrdersNavigator/OrderScreenName.enum";
-import {fetchOrders} from "@store/orders.reducer";
 
 const LOCATION_MODAL_NAME = 'LOCATION_MODAL'
 const DATA = (type: VendorOperationType)  => {
-    const defaultData = [
-
-    ]
-
+    const defaultData = []
 
     if(type === 'ON_DEMAND') {
         defaultData.push({key: 'demand', title: 'Instant'})
@@ -46,9 +42,8 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
     // State selectors
     const {orders, hasFetchedOrders, fetchingOrders} = useAppSelector((state: RootState) => state.orders )
     const {profile, hasFetchedProfile} = useAppSelector((state: RootState) => state.profile )
-    const dispatch = useAppDispatch()
-    const [index, setIndex] = useState<number>(DATA(profile.settings?.operations?.deliveryType ?? 'PRE_ORDER').findIndex(d => d.key.includes('pre') || d.key.includes('demand') ));
-    const [routes] = useState<Array<{key: string, title: string}>>(DATA(profile.settings?.operations?.deliveryType ?? 'PRE_ORDER'));
+    const [index, setIndex] = useState<number>(DATA(profile.settings?.operations?.deliveryType ?? 'PRE_AND_INSTANT').findIndex(d => d.key.includes('demand') || d.key.includes('pre') ));
+    const [routes, setRoutes] = useState<Array<{key: string, title: string}>>(DATA(profile.settings?.operations?.deliveryType ?? 'PRE_ORDER'));
     const [showProfileCompleteMsg, setShowProfileCompleteMsg]  = useState<boolean>(false)
     const [showAccountApprovalMsg, setShowAccountApprovalMsg]  = useState<boolean>(false)
 
@@ -57,6 +52,14 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
 
     const { dismiss } = useBottomSheetModal();
 
+
+
+    useEffect(() => {
+        if(profile.settings?.operations?.deliveryType !== undefined) {
+            setIndex(DATA(profile.settings?.operations?.deliveryType).findIndex(d => d.key.includes('pre') || d.key.includes('demand') ))
+            setRoutes(DATA(profile.settings?.operations?.deliveryType))
+        }
+    }, [profile.settings?.operations?.deliveryType])
 
     useEffect(() => {
         navigation.setOptions({
@@ -96,32 +99,33 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
 
 
     const renderScene = SceneMap<any>({
-
         delivered:  () => <OrderCategory
+            fetchingOrders={fetchingOrders}
             vendorSetting={profile.settings}
             orders={getFulfilledOrders()}
             type={OrderStatus.FULFILLED}
         />,
         courier:  () => <OrderCategory
+            fetchingOrders={fetchingOrders}
             vendorSetting={profile.settings}
             orders={readyForPickup()}
             type={OrderStatus.COURIER_PICKUP}
         />,
 
         pre:  () => <OrderCategory
+            fetchingOrders={fetchingOrders}
             vendorSetting={profile.settings}
 
         orders={getPreOrders()}
         type={'PRE_ORDER'}
     />,
     demand:  () => <OrderCategory
+        fetchingOrders={fetchingOrders}
         vendorSetting={profile.settings}
     orders={getOnDemandOrders()}
     type={'ON_DEMAND'}
 />
    });
-
-
 
     useEffect(() => {
         void openModal()
@@ -183,15 +187,11 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
         return <LoaderComponentScreen />
     }
 
-    const handleRefresh = () => {
-        dispatch(fetchOrders())
-    }
 
 
     return (
      <>
-         <ScrollView
-             refreshControl={<RefreshControl refreshing={fetchingOrders} onRefresh={handleRefresh} />}
+         <View
              style={tailwind('w-full bg-white h-full flex-col flex pb-5')}
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
@@ -216,7 +216,7 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
                  onIndexChange={setIndex}
                  initialLayout={{ width: layout.width }}
              />
-         </ScrollView>
+         </View>
          <LocationModal promptModalName={LOCATION_MODAL_NAME} modalRef={bottomSheetModalRef}>
              <LocationModalContent requestLocation={requestLocation} />
          </LocationModal>

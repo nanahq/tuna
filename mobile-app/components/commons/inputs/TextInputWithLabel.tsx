@@ -57,7 +57,7 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
                     ref={ref}
                     style={[tailwind('rounded-lg bg-primary-200 flex w-full items-center px-3 py-3 font-medium  text-lg text-brand-black-500', {
                         'text-base': Device.osName === 'iOS',
-                        'border-1.5 border-primary-500': inputFocus
+                        'border-1.5 border-primary-100': inputFocus
                     }), {
                         height: 50,
                         lineHeight: 15

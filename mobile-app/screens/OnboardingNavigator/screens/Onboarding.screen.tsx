@@ -43,7 +43,7 @@ export function OnboardingScreen(): JSX.Element {
                             onPress={() => navigator.navigate(OnboardingScreenName.SIGN_UP_PROFILE)}
                             label="Sign up"
                             labelColor={tailwind('text-white text-2xl w-full font-normal')}
-                            backgroundColor={tailwind('bg-black w-1/2')}
+                            overRideBackgroundColor={tailwind('bg-black w-1/2')}
                             testId="GenericButton.Onboarding.Continue"
                         />
                         <View style={tailwind('w-4')} />
@@ -51,7 +51,7 @@ export function OnboardingScreen(): JSX.Element {
                             onPress={() => navigator.navigate(OnboardingScreenName.LOGIN)}
                             label="Log in"
                             labelColor={tailwind('text-black text-2xl font-normal')}
-                            backgroundColor={tailwind('bg-white w-1/2')}
+                            overRideBackgroundColor={tailwind('bg-white w-1/2')}
                             testId="GenericButton.Onboarding.Continue"
                         />
                     </View>
