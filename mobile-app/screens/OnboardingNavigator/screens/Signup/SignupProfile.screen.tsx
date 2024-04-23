@@ -1,4 +1,4 @@
-import { ScrollView, View} from 'react-native'
+import { View} from 'react-native'
 import {tailwind} from '@tailwind'
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import * as Device from 'expo-device'
@@ -10,12 +10,12 @@ import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel"
 import {useEffect, useState} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {useAnalytics} from "@segment/analytics-react-native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 export interface SignupProfileForm {
     firstName: string
     lastName: string
     phone: string
-    email: string
     password: string
     confirmPassword: string
 }
@@ -27,7 +27,6 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
 
     const [form, setForm] = useState<SignupProfileForm>({
         phone: '',
-        email: '',
         password: '',
         confirmPassword: '',
         lastName: '',
@@ -36,7 +35,6 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
 
     const [errors, setErrors] = useState<Record<keyof SignupProfileForm , any>>({
         confirmPassword: false,
-        email: false,
         firstName: false,
         lastName: false,
         password: false,
@@ -52,7 +50,6 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
     function onContinuePress (): void {
         setErrors({
             confirmPassword: false,
-            email: false,
             firstName: false,
             lastName: false,
             password: false,
@@ -75,16 +72,11 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
         }
 
 
-        if(form.email === '') {
-            setErrors(prev => ({...prev, email: true}))
-            return
-        }
-
-
-        if(form.password === '') {
+        if (form.password === '') {
             setErrors(prev => ({...prev, password: true}))
             return
         }
+
 
         if(form.confirmPassword === '' || form.password !== form.confirmPassword) {
             setErrors(prev => ({...prev, confirmPassword: true}))
@@ -110,7 +102,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
     }
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white w-full ')}>
-            <ScrollView showsVerticalScrollIndicator={false} style={tailwind('px-5 ')}>
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={tailwind('px-5 ')}>
                 <View style={tailwind('pb-10')}>
                     <View style={tailwind('flex flex-row items-center justify-between')}>
                         <TextInputWithLabel
@@ -146,17 +138,6 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                         labelTestId="SignupProfileScreen.FirstName.Label"
                     />
                     <TextInputWithLabel
-                        defaultValue={form.email}
-                        onChangeText={(value) => setForm((prev) => ({...prev, email: value}))}
-                        keyboardType="email-address"
-                        error={errors.email}
-                        errorMessage="Required"
-                        label='Email Address'
-                        containerStyle={tailwind('mt-5')}
-                        testID='SignupProfileScreen.FirstName.Input'
-                        labelTestId="SignupProfileScreen.FirstName.Label"
-                    />
-                    <TextInputWithLabel
                         defaultValue={form.password}
                         onChangeText={(value) => setForm((prev) => ({...prev, password: value}))}
                         secureTextEntry={true}
@@ -183,7 +164,6 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                             'mt-10': Device.osName === 'Android',
                             'mt-20': Device.osName === 'iOS'
                         })}
-                        disabled={hasErrors(Object.values(errors))}
                         onPress={onContinuePress}
                         labelColor={tailwind('text-white')}
                         label='Continue'
@@ -192,7 +172,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                     />
                     <LoginButtonWithText style={tailwind('text-black')} />
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     )
 }

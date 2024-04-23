@@ -1,15 +1,13 @@
-import { KeyboardAvoidingView, Pressable, ScrollView, Text, View} from 'react-native'
+import { KeyboardAvoidingView, ScrollView, Text, View} from 'react-native'
 import React, {useEffect, useMemo, useState} from "react";
 import {Picker} from '@react-native-picker/picker'
 import { tailwind} from '@tailwind'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
-import {NavigationProp} from "@react-navigation/native";
 
-import {IconComponent} from "@components/commons/IconComponent";
 
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 
-import {ListingApprovalStatus, ListingCategoryI} from "@nanahq/sticky";
+import {ListingApprovalStatus} from "@nanahq/sticky";
 import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {_api} from "@api/_request";
 
@@ -161,45 +159,9 @@ export const AddScheduledListing:React.FC<AddScheduledListingNavigationProps> = 
                     )}
 
                 </View>
-                <GenericButton loading={loading} onPress={() => onSubmitCb()} label='Add Listing' backgroundColor={tailwind({'bg-brand-black-500': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
+                <GenericButton disabled={loading} loading={loading} onPress={() => onSubmitCb()} label='Add Listing' backgroundColor={tailwind({'bg-brand-black-500': !loading, 'bg-brand-gray-700': loading})} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full my-20')} />
             </ScrollView>
         </KeyboardAvoidingView>
     )
 }
 
-
-
-function SelectHeader (props: {navigation: NavigationProp<any>}): JSX.Element {
-    return (
-        <View style={tailwind('flex flex-row w-full items-center justify-between mt-10')}>
-            <Text style={tailwind('font-medium text-sm text-brand-black-500')}>Category</Text>
-            <Pressable onPress={() => props.navigation.navigate("AddCategory")} style={tailwind('flex flex-row items-center')}>
-                <Text style={tailwind('font-semibold text-xs text-brand-black-500')}>Add new category</Text>
-                <IconComponent iconType='Feather' name='plus-circle' style={tailwind('text-brand-black-500 ml-1')} />
-            </Pressable>
-        </View>
-    )
-}
-
-
-function OptionHeader (props: {navigation: NavigationProp<any>}): JSX.Element {
-    return (
-        <View style={tailwind('flex flex-row w-full items-center justify-between mt-3')}>
-            <Text style={tailwind('text-sm text-brand-black-500')}>No options added yet?</Text>
-            <Pressable onPress={() => props.navigation.navigate("AddOption")} style={tailwind('flex flex-row items-center')}>
-                <Text style={tailwind('font-semibold text-xs text-brand-black-500')}>Add new option</Text>
-                <IconComponent iconType='Feather' name='plus-circle' style={tailwind('text-brand-black-500 ml-1')} />
-            </Pressable>
-        </View>
-    )
-}
-
-function CategoryItem ({cat, onPress}: {cat: ListingCategoryI, onPress: () => void}): JSX.Element {
-    return (
-        <Pressable onPress={onPress} style={tailwind('flex flex-col items-center w-full mb-3  py-4 px-2 border-b-0.5 border-brand-black-500')}>
-            <View style={tailwind('flex w-full flex-row items-center justify-between')}>
-                <Text style={tailwind('text-brand-black-500 text-sm  font-medium')}>{cat.name}</Text>
-            </View>
-        </Pressable>
-    )
-}

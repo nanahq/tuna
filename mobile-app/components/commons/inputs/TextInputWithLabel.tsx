@@ -55,7 +55,7 @@ export const  TextInputWithLabel =  forwardRef<any, TextInputWithLabelProps>(
                     onBlur={() => setInputFocus(false)}
                     placeholderTextColor={props.placeholderTextColor ?? getColor('brand-gray-800')}
                     ref={ref}
-                    style={[tailwind('rounded-lg bg-primary-200 flex w-full items-center px-3 py-3 font-medium  text-lg text-brand-black-500', {
+                    style={[tailwind('rounded-lg border-1.5 border-gray-200  flex w-full items-center px-3 py-3 font-medium  text-lg text-brand-black-500', {
                         'text-base': Device.osName === 'iOS',
                         'border-1.5 border-primary-100': inputFocus
                     }), {

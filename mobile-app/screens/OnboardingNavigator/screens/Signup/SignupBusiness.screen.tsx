@@ -17,13 +17,13 @@ import {useAnalytics} from "@segment/analytics-react-native";
 import {OnboardingScreenName} from "@screens/OnboardingNavigator/ScreenName.enum";
 
 interface SignupBusinessForm {
-    businessEmail: string;
+    email: string;
     businessName: string;
     businessAddress: string;
 }
 
 interface SignupPayload extends Omit<SignupProfileForm, 'confirmPassword'> {
-    businessEmail: string;
+    email: string;
     businessName: string;
     businessAddress: string;
 }
@@ -47,13 +47,13 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
     }, [])
     const [form, setForm] = useState<SignupBusinessForm>({
         businessAddress: '',
-        businessEmail: '',
+        email: '',
         businessName: '',
     });
 
     const [errors, setErrors] = useState<Record<keyof SignupBusinessForm, boolean>>({
         businessAddress: false,
-        businessEmail: false,
+        email: false,
         businessName: false,
     });
 
@@ -63,7 +63,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
             return;
         }
 
-        if (form.businessEmail === '') {
+        if (form.email === '') {
             setErrors((prev) => ({ ...prev, businessEmail: true }));
             return;
         }
@@ -77,7 +77,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
     async function onContinuePress(): Promise<void> {
         setErrors({
             businessAddress: false,
-            businessEmail: false,
+            email: false,
             businessName: false,
         });
 
@@ -95,7 +95,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
             });
             openModal();
             void analytics.track('EVENT:SIGNUP', {
-                email: form.businessEmail,
+                email: form.email,
                 business: form.businessName
             })
         } catch (error: any) {
@@ -125,9 +125,9 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
                             labelTestId="SignupProfileScreen.FirstName.Label"
                         />
                         <TextInputWithLabel
-                            defaultValue={form.businessEmail}
+                            defaultValue={form.email}
                             onChangeText={(value) => setForm((prev) => ({ ...prev, businessEmail: value }))}
-                            error={errors.businessEmail}
+                            error={errors.email}
                             errorMessage="Required"
                             label="Email to receive business updates about your account"
                             testID="SignupProfileScreen.FirstName.Input"
