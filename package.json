@@ -41,7 +41,7 @@
     "@shopify/flash-list": "1.4.3",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
-    "cypress": "^12.7.0",
+    "cypress": "^12.17.4",
     "expo": "^49.0.7",
     "expo-asset": "~8.10.1",
     "expo-build-properties": "~0.8.3",
