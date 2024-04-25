@@ -6770,10 +6770,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-cypress-image-diff-js@^1.23.0:
-  version "1.31.0"
-  resolved "https://registry.yarnpkg.com/cypress-image-diff-js/-/cypress-image-diff-js-1.31.0.tgz#3f04fb56f30ceda866d84159f129966749918024"
-  integrity sha512-W/nSiAReSMrXimOYxi1A/lhoCgWoIMNcJlTfnNlaUjQ5A7wFLs7ItJcaeR6B9DN/8ObI4vHx05MIgkrw/r5MSA==
+cypress-image-diff-js@^1.32.0:
+  version "1.32.0"
+  resolved "https://registry.yarnpkg.com/cypress-image-diff-js/-/cypress-image-diff-js-1.32.0.tgz#d406305348fa9b7a4be30563a10df024767b7203"
+  integrity sha512-kSSsIBuo+vMPETgHXO5fc+Z8WlNno5RwrukFY6m8QGtwD6jSDb+FHtCzwYbDzacJDuClWgi6WzfJV7Gx6YuM5g==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@colors/colors" "^1.5.0"
