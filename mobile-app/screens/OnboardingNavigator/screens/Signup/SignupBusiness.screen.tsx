@@ -64,7 +64,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
         }
 
         if (form.email === '') {
-            setErrors((prev) => ({ ...prev, businessEmail: true }));
+            setErrors((prev) => ({ ...prev, email: true }));
             return;
         }
 
@@ -126,7 +126,7 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
                         />
                         <TextInputWithLabel
                             defaultValue={form.email}
-                            onChangeText={(value) => setForm((prev) => ({ ...prev, businessEmail: value }))}
+                            onChangeText={(value) => setForm((prev) => ({ ...prev, email: value }))}
                             error={errors.email}
                             errorMessage="Required"
                             label="Email to receive business updates about your account"
