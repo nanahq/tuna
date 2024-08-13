@@ -3,19 +3,10 @@ import axios, { Method} from 'axios'
 import {persistence} from "@api/persistence";
 import { showToastStandard } from "@components/commons/Toast";
 import {cookieParser} from "../../utils/cookieParser";
+import * as process from "process";
 
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
-    const environment: string = 'production'
-
-    let url: string
-
-    if (environment === 'development') {
-        url =   `https://588a-197-210-53-185.ngrok-free.app/${ApiRoute[gateway]}/v1`
-    } else  {
-        url =`${NetworkMapper.PRODUCTION}/${ApiRoute[gateway]}/v1`
-    }
-
-    return url
+    return `${process.env.EXPO_PUBLIC_API_URL}/${ApiRoute[gateway]}/v1`
 }
 
 const config = {

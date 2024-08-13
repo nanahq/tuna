@@ -6,7 +6,23 @@
       "channel": "production",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.nanaeats.nana_vendors",
-        "EXPO_IMAGE_UTILS_NO_SHARP": "1"
+        "EXPO_IMAGE_UTILS_NO_SHARP": "1",
+        "EXPO_PUBLIC_API_URL": "https://prod-api.trynanaapp.com"
+      }
+    },
+    "development": {
+      "node": "20.0.0",
+      "distribution": "internal",
+      "developmentClient": true,
+      "channel": "development-preview",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://staging-api.trynanaapp.com"
       }
     },
     "preview": {
@@ -18,6 +34,9 @@
       },
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://prod-api.trynanaapp.com"
       }
     },
     "ios_production": {
