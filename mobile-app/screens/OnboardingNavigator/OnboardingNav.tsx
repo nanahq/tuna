@@ -11,6 +11,7 @@ import {LoginScreen} from "@screens/OnboardingNavigator/screens/authentication/L
 import Toast from "react-native-toast-message";
 import {OnboardingScreenName} from "./ScreenName.enum";
 import {OnboardingScreen} from "./screens/Onboarding.screen";
+import {WelcomeScreen} from "@screens/OnboardingNavigator/screens/Signup/welcome.screen";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
@@ -31,6 +32,7 @@ const LinkingConfiguration: LinkingOptions<ReactNavigation.RootParamList> = {
         screens: {
             [OnboardingScreenName.ONBOARDING]: "onboarding/landing",
             [OnboardingScreenName.SIGN_UP_PROFILE]: "onboarding/signup/profile",
+            [OnboardingScreenName.WELCOME]: "onboarding/signup/welcome",
             [OnboardingScreenName.SIGN_UP_BUSINESS]: "onboarding/signup/business",
             [OnboardingScreenName.LOGIN]: "onboarding/login",
             [OnboardingScreenName.FORGET_PASSWORD]: "onboarding/retrieve/password",
@@ -59,6 +61,10 @@ export function OnboardingNagivator (): JSX.Element {
                 <OnboardingStack.Screen
                     component={LoginScreen}
                     name={OnboardingScreenName.LOGIN}
+                />
+                <OnboardingStack.Screen
+                    component={WelcomeScreen}
+                    name={OnboardingScreenName.WELCOME}
                 />
                 <OnboardingStack.Screen
                     component={SignupProfileScreen}

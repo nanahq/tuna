@@ -38,7 +38,6 @@ const RestaurantProfileInteraction = {
 export interface RestaurantProfileForm {
     businessName: string
     businessAddress: string
-    businessEmail: string
 }
 
 type RestaurantProfileProps = StackScreenProps<SettingsParamsList, SettingsScreenName.RESTAURANT_PROFILE>
@@ -57,13 +56,12 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
     const [_restaurantImage, _setRestaurantImage] = useState<string | undefined>(undefined)
     const [form, setForm] = useState<RestaurantProfileForm>({
         businessAddress: '',
-        businessEmail: '',
         businessName: ''
     })
 
 
     useEffect(() => {
-        setForm(prev => ({...prev, 'businessName':profile.businessName, businessEmail: profile.businessEmail, businessAddress: profile.businessAddress}))
+        setForm(prev => ({...prev, 'businessName':profile.businessName, businessAddress: profile.businessAddress}))
         setLogo(profile.businessLogo)
         _setRestaurantImage(profile.restaurantImage)
 
@@ -278,16 +276,6 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
                                  errorMessage="Required"
                             />
                         </View>
-                        <TextInputWithLabel
-                            editable={editProfileState}
-                            label='Business Email'
-                            defaultValue={form.businessEmail}
-                            onChangeText={value => setForm(prev => ({...prev, businessEmail: value}))}
-                            testID='AccountProfile.FirstName.Input'
-                            labelTestId="AccountProfile.FirstName.Label"
-                            error={false}
-                            errorMessage="Required"
-                        />
                         <TextInputWithLabel
                             editable={editProfileState}
                             label='Business Address'

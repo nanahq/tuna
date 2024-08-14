@@ -30,7 +30,7 @@ interface SignupPayload extends Omit<SignupProfileForm, 'confirmPassword'> {
 
 type SignupBusinessProps = StackScreenProps<OnboardingParamsList, any>;
 
-export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Element {
+export function SignupBusinessScreen({ route, navigation }: SignupBusinessProps): JSX.Element {
     const bottomSheetModalRef = useRef<any>(null);
     const [_loading, _setLoading] = useState<boolean>(false);
     const toast = useToast();
@@ -93,11 +93,12 @@ export function SignupBusinessScreen({ route }: SignupBusinessProps): JSX.Elemen
                     ...form,
                 },
             });
-            openModal();
+
             void analytics.track('EVENT:SIGNUP', {
                 email: form.email,
                 business: form.businessName
             })
+            navigation.navigate(OnboardingScreenName.WELCOME)
         } catch (error: any) {
             if (Number(error?.statusCode) === 500) {
                 showTost(toast, 'Something went wrong. cannot create a new account', 'error');

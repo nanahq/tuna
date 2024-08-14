@@ -82,12 +82,11 @@ export function LoginScreen (): JSX.Element {
     }
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white')}>
-            <View style={tailwind('flex flex-col px-5 pt-12 ')}>
+            <View style={tailwind('flex flex-col px-5 py-3')}>
                 <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
-                    <Image source={AppLogo} resizeMode="contain" style={tailwind('w-16 h-16 rounded-lg')} />
+                    <Image source={AppLogo} resizeMode="contain" style={tailwind('w-24 h-24 rounded-lg')} />
                 </View>
-                <View style={tailwind('mt-10')}>
-                    <Text testID="LoginScreen.WelcomeText" style={tailwind('text-xl text-black mb-5')}>Welcome back</Text>
+                <View style={tailwind('mt-2')}>
                     <TextInputWithLabel
                         placeholder="Email"
                         defaultValue={form.email}

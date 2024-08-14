@@ -6,7 +6,7 @@ import {cookieParser} from "../../utils/cookieParser";
 import * as process from "process";
 
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
-    return `${process.env.EXPO_PUBLIC_API_URL}/${ApiRoute[gateway]}/v1`
+    return `https://staging-api.trynanaapp.com/${ApiRoute[gateway]}/v1`
 }
 
 const config = {
@@ -18,6 +18,7 @@ const config = {
     withCredentials: true
 };
 
+console.log(process.env)
 interface baseParamProps<T> {
     method: Method
     url: string
