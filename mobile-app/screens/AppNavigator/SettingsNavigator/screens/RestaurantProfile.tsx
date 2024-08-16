@@ -1,11 +1,10 @@
 import {getColor, tailwind} from "@tailwind";
-import {Image, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import {ScrolledView} from "@components/views/ScrolledView";
 import React, {useEffect, useState} from "react";
 import {ProfileSection} from "@screens/AppNavigator/SettingsNavigator/components/ProfileSections";
 import {GenericButton} from "@components/commons/buttons/GenericButton";
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
-import {useNavigation} from "@react-navigation/native";
 import * as Location from 'expo-location'
 import * as ImagePicker from "expo-image-picker";
 import { RootState, useAppDispatch, useAppSelector } from "@store/index";

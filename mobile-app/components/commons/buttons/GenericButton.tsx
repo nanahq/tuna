@@ -31,13 +31,13 @@ export function GenericButton (props: Props): JSX.Element {
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
-            style={[backgroundColor as any, tailwind('rounded-lg', {
+            style={[backgroundColor as any, tailwind('rounded', {
                 'bg-brand-gray-700': props.disabled,
                 'flex flex-row justify-center w-full items-center bg-brand-gray-700': props.loading
             }), style, tailwind('bg-primary-100'), overRideBackgroundColor]}
             {...rest}
         >
-            <Text style={[tailwind('text-center text-lg py-2.5'), labelColor]}>{label}</Text>
+            <Text style={[tailwind('text-center text-base py-2.5'), labelColor]}>{label}</Text>
             {props.loading !== undefined && props.loading && <LoaderComponent color={getColor('white')} size='small' style={tailwind('pl-2 text-white')} />}
         </TouchableOpacity>
     )

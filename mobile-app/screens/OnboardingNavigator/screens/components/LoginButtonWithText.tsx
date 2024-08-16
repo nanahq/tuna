@@ -25,8 +25,8 @@ export function LogoutButtonWithText (props: {style?: StyleProp<TextStyle>}): JS
         navigation.navigate(OnboardingScreenName.SIGN_UP_PROFILE)
     }
     return (
-        <TouchableOpacity onPress={goToLogin} testID="LoginButtonWithText.Button" style={tailwind('mt-8')}>
-            <Text testID="LoginButtonWithText.Text" style={[tailwind('text-white font-normal text-sm text-center'), props.style]}> You don't have an account? Sign up</Text>
+        <TouchableOpacity onPress={goToLogin} testID="LoginButtonWithText.Button" style={tailwind('my-10')}>
+            <Text testID="LoginButtonWithText.Text" style={[tailwind('text-white font-normal'), props.style]}> You don't have an account? <Text style={tailwind('font-bold text-primary-100')}> Sign up</Text></Text>
         </TouchableOpacity>
     )
 }

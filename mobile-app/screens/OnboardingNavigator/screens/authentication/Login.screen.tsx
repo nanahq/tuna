@@ -82,10 +82,12 @@ export function LoginScreen (): JSX.Element {
     }
     return (
         <SafeAreaView style={tailwind('flex-1 bg-white')}>
-            <View style={tailwind('flex flex-col px-5 py-3')}>
-                <View testID="LoginScreen.Image" style={tailwind('flex flex-row w-full justify-center')}>
-                    <Image source={AppLogo} resizeMode="contain" style={tailwind('w-24 h-24 rounded-lg')} />
+            <View style={tailwind('flex flex-col px-3 ')}>
+                <View testID="LoginScreen.Image" style={tailwind('mt-10 flex flex-col w-full')}>
+                    <Text style={tailwind('font-bold text-3xl')}>Hey, Hello 👋</Text>
+                    <Text style={tailwind('text-sm w-2/3 mt-4')}>Enter your credentials to access your account</Text>
                 </View>
+                <LogoutButtonWithText style={tailwind('text-brand-black-500')} />
                 <View style={tailwind('mt-2')}>
                     <TextInputWithLabel
                         placeholder="Email"
@@ -93,7 +95,7 @@ export function LoginScreen (): JSX.Element {
                         onChangeText={(value) => setForm((prev) => ({...prev, email: value}))}
                         error={error.email}
                         errorMessage="Required"
-                        label='Business Email'
+                        label='Email'
                         keyboardType="email-address"
                         testID='SignupProfileScreen.FirstName.Input'
                         containerStyle={tailwind('mt-5')}
@@ -126,7 +128,6 @@ export function LoginScreen (): JSX.Element {
                     />
 
                 </View>
-                <LogoutButtonWithText style={tailwind('text-brand-black-500')} />
             </View>
         </SafeAreaView>
     )
