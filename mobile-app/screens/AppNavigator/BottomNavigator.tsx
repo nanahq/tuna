@@ -75,8 +75,8 @@ export function BottomTabNavigator ():JSX.Element {
             screenOptions={{
                 headerShown: false,
                 tabBarLabelPosition: "below-icon",
-                tabBarStyle: tailwind("px-5 py-2 h-24 border-t-0.5 border-brand-black-500 "),
-                tabBarActiveTintColor: getColor("primary-500"),
+                tabBarStyle: tailwind("px-5 py-2 h-24 border-t-0.5 border-gray-400 "),
+                tabBarActiveTintColor: getColor("primary-100"),
                 tabBarInactiveTintColor: getColor("brand-gray-400"),
                 tabBarItemStyle: tailwind({ "py-4": Device.osName === 'iOS'}),
             }}

@@ -202,12 +202,14 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
                  renderTabBar={(props) => (
                      <TabBar
                          {...props}
-                         indicatorStyle={tailwind('hidden')}
+                         indicatorStyle={tailwind('bg-primary-500 ')}
                          scrollEnabled
-                         tabStyle={tailwind('bg-white mb-2 mx-1 border-0.5 border-gray-500 rounded')}
+                         tabStyle={tailwind('')}
                          style={tailwind('bg-white w-full')}
-                         labelStyle={tailwind('text-black capitalize text-xs')}
-                         activeColor={getColor('primary-500')}
+                         labelStyle={tailwind('text-black capitalize')}
+                         activeColor={getColor('primary-100')}
+                         inactiveColor={getColor('gray-500')}
+
                      />
                  )}
                  style={tailwind('')}
