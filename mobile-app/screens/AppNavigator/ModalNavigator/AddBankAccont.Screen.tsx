@@ -18,24 +18,25 @@ import {useAppDispatch, useAppSelector} from "@store/index";
 type BankAccountModalProps = StackScreenProps<AppParamList, ModalScreenName.ADD_BANK_ACCOUNT_SCREEN>
 
 const supportedBanksArray: string[] = [
-    '044', // ACCESS_BANK
-    '050', // ECO_BANK
-    '070', // FIDELITY_BANK
-    '011', // FIRST_BANK
-    '214', // FCMB
-    '058', // GT_BANK
-    '082', // KEY_STONE_BANK
-    '221', // STANBIC_BANK
-    '232', // STERLING_BANK
-    '032', // UNION_BANK
-    '033', // UBA
-    '215', // UNITY_BANK
-    '035', // WEMA_BANK
-    '057', // ZENITH_BANK,
-    "50515", // moniepoint
-    "999992", // OPAY
-    "302", // TAJ,
-    "301" //JAIZ
+    '000014', // ACCESS_BANK
+    '000005', // ACCESS_BANK DIAMOND
+    '000010', // ECO_BANK
+    '000007', // FIDELITY_BANK
+    '000016', // FIRST_BANK
+    '090409', // FCMB
+    '000013', // GT_BANK
+    '000002', // KEY_STONE_BANK
+    '100007', // STANBIC_BANK
+    '000001', // STERLING_BANK
+    '000018', // UNION_BANK
+    '000004', // UBA
+    '000011', // UNITY_BANK
+    '000017', // WEMA_BANK
+    '000015', // ZENITH_BANK,
+    "090405", // moniepoint
+    "100004", // OPAY
+    "000026", // TAJ,
+    "000006" //JAIZ
 ];
 export const AddBankAccontScreen: React.FC<BankAccountModalProps> = ({navigation, route}) => {
    const {profile} = useAppSelector(state => state.profile)
@@ -81,17 +82,14 @@ export const AddBankAccontScreen: React.FC<BankAccountModalProps> = ({navigation
         try {
             const {data} = await _api.requestData({
                 method: 'GET',
-                baseUrl: 'https://api.paystack.co',
-                url: 'bank?country=nigeria&currency=ngn',
+                baseUrl: 'https://api.payonus.com',
+                url: `payout/transfer/api/v1/get-list-of-banks`,
                 headers: {
-                    Authorization: 'Bearer sk_test_7ea3cdc260ea80eb194a8fb13606683bad280467'
+                    Authorization: 'Bearer sk_live_J9BBY7JAMVNAGRYQDLFXDPMA1PGI'
                 }
             })
 
-            const formattedBanks = data?.data?.filter((bank: any) => {
-                return bank.active && supportedBanksArray.includes(bank.code)
-            })
-                .map((bank: any) => ({value: bank.code, label: bank.name}))
+            const formattedBanks = data?.data.banks?.filter(bank => supportedBanksArray.includes(bank.bankCode)).map((bank: any) => ({value: bank.bankCode, label: bank.bankName}))
 
             setBanks(formattedBanks)
 
@@ -112,7 +110,7 @@ export const AddBankAccontScreen: React.FC<BankAccountModalProps> = ({navigation
 
 
 
-
+console.log(process.env)
     const handleAccountNumber = async (value: string) => {
         if (value.length <= 10) {
             setBankAccountNumber(value);
@@ -122,14 +120,19 @@ export const AddBankAccontScreen: React.FC<BankAccountModalProps> = ({navigation
                     try {
                         setResolvingBank(true)
                         const {data} = await _api.requestData({
-                            method: 'GET',
-                            baseUrl: 'https://api.paystack.co',
-                            url: `bank/resolve?account_number=${value}&bank_code=${selectedBank}`,
+                            method: 'POST',
+                            baseUrl: 'https://api.payonus.com',
+                            url: `payout/transfer/api/v1/verify-bank-account`,
                             headers: {
-                                Authorization: 'Bearer sk_test_7ea3cdc260ea80eb194a8fb13606683bad280467'
+                                Authorization: 'Bearer sk_live_J9BBY7JAMVNAGRYQDLFXDPMA1PGI',
+                                'Content-Type': 'application/json'
+                            },
+                            data: {
+                                "accountNumber":  value,
+                                "beneficiaryBank": selectedBank
                             }
                         })
-                        setBankAccountName(data.data.account_name)
+                        setBankAccountName(data?.data?.accountName)
                     } catch (error) {
                         console.log(error)
                         showTost(toast, 'Failed to validate account number. Check your details', 'error')

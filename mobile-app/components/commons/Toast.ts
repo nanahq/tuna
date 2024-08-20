@@ -1,5 +1,6 @@
 import Toast  from "react-native-toast-message";
 import { ToastType } from "react-native-toast-notifications";
+import {tailwind} from "@tailwind";
 
 export const ShowToast = (type: 'success' | 'error', message: string) => {
     Toast.show({
@@ -15,6 +16,7 @@ export const showTost =  (toast: ToastType, message: string, type: 'success' | '
         type: `app_toast_${type}`,
         placement: "top",
         duration: 3000,
+        textStyle: tailwind('text-sm font-normal') as any
     })
 }
 

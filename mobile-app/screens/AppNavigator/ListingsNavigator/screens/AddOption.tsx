@@ -1,6 +1,5 @@
 import {
     Dimensions,
-     SafeAreaView,
     ScrollView,
     StyleProp,
     Text,
@@ -21,7 +20,6 @@ import {ListingsParams} from "@screens/AppNavigator/ListingsNavigator/ListingsNa
 import {ListingOption} from "@nanahq/sticky";
 import {useAppDispatch} from "@store/index";
 import {updateOptionGroup} from "@store/listings.reducer";
-import Toast from "react-native-toast-message";
 import { useToast } from 'react-native-toast-notifications';
 import { showTost } from '@components/commons/Toast';
 
@@ -227,7 +225,7 @@ return true
                    <GenericButton
                        disabled={isLoading}
                        loading={isLoading}
-                       style={tailwind('mb-5')}
+                       style={tailwind('mb-20')}
                        onPress={addOrUpdateOption}
                        label={route?.params?.option !== undefined ? 'Update option group' : 'Add option'}
                        backgroundColor={tailwind('bg-brand-black-500')}

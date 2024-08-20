@@ -196,7 +196,7 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
          >
              <View testID="OrdersScreen" style={tailwind('px-3.5 py-5')}>
                  {showProfileCompleteMsg && (<CompleteProfileMsg type="PROFILE" />)}
-                 {showAccountApprovalMsg  && !showAccountApprovalMsg && (<CompleteProfileMsg type="ACCOUNT" />)}
+                 {!showProfileCompleteMsg && showAccountApprovalMsg  && (<CompleteProfileMsg type="ACCOUNT" />)}
              </View>
              <TabView
                  renderTabBar={(props) => (
