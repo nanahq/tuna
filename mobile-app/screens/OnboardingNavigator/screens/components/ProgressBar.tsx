@@ -10,8 +10,8 @@ export function ProgressBar (props: {progress?: 1 | 2}): JSX.Element {
                 width: 50
             }]} />
             <View style={[tailwind('rounded-lg', {
-                'bg-primary-500':progress === 2,
-                'bg-brand-gray-200 ':progress === 1
+                'bg-primary-100':progress === 2,
+                'bg-brand-gray-300 ':progress === 1
             }), {
                 height: 5,
                 width: 50
