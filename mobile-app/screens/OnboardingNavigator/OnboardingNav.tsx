@@ -12,6 +12,7 @@ import Toast from "react-native-toast-message";
 import {OnboardingScreenName} from "./ScreenName.enum";
 import {OnboardingScreen} from "./screens/Onboarding.screen";
 import {WelcomeScreen} from "@screens/OnboardingNavigator/screens/Signup/welcome.screen";
+import {DdRumReactNavigationTracking} from "@datadog/mobile-react-navigation";
 
 export interface OnboardingParamsList {
     [OnboardingScreenName.SIGN_UP_BUSINESS]: {
@@ -89,6 +90,9 @@ export function OnboardingNagivator (): JSX.Element {
 
     return (
         <NavigationContainer
+            onReady={() => {
+                DdRumReactNavigationTracking.startTrackingViews(navigationRef.current)
+            }}
             linking={LinkingConfiguration}
             ref={navigationRef}
         >

@@ -1455,6 +1455,16 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@datadog/mobile-react-native@^2.4.3":
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/@datadog/mobile-react-native/-/mobile-react-native-2.4.3.tgz#4e0e1d046b8e98d790a91de289264c5b9039d305"
+  integrity sha512-po+R7JKiFkTS65vWKwfIWAn+aQuWdxeU61C5wc1YYtXVVBpNDCPs3qbDXxQmxJMDxMcjyDnYC0F0tO2EXS62yQ==
+
+"@datadog/mobile-react-navigation@^2.4.3":
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/@datadog/mobile-react-navigation/-/mobile-react-navigation-2.4.3.tgz#0008d5ae70ad892c2e587382baaa51d05e0eefc0"
+  integrity sha512-DcT8GQ2Ne1F5ryR7oM7jaKYn8pJ8r5r1BwbbqnKVkvxNAA2W4HDXn54u2C8ShuYhKs3STIjOo1zCDNxvSRsrgg==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -2635,10 +2645,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@nanahq/sticky@^0.2.3":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@nanahq/sticky/-/sticky-0.2.8.tgz#6e309303efb07682e08721bc3b52198bc88ee644"
-  integrity sha512-1203F2dTuHJVAlizmk9veQuTyxJd1Z+9Qt0AUQa6laXEUw5cV/Y/5R6Lsm9AwYZFGj8sAPuDWopBMfBeYd3XeQ==
+"@nanahq/sticky@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@nanahq/sticky/-/sticky-0.3.6.tgz#8de866550170a69f76eb2b74bbb19d329a0c5350"
+  integrity sha512-4acDWsOhYUPqum0OjbtWaKTBcfJzgaa6ZqYUGkw4YVOS7qADbCJvuHApymWx2hFeUVTBAb27MXbkh/aS6FQ0kQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"

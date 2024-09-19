@@ -17,6 +17,7 @@ import 'expo-dev-client';
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {createClient, AnalyticsProvider} from '@segment/analytics-react-native'
 import {AmplitudeSessionPlugin} from '@segment/analytics-react-native-plugin-amplitude-session'
+import {Wrapper} from "@screens/Wrapper";
 
 const segmentClient = createClient({
     writeKey: 'HnvEvuYd6CUG6GxAJXRhVw4q6skmzJRR',
@@ -45,6 +46,7 @@ export default function App() {
   };
 
   return (
+      <Wrapper>
     <NativeLoggingProvider>
        <ErrorBoundary>
            <AuthPersistenceProvider
@@ -74,5 +76,6 @@ export default function App() {
            </AuthPersistenceProvider>
        </ErrorBoundary>
     </NativeLoggingProvider>
+      </Wrapper>
   );
 }

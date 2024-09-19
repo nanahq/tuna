@@ -71,7 +71,8 @@
       ]
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/58e19edd-8d6d-4cbe-9998-c40b1f0fa020"
     },
     "assetBundlePatterns": [
       "**/*"

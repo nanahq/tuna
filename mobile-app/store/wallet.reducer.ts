@@ -58,9 +58,7 @@ export const wallet = createSlice({
                 }
             ).addCase(
             fetchWallet.rejected,
-            () => {
-                void clearOnAuthError()
-            }
+            () =>  ''
         )
     },
 });

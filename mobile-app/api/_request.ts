@@ -4,7 +4,7 @@ import {persistence} from "@api/persistence";
 import { showToastStandard } from "@components/commons/Toast";
 import {cookieParser} from "../../utils/cookieParser";
 export  function getUrl (gateway: APIService = "VENDOR_GATEWAY"): string {
-    return `https://prod-api.trynanaapp.com/${ApiRoute[gateway]}/v1`
+    return `${process.env.EXPO_PUBLIC_API_URL}/${ApiRoute[gateway]}/v1`
 }
 
 const config = {
@@ -49,7 +49,6 @@ async function base<T>(param: baseParamProps<T>) {
             });
         })
         .catch((err: any) => {
-            console.error(err)
             if (err.message.includes('401')) {
                 return Promise.reject(err.response?.data);
             }

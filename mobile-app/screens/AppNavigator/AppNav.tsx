@@ -17,7 +17,9 @@ import {AddBankAccontScreen} from "@screens/AppNavigator/ModalNavigator/AddBankA
 import Constants from "expo-constants";
 import {AddOptionModal} from "@screens/AppNavigator/ModalNavigator/AddOptionNavigator";
 import {useAnalytics} from "@segment/analytics-react-native";
+import { DdRumReactNavigationTracking } from "@datadog/mobile-react-navigation";
 
+const navigationRef = useRef<any>()
 const App = createStackNavigator<AppParamList>()
 
 export interface AppParamList {
@@ -108,7 +110,12 @@ export function AppNavigator(): JSX.Element {
     }, [])
 
     return (
-        <NavigationContainer linking={LinkingConfiguration}>
+        <NavigationContainer
+            ref={navigationRef}
+            onReady={() => {
+                DdRumReactNavigationTracking.startTrackingViews(navigationRef.current)
+            }}
+            linking={LinkingConfiguration}>
             <App.Navigator   screenOptions={{ headerShown: false}}>
                 <App.Group screenOptions={{
                     cardStyleInterpolator: isAndroid ? CardStyleInterpolators.forRevealFromBottomAndroid : CardStyleInterpolators.forHorizontalIOS,
