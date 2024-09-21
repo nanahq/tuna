@@ -9,7 +9,7 @@ export function TermsAndConditionsSection (): JSX.Element {
         <View style={tailwind('flex flex-row flex-wrap w-full mb-5')}>
             <Text style={tailwind('text-black text-xs font-light')}>By proceeding, you consent to the </Text>
             <Pressable onPress={goToBrowser}>
-                <Text style={tailwind('text-primary-500 font-bold text-xs')}>Terms and conditions</Text>
+                <Text style={tailwind('text-primary-100 font-bold text-xs')}>Terms and conditions</Text>
             </Pressable>
             <Text style={tailwind('text-black text-xs font-light')}>from Nana and its affiliates.</Text>
         </View>

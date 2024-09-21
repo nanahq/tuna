@@ -43,7 +43,7 @@ const LinkingConfiguration: LinkingOptions<ReactNavigation.RootParamList> = {
 
 
 export function OnboardingNagivator (): JSX.Element {
-    const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null)
+    const navigationRef = useRef<any>()
     function OnboardingStacks (): JSX.Element {
         return (
             <OnboardingStack.Navigator
@@ -90,9 +90,6 @@ export function OnboardingNagivator (): JSX.Element {
 
     return (
         <NavigationContainer
-            onReady={() => {
-                DdRumReactNavigationTracking.startTrackingViews(navigationRef.current)
-            }}
             linking={LinkingConfiguration}
             ref={navigationRef}
         >

@@ -167,7 +167,7 @@ export function SignupProfileScreen ({navigation}: SignupProfileScreenProps): JS
                         onPress={onContinuePress}
                         labelColor={tailwind('text-white')}
                         label='Continue'
-                        backgroundColor={tailwind('bg-primary-500')}
+                        backgroundColor={tailwind('bg-primary-100')}
                         testId="OnboardingScreen.EnterPhoneNumberScreen.ContinueButton"
                     />
                     <LoginButtonWithText style={tailwind('text-black')} />

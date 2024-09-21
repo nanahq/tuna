@@ -122,7 +122,7 @@ export function LoginScreen (): JSX.Element {
                         onPress={onContinuePress}
                         labelColor={tailwind('text-white')}
                         label="Log in"
-                        backgroundColor={tailwind('bg-primary-500')}
+                        backgroundColor={tailwind('bg-primary-100')}
                         testId="LoginScreen.LoginButton"
                         loading={_loading}
                     />

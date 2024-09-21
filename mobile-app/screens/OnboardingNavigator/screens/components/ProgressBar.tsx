@@ -5,7 +5,7 @@ export function ProgressBar (props: {progress?: 1 | 2}): JSX.Element {
     const {progress = 1} = props
     return (
         <View style={tailwind('flex flex-row w-full items-center justify-end mt-2')}>
-            <View style={[tailwind('bg-primary-500 rounded-lg mr-2'), {
+            <View style={[tailwind('bg-primary-100 rounded-lg mr-2'), {
                 height: 5,
                 width: 50
             }]} />

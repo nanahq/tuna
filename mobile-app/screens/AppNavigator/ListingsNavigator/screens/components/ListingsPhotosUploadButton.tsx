@@ -1,17 +1,9 @@
-import {Text, TouchableOpacity} from "react-native";
-import {tailwind} from '@tailwind'
+import {GenericButton} from "@components/commons/buttons/GenericButton";
+import {tailwind} from "@tailwind";
 
 export function ListingsPhotosUploadButton (props: {onPress: () => Promise<void>, disabled?: boolean, loading?: boolean}): JSX.Element {
     return (
-        <TouchableOpacity
-            style={tailwind('py-2 px-4 rounded-lg', {
-                'bg-brand-black-500': !props.disabled,
-                'bg-brand-gray-400': props.disabled
-            })}
-            onPress={props.onPress}
-            disabled={props.disabled}
-        >
-            <Text style={tailwind('text-white font-semibold text-lg text-center')}>{props.loading ? 'updating image' : 'Upload Photo'}</Text>
-        </TouchableOpacity>
+
+        <GenericButton labelColor={tailwind('text-white')} disabled={props.disabled} onPress={props.onPress} loading={props.loading} label={props.loading ? 'updating image' : 'Upload Photo'} testId="" />
     )
 }

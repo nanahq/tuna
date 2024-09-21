@@ -327,7 +327,7 @@ export const AddMenu: React.FC<AddMenuNavigationProps>  = ({navigation}) => {
                         <Text style={tailwind('text-brand-gray-700 text-xs')}>Customer will be able to see this menu</Text>
                     </View>
                     <Switch
-                        trackColor={{false: '#767577', true: getColor('primary-500')}}
+                        trackColor={{false: '#767577', true: getColor('primary-100')}}
                         thumbColor={menuForm.isLive ? getColor('brand-gray-500') : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={() => setMenuForm(prevState => ({...prevState, 'isLive': !prevState.isLive}))}
@@ -340,7 +340,7 @@ export const AddMenu: React.FC<AddMenuNavigationProps>  = ({navigation}) => {
                         <Text style={tailwind('text-brand-gray-700 text-xs')}>This menu is available to customers to place orders</Text>
                     </View>
                     <Switch
-                        trackColor={{false: '#767577', true: getColor('primary-500')}}
+                        trackColor={{false: '#767577', true: getColor('primary-100')}}
                         thumbColor={menuForm.isAvailable ? getColor('brand-gray-500') : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={() => setMenuForm(prevState => ({...prevState, 'isAvailable': !prevState.isAvailable}))}

@@ -17,9 +17,9 @@ import {AddBankAccontScreen} from "@screens/AppNavigator/ModalNavigator/AddBankA
 import Constants from "expo-constants";
 import {AddOptionModal} from "@screens/AppNavigator/ModalNavigator/AddOptionNavigator";
 import {useAnalytics} from "@segment/analytics-react-native";
-import { DdRumReactNavigationTracking } from "@datadog/mobile-react-navigation";
+import { DdRumReactNavigationTracking, } from "@datadog/mobile-react-navigation";
 
-const navigationRef = useRef<any>()
+
 const App = createStackNavigator<AppParamList>()
 
 export interface AppParamList {
@@ -57,6 +57,7 @@ export function AppNavigator(): JSX.Element {
     const {profile} = useAppSelector(state => state.profile)
     const notificationListener = useRef<any>();
     const responseListener = useRef<any>();
+    const navigationRef = useRef<any>()
 
     const analytics = useAnalytics()
 

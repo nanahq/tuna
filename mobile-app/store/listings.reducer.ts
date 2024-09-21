@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {AppActions} from "@store/reducers.actions";
 import {_api} from "@api/_request";
-import {ListingOptionGroupI, ListingCategoryI, ListingMenuI, ResponseWithStatus, ScheduledListingI} from "@nanahq/sticky";
+import {ListingOptionGroupI, ListingCategoryI, ListingMenuI, ResponseWithStatus, ScheduledListingI,} from "@nanahq/sticky";
 
 export interface ListingsState {
     listingsMenu: ListingMenuI[],

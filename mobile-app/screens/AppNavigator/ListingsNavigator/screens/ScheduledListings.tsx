@@ -33,7 +33,7 @@ export function ScheduledListings (props: {listings: ScheduledListingI[], state:
 
     if (props.state) {
         return <View style={tailwind('flex h-full w-full items-center justify-center')}>
-            <LoaderComponent style={tailwind('text-primary-500')} size='large' />
+            <LoaderComponent style={tailwind('text-primary-100')} size='large' />
         </View>
 
     }

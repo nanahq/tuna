@@ -28,7 +28,7 @@ export function OrdersCard ({order, onPress, style, vendorSettings, deliveryInfo
                     <View style={tailwind('flex flex-row items-center')}>
                        <Text style={tailwind('text-lg ')}>{listingsName}</Text>
                     </View>
-                <View style={tailwind('bg-primary-500 p-1 rounded-lg')}>
+                <View style={tailwind('bg-primary-100 p-1 rounded-lg')}>
                     <Text style={tailwind('text-black text-white')}>{`₦${order.orderBreakDown.orderCost}`}</Text>
                 </View>
             </View>

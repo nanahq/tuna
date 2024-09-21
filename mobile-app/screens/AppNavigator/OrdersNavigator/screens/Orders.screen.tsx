@@ -202,7 +202,7 @@ export function OrdersScreen ({navigation}: OrdersScreenNavigationProps): JSX.El
                  renderTabBar={(props) => (
                      <TabBar
                          {...props}
-                         indicatorStyle={tailwind('bg-primary-500 ')}
+                         indicatorStyle={tailwind('bg-primary-100 ')}
                          scrollEnabled
                          tabStyle={tailwind('')}
                          style={tailwind('bg-white w-full')}

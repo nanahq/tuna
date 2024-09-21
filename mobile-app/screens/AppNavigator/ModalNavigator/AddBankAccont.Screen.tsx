@@ -202,7 +202,7 @@ console.log(process.env)
                {resolvingBank && <LoaderComponent size="small" />}
                <TextInputWithLabel editable={false}  defaultValue={bankAccountName} label="Account Name" labelTestId="" error={false} />
            </View>
-           <GenericButton loading={submitting} labelColor={tailwind('text-white font-medium')} style={tailwind('mb-10')} onPress={updateProfile} label="Add Bank Account" backgroundColor={tailwind('bg-primary-500')} testId="" />
+           <GenericButton loading={submitting} labelColor={tailwind('text-white font-medium')} style={tailwind('mb-10')} onPress={updateProfile} label="Add Bank Account" backgroundColor={tailwind('bg-primary-100')} testId="" />
        </View>
     )
 }

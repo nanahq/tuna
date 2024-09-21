@@ -11,7 +11,7 @@ export function LocationModalContent (props: {requestLocation: () => void}): JSX
                 <Text style={tailwind('font-semibold text-2xl text-brand-black-500 mb-3')}>Share Location</Text>
                 <Text style={tailwind('font-light text-sm text-brand-black-500')}>We use precise location to help our riders and customers locate your business and calculate shipping cost. Make sure your current location is where your business is located.</Text>
             </View>
-            <GenericButton  onPress={props.requestLocation} labelColor={tailwind('text-white')} label="Enable location" backgroundColor={tailwind('bg-primary-500 w-full')} testId="" />
+            <GenericButton  onPress={props.requestLocation} labelColor={tailwind('text-white')} label="Enable location" backgroundColor={tailwind('bg-primary-100 w-full')} testId="" />
         </View>
     )
 }

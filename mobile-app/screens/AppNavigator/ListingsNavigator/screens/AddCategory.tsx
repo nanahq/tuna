@@ -53,6 +53,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
     const {profile} = useAppSelector(state => state.profile)
 
     const [isLive, setIsLive] = useState<boolean>(false)
+    const [isNextDayDelivery, setIsNextDayDelivery] = useState<boolean>(false)
     const [operationType,setType ] = useState<string | undefined>(undefined);
     const [tags, setTags] = useState<string[]>([])
     const dispatch = useAppDispatch()
@@ -65,7 +66,8 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         if (route?.params?.category !== undefined) {
          setName( route?.params?.category.name)
         setMenu(route?.params?.category.listingsMenu)
-         setIsLive(route?.params?.category.isLive)
+         setIsLive(route?.params?.category?.isLive)
+         setIsNextDayDelivery(route?.params?.category?.nextDayDelivery)
         setTags(route?.params?.category.tags)
             //@ts-ignore
             setType(route?.params?.category?.type)
@@ -79,6 +81,8 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
         })
     }, [])
 
+
+    const toggleSwitchNextDelivery = () => setIsNextDayDelivery(prev => !prev)
     const toggleSwitch = (): void => {
         setIsLive((prev) => !prev)
     }
@@ -120,6 +124,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                 name,
                 isLive,
                 tags,
+                nextDayDelivery: isNextDayDelivery,
                 listingsMenu: menu.map((m) => m._id),
                 catId: route?.params?.category._id
             }
@@ -128,6 +133,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
                 name,
                 isLive,
                 tags,
+                nextDayDelivery: isNextDayDelivery,
                 type: operationType ?? profile?.settings?.operations?.deliveryType
             }
         }
@@ -149,6 +155,7 @@ export function AddCategory ({route, navigation}: AddCategoryNavProps): JSX.Elem
        }
 
     }
+
 
     function checkDirty (): boolean {
         const category = route?.params?.category
@@ -191,23 +198,36 @@ return true
                        <Text style={tailwind('text-brand-gray-700 text-xs')}>Customer will be able to see all menu associated with this category</Text>
                    </View>
                     <Switch
-                        trackColor={{false: '#767577', true: getColor('primary-500')}}
+                        trackColor={{false: '#767577', true: getColor('primary-100')}}
                         thumbColor={isLive ? getColor('brand-gray-500') : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={toggleSwitch}
                         value={isLive}
                     />
                 </View>
+                <View style={tailwind('flex flex-row items-center mt-5')}>
+                    <View style={tailwind('flex flex-col w-1/2')}>
+                        <Text style={tailwind('text-brand-black-500 font-medium text-sm')}>Next day delivery</Text>
+                        <Text style={tailwind('text-brand-gray-700 text-xs')}>Customers will have to place order 24 hours ahead of time. Applicable to bulk order etc</Text>
+                    </View>
+                    <Switch
+                        trackColor={{false: '#767577', true: getColor('primary-100')}}
+                        thumbColor={isNextDayDelivery ? getColor('brand-gray-500') : '#f4f3f4'}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitchNextDelivery}
+                        value={isNextDayDelivery}
+                    />
+                </View>
                 <View style={tailwind('flex flex-row items-center w-full mt-5')}>
                     {  profile?.settings?.operations?.deliveryType === 'PRE_AND_INSTANT' && operations?.map(type => {
                         return (
                             <TouchableOpacity key={type.value} style={tailwind('w-28  flex flex-row items-center justify-center border-brand-gray-400 rounded-sm  border-0.5 py-2 px-1 mr-1 relative', {
-                                'border-primary-500': type.value === operationType
+                                'border-primary-100': type.value === operationType
                             })} onPress={() => handleSelectOperationType(type.value, type.value === operationType ? 'UNSELECT': 'SELECT')}>
                                 <Text >{type.label}</Text>
                                 <View
                                     style={tailwind('rounded-full w-2 h-2 absolute bottom-1 right-1', {
-                                        'bg-primary-500': type.value === operationType,
+                                        'bg-primary-100': type.value === operationType,
                                         'border-0.5 border-brand-gray-400': type.value !== operationType
                                     })}
                                 />
@@ -257,7 +277,7 @@ function Tag (props: {label: string, onPress: (tag: string, action: TagSelection
         <Pressable
             onPress={() => props.onPress(props.label, props.selected ? TagSelection.UNSELECT : TagSelection.SELECT)}
             style={tailwind('rounded-lg p-2 flex flex-row items-center border-0.5 border-brand-black-500 mr-2 my-1', {
-            'border-primary-500 bg-primary-500 text-white': props.selected
+            'border-primary-100 bg-primary-100 text-white': props.selected
         })}>
             <Text style={tailwind('text-brand-black-500 font-medium text-center', {
                 'text-white': props.selected

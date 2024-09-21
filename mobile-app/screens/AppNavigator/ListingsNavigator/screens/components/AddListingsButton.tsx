@@ -9,7 +9,7 @@ export function AddListingsButton ({navigation, route}: {navigation: NavigationP
             onPress={() => navigation.navigate(route)}
         iconName='plus'
         iconType="Feather"
-        iconStyle={tailwind('text-primary-500')}
+        iconStyle={tailwind('text-primary-100')}
         iconSize={32}
         style={[tailwind('rounded-full h-20 w-20 bg-white flex items-center justify-center  absolute bottom-10 right-5'), {
             shadowOpacity: 0.1,

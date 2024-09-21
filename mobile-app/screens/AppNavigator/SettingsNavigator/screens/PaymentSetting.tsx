@@ -94,7 +94,7 @@ export function PaymentSettings (): JSX.Element {
                     onPress={addPayment}
                     label='Add Bank'
                     labelColor={tailwind('text-white font-medium')}
-                    backgroundColor={tailwind('bg-primary-500')} testId="Loc.Cord"
+                    backgroundColor={tailwind('bg-primary-100')} testId="Loc.Cord"
                 />
             )}
     </View>

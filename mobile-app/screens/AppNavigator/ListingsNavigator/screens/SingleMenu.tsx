@@ -211,24 +211,17 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                     <GenericButton loading={loadingUpdate} onPress={() => handleUpdate()}  label='Update Menu' backgroundColor={tailwind('bg-primary-700')} labelColor={tailwind('text-white')} testId="" style={tailwind('w-full mt-10')} />
 
                 )}
-                    <View style={tailwind(' flex flex-col w-full border-0.5 border-dashed border-brand-black-500 py-3 px-4 mt-5 mb-10')}>
-                        <Text style={tailwind('text-brand-gray-400 text-xs font-medium mb-4')}>
+                    <View style={tailwind(' flex flex-col w-full  py-3 px-4 my-10')}>
+                        <Text style={tailwind('text-red-500 text-xs font-medium mb-4')}>
                             This Listing will be deleted and can not be undone. Pending orders will still show the listing and must be delivered to the customer
                         </Text>
                         <GenericButton
                             loading={loading}
                             onPress={() => handleDeleteListing()}
                             label='Delete Menu'
-                            backgroundColor={tailwind({
-                                'bg-brand-gray-500': !loading,
-                                'bg-red-500': loading
-                            })}
-                            labelColor={tailwind({
-                                'text-red-500': !loading,
-                                'text-white': loading
-                            })}
+
+                            labelColor={tailwind('text-white')}
                             testId=""
-                            style={tailwind('w-full  border-0.5 border-red-500')}
                         />
                     </View>
             </ScrollView>

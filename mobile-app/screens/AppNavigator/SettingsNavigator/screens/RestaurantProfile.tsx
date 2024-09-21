@@ -245,18 +245,18 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
             <ScrolledView testId="AccountProfile.View" style={tailwind('w-full flex-1 px-5 pt-5 bg-white')}>
                     <View style={tailwind('flex flex-row w-full justify-center relative')}>
                         {logo !== undefined ? (
-                            <View style={tailwind('rounded-xl w-28 h-28')}>
-                                <Image source={{uri: logo}} resizeMode="cover" style={tailwind('rounded-xl w-28 h-28')} />
+                            <View style={tailwind('rounded-full w-28 h-28')}>
+                                <Image source={{uri: logo}} resizeMode="cover" style={tailwind('rounded-full w-28 h-28')} />
                             </View>
                         ):  (
-                            <View style={tailwind('rounded-xl w-28 h-28')}>
-                                <Image source={LogoPlaceholder} resizeMode="cover" style={tailwind('rounded-xl w-28 h-28')} />
+                            <View style={tailwind('rounded-full w-28 h-28')}>
+                                <Image source={LogoPlaceholder} resizeMode="cover" style={tailwind('rounded-full w-28 h-28')} />
                             </View>
                         )}
                         <TouchableOpacity disabled={updatingLogo} onPress={() => pickImage(updateBusinessLogo)} style={tailwind('absolute mt-2 -bottom-0 w-28 py-0.5 bg-brand-gray-400 flex flex-row justify-center', {
-                            'bg-brand-black-500': logo !== undefined
+                            'bg-primary-100': logo !== undefined
                         })}>
-                            {updatingLogo ? <LoaderComponent size='small' color={getColor('black')} style={tailwind('pl-2 text-black')} /> : <Text style={tailwind('text-white font-semibold text-lg')}>edit</Text>}
+                            {updatingLogo ? <LoaderComponent size='small' color={getColor('black')} style={tailwind('pl-2 text-black')} /> : <Text style={tailwind('text-white')}>edit</Text>}
                         </TouchableOpacity>
                     </View>
                     <ProfileSection sectionName="Account information" onPress={() => setEditProfileState(true)}>

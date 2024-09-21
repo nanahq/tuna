@@ -6,11 +6,11 @@ import {
     UploadFrequency,
 } from "@datadog/mobile-react-native";
 import {PropsWithChildren} from "react";
-
+console.log(process.env)
 
 const config = new DatadogProviderConfiguration(
     "pubd7316220d1b7c35e4204285ee5d7b31f",
-    process.env.EXPO_NODE_ENV,
+    "development",
     "f0a5596b-63b6-44e6-a554-12902be801c2",
     true,
     true,

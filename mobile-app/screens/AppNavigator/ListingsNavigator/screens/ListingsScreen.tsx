@@ -42,11 +42,11 @@ export function ListingsScreen (): JSX.Element {
                 renderTabBar={(props) => (
                     <TabBar
                         {...props}
-                        indicatorStyle={tailwind('bg-primary-500')}
+                        indicatorStyle={tailwind('bg-primary-100')}
                         scrollEnabled
                         style={tailwind('bg-white w-full')}
-                        labelStyle={tailwind('text-brand-black-500')}
-                        activeColor={getColor('primary-500')}
+                        labelStyle={tailwind('text-black')}
+                        activeColor={getColor('primary-100')}
                     />
                 )}
                 navigationState={{ index, routes }}

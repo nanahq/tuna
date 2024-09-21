@@ -152,7 +152,7 @@ export function SignupBusinessScreen({ route, navigation }: SignupBusinessProps)
                             onPress={onContinuePress}
                             labelColor={tailwind('text-white')}
                             label={_loading ? 'Creating your account' : 'Create account'}
-                            backgroundColor={tailwind('bg-primary-500')}
+                            backgroundColor={tailwind('bg-primary-100')}
                             testId="OnboardingScreen.SignupBusinessScreen.ContinueButton"
                             loading={_loading}
                         />
