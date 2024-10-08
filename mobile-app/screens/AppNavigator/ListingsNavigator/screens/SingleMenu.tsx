@@ -13,10 +13,17 @@ import {RootState, useAppDispatch, useAppSelector} from "@store/index";
 import {deleteMenu, fetchMenus} from "@store/listings.reducer";
 import {_api} from "@api/_request";
 import Toast from "react-native-toast-message";
+import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
 
 interface MenuFormInterface {
     isLive: boolean,
     isAvailable: boolean
+    serving: string
+    name: string
+    desc: string
+    price: string
+
+
 
 }
 
@@ -28,8 +35,12 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     const [loading, setLoading] = useState<boolean>(false)
     const [loadingUpdate, setUpadateLoading] = useState<boolean>(false)
     const [menuForm, setMenuForm] = useState<MenuFormInterface>({
-        isAvailable: false,
-        isLive: false
+        isAvailable: route.params?.menu.isAvailable,
+        isLive: route.params?.menu.isLive,
+        serving: route.params?.menu.serving,
+        name: route.params?.menu.name,
+        desc: route.params?.menu.desc,
+        price: route.params?.menu.price,
     })
 
     const [image, setImage] = useState<string>('')
@@ -41,17 +52,8 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
 
     useEffect(() => {
         if (route?.params?.menu !== undefined) {
-            const menu = route?.params?.menu
-            setValue('name', menu.name)
-            setValue("desc", menu.desc)
-            setValue("price", menu.price)
-            setValue("serving", menu.serving)
-            setMenuForm({
-                isLive: menu.isLive,
-                isAvailable: menu.isAvailable
-            })
-            setImage(menu.photo)
-            setOptions(listingsOptionGroup.filter(group => !(group._id in menu.optionGroups)))
+            setImage(route?.params?.menu.photo)
+            setOptions(listingsOptionGroup.filter(group => !(group._id in route?.params?.menu.optionGroups)))
         }
 
         navigation.setOptions({
@@ -98,6 +100,18 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
         }
     }
 
+    useEffect(() => {
+        const menu = route?.params?.menu as ListingMenuI
+        if(menu !== undefined) {
+            if(menu.isLive !== menuForm.isLive || menu.isAvailable !== menuForm.isAvailable ||menu.price !== menuForm.price || menu.desc !== menuForm.desc || menu.name !== menuForm.name || menuForm.serving !== menu.serving) {
+                setHasEdit(true)
+            } else {
+                setHasEdit(false)
+            }
+        }
+
+    }, [menuForm.serving, menuForm.price, menuForm.name, menuForm.desc])
+
     const handleSetOption = (name: keyof MenuFormInterface, value: boolean): void => {
         if (route?.params?.menu[name] !== value) {
             setHasEdit(true)
@@ -112,33 +126,32 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     return (
         <KeyboardAvoidingView style={tailwind('px-5 bg-white')}>
             <ScrollView showsVerticalScrollIndicator={false} >
-                <ControlledTextInputWithLabel
+                <TextInputWithLabel
+                    defaultValue={menuForm.name}
+                    onChangeText={(value) => setMenuForm((prev) => ({...prev, name: value}))}
                     label="Menu Name"
                     labelTestId=""
                     placeholder='Moi Moi'
                     name='name'
-                    control={control}
-                    editable={false}
                 />
-                <ControlledTextInputWithLabel
-                    editable={false}
-                    containerStyle={tailwind('mt-5')}
+                <TextInputWithLabel
+                    defaultValue={menuForm.desc}
+                    onChangeText={(value) => setMenuForm((prev) => ({...prev, desc: value}))}
                     label="Menu Description"
                     labelTestId=""
-                    placeholder='Jollof rice cooked to absolute perfection...'
-                    textAlignVertical="top"
                     multiline
                     numberOfLines={4}
                     style={{
                         height: 150
                     }}
-                    name='desc'
-                    control={control}
+                    placeholder='Jollof rice cooked to absolute perfection...'
+                    name='name'
                 />
 
                 <View style={tailwind('flex flex-row items-center justify-between w-full mt-5')}>
-                    <ControlledTextInputWithLabel
-                        editable={false}
+                    <TextInputWithLabel
+                        defaultValue={menuForm.price}
+                        onChangeText={(value) => setMenuForm((prev) => ({...prev, price: value}))}
                         keyboardType='number-pad'
                         label='Price'
                         labelTestId=""
@@ -146,16 +159,15 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                         collapsable
                         placeholder="1200"
                         name='price'
-                        control={control}
                     />
-                    <ControlledTextInputWithLabel
-                        editable={false}
+                    <TextInputWithLabel
+                        defaultValue={menuForm.serving}
+                        onChangeText={(value) => setMenuForm((prev) => ({...prev, serving: value}))}
                         label='Serving/Price type'
                         labelTestId=""
                         containerStyle={tailwind('w-5/12')}
                         placeholder='per bowl'
                         name='serving'
-                        control={control}
                     />
                 </View>
                     <ImagePreviewComponent uri={image}  />
@@ -186,7 +198,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                         <Text style={tailwind('text-brand-gray-700 text-xs')}>Customer will be able to see this menu but won't be able to place order if availability is turned off</Text>
                     </View>
                     <Switch
-                        trackColor={{false: '#767577', true: getColor('primary-500')}}
+                        trackColor={{false: '#767577', true: getColor('primary-100')}}
                         thumbColor={menuForm.isLive ? getColor('brand-gray-500') : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={(value) => handleSetOption('isLive', value)}
@@ -199,7 +211,7 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                         <Text style={tailwind('text-brand-gray-700 text-xs')}>This menu is available to customers to place orders.</Text>
                     </View>
                     <Switch
-                        trackColor={{false: '#767577', true: getColor('primary-500')}}
+                        trackColor={{false: '#767577', true: getColor('primary-100')}}
                         thumbColor={menuForm.isAvailable ? getColor('brand-gray-500') : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={(value) => handleSetOption('isAvailable', value)}

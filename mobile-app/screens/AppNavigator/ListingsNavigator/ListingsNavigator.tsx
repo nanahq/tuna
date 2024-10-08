@@ -32,7 +32,6 @@ export interface ListingsParams {
 const ListingsStack = createStackNavigator<ListingsParams>();
 
 export function ListingsNavigator(): JSX.Element {
-    const insets = useSafeAreaInsets()
     return (
         <ListingsStack.Navigator
             initialRouteName={ListingsScreenName.Listings}
@@ -88,6 +87,7 @@ export function ListingsNavigator(): JSX.Element {
                     headerTitleStyle: tailwind('text-xl'),
                 }}
             />
+
             <ListingsStack.Screen
                 component={AddOption}
                 name={ListingsScreenName.ADD_OPTION}
