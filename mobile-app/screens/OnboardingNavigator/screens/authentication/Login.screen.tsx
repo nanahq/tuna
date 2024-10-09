@@ -1,5 +1,4 @@
 import {Image, SafeAreaView, Text, View} from 'react-native'
-import AppLogo from '@assets/onboarding/nana-logo.png'
 import {tailwind} from "@tailwind";
 import {useEffect, useState} from "react";
 import {GenericButton} from "@components/commons/buttons/GenericButton";

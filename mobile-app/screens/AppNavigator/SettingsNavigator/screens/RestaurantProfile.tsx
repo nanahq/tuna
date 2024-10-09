@@ -25,6 +25,7 @@ import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel"
 import {StackScreenProps} from "@react-navigation/stack";
 import {SettingsParamsList} from "@screens/AppNavigator/SettingsNavigator/SettingsNav";
 import {SettingsScreenName} from "@screens/AppNavigator/SettingsNavigator/SettingsScreenName.enum";
+import {Tag} from "@screens/AppNavigator/ListingsNavigator/screens/AddCategory";
 const RestaurantProfileInteraction = {
     UPDATING_PROFILE_MESSAGE: 'Updating profile',
     GETTING_LOCATION_MESSAGE: 'Getting location',
@@ -34,6 +35,27 @@ const RestaurantProfileInteraction = {
     GET_LOCATION_BTN: 'Locate',
     COORD_UPDATE: 'location coordinates updated!'
 }
+
+enum TagSelection {
+    'SELECT'= 'SELECT',
+    'UNSELECT' = 'UNSELECT'
+}
+
+export const CAT_TAGS = [
+    'Burgers',
+    'Ice Cream',
+    'Chicken',
+    'Snacks',
+    'Shawarma',
+    'Rice',
+    'Drinks',
+    'Sandwich',
+    'Bulk orders',
+    'Desserts',
+    'Arabic',
+    'American',
+    'Nigerian'
+]
 export interface RestaurantProfileForm {
     businessName: string
     businessAddress: string
@@ -43,7 +65,7 @@ type RestaurantProfileProps = StackScreenProps<SettingsParamsList, SettingsScree
 export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}) => {
     const {hasFetchedProfile, profile } = useAppSelector((state: RootState) => state.profile)
     const dispatch = useAppDispatch()
-
+    const [tags, setTags] = useState<string[]>([])
     const toast = useToast()
     const [submitting, setSubmitting] = useState<boolean>(false)
     const [editProfileState, setEditProfileState] = useState<boolean>(false)
@@ -63,7 +85,7 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
         setForm(prev => ({...prev, 'businessName':profile.businessName, businessAddress: profile.businessAddress}))
         setLogo(profile.businessLogo)
         _setRestaurantImage(profile.restaurantImage)
-
+        setTags(profile?.category ?? [])
         navigation.setOptions({
             headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />
         })
@@ -77,6 +99,23 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
         )
     }
 
+    function selectTags (tag: string, action: TagSelection): void  {
+        const tagsIsDirty = tags?.join(',')  === profile.category?.join(',')
+        setEditProfileState(!tagsIsDirty)
+        switch (action) {
+            case TagSelection.SELECT:
+                if(tags.length === 5) {
+                    showTost(toast, 'Can not select more than 5 tags', 'warning')
+                    break;
+                }
+                setTags((prevState) => [...prevState, tag])
+                break;
+            case TagSelection.UNSELECT:
+                setTags(tags.filter(_tag => tag !== _tag))
+                break;
+        }
+
+    }
 
     async function updateBusinessLogo (data: ImagePicker.ImagePickerAsset): Promise<void> {
         let uri = ''
@@ -204,7 +243,7 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
          await _api.requestData<RestaurantProfileForm>({
             method: 'put',
             url: 'vendor/profile',
-            data: {...form}
+            data: {...form, category: tags}
         })
 
        setSubmitting(false)
@@ -285,6 +324,19 @@ export const RestaurantProfile: React.FC<RestaurantProfileProps> = ({navigation}
                             error={false}
                             errorMessage="Required"
                         />
+
+                        <View>
+                            <TextWithMoreInfo
+                                containerStyle={tailwind('mt-5')}
+                                text="Tags"
+                                moreInfo='Add tags relevant to your business.This will help your business appear on customer searches. You can select up to 5'
+                            />
+                            <View style={tailwind('border-0.5 border-dashed border-brand-gray-700 py-4 px-3 flex flex-row items-center flex-wrap')}>
+                                {CAT_TAGS.map(tag => (
+                                    <Tag onPress={selectTags as any} label={tag} key={tag} selected={tags.indexOf(tag) !== -1}  />
+                                ))}
+                            </View>
+                        </View>
                     </ProfileSection>
                     {editProfileState && (
                         <GenericButton

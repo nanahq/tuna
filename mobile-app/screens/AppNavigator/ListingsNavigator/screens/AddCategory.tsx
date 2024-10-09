@@ -40,12 +40,17 @@ const operations = [
 export const CAT_TAGS = [
     'Burgers',
     'Ice Cream',
-    'Traditional',
     'Chicken',
     'Snacks',
     'Shawarma',
     'Rice',
     'Drinks',
+    'Sandwich',
+    'Bulk orders',
+    'Desserts',
+    'Arabic',
+    'American',
+    'Nigerian'
 ]
 
 
@@ -272,7 +277,7 @@ return true
     )
 }
 
-function Tag (props: {label: string, onPress: (tag: string, action: TagSelection) => void, selected: boolean}): JSX.Element {
+export function Tag (props: {label: string, onPress: (tag: string, action: TagSelection) => void, selected: boolean}): JSX.Element {
     return (
         <Pressable
             onPress={() => props.onPress(props.label, props.selected ? TagSelection.UNSELECT : TagSelection.SELECT)}
