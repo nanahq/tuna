@@ -1,4 +1,4 @@
-import {KeyboardAvoidingView, ScrollView, Switch, Text, View} from 'react-native'
+import {Dimensions, KeyboardAvoidingView, ScrollView, Switch, Text, View} from 'react-native'
 import {useEffect, useState} from "react";
 import {getColor, tailwind} from '@tailwind'
 import {GoBackButton} from "@screens/AppNavigator/SettingsNavigator/components/Goback";
@@ -14,6 +14,9 @@ import {deleteMenu, fetchMenus} from "@store/listings.reducer";
 import {_api} from "@api/_request";
 import Toast from "react-native-toast-message";
 import {TextInputWithLabel} from "@components/commons/inputs/TextInputWithLabel";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {showTost} from "@components/commons/Toast";
+import {useToast} from "react-native-toast-notifications";
 
 interface MenuFormInterface {
     isLive: boolean,
@@ -31,7 +34,8 @@ type SingleMenuNavProps = StackScreenProps<ListingsParams, "SingleMenu">
 
 export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Element {
     const dispatch = useAppDispatch()
-    const { control, setValue} = useForm<Partial<ListingMenuI>>()
+    const height = Dimensions.get('screen').height
+    const toast = useToast()
     const [loading, setLoading] = useState<boolean>(false)
     const [loadingUpdate, setUpadateLoading] = useState<boolean>(false)
     const [menuForm, setMenuForm] = useState<MenuFormInterface>({
@@ -47,18 +51,35 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ _option , setOptions] = useState<ListingOptionGroupI[]>([])
     const [hasEdit, setHasEdit] = useState<boolean>(false)
+    const [optionString, setOptionString] = useState([])
     // state
     const {listingsOptionGroup} = useAppSelector((state: RootState) => state.listings)
 
+    function handleOptionSelection (optionId: string, type: 'SELECT'| 'UNSELECT'): void {
+        switch (type) {
+            case 'SELECT':
+                setOptionString((prev: any) => ([...prev, optionId]))
+                break;
+            case 'UNSELECT':
+                setOptionString(optionString.filter((prevId) => prevId !== optionId))
+                break;
+            default:
+                break;
+        }
+    }
+
+
     useEffect(() => {
         if (route?.params?.menu !== undefined) {
-            setImage(route?.params?.menu.photo)
-            setOptions(listingsOptionGroup.filter(group => !(group._id in route?.params?.menu.optionGroups)))
+            const menu = route.params.menu as ListingMenuI
+            setImage(menu.photo)
+            setOptions(listingsOptionGroup.filter(group => !(group._id in menu.optionGroups)))
+            setOptionString(menu.optionGroups.map(op => op._id))
         }
 
         navigation.setOptions({
             headerLeft: () => <GoBackButton onPress={() => navigation.goBack()} />,
-            headerTitle: route?.params?.menu.name ?? 'Menu'
+            headerTitle: route.params?.menu.name ?? 'Menu'
         })
     }, [])
 
@@ -76,9 +97,8 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
             const res = (await _api.requestData({
                 method: 'put',
                 url: 'listing/menu',
-                data: {...menuForm, menuId: route?.params?.menu._id}
+                data: {...menuForm, menuId: route?.params?.menu._id, optionGroups: optionString}
             })).data
-
 
             if (res.status === 1) {
                 Toast.show({
@@ -89,12 +109,9 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
             }
             await dispatch(fetchMenus())
             setHasEdit(false)
+            showTost(toast, 'Menu Updated', 'success')
         } catch (error: any) {
-            Toast.show({
-                type: 'error',
-                text1: error.message !== 'string' ? error.message[0] : error.message,
-                autoHide: true,
-            })
+            showTost(toast, 'Failed to update menu', 'error')
         } finally {
             setUpadateLoading(false)
         }
@@ -105,12 +122,15 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
         if(menu !== undefined) {
             if(menu.isLive !== menuForm.isLive || menu.isAvailable !== menuForm.isAvailable ||menu.price !== menuForm.price || menu.desc !== menuForm.desc || menu.name !== menuForm.name || menuForm.serving !== menu.serving) {
                 setHasEdit(true)
+            } else if(optionString.length !== menu.optionGroups.length) {
+                setHasEdit(true)
             } else {
                 setHasEdit(false)
+
             }
         }
 
-    }, [menuForm.serving, menuForm.price, menuForm.name, menuForm.desc])
+    }, [menuForm.serving, menuForm.price, menuForm.name, menuForm.desc, optionString.length])
 
     const handleSetOption = (name: keyof MenuFormInterface, value: boolean): void => {
         if (route?.params?.menu[name] !== value) {
@@ -172,26 +192,26 @@ export function SingleMenu ({route, navigation}: SingleMenuNavProps): JSX.Elemen
                 </View>
                     <ImagePreviewComponent uri={image}  />
                 {/* @todo(siradji): Implement option addition */}
-                {/* <View style={tailwind('flex flex-col mt-10')}> */}
-                {/*     <Text style={tailwind('font-medium text-brand-black-500 my-3')}>Menu Options</Text> */}
-                {/*      */}
-                {/*     <OptionHeader navigation={navigation} /> */}
-                {/*     {options.length >= 1 && ( */}
-                {/*         <Modal promptModalName={OPTION_PICKER_MODAL} modalRef={bottomSheetModalRef}> */}
-                {/*                 <Picker */}
-                {/*                     onValueChange={(value) => handleOptionSelection(value) } */}
-                {/*                 > */}
-                {/*                     {options.map(option => ( */}
-                {/*                         <Picker.Item label={option.name} value={option._id} key={option._id} /> */}
-                {/*                     ))} */}
-                {/*                 </Picker> */}
-                {/*         </Modal> */}
-                {/*     )} */}
-                {/*     <Pressable  onPress={openModal} style={tailwind(' mt-3 flex flex-row w-full justify-between items-center bg-brand-blue-200 p-2 rounded-sm')}> */}
-                {/*         <Text style={tailwind('text-brand-black-500 font-medium')}>{}</Text> */}
-                {/*         <IconComponent iconType='Feather' name='chevron-down' style={tailwind('text-brand-black-500')} size={14} /> */}
-                {/*     </Pressable> */}
-                {/* </View> */}
+                <View style={tailwind('flex flex-col mt-10')}>
+                    <Text style={tailwind('font-medium text-brand-black-500 my-3')}>Menu Options</Text>
+                    <ScrollView style={[tailwind(' pb-3 pt-2'), {
+                        height: listingsOptionGroup.length < 3 ?  listingsOptionGroup.length * 70 : height/2
+                    }] }>
+                        {listingsOptionGroup.length > 0 &&  listingsOptionGroup.map((option: any) => {
+                            const isSelected = optionString.some((_option) => option._id === _option)
+                            return  (
+                                <TouchableOpacity key={option._id} onPress={() => handleOptionSelection(option._id,  isSelected ? 'UNSELECT': 'SELECT')} style={tailwind('flex flex-row px-2 w-full items-center justify-between border-0.5 mb-2 border-brand-black-500 py-3 ')}>
+                                    <Text style={tailwind('text-brand-black-500 text-sm font-medium')}>{option.name}</Text>
+                                    <View
+                                        style={tailwind('w-4 h-4  border-0.5 border-brand-black-500', {
+                                            'bg-primary-100 border-0':  isSelected
+                                        })}
+                                    />
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </ScrollView>
+                </View>
                 <View style={tailwind('flex flex-row items-center mt-10')}>
                     <View style={tailwind('flex flex-col w-1/2')}>
                         <Text style={tailwind('text-brand-black-500 font-medium text-sm')}>Live</Text>
