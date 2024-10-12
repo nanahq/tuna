@@ -57,6 +57,4 @@ yarn-error.*
 *.tsbuildinfo
 # @end expo-cli
 ./ANDROID_SERVICE_ACCOUNT.JSON
-./google-services.json
 ANDROID_SERVICE_ACCOUNT.JSON
-google-services.json
