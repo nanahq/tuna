@@ -51,7 +51,7 @@
         "com.google.android.gms.permission.AD_ID"
       ],
       "package": "com.nanaeats.nana_vendors",
-      "googleServicesFile": "./google-services.json",
+      "googleServicesFile": "./google-service.json",
       "intentFilters": [
         {
           "action": "VIEW",
